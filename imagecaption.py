@@ -41,8 +41,9 @@ def get_image_caption(image_path, image_pipeline: Pipeline):
     return image_pipeline(image_path)[0]['generated_text']
 
 
-ImageCompressor().compress("test.jpg", 10)
+imageCompressorEngine = ImageCompressor()
+compressed_image_path = imageCompressorEngine.compress("test.jpg", 10)
 imagePipeline = ImageCaptionPipeLine()
 imagePipeline.set_device()
 imagePipeline = imagePipeline.get_image_caption_pipeline()
-print(get_image_caption("test_compressed.jpg", imagePipeline))
+print(get_image_caption(compressed_image_path, imagePipeline))
