@@ -6,6 +6,7 @@ from transformers import Pipeline
 from transformers import pipeline
 import torch
 import warnings
+from imagecompressor.imagecompressor import ImageCompressor
 
 warnings.filterwarnings("ignore")
 
@@ -40,7 +41,8 @@ def get_image_caption(image_path, image_pipeline: Pipeline):
     return image_pipeline(image_path)[0]['generated_text']
 
 
+ImageCompressor().compress("test.jpg", 10)
 imagePipeline = ImageCaptionPipeLine()
 imagePipeline.set_device()
 imagePipeline = imagePipeline.get_image_caption_pipeline()
-get_image_caption("test.jpg", imagePipeline)
+print(get_image_caption("test_compressed.jpg", imagePipeline))
