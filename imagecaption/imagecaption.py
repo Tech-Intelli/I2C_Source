@@ -13,9 +13,12 @@ warnings.filterwarnings("ignore")
 
 class ImageCaptionPipeLine:
     def __init__(self):
-        self.model = VisionEncoderDecoderModel.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
-        self.feature_extractor = ViTImageProcessor.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
-        self.tokenizer = AutoTokenizer.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
+        self.model = VisionEncoderDecoderModel.from_pretrained(
+            "nlpconnect/vit-gpt2-image-captioning")
+        self.feature_extractor = ViTImageProcessor.from_pretrained(
+            "nlpconnect/vit-gpt2-image-captioning")
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            "nlpconnect/vit-gpt2-image-captioning")
         self.device = None
 
     def set_device(self):
@@ -28,12 +31,13 @@ class ImageCaptionPipeLine:
         self.model.to(self.device)
 
     def get_image_caption_pipeline(self) -> Pipeline:
-        image_caption_pipeline = pipeline("image-to-text",
-                                          model="nlpconnect/vit-gpt2-image-captioning",
-                                          device=self.device,
-                                          tokenizer=self.tokenizer,
-                                          feature_extractor=self.feature_extractor,
-                                          image_processor=self.feature_extractor)
+        image_caption_pipeline = pipeline(
+            "image-to-text",
+            model="nlpconnect/vit-gpt2-image-captioning",
+            device=self.device,
+            tokenizer=self.tokenizer,
+            feature_extractor=self.feature_extractor,
+            image_processor=self.feature_extractor)
         return image_caption_pipeline
 
 
@@ -46,4 +50,4 @@ compressed_image_path = imageCompressorEngine.compress("test.jpg", 10)
 imagePipeline = ImageCaptionPipeLine()
 imagePipeline.set_device()
 imagePipeline = imagePipeline.get_image_caption_pipeline()
-print(get_image_caption(compressed_image_path, imagePipeline))
+get_image_caption(compressed_image_path, imagePipeline)
