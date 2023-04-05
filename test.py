@@ -7,7 +7,7 @@ compressed_image_path = ImageCompressor.compress("test.jpg", 10)
 image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
 text = image_pipeline("test.jpg")[0]['generated_text']
 
-content_poetry = input("Write what you want ChatGPT to do for you:\n")
+content_poetry = input("Write what you want ChatGPT to do for you:\n\n")
 content_poetry = content_poetry + f" : {text}"
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
@@ -24,7 +24,7 @@ print(responseJson["choices"][0]["message"]["content"])
 
 
 def writeResponse_to_json(responseJson):
-    with open("responseJson.json", "w") as f:
+    with open("responseJson.json", "a") as f:
         f.write(str(responseJson))
 
 
