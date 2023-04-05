@@ -6,48 +6,38 @@ from transformers import Pipeline
 from transformers import pipeline
 import torch
 import warnings
-from imagecompressor.imagecompressor import ImageCompressor
 
 warnings.filterwarnings("ignore")
 
 
 class ImageCaptionPipeLine:
-    def __init__(self):
-        self.model = VisionEncoderDecoderModel.from_pretrained(
+    model = VisionEncoderDecoderModel.from_pretrained(
             "nlpconnect/vit-gpt2-image-captioning")
-        self.feature_extractor = ViTImageProcessor.from_pretrained(
+    feature_extractor = ViTImageProcessor.from_pretrained(
             "nlpconnect/vit-gpt2-image-captioning")
-        self.tokenizer = AutoTokenizer.from_pretrained(
+    tokenizer = AutoTokenizer.from_pretrained(
             "nlpconnect/vit-gpt2-image-captioning")
-        self.device = None
+    device = None
 
-    def set_device(self):
-        if torch.backends.mps.is_available():
-            self.device = torch.device("mps")
-        elif torch.cuda.is_available():
-            self.device = torch.device("cuda")
-        else:
-            self.device = torch.device("cpu")
-        self.model.to(self.device)
+    if torch.backends.mps.is_available():
+        device = torch.device("mps")
+    elif torch.cuda.is_available():
+        device = torch.device("cuda")
+    else:
+        device = torch.device("cpu")
+    model.to(device)
 
-    def get_image_caption_pipeline(self) -> Pipeline:
+    @staticmethod
+    def get_image_caption_pipeline() -> Pipeline:
         image_caption_pipeline = pipeline(
             "image-to-text",
             model="nlpconnect/vit-gpt2-image-captioning",
-            device=self.device,
-            tokenizer=self.tokenizer,
-            feature_extractor=self.feature_extractor,
-            image_processor=self.feature_extractor)
+            device=ImageCaptionPipeLine.device,
+            tokenizer=ImageCaptionPipeLine.tokenizer,
+            feature_extractor=ImageCaptionPipeLine.feature_extractor,
+            image_processor=ImageCaptionPipeLine.feature_extractor)
         return image_caption_pipeline
 
 
 def get_image_caption(image_path, image_pipeline: Pipeline):
     return image_pipeline(image_path)[0]['generated_text']
-
-
-imageCompressorEngine = ImageCompressor()
-compressed_image_path = imageCompressorEngine.compress("test.jpg", 10)
-imagePipeline = ImageCaptionPipeLine()
-imagePipeline.set_device()
-imagePipeline = imagePipeline.get_image_caption_pipeline()
-get_image_caption(compressed_image_path, imagePipeline)
