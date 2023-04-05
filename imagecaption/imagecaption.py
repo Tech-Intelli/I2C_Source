@@ -37,7 +37,3 @@ class ImageCaptionPipeLine:
             feature_extractor=ImageCaptionPipeLine.feature_extractor,
             image_processor=ImageCaptionPipeLine.feature_extractor)
         return image_caption_pipeline
-
-
-def get_image_caption(image_path, image_pipeline: Pipeline):
-    return image_pipeline(image_path)[0]['generated_text']
