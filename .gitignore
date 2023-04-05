@@ -1,0 +1,8 @@
+imagecompressor/__pycache__
+imagecaption/__pycache__
+.vscode/
+.DS_Store
+out.txt
+responseJson.json
+test_compressed.jpg
+*.jpg
