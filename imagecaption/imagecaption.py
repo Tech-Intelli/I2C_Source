@@ -31,7 +31,7 @@ class ImageCaptionPipeLine:
     def get_image_caption_pipeline() -> Pipeline:
         image_caption_pipeline = pipeline(
             "image-to-text",
-            model="nlpconnect/vit-gpt2-image-captioning",
+            model=ImageCaptionPipeLine.model,
             device=ImageCaptionPipeLine.device,
             tokenizer=ImageCaptionPipeLine.tokenizer,
             feature_extractor=ImageCaptionPipeLine.feature_extractor,
