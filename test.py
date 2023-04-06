@@ -3,9 +3,10 @@ import openai
 from imagecompressor.imagecompressor import ImageCompressor
 from imagecaption.imagecaption import ImageCaptionPipeLine
 
-compressed_image_path = ImageCompressor.compress("test.jpg", 10)
+image_path = input("Please provide an image file:\n")
+compressed_image_path = ImageCompressor.compress(image_path, 10)
 image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
-text = image_pipeline("test.jpg")[0]['generated_text']
+text = image_pipeline(image_path)[0]['generated_text']
 
 content_poetry = input("Write what you want ChatGPT to do for you:\n\n")
 content_poetry = content_poetry + f" : {text}"
