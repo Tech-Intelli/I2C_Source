@@ -1,12 +1,19 @@
 import os
 import openai
+import warnings
+import telegram
+import asyncio
 from imagecompressor.imagecompressor import ImageCompressor
-from imagecaption.imagecaption import ImageCaptionPipeLine
+from cachemodel.diskcachedmodel import get_image_caption_pipeline
+
+warnings.filterwarnings("ignore")
+
 
 image_path = input("Please provide an image file:\n")
 compressed_image_path = ImageCompressor.compress(image_path, 10)
-image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
-text = image_pipeline(image_path)[0]['generated_text']
+image_pipeline = get_image_caption_pipeline(compressed_image_path)
+
+text = image_pipeline[0]['generated_text']
 
 content_poetry = input("Write what you want ChatGPT to do for you:\n\n")
 content_poetry = content_poetry + f" : {text}"
@@ -30,14 +37,11 @@ def writeResponse_to_json(responseJson):
 writeResponse_to_json(responseJson)
 caption = responseJson["choices"][0]["message"]["content"]
 
-import telegram
-import asyncio
-
 
 async def something(photo_path, caption=None):
-    chat_id = "1234556"
-    bot = telegram.Bot(token='Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-# Send a message with an image attachment
+    chat_id = os.environ['TELEGRAM_PERSONAL_USER']
+    bot = telegram.Bot(token=os.environ['TELEGRAM_BOT_TOKEN'])
+    # Send a message with an image attachment
     with open(photo_path, 'rb') as f:
         await bot.send_photo(chat_id=chat_id, photo=f, caption=caption)
 
