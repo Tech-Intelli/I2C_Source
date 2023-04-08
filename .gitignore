@@ -1,8 +1,13 @@
 imagecompressor/__pycache__
+__pycache__/
 imagecaption/__pycache__
+cachemodel/__pycache__
+cache/
 .vscode/
 .DS_Store
 out.txt
+output.txt
+CACHED_FILE.pkl
 responseJson.json
 test_compressed.jpg
 *.jpg
