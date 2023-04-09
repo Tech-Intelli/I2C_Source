@@ -1,0 +1,1 @@
+from .imagecompressor import ImageCompressor
