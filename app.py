@@ -1,12 +1,10 @@
 import os
 import openai
-import warnings
 import asyncio
 from imagecompressor import ImageCompressor
 from cachemodel import CachedModel
 from sendmessage import send_message_to_bot
 from writeresponse import write_response_to_json
-warnings.filterwarnings("ignore")
 
 
 while True:
@@ -30,4 +28,5 @@ while True:
 
     write_response_to_json(responseJson)
     asyncio.run(send_message_to_bot(
-        image_path, responseJson["choices"][0]["message"]["content"]))
+        compressed_image_path, responseJson["choices"][0]["message"]["content"]
+        ))
