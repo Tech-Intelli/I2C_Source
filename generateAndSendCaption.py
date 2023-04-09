@@ -1,31 +1,19 @@
 import os
 import openai
 import warnings
-import telegram
 import asyncio
-from imagecompressor.imagecompressor import ImageCompressor
-from cachemodel.cachedmodel import get_image_caption_pipeline
-
+from imagecompressor import ImageCompressor
+from cachemodel import CachedModel
+from sendmessage import send_message_to_bot
+from writeresponse import write_response_to_json
 warnings.filterwarnings("ignore")
 
 
-def writeResponse_to_json(responseJson):
-    with open("responseJson.json", "a") as f:
-        f.write(str(responseJson))
-    with open("output.txt", "a") as f:
-        f.write(responseJson["choices"][0]["message"]["content"])
-
-
-async def something(photo_path, caption=None):
-    chat_id = os.environ['TELEGRAM_PERSONAL_USER']
-    bot = telegram.Bot(token=os.environ['TELEGRAM_BOT_TOKEN'])
-    # Send a message with an image attachment
-    with open(photo_path, 'rb') as f:
-        await bot.send_photo(chat_id=chat_id, photo=f, caption=caption)
 while True:
     image_path = input("Please provide an image file:\n")
     compressed_image_path = ImageCompressor.compress(image_path, 10)
-    image_pipeline = get_image_caption_pipeline(compressed_image_path)
+    image_pipeline = CachedModel.get_image_caption_pipeline(
+        compressed_image_path)
 
     text = image_pipeline[0]['generated_text']
 
@@ -40,7 +28,6 @@ while True:
         ]
     )
 
-    writeResponse_to_json(responseJson)
-    caption = responseJson["choices"][0]["message"]["content"]
-    photo_path = image_path
-    asyncio.run(something(photo_path, caption))
+    write_response_to_json(responseJson)
+    asyncio.run(send_message_to_bot(
+        image_path, responseJson["choices"][0]["message"]["content"]))
