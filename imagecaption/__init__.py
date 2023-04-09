@@ -1,0 +1,1 @@
+from .imagecaption import ImageCaptionPipeLine
