@@ -1,8 +1,8 @@
-# ExplAInsta 📸
+# ExplAIstic 📸
 
-![ExplAInsta Logo](logo.png)
+![ExplAIstic Logo](logo.png)
 
-ExplAInsta is an image captioning and image hashtagging application that generates nicely written captions and adds related hashtags to your images. It utilizes pre-trained Imagenet models and ChatGPT for the image analysis and caption generation, and the Telegram API for the messaging feature.
+ExplAIstic is an image captioning and image hashtagging application that generates nicely written captions and adds related hashtags to your images. It utilizes pre-trained Imagenet models and ChatGPT for the image analysis and caption generation, and the Telegram API for the messaging feature.
 
 ## Installation 🚀
 
@@ -32,11 +32,11 @@ If you find any bugs or issues, feel free to open an issue on GitHub. Pull reque
 
 ## Credits 🙏
 
-ExplAInsta was created by [your name here]. It utilizes pre-trained Imagenet models from PyTorch, ChatGPT from OpenAI, and the transformers package from Hugging Face. The Telegram API was used for messaging.
+ExplAIstic was created by [your name here]. It utilizes pre-trained Imagenet models from PyTorch, ChatGPT from OpenAI, and the transformers package from Hugging Face. The Telegram API was used for messaging.
 
 ## License 📝
 
-ExplAInsta is licensed under the MIT license. See [LICENSE](LICENSE) for more information.
+ExplAIstic is licensed under the MIT license. See [LICENSE](LICENSE) for more information.
 
 ## Acknowledgments 👏
 
