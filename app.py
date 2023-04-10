@@ -10,6 +10,7 @@ from pathlib import Path
 from datetime import datetime
 import random
 import string
+import time
 
 app = Flask(__name__)
 
@@ -46,13 +47,14 @@ def generate_caption():
     # Generate a caption for the uploaded file
     while True:
         image_path = os.path.join(UPLOAD_FOLDER, filename)
+        start_time = time.time()
         compressed_image_path = ImageCompressor.compress(image_path, 10)
         image_pipeline = CachedModel.get_image_caption_pipeline(
             compressed_image_path)
 
         text = image_pipeline[0]['generated_text']
 
-        content_poetry = "Write Something for this image and add exactly 30 hastags."
+        content_poetry = "Write Something for this image and add exactly 30 hastags. Don't forget to add some emojis"
         content_poetry = content_poetry + f" : {text}"
         openai.api_key = os.environ["OPENAI_API_KEY"]
 
@@ -62,14 +64,15 @@ def generate_caption():
                 {"role": "assistant", "content": content_poetry},
             ]
         )
-
+        elapsed_time = time.time() - start_time
         write_response_to_json(responseJson)
         asyncio.run(send_message_to_bot(
             compressed_image_path, responseJson["choices"][0]["message"]["content"]
             ))
         # Return the generated caption as a response to the request
         return render_template(
-            'index.html', caption=responseJson["choices"][0]["message"]["content"])
+            'index.html',
+            caption=f'{responseJson["choices"][0]["message"]["content"]}\n\nThis caption generation took {elapsed_time}')
 
 
 @app.route('/success')
