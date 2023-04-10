@@ -5,28 +5,77 @@ from imagecompressor import ImageCompressor
 from cachemodel import CachedModel
 from sendmessage import send_message_to_bot
 from writeresponse import write_response_to_json
+from flask import Flask, render_template, request
+from pathlib import Path
+from datetime import datetime
+import random
+import string
+
+app = Flask(__name__)
+
+@app.route('/')
+def load():
+    return render_template('index.html')
 
 
-while True:
-    image_path = input("Please provide an image file:\n")
-    compressed_image_path = ImageCompressor.compress(image_path, 10)
-    image_pipeline = CachedModel.get_image_caption_pipeline(
-        compressed_image_path)
+UPLOAD_FOLDER = os.path.join(Path.cwd(), "uploaded")
+now = datetime.now()
+random_str = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
+filename = f"{now.strftime('%Y%m%d_%H%M%S')}_{random_str}.jpg"
 
-    text = image_pipeline[0]['generated_text']
 
-    content_poetry = input("Write what you want ChatGPT to do for you:\n\n")
-    content_poetry = content_poetry + f" : {text}"
-    openai.api_key = os.environ["OPENAI_API_KEY"]
+@app.route('/', methods=['GET', 'POST'])
+def upload_image():
+    if request.method == 'POST':
+        # Get the file from the request
+        file = request.files['image']
 
-    responseJson = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "assistant", "content": content_poetry},
-        ]
-    )
+        # Save the file to the upload folder
+        UPLOAD_FOLDER = os.path.join(Path.cwd(), "uploaded")
+        file.save(os.path.join(UPLOAD_FOLDER, filename))
+        success = 'Image uploaded successfully!'
 
-    write_response_to_json(responseJson)
-    asyncio.run(send_message_to_bot(
-        compressed_image_path, responseJson["choices"][0]["message"]["content"]
-        ))
+        return render_template('index.html', success=success)
+    else:
+        return render_template('index.html')
+
+
+@app.route('/generate', methods=['GET'])
+def generate_caption():
+    # Get the uploaded file name from the request arguments
+    # Generate a caption for the uploaded file
+    while True:
+        image_path = os.path.join(UPLOAD_FOLDER, filename)
+        compressed_image_path = ImageCompressor.compress(image_path, 10)
+        image_pipeline = CachedModel.get_image_caption_pipeline(
+            compressed_image_path)
+
+        text = image_pipeline[0]['generated_text']
+
+        content_poetry = "Write Something for this image and add exactly 30 hastags."
+        content_poetry = content_poetry + f" : {text}"
+        openai.api_key = os.environ["OPENAI_API_KEY"]
+
+        responseJson = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "assistant", "content": content_poetry},
+            ]
+        )
+
+        write_response_to_json(responseJson)
+        asyncio.run(send_message_to_bot(
+            compressed_image_path, responseJson["choices"][0]["message"]["content"]
+            ))
+        # Return the generated caption as a response to the request
+        return render_template(
+            'index.html', caption=responseJson["choices"][0]["message"]["content"])
+
+
+@app.route('/success')
+def success():
+    return 'File uploaded successfully!'
+
+
+if __name__ == '__main__':
+    app.run(debug=True, port=8080)
