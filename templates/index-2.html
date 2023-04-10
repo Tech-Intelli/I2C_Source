@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload</title>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        .success {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Image and Generate Caption</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="btn-wrapper">
+                <div class="upload-btn-wrapper">
+                    <button class="btn">Choose Image</button>
+                    <input type="file" name="image" accept="image/*" onchange="document.getElementById('custom-file-label').innerHTML = this.files[0].name;">
+                </div>
+                <button type="submit" class="btn">Upload</button>
+                <button class="btn" id="generate-button">Generate Caption</button>
+            </div>
+        </form>
+        {% if caption %}
+        <div class="caption-container">
+            <h2>Generated Caption:</h2>
+            <p>{{ caption }}</p>
+        </div>
+        {% endif %}
+        {% if success %}
+        <div class="container">
+            <div class="success">{{ success }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
