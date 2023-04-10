@@ -10,4 +10,5 @@ output.txt
 CACHED_FILE.pkl
 responseJson.json
 test_compressed.jpg
+uploaded/
 *.jpg
