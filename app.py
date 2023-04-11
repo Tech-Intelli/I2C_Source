@@ -19,7 +19,7 @@ def load():
     return render_template('index.html')
 
 
-UPLOAD_FOLDER = os.path.join(Path.cwd(), "uploaded")
+UPLOAD_FOLDER = os.path.join(Path.cwd(), "static", "uploads")
 now = datetime.now()
 random_str = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
 filename = f"{now.strftime('%Y%m%d_%H%M%S')}_{random_str}.jpg"
@@ -32,12 +32,14 @@ def upload_image():
         file = request.files['image']
 
         # Save the file to the upload folder
+        caption = ''
+        image_path = os.path.join("uploads", filename)
         file.save(os.path.join(UPLOAD_FOLDER, filename))
-        success = 'Image uploaded successfully!'
 
-        return render_template('index.html', success=success)
+        return render_template(
+            'index.html', image_path=image_path, caption=caption)
     else:
-        return render_template('index.html')
+        return render_template('index.html', caption=caption)
 
 
 @app.route('/generate', methods=['GET'])
@@ -56,10 +58,13 @@ def generate_caption():
             ))
         elapsed_time = time.time() - start_time
         # Return the generated caption as a response to the request
+        compressed_image_path = os.path.join(
+            "uploads", os.path.basename(compressed_image_path))
         return render_template(
             'index.html',
             caption=f'''{responseJson["choices"][0]["message"]["content"]}.
-            \n\nThis caption generation took {elapsed_time}''')
+            \n\nThis caption generation took {elapsed_time}''',
+            image_path=compressed_image_path)
 
 
 @app.route('/success')
