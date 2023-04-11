@@ -85,7 +85,7 @@
         input[type="file"] {
             display: none;
         }
-        
+
         .upload-btn {
             background-color: #3498db;
             border: none;
@@ -97,15 +97,15 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .upload-btn:hover {
             background-color: #2980b9;
         }
-        
+
         .upload-btn::before {
             content: "Upload";
         }
-        
+
         input[type="file"] + .upload-btn::before {
             content: "Choose File";
             display: inline-block;
@@ -117,13 +117,13 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         input[type="file"] + .upload-btn:hover::before {
             background-color: #3498db;
             color: #fff;
         }
-        
-        
+
+
         /* Add margin to the "Generate Caption" button */
         input[type="submit"].generate-caption {
             margin-top: 10px;
@@ -148,7 +148,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="../static/logo.png" alt="Logo" height="100" style="display: block; margin: 0 auto;">
+        <img src="../static/logo.png" alt="Logo" height="300" style="display: block; margin: 0 auto;">
         <form method="POST" enctype="multipart/form-data">
             <input type="file" name="image" id="file-upload">
             <label for="file-upload" class="upload-btn"></label>
