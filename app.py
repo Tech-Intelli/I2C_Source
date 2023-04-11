@@ -1,18 +1,15 @@
 import os
 import time
-import openai
 import random
 import string
 import asyncio
 
 from pathlib import Path
 from datetime import datetime
-from cachemodel import CachedModel
-from imagecompressor import ImageCompressor
+from flask import Flask, render_template, request
 from sendmessage import send_message_to_bot
 from writeresponse import write_response_to_json
-from flask import Flask, render_template, request
-
+from generatecaption import generate_image_caption
 
 app = Flask(__name__)
 
@@ -35,7 +32,6 @@ def upload_image():
         file = request.files['image']
 
         # Save the file to the upload folder
-        UPLOAD_FOLDER = os.path.join(Path.cwd(), "uploaded")
         file.save(os.path.join(UPLOAD_FOLDER, filename))
         success = 'Image uploaded successfully!'
 
@@ -49,33 +45,21 @@ def generate_caption():
     # Get the uploaded file name from the request arguments
     # Generate a caption for the uploaded file
     while True:
-        image_path = os.path.join(UPLOAD_FOLDER, filename)
         start_time = time.time()
-        compressed_image_path = ImageCompressor.compress(image_path, 10)
-        image_pipeline = CachedModel.get_image_caption_pipeline(
-            compressed_image_path)
-
-        text = image_pipeline[0]['generated_text']
-
-        content_poetry = "Write Something for this image and add exactly 30 hastags. Don't forget to add some emojis"
-        content_poetry = content_poetry + f" : {text}"
-        openai.api_key = os.environ["OPENAI_API_KEY"]
-
-        responseJson = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "assistant", "content": content_poetry},
-            ]
-        )
-        elapsed_time = time.time() - start_time
+        responseJson, compressed_image_path = generate_image_caption(
+            UPLOAD_FOLDER,
+            filename)
         write_response_to_json(responseJson)
         asyncio.run(send_message_to_bot(
-            compressed_image_path, responseJson["choices"][0]["message"]["content"]
+            compressed_image_path,
+            responseJson["choices"][0]["message"]["content"]
             ))
+        elapsed_time = time.time() - start_time
         # Return the generated caption as a response to the request
         return render_template(
             'index.html',
-            caption=f'{responseJson["choices"][0]["message"]["content"]}\n\nThis caption generation took {elapsed_time}')
+            caption=f'''{responseJson["choices"][0]["message"]["content"]}.
+            \n\nThis caption generation took {elapsed_time}''')
 
 
 @app.route('/success')
