@@ -86,7 +86,3 @@ class VideoSceneDetector:
 
         # Release the video capture object.
         cap.release()
-
-        # Print the detected scenes.
-        for i, scene_start in enumerate(scene_list):
-            print(f"Scene {i+1}: {scene_start/10.0:.1f} seconds")
