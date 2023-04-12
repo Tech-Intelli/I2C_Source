@@ -48,9 +48,9 @@ def generate_caption():
     # Generate a caption for the uploaded file
     while True:
         start_time = time.time()
+        image_path = os.path.join(UPLOAD_FOLDER, filename)
         responseJson, compressed_image_path = generate_image_caption(
-            UPLOAD_FOLDER,
-            filename)
+            image_path)
         write_response_to_json(responseJson)
         asyncio.run(send_message_to_bot(
             compressed_image_path,
