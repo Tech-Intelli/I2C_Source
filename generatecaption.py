@@ -2,6 +2,7 @@ import os
 import openai
 from cachemodel import CachedModel
 from imagecompressor import ImageCompressor
+from videoscenedetector import VideoSceneDetector
 
 
 def generate_image_caption(image_path):
@@ -19,7 +20,20 @@ def generate_image_caption(image_path):
     responseJson = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "assistant", "content": content_poetry},
+            {"role": "user", "content": content_poetry},
         ]
     )
     return responseJson, compressed_image_path
+
+
+def generate_video_caption(video_path):
+    vid_scn_detector = VideoSceneDetector()
+    scene_dir = "extracted_images"
+    vid_scn_detector.generate_video_scene_images(
+        video_path=video_path, scenes_dir=scene_dir)
+    image_list = os.listdir(scene_dir)
+    all_captions = ""
+    for eachImage in image_list:
+        caption, _ = generate_image_caption(os.path.join(scene_dir, eachImage))
+        all_captions += " " + caption["choices"][0]["message"]["content"]
+    print(all_captions)
