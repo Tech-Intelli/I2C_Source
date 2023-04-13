@@ -34,6 +34,8 @@ def generate_video_caption(video_path):
     image_list = os.listdir(scene_dir)
     all_captions = ""
     for eachImage in image_list:
-        caption, _ = generate_image_caption(os.path.join(scene_dir, eachImage))
-        all_captions += " " + caption["choices"][0]["message"]["content"]
+        image_pipeline = CachedModel.get_image_caption_pipeline(
+            os.path.join(scene_dir, eachImage))
+        text = image_pipeline[0]['generated_text']
+        all_captions += " " + text
     print(all_captions)
