@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass
 import cv2
 import os
@@ -6,25 +5,14 @@ import os
 
 @dataclass
 class VideoSceneDetector:
-    video_path = None
-    scenes_dir = None
+    video_path: str
+    scene_detector: 'SceneDetector'
+    scene_saver: 'SceneSaver'
 
-    @staticmethod
-    def generate_video_scene_images(video_path, scenes_dir):
-        cap = cv2.VideoCapture(video_path)
-
-        prev_frame = None
-        prev_gray = None
-        curr_frame = None
-        curr_gray = None
-
-        scene_list = []
+    def detect_scenes(self):
+        cap = cv2.VideoCapture(self.video_path)
         frame_index = 0
-        mean_diffs = []
-        num_diffs = 30  # Number of differences to use in the moving average.
-        diff_index = 0  # Index of the oldest difference in the moving average.
 
-        """Loop through the video frames."""
         while True:
             ret, frame = cap.read()
             if not ret:
@@ -35,48 +23,65 @@ class VideoSceneDetector:
                 frame_index += 1
                 continue
 
-            # Convert the frame to grayscale.
-            curr_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            self.scene_detector.process_frame(frame)
+            if self.scene_detector.scene_changed():
+                scene = self.scene_detector.get_scene()
+                self.scene_saver.save_scene(scene)
 
-            """If this is the first frame, initialize
-            the previous frame and current frame."""
-            if prev_frame is None:
-                prev_frame = frame
-                prev_gray = curr_gray
-                curr_frame = frame.copy()
-                frame_index += 1
-                continue
-
-            """Compute the mean absolute difference
-            between the current and previous frames."""
-            diff = cv2.absdiff(curr_gray, prev_gray)
-            mean_diff = diff.mean()
-
-            """Add the current mean absolute
-            difference to the moving average."""
-            if len(mean_diffs) < num_diffs:
-                mean_diffs.append(mean_diff)
-            else:
-                mean_diffs[diff_index] = mean_diff
-                diff_index = (diff_index + 1) % num_diffs
-
-            """Set the threshold as the average of the last
-            num_diffs mean absolute differences."""
-            threshold = sum(mean_diffs) / len(mean_diffs)
-
-            """If the mean absolute difference is above
-            the threshold, a scene change is detected."""
-            if mean_diff > threshold:
-                scene_list.append(frame_index)
-                scene_filename = f"scene_{len(scene_list):04d}.jpg"
-                if not os.path.exists(scenes_dir):
-                    os.makedirs(scenes_dir)
-                scene_path = os.path.join(scenes_dir, scene_filename)
-                cv2.imwrite(scene_path, curr_frame)
-
-            prev_frame = frame
-            prev_gray = curr_gray
-            curr_frame = frame.copy()
             frame_index += 1
 
         cap.release()
+
+
+class SceneDetector:
+    def __init__(self, num_diffs=30):
+        self.prev_frame = None
+        self.prev_gray = None
+        self.curr_frame = None
+        self.curr_gray = None
+        self.mean_diffs = []
+        self.num_diffs = num_diffs
+        self.diff_index = 0
+
+    def process_frame(self, frame):
+        if self.curr_gray is not None:
+            self.prev_frame = self.curr_frame
+            self.prev_gray = self.curr_gray
+
+        self.curr_frame = frame.copy()
+        self.curr_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+        if self.prev_gray is not None:
+            diff = cv2.absdiff(self.curr_gray, self.prev_gray)
+            mean_diff = diff.mean()
+            self.mean_diffs.append(mean_diff)
+
+            if len(self.mean_diffs) > self.num_diffs:
+                oldest_diff_index = self.diff_index - self.num_diffs
+                self.mean_diffs.pop(oldest_diff_index)
+            else:
+                self.diff_index += 1
+
+    def scene_changed(self):
+        if len(self.mean_diffs) < self.num_diffs:
+            return False
+
+        threshold = sum(self.mean_diffs) / len(self.mean_diffs)
+        return self.mean_diffs[-1] > threshold
+
+    def get_scene(self):
+        return self.curr_frame
+
+
+class SceneSaver:
+    def __init__(self, scenes_dir='extracted_images'):
+        self.scenes_dir = scenes_dir
+        self.scene_list = []
+
+    def save_scene(self, scene):
+        self.scene_list.append(scene)
+        scene_filename = f"scene_{len(self.scene_list):04d}.jpg"
+        if not os.path.exists(self.scenes_dir):
+            os.makedirs(self.scenes_dir)
+        scene_path = os.path.join(self.scenes_dir, scene_filename)
+        cv2.imwrite(scene_path, scene)
