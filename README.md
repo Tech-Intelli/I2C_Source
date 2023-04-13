@@ -1,7 +1,8 @@
-<div style="display: flex; align-items: center;">
-  <h1>ExplAIstic</h1>
-  <img src="logo.png" width="100" height="60">
+<div style="overflow: auto;">
+  <img src="logo.png" width="120" height="100" style="float: left;">
+  <h1 style="margin-left: 130px;">ExplAIstic</h1>
 </div>
+
 
 ![ExplAIstic Logo](logo.png)
 
