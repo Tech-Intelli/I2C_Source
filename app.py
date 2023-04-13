@@ -9,7 +9,7 @@ from datetime import datetime
 from flask import Flask, render_template, request
 from sendmessage import send_message_to_bot
 from writeresponse import write_response_to_json
-from generatecaption import generate_image_caption
+from generatecaption import Chatbot, ImageCaptionGenerator
 
 app = Flask(__name__)
 
@@ -49,8 +49,10 @@ def generate_caption():
     while True:
         start_time = time.time()
         image_path = os.path.join(UPLOAD_FOLDER, filename)
-        responseJson, compressed_image_path = generate_image_caption(
-            image_path)
+        chatbot = Chatbot(os.environ["OPENAI_API_KEY"])
+        image_caption_generator = ImageCaptionGenerator(chatbot)
+        responseJson, compressed_image_path = image_caption_generator.\
+            generate_caption(image_path)
         write_response_to_json(responseJson)
         asyncio.run(send_message_to_bot(
             compressed_image_path,
