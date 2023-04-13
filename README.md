@@ -1,4 +1,4 @@
-# ExplAIstic 📸
+# ExplAIstic <img src="logo.png" width="120" height="100">
 
 ![ExplAIstic Logo](logo.png)
 
@@ -23,7 +23,6 @@ Note: depending on your system configuration, you might need to manually install
 
 To use the application, you need to get the Telegram bot token by creating a bot on Telegram's BotFather. Then, you can run the following command from the project directory to start the Flask app:
 
-
 Once the Flask app is running, you can send an image to the Telegram bot, and it will automatically generate a caption and related hashtags for the image.
 
 ## Contributing 🤝
@@ -32,7 +31,7 @@ If you find any bugs or issues, feel free to open an issue on GitHub. Pull reque
 
 ## Credits 🙏
 
-ExplAIstic was created by Dipanjan Das. It utilizes pre-trained Imagenet models from PyTorch, ChatGPT from OpenAI, and the transformers package from Hugging Face. The Telegram API was used for messaging.
+ExplAIstic was created by [Dipanjan Das](https://github.com/dasdipanjan04). It utilizes pre-trained Imagenet models from PyTorch, ChatGPT from OpenAI, and the transformers package from Hugging Face. The Telegram API was used for messaging.
 
 ## License 📝
 
