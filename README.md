@@ -32,12 +32,14 @@ If you find any bugs or issues, feel free to open an issue on GitHub. Pull reque
 
 ## Credits 🙏
 
-ExplAIstic was created by [your name here]. It utilizes pre-trained Imagenet models from PyTorch, ChatGPT from OpenAI, and the transformers package from Hugging Face. The Telegram API was used for messaging.
+ExplAIstic was created by Dipanjan Das. It utilizes pre-trained Imagenet models from PyTorch, ChatGPT from OpenAI, and the transformers package from Hugging Face. The Telegram API was used for messaging.
 
 ## License 📝
 
 ExplAIstic is licensed under the MIT license. See [LICENSE](LICENSE) for more information.
 
+## Logo License
+See [LICENSE](LOGO LICENSE) for more information.
 ## Acknowledgments 👏
 
 Thank you to the PyTorch, OpenAI, and Hugging Face communities for providing pre-trained models that were instrumental in the creation of this project. Special thanks to the Telegram team for providing an easy-to-use API for messaging.
