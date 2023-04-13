@@ -1,45 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Image Upload</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script:400,700&display=swap">
     <style>
-        /* Add a custom font and set the background image */
         body {
             font-family: 'Open Sans', sans-serif;
-            background-color: black;
-          }
-        /* Create a container for the content */
+            background-color: #1a1a1a;
+        }
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 50px;
-            background-color: rgba(0, 0, 0, 0.7); /* Add a semi-transparent black background */
+            background-color: rgba(0, 0, 0, 0.8);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px; /* Add rounded corners */
+            border-radius: 10px;
+            color: #fff;
         }
-    
-        /* Style the heading */
+
         h1 {
             font-size: 36px;
             font-weight: 700;
             margin-bottom: 20px;
             text-align: center;
-            color: white; /* Make the text white */
+            color: #fff;
         }
-    
-        /* Center the form elements and set the file input margin */
+
         form {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         input[type="file"] {
             margin: 20px 0;
         }
-    
-        /* Style the buttons */
+
         input[type="submit"], .upload-btn {
-            background-color: #ff6f61; /* Set a coral color */
+            background-color: #ff6f61;
             border: none;
             color: #fff;
             padding: 10px 20px;
@@ -48,18 +48,17 @@
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 10px; /* Add margin to the Generate Caption button */
+            margin-top: 10px;
         }
-    
-        /* Change the button color on hover */
+
         input[type="submit"]:hover, .upload-btn:hover {
-            background-color: #e84a3f; /* Darken the coral color */
+            background-color: #e84a3f;
         }
-    
-        /* Hide the file input and style the upload button */
+
         input[type="file"] {
             display: none;
         }
+
         .upload-btn::before {
             content: "Choose File";
             display: inline-block;
@@ -71,21 +70,19 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         input[type="file"] + .upload-btn:hover::before {
             background-color: #ff6f61;
             color: #fff;
         }
 
-        /* Style the success message */
         .success {
             font-size: 24px;
             font-weight: 700;
             text-align: center;
             margin-top: 50px;
-            color: white; /* Make the text white */
         }
 
-        /* Style the caption */
         .caption {
             font-family: 'Dancing Script', cursive;
             font-size: 24px;
@@ -94,42 +91,24 @@
             margin-top: 50px;
             padding: 20px;
             border-radius: 10px;
-            background-image: linear-gradient(to right, #f8b195, #f67280); /* Add a gradient background */
-            color: white; /* Make the text white */
+            background-image: linear-gradient(to right, #f8b195, #f67280);
         }
 
-        /* Style the image container */
         .image-container {
             width: 300px;
             height: 300px;
-            margin: 20px auto
+            margin: 20px auto;
+            border-radius: 10px;
+            overflow: hidden;
         }
+
         .uploaded-image {
             display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        input[type="file"] {
-            display: none;
-        }
     </style>
-    <script>
-        setTimeout(function() {
-            var success = document.querySelector('.success');
-            if (success) {
-                success.style.display = 'none';
-            }
-        }, 10000);
-    </script>
-    <script>
-        setTimeout(function() {
-            var caption = document.querySelector('.caption');
-            if (caption) {
-                caption.style.display = 'none';
-            }
-        }, 100000);
-    </script>
 </head>
 <body>
     <div class="container">
@@ -164,3 +143,4 @@
     {% endif %}
 </body>
 </html>
+
