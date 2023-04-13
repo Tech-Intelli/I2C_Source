@@ -39,7 +39,7 @@ ExplAIstic was created by Dipanjan Das. It utilizes pre-trained Imagenet models 
 ExplAIstic is licensed under the MIT license. See [LICENSE](LICENSE) for more information.
 
 ## Logo License
-See [LICENSE](https://github.com/dasdipanjan04/ExplAIstic/blob/main/LOGO%20LICENSE) for more information.
+See [LOGO LICENSE](https://github.com/dasdipanjan04/ExplAIstic/blob/main/LOGO%20LICENSE) for more information.
 ## Acknowledgments 👏
 
 Thank you to the PyTorch, OpenAI, and Hugging Face communities for providing pre-trained models that were instrumental in the creation of this project. Special thanks to the Telegram team for providing an easy-to-use API for messaging.
