@@ -1,4 +1,7 @@
-# ExplAIstic <img src="logo.png" width="120" height="100">
+<div style="display: flex; align-items: center;">
+  <h1>ExplAIstic</h1>
+  <img src="logo.png" width="100">
+</div>
 
 ![ExplAIstic Logo](logo.png)
 
