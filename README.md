@@ -1,6 +1,6 @@
 <div style="display: flex; align-items: center;">
   <h1>ExplAIstic</h1>
-  <img src="logo.png" width="100">
+  <img src="logo.png" width="100" height="60">
 </div>
 
 ![ExplAIstic Logo](logo.png)
