@@ -1,8 +1,4 @@
-<div style="overflow: auto;">
-  <img src="logo.png" width="120" height="100" style="float: left;">
-  <h1 style="margin-left: 130px;">ExplAIstic</h1>
-</div>
-
+## ExplAIstic <img src="logo.png" width="120" height="80">
 
 ![ExplAIstic Logo](logo.png)
 
