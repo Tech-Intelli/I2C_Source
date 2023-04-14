@@ -14,8 +14,8 @@ IMAGE_CAPTION_GENERATOR = generatecaption.ImageCaptionGenerator(CHATBOT)
 def generate_image_caption(image_path, caption_size=1):
     responseJson, compressed_image_path = IMAGE_CAPTION_GENERATOR.\
         generate_caption(image_path)
-
-    return responseJson["choices"][0]["message"]["content"], compressed_image_path
+    caption = responseJson["choices"][0]["message"]["content"]
+    return caption, compressed_image_path
 
 
 def generate_video_caption(video_path, caption_size=1):
@@ -52,16 +52,19 @@ def app():
         if uploaded_image is not None and uploaded_video is not None:
             st.error("Please upload only one of either an image or a video.")
         if uploaded_image is not None and uploaded_video is None:
-            with NamedTemporaryFile(dir='.', suffix='.jpg | .jepg | .png') as f:
+            with NamedTemporaryFile(dir='.', suffix='.jpg | \
+                                                    .jepg | .png') as f:
                 f.write(uploaded_image.getbuffer())
                 caption, compressed_image_path = generate_image_caption(
                     f.name, caption_size)
                 os.remove(compressed_image_path)
+                st.image(f.name)
                 st.success(caption)
         elif uploaded_image is None and uploaded_video is not None:
             with NamedTemporaryFile(dir='.', suffix='.mov | .mp4') as f:
                 f.write(uploaded_video.getbuffer())
                 caption = generate_video_caption(f.name, caption_size)
+                st.video(f.name)
                 st.success(caption)
         elif uploaded_image is None and uploaded_video is None:
             st.error("Please upload either an image or a video.")
