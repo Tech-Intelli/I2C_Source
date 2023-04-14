@@ -1,12 +1,31 @@
+import os
 import streamlit as st
+import generatecaption
+from videoscenedetector.videoscenedetector import SceneDetector, SceneSaver
+from tempfile import NamedTemporaryFile
 
 COMPANY_NAME = "ExplAIstic"
 COMPANY_LOGO = "Background.png"
 BACKGROUND_IMAGE = "Background.png"
+CHATBOT = generatecaption.Chatbot(os.environ["OPENAI_API_KEY"])
+IMAGE_CAPTION_GENERATOR = generatecaption.ImageCaptionGenerator(CHATBOT)
 
 
-def generate_caption(image_path, video_path, caption_size):
-    return f"Generated caption for image: {image_path}, video: {video_path}, size: {caption_size}"
+def generate_image_caption(image_path, caption_size=1):
+    responseJson, compressed_image_path = IMAGE_CAPTION_GENERATOR.\
+        generate_caption(image_path)
+
+    return responseJson["choices"][0]["message"]["content"], compressed_image_path
+
+
+def generate_video_caption(video_path, caption_size=1):
+    video_caption_generator = generatecaption.VideoCaptionGenerator(
+        CHATBOT,
+        SceneDetector(),
+        SceneSaver()
+    )
+    responseJson = video_caption_generator.generate_caption(video_path)
+    return responseJson["choices"][0]["message"]["content"]
 
 
 def app():
@@ -32,13 +51,20 @@ def app():
     if st.button("Generate Caption"):
         if uploaded_image is not None and uploaded_video is not None:
             st.error("Please upload only one of either an image or a video.")
+        if uploaded_image is not None and uploaded_video is None:
+            with NamedTemporaryFile(dir='.', suffix='.jpg | .jepg | .png') as f:
+                f.write(uploaded_image.getbuffer())
+                caption, compressed_image_path = generate_image_caption(
+                    f.name, caption_size)
+                os.remove(compressed_image_path)
+                st.success(caption)
+        elif uploaded_image is None and uploaded_video is not None:
+            with NamedTemporaryFile(dir='.', suffix='.mov | .mp4') as f:
+                f.write(uploaded_video.getbuffer())
+                caption = generate_video_caption(f.name, caption_size)
+                st.success(caption)
         elif uploaded_image is None and uploaded_video is None:
             st.error("Please upload either an image or a video.")
-        else:
-            image_path = uploaded_image.name if uploaded_image is not None else None
-            video_path = uploaded_video.name if uploaded_video is not None else None
-            caption = generate_caption(image_path, video_path, caption_size)
-            st.success(caption)
 
 
 if __name__ == "__main__":
