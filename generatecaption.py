@@ -74,18 +74,3 @@ class VideoCaptionGenerator:
         responseJson = self.chatbot.get_response(content)
         shutil.rmtree(scene_dir, ignore_errors=True)
         return responseJson
-
-
-if __name__ == '__main__':
-    start_time = time.time()
-    chatbot = Chatbot(os.environ["OPENAI_API_KEY"])
-    image_caption_generator = ImageCaptionGenerator(chatbot)
-    video_caption_generator = VideoCaptionGenerator(
-        chatbot,
-        SceneDetector(),
-        SceneSaver()
-    )
-    print(video_caption_generator.generate_caption(
-        "IMG_8160.MOV")["choices"][0]["message"]["content"])
-    elapsed_time = time.time() - start_time
-    print(f"It took {elapsed_time} seconds to generate video caption")
