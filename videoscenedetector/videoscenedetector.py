@@ -18,7 +18,7 @@ class VideoSceneDetector:
 
         if duration > 120:
             cap.release()
-            return
+            raise Exception("Please provide a short duration video")
 
         while True:
             ret, frame = cap.read()
