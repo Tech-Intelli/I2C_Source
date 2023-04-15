@@ -11,6 +11,9 @@ class VideoSceneDetector:
 
     def detect_scenes(self):
         cap = cv2.VideoCapture(self.video_path)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        duration = frame_count / fps
         frame_index = 0
 
         while True:
@@ -19,10 +22,12 @@ class VideoSceneDetector:
                 break
 
             # Skip frames to reduce processing time.
-            if frame_index % 10 != 0:
+            if duration <= 10 and frame_index % 3 != 0:
                 frame_index += 1
                 continue
-
+            elif duration > 10 and frame_index % 10 != 0:
+                frame_index += 1
+                continue
             self.scene_detector.process_frame(frame)
             if self.scene_detector.scene_changed():
                 scene = self.scene_detector.get_scene()
