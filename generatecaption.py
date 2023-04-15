@@ -1,4 +1,5 @@
 import os
+import shutil
 import time
 import openai
 from cachemodel import CachedModel
@@ -24,13 +25,26 @@ class ImageCaptionGenerator:
     def __init__(self, chatbot):
         self.chatbot = chatbot
 
-    def generate_caption(self, image_path):
+    def generate_caption(self, image_path, caption_size):
         compressed_image_path = ImageCompressor.compress(image_path, 10)
         image_pipeline = CachedModel.get_image_caption_pipeline(
             compressed_image_path)
         text = image_pipeline[0]['generated_text']
-        content = f'''Write an instagram caption for this image
-        and add exactly 30 hashtags. Don't forget to add some emojis: {text}'''
+        caption_size_description = ""
+        if caption_size == 'small':
+            caption_size_description = "caption within 2-3 sentences"
+        elif caption_size == 'medium':
+            caption_size_description = "caption within 5-7 sentences"
+        elif caption_size == 'large':
+            caption_size_description = "caption within 10-15 sentences"
+        elif caption_size == 'very large':
+            caption_size_description = "30-50 sentences"
+        elif caption_size == 'blog post':
+            caption_size_description = "blog post description"
+
+        content = f'''Write a {caption_size_description} for instagram
+        for this image and add most popular 30 hashtags.
+        Don't forget to add some emojis: {text}'''
         responseJson = self.chatbot.get_response(content)
         return responseJson, compressed_image_path
 
@@ -58,7 +72,7 @@ class VideoCaptionGenerator:
         content = f'''Connect these sentences and rewrite
         an artistic paragraph:{all_captions}'''
         responseJson = self.chatbot.get_response(content)
-        #os.remove(scene_dir)
+        shutil.rmtree(scene_dir, ignore_errors=True)
         return responseJson
 
 
