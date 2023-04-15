@@ -16,6 +16,10 @@ class VideoSceneDetector:
         duration = frame_count / fps
         frame_index = 0
 
+        if duration > 120:
+            cap.release()
+            return
+
         while True:
             ret, frame = cap.read()
             if not ret:
