@@ -89,8 +89,6 @@ def app():
     context = st.text_area("Write your context here...")
     num_hashtags = st.number_input("How many hashes do you want to add?")
     col1, col2, col3 = st.columns([1, 1, 0.80])
-    caption = None
-    compressed_image_path = None
     if col1.button("Generate Caption"):
         if uploaded_image is None:
             st.error("Please upload an image.")
@@ -104,6 +102,7 @@ def app():
                 st.success(caption)
                 st.image(f.name)
                 send_to_telegram(compressed_image_path, caption)
+                os.remove(compressed_image_path)
     if col3.button("Generate Video Caption"):
         if uploaded_video is None:
             st.error("Please upload a video.")
