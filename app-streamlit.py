@@ -1,7 +1,9 @@
+import asyncio
 import base64
 import os
 import streamlit as st
 import generatecaption
+from sendmessage import send_message_to_bot
 from videoscenedetector.videoscenedetector import SceneDetector, SceneSaver
 from tempfile import NamedTemporaryFile
 
@@ -37,7 +39,8 @@ def generate_video_caption(
                                             video_path,
                                             context,
                                             num_hashtags)
-    return responseJson["choices"][0]["message"]["content"]
+    caption = responseJson["choices"][0]["message"]["content"]
+    return caption
 
 
 def generate_interim_gif():
@@ -87,10 +90,15 @@ def app():
                 f.write(uploaded_image.getbuffer())
                 caption, compressed_image_path = generate_image_caption(
                     f.name, caption_size, context, num_hashtags)
-                os.remove(compressed_image_path)
                 gif_placeholder.empty()
                 st.success(caption)
                 st.image(f.name)
+            st.button("Send this to Telegram")
+            asyncio.run(send_message_to_bot(
+                compressed_image_path,
+                caption,
+                ))
+            os.remove(compressed_image_path)
     if col3.button("Generate Video Caption"):
         if uploaded_video is None:
             st.error("Please upload a video.")
