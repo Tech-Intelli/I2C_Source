@@ -12,20 +12,31 @@ CHATBOT = generatecaption.Chatbot(os.environ["OPENAI_API_KEY"])
 IMAGE_CAPTION_GENERATOR = generatecaption.ImageCaptionGenerator(CHATBOT)
 
 
-def generate_image_caption(image_path, caption_size="small"):
+def generate_image_caption(
+        image_path,
+        caption_size="small",
+        context=None,
+        num_hashtags=30):
     responseJson, compressed_image_path = IMAGE_CAPTION_GENERATOR.\
-        generate_caption(image_path, caption_size)
+        generate_caption(image_path, caption_size, context, num_hashtags)
     caption = responseJson["choices"][0]["message"]["content"]
     return caption, compressed_image_path
 
 
-def generate_video_caption(video_path, caption_size="small"):
+def generate_video_caption(
+        video_path,
+        caption_size="small",
+        context=None,
+        num_hashtags=30):
     video_caption_generator = generatecaption.VideoCaptionGenerator(
         CHATBOT,
         SceneDetector(),
         SceneSaver()
     )
-    responseJson = video_caption_generator.generate_caption(video_path)
+    responseJson = video_caption_generator.generate_caption(
+                                            video_path,
+                                            context,
+                                            num_hashtags)
     return responseJson["choices"][0]["message"]["content"]
 
 
@@ -64,7 +75,8 @@ def app():
     caption_size = st.select_slider(
         'Caption Size',
         options=['small', 'medium', 'large', 'very large', 'blog post'])
-
+    context = st.text_area("Write your context here...")
+    num_hashtags = st.number_input("How many hashes do you want to add?")
     col1, col2, col3 = st.columns([1, 1, 0.80])
     if col1.button("Generate Caption"):
         if uploaded_image is None:
@@ -74,7 +86,7 @@ def app():
             with NamedTemporaryFile(dir='.', suffix='.jpg |.jepg | .png') as f:
                 f.write(uploaded_image.getbuffer())
                 caption, compressed_image_path = generate_image_caption(
-                    f.name, caption_size)
+                    f.name, caption_size, context, num_hashtags)
                 os.remove(compressed_image_path)
                 gif_placeholder.empty()
                 st.success(caption)
@@ -86,7 +98,8 @@ def app():
             gif_placeholder = generate_interim_gif()
             with NamedTemporaryFile(dir='.', suffix='.mov | .mp4') as f:
                 f.write(uploaded_video.getbuffer())
-                caption = generate_video_caption(f.name, caption_size)
+                caption = generate_video_caption(
+                    f.name, caption_size, context, num_hashtags)
                 gif_placeholder.empty()
                 st.success(caption)
                 st.video(f.name)
