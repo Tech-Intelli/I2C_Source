@@ -7,6 +7,8 @@ from sendmessage import send_message_to_bot
 from videoscenedetector.videoscenedetector import SceneDetector, SceneSaver
 from tempfile import NamedTemporaryFile
 
+from writeresponse import write_response_to_json
+
 COMPANY_NAME = "ExplAIstic"
 COMPANY_LOGO = "Background.png"
 BACKGROUND_IMAGE = "Background.png"
@@ -22,6 +24,7 @@ def generate_image_caption(
     responseJson, compressed_image_path = IMAGE_CAPTION_GENERATOR.\
         generate_caption(image_path, caption_size, context, num_hashtags)
     caption = responseJson["choices"][0]["message"]["content"]
+    write_response_to_json(responseJson)
     return caption, compressed_image_path
 
 
@@ -40,6 +43,7 @@ def generate_video_caption(
                                             context,
                                             num_hashtags)
     caption = responseJson["choices"][0]["message"]["content"]
+    write_response_to_json(responseJson)
     return caption
 
 
@@ -115,6 +119,7 @@ def app():
                 gif_placeholder.empty()
                 st.success(caption)
                 st.video(f.name)
+
 
 if __name__ == "__main__":
     app()
