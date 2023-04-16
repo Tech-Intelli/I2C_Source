@@ -29,6 +29,7 @@ class ImageCaptionGenerator:
             image_path,
             caption_size,
             context,
+            style,
             num_hashtags):
 
         compressed_image_path = ImageCompressor.compress(image_path, 10)
@@ -37,22 +38,23 @@ class ImageCaptionGenerator:
         text = image_pipeline[0]['generated_text']
         caption_size_description = ""
         if caption_size == 'small':
-            caption_size_description = "caption within 2-3 sentences"
+            caption_size_description = "a caption within 2-3 sentences"
         elif caption_size == 'medium':
-            caption_size_description = "caption within 5-7 sentences"
+            caption_size_description = "a caption within 5-7 sentences"
         elif caption_size == 'large':
-            caption_size_description = "caption within 10-15 sentences"
+            caption_size_description = "10-15 sentences"
         elif caption_size == 'very large':
             caption_size_description = "30-50 sentences"
         elif caption_size == 'blog post':
-            caption_size_description = "blog post description"
+            caption_size_description = "a blog post"
         responseJson = None
         if context is not None or context != "":
             context = f'''Write this in the context
             of the following sentence: {context}'''
-        content = f''' Write a {caption_size_description} for instagram
-        for this image and add most popular {num_hashtags} hashtags.
-        Don't forget to add some emojis: {text}.{context}'''
+        content = f''' Write {caption_size_description} for social media
+        content for this image in a {style} way and add
+        most popular {num_hashtags} hashtags.Don't forget to add some emojis:
+        {text}.{context}'''
         responseJson = self.chatbot.get_response(content)
         return responseJson, compressed_image_path
 
@@ -63,7 +65,7 @@ class VideoCaptionGenerator:
         self.scene_detector = scene_detector
         self.scene_saver = scene_saver
 
-    def generate_caption(self, video_path, context, num_hashtags):
+    def generate_caption(self, video_path, caption_size, context, style, num_hashtags):
         scene_dir = "extracted_images"
         vid_scn_detector = VideoSceneDetector(
             video_path,
@@ -80,8 +82,8 @@ class VideoCaptionGenerator:
         if context is not None or context != "":
             context = f'''Write this in the context
             of the following sentence: {context}'''
-        content = f'''Connect these sentences and rewrite
-        an artistic paragraph:{all_captions}.
+        content = f'''Connect these sentences maintaining the sequence
+        and rewrite {caption_size} in a {style} way:{all_captions}.
         Add {num_hashtags} hashtags.{context}'''
         responseJson = self.chatbot.get_response(content)
         shutil.rmtree(scene_dir, ignore_errors=True)
