@@ -1,10 +1,9 @@
 import os
 import shutil
-import time
 import openai
 from cachemodel import CachedModel
 from imagecompressor import ImageCompressor
-from videoscenedetector import VideoSceneDetector, SceneDetector, SceneSaver
+from videoscenedetector import VideoSceneDetector
 
 
 class Chatbot:
