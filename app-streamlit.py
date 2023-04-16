@@ -43,6 +43,14 @@ def generate_video_caption(
     return caption
 
 
+def send_to_telegram(compressed_image_path, caption):
+    asyncio.run(send_message_to_bot(
+        compressed_image_path,
+        caption,
+        ))
+    st.success("Message sent.")
+
+
 def generate_interim_gif():
     file_ = open("giphy.gif", "rb")
     contents = file_.read()
@@ -81,6 +89,8 @@ def app():
     context = st.text_area("Write your context here...")
     num_hashtags = st.number_input("How many hashes do you want to add?")
     col1, col2, col3 = st.columns([1, 1, 0.80])
+    caption = None
+    compressed_image_path = None
     if col1.button("Generate Caption"):
         if uploaded_image is None:
             st.error("Please upload an image.")
@@ -93,12 +103,7 @@ def app():
                 gif_placeholder.empty()
                 st.success(caption)
                 st.image(f.name)
-            st.button("Send this to Telegram")
-            asyncio.run(send_message_to_bot(
-                compressed_image_path,
-                caption,
-                ))
-            os.remove(compressed_image_path)
+                send_to_telegram(compressed_image_path, caption)
     if col3.button("Generate Video Caption"):
         if uploaded_video is None:
             st.error("Please upload a video.")
