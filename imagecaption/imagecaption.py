@@ -12,11 +12,11 @@ warnings.filterwarnings("ignore")
 
 class ImageCaptionPipeLine:
     model = VisionEncoderDecoderModel.from_pretrained(
-            "nlpconnect/vit-gpt2-image-captioning")
+        "nlpconnect/vit-gpt2-image-captioning")
     feature_extractor = ViTImageProcessor.from_pretrained(
-            "nlpconnect/vit-gpt2-image-captioning")
+        "nlpconnect/vit-gpt2-image-captioning")
     tokenizer = AutoTokenizer.from_pretrained(
-            "nlpconnect/vit-gpt2-image-captioning")
+        "nlpconnect/vit-gpt2-image-captioning")
     device = None
 
     if torch.backends.mps.is_available():
