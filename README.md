@@ -42,5 +42,5 @@ See [LOGO LICENSE](https://github.com/dasdipanjan04/ExplAIstic/blob/main/LOGO%20
 Thank you to the PyTorch, OpenAI, and Hugging Face communities for providing pre-trained models that were instrumental in the creation of this project. Special thanks to the Telegram team for providing an easy-to-use API for messaging.
 
 ## Join the Discord Community
-<a href="https://discord.gg/UvMWN7k7"><img class="icon-3AqZ2e" src="https://cdn.discordapp.com/icons/1097599444800770060/5bc54720d99c6bc7b86322a3b8683fd6.webp?size=240" alt=" " width="48" height="48" aria-hidden="true"></a>
+<a href="https://discord.gg/UvMWN7k7"><img class="icon-3AqZ2e" src="https://cdn.discordapp.com/icons/1097599444800770060/5bc54720d99c6bc7b86322a3b8683fd6.webp?size=240" alt=" " width="100" height="100" aria-hidden="true"></a>
 
