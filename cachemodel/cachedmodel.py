@@ -1,3 +1,5 @@
+"""Caches the pre-trained model using pickle"""
+
 import os
 import pickle
 import warnings
@@ -7,12 +9,43 @@ warnings.filterwarnings("ignore")
 
 
 class CachedModel:
+    """
+    A class that provides a way to cache and retrieve an image caption
+    pipeline using pickle.
+
+    Attributes:
+        CACHE_DIR (str): The path to the cache directory.
+        CACHE_FILE (str): The path to the pickle file where the image caption
+        pipeline is stored.
+
+    Methods:
+        get_image_caption_pipeline(image_path: str) -> ImageCaptionPipeLine:
+            Returns the image caption pipeline for the specified image path.
+            If the pipeline is not cached, it
+            will be created and cached using the
+            `ImageCaptionPipeLine.get_image_caption_pipeline()` method.
+    """
+
     CACHE_DIR = os.path.join(Path.home(), ".cache")
     Path(CACHE_DIR).mkdir(parents=True, exist_ok=True)
     CACHE_FILE = os.path.join(CACHE_DIR, "image_caption_pipeline.pkl")
 
     @staticmethod
     def get_image_caption_pipeline(image_path):
+        """
+        Returns the image caption pipeline for the specified image path.
+        If the pipeline is not cached, it
+        will be created and cached using the
+        `ImageCaptionPipeLine.get_image_caption_pipeline()` method.
+
+        Args:
+            image_path (str): The path to the image for which the caption
+            pipeline is required.
+
+        Returns:
+            The image caption pipeline for the specified image path.
+        """
+
         try:
             with open(CachedModel.CACHE_FILE, 'rb') as f:
                 image_pipeline = pickle.load(f)
