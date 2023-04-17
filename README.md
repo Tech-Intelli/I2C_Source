@@ -2,28 +2,27 @@
 
 ![ExplAIstic Logo](/resources/Background.png)
 
-ExplAIstic is an image captioning and image hashtagging application that generates nicely written captions and adds related hashtags to your images. It utilizes pre-trained Imagenet models and ChatGPT for the image analysis and caption generation, and the Telegram API for the messaging feature.
+ExplAIstic is an image captioning and image hashtagging application that generates nicely written captions and adds related hashtags to your images and reels. It utilizes pre-trained Imagenet models and ChatGPT for the image analysis and caption generation, and the Telegram API for the messaging feature.
 
 ## Installation 🚀
 
 To use the application, you need to install the following dependencies:
 
-- Python 3.6 or later
-- PyTorch
-- transformers
-- NumPy
-- Flask
-- python-telegram-bot
+- Python 3.10 (All the dependencies don't support Python 3.11)
+- Flask==2.2.3
+- openai==0.27.2
+- opencv_python==4.7.0.72
+- Pillow==9.4.0
+- Pillow==9.5.0
+- python-telegram-bot==20.2
+- streamlit==1.21.0
+- torch==2.0.0
+- transformers==4.27.4
 
 You can install all of these dependencies by running `pip install -r requirements.txt` from the project directory.
 
-Note: depending on your system configuration, you might need to manually install the PyTorch and transformers packages with a specific version, such as `torch==1.9.0` and `transformers==4.9.1`.
-
-## Usage 🕹️
-
-To use the application, you need to get the Telegram bot token by creating a bot on Telegram's BotFather. Then, you can run the following command from the project directory to start the Flask app:
-
-Once the Flask app is running, you can send an image to the Telegram bot, and it will automatically generate a caption and related hashtags for the image.
+The current version of ExplAIstic uses Streamlit to generate the website. To use this app run
+`streamlit run app-streamlit.py`
 
 ## Contributing 🤝
 
@@ -40,5 +39,8 @@ ExplAIstic is licensed under the MIT license. See [LICENSE](LICENSE) for more in
 ## Logo License
 See [LOGO LICENSE](https://github.com/dasdipanjan04/ExplAIstic/blob/main/LOGO%20LICENSE) for more information.
 ## Acknowledgments 👏
-
 Thank you to the PyTorch, OpenAI, and Hugging Face communities for providing pre-trained models that were instrumental in the creation of this project. Special thanks to the Telegram team for providing an easy-to-use API for messaging.
+
+## Join the Discord Community
+<a href="https://discord.gg/UvMWN7k7"><img class="icon-3AqZ2e" src="https://cdn.discordapp.com/icons/1097599444800770060/5bc54720d99c6bc7b86322a3b8683fd6.webp?size=240" alt=" " width="48" height="48" aria-hidden="true"></a>
+
