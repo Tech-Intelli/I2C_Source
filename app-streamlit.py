@@ -2,19 +2,19 @@ import asyncio
 import base64
 import os
 import streamlit as st
-import generatecaption
+import generatecaption as generatecaption
 from sendmessage import send_message_to_bot
-from videoscenedetector.videoscenedetector import SceneDetector, SceneSaver
+from videoscenedetector import SceneDetector, SceneSaver
 from tempfile import NamedTemporaryFile
 
 from writeresponse import write_response_to_json
 
 COMPANY_NAME = "ExplAIstic"
-COMPANY_LOGO = "Background.png"
-BACKGROUND_IMAGE = "Background.png"
+COMPANY_LOGO = os.path.join("resources", "Background.png")
+BACKGROUND_IMAGE = os.path.join("resources", "Background.png")
 CHATBOT = generatecaption.Chatbot(os.environ["OPENAI_API_KEY"])
 IMAGE_CAPTION_GENERATOR = generatecaption.ImageCaptionGenerator(CHATBOT)
-
+GIPHY_IMAGE = os.path.join("resources", "giphy.gif")
 
 def generate_image_caption(
         image_path,
@@ -61,7 +61,7 @@ def send_to_telegram(compressed_image_path, caption):
 
 
 def generate_interim_gif():
-    file_ = open("giphy.gif", "rb")
+    file_ = open(GIPHY_IMAGE, "rb")
     contents = file_.read()
     data_url = base64.b64encode(contents).decode("utf-8")
     file_.close()
