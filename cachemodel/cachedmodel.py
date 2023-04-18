@@ -1,5 +1,7 @@
 """Caches the pre-trained model using pickle"""
-
+# pylint: disable=C0103
+# pylint: disable=C0415
+# pylint: disable=R0903
 import os
 import pickle
 import warnings

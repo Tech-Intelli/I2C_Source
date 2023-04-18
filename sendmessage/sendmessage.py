@@ -1,13 +1,13 @@
 """
 Sends a photo with a caption to a Telegram bot.
 """
+# pylint: disable=C0103
+# pylint: disable=E0401
 
 import os
 import telegram
 
 MAX_MESSAGE_LENGTH = 1024
-
-# pylint: disable=C0103
 
 
 async def send_message_to_bot(photo_path, caption=None):

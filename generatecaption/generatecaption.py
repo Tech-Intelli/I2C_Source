@@ -1,8 +1,12 @@
 """ Generates caption for image or reels
 
-Returns:
-    str: Caption
+    Returns:
+        str: Caption
 """
+
+# pylint: disable=R0903
+# pylint: disable=R0913
+# pylint: disable=E0401
 
 import os
 import shutil
@@ -10,8 +14,6 @@ import openai
 from cachemodel import CachedModel
 from imagecompressor import ImageCompressor
 from videoscenedetector import VideoSceneDetector
-# pylint: disable=R0903
-# pylint: disable=R0913
 
 
 class Chatbot:

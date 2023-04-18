@@ -1,5 +1,7 @@
 """Write the response to json file"""
 
+# pylint: disable=C0103
+
 
 def write_response_to_json(response_json):
     """

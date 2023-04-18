@@ -58,7 +58,7 @@ class VideoSceneDetector:
             if duration <= 10 and frame_index % 3 != 0:
                 frame_index += 1
                 continue
-            elif duration > 10 and frame_index % 10 != 0:
+            if duration > 10 and frame_index % 10 != 0:
                 frame_index += 1
                 continue
             self.scene_detector.process_frame(frame)
