@@ -22,7 +22,10 @@ To use the application, you need to install the following dependencies:
 You can install all of these dependencies by running `pip install -r requirements.txt` from the project directory.
 
 The current version of ExplAIstic uses Streamlit to generate the website. To use this app run
-`streamlit run app-streamlit.py`
+```
+cd src
+streamlit run app-streamlit.py
+```
 
 ## Contributing 🤝
 
