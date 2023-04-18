@@ -1,7 +1,6 @@
 imagecompressor/__pycache__
 __pycache__/
-imagecaption/__pycache__
-cachemodel/__pycache__
+*/__pycache__
 cache/
 static/
 .vscode/
@@ -9,7 +8,7 @@ static/
 out.txt
 output.txt
 CACHED_FILE.pkl
-responseJson.json
+response_json.json
 test_compressed.jpg
 uploaded/
 *.jpg

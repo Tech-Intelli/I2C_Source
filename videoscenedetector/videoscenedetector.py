@@ -1,12 +1,14 @@
 """
 Detect and saves video frames to the specified directory
 """
+# pylint: disable=E0401
+# pylint: disable=E1101
+# pylint: disable=W0719
+# pylint: disable=R0903
+
 import os
 from dataclasses import dataclass
 import cv2
-
-# pylint: disable=E1101
-# pylint: disable=W0719
 
 
 @dataclass
@@ -164,7 +166,8 @@ class SceneSaver:
     A class that saves extracted scenes as JPEG images.
 
     Args:
-        scenes_dir (str, optional): Directory where the extracted scenes will be saved. Defaults to 'extracted_images'.
+        scenes_dir (str, optional): Directory where the extracted
+        scenes will be saved. Defaults to 'extracted_images'.
 
     Attributes:
         scenes_dir (str): Directory where the extracted scenes will be saved.

@@ -1,5 +1,12 @@
-from PIL import Image
+"""Compresses an image
+
+Returns:
+    str: Compressed Image Path
+"""
+# pylint: disable=E0401
 import os
+from PIL import Image
+# pylint: disable=R0903
 
 
 class ImageCompressor:

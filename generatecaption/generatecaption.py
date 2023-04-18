@@ -10,6 +10,8 @@ import openai
 from cachemodel import CachedModel
 from imagecompressor import ImageCompressor
 from videoscenedetector import VideoSceneDetector
+# pylint: disable=R0903
+# pylint: disable=R0913
 
 
 class Chatbot:

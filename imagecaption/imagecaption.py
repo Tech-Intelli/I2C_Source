@@ -2,7 +2,9 @@
 
     Returns:
         Pipeline: Image caption pipeline
-    """
+"""
+# pylint: disable=E0401
+
 import warnings
 import torch
 from transformers import VisionEncoderDecoderModel
@@ -13,7 +15,7 @@ from transformers import pipeline
 
 warnings.filterwarnings("ignore")
 # pylint: disable=E1101
-
+# pylint: disable=R0903
 
 class ImageCaptionPipeLine:
     """

@@ -7,6 +7,8 @@ import telegram
 
 MAX_MESSAGE_LENGTH = 1024
 
+# pylint: disable=C0103
+
 
 async def send_message_to_bot(photo_path, caption=None):
     """

@@ -10,7 +10,7 @@ import generatecaption
 from sendmessage import send_message_to_bot
 from videoscenedetector import SceneDetector, SceneSaver
 from writeresponse import write_response_to_json
-
+# pylint: disable=C0103
 COMPANY_NAME = "ExplAIstic"
 COMPANY_LOGO = os.path.join("resources", "Background.png")
 BACKGROUND_IMAGE = os.path.join("resources", "Background.png")
