@@ -51,7 +51,7 @@ class Chatbot:
         self.openai.api_key = self.api_key
         response_json = self.openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": content}]
+            messages=[{"role": "assistant", "content": content}]
         )
         return response_json
 
@@ -107,23 +107,26 @@ class ImageCaptionGenerator:
         text = image_pipeline[0]['generated_text']
         caption_size_description = ""
         if caption_size == 'small':
-            caption_size_description = "a caption within 2-3 sentences"
+            caption_size_description = '''a caption within 2-3
+                                          continuous sentences'''
         elif caption_size == 'medium':
-            caption_size_description = "a caption within 5-7 sentences"
+            caption_size_description = '''a caption within 5-7
+                                          continuous sentences'''
         elif caption_size == 'large':
-            caption_size_description = "10-15 sentences"
+            caption_size_description = '''10-15 continuous sentences'''
         elif caption_size == 'very large':
-            caption_size_description = "30-50 sentences"
+            caption_size_description = '''30-50 continuous sentences'''
         elif caption_size == 'blog post':
-            caption_size_description = "a blog post"
+            caption_size_description = '''a complete blog post
+                                          within 100 sentences'''
         response_json = None
         if context is not None or context != "":
             context = f'''Write this in the context
             of the following sentence: {context}'''
         content = f''' Write {caption_size_description} for social media
-        content for this image in a {style} way and add
-        most popular {num_hashtags} hashtags.Don't forget to add some emojis:
-        {text}.{context}'''
+        content for this image describing: {text} in a {style} way
+        and {context} and add most popular {num_hashtags} hashtags.
+        Don't forget to add some emojis:.'''
         response_json = self.chatbot.get_response(content)
         return response_json, compressed_image_path
 
@@ -188,8 +191,8 @@ class VideoCaptionGenerator:
             context = f'''Write this in the context
             of the following sentence: {context}'''
         content = f'''Connect these sentences maintaining the sequence
-        and rewrite {caption_size} in a {style} way:{all_captions}.
-        Add {num_hashtags} hashtags.{context}'''
+        and rewrite {caption_size} in a {style} way:{all_captions} and
+        {context}. Add {num_hashtags} hashtags.'''
         response_json = self.chatbot.get_response(content)
         shutil.rmtree(scene_dir, ignore_errors=True)
         return response_json
