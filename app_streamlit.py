@@ -106,15 +106,18 @@ def generate_interim_gif():
     Returns:
         str: gif placeholder
     """
-    file_ = open(GIPHY_IMAGE, "rb")
-    contents = file_.read()
-    data_url = base64.b64encode(contents).decode("utf-8")
-    file_.close()
-    gif_placeholder = st.empty()
-    gif_placeholder.markdown(
-        f'<img src="data:image/gif;base64,{data_url}" alt="explaistic gif">',
-        unsafe_allow_html=True,
-    )
+
+    gif_placeholder = None
+    with open(GIPHY_IMAGE, "rb") as file_gif:
+        contents = file_gif.read()
+        data_url = base64.b64encode(contents).decode("utf-8")
+        file_gif.close()
+        gif_placeholder = st.empty()
+        gif_placeholder.markdown(
+            f'''<img src="data:image/gif;base64,
+                {data_url}" alt="explaistic gif">''',
+            unsafe_allow_html=True,
+        )
     return gif_placeholder
 
 
