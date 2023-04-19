@@ -2,6 +2,7 @@
 # pylint: disable=C0103
 # pylint: disable=C0415
 # pylint: disable=R0903
+# pylint: disable=E0401
 import os
 import pickle
 import warnings
