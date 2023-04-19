@@ -4,7 +4,7 @@ Unit Test Case Image Compression Method
 
 import os
 # pylint: disable=E0401
-from imagecompressor import ImageCompressor
+from image_compressor import ImageCompressor
 
 
 def test_compress():

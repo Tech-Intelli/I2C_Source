@@ -2,4 +2,4 @@
 Pre-trained model caching module
 """
 
-from .cachedmodel import CachedModel
+from .cached_model import CachedModel

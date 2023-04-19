@@ -10,16 +10,16 @@ import base64
 import os
 from tempfile import NamedTemporaryFile
 import streamlit as st
-import generatecaption
-from sendmessage import send_message_to_bot
-from videoscenedetector import SceneDetector, SceneSaver
-from writeresponse import write_response_to_json
+import generate_caption
+from send_message import send_message_to_bot
+from video_scene_detector import SceneDetector, SceneSaver
+from write_response import write_response_to_json
 
 COMPANY_NAME = "ExplAIstic"
 COMPANY_LOGO = os.path.join("resources", "Background.png")
 BACKGROUND_IMAGE = os.path.join("resources", "Background.png")
-CHATBOT = generatecaption.Chatbot(os.environ["OPENAI_API_KEY"])
-IMAGE_CAPTION_GENERATOR = generatecaption.ImageCaptionGenerator(CHATBOT)
+CHATBOT = generate_caption.Chatbot(os.environ["OPENAI_API_KEY"])
+IMAGE_CAPTION_GENERATOR = generate_caption.ImageCaptionGenerator(CHATBOT)
 GIPHY_IMAGE = os.path.join("resources", "giphy.gif")
 
 
@@ -29,7 +29,7 @@ def generate_image_caption(
         context=None,
         caption_style=None,
         num_hashtags=30):
-    """Calls the generatecaption's method to generate an image caption
+    """Calls the generate_caption's method to generate an image caption
 
     Args:
         image_path (_type_): _description_
@@ -68,7 +68,7 @@ def generate_video_caption(
         _type_: _description_
     """
 
-    video_caption_generator = generatecaption.VideoCaptionGenerator(
+    video_caption_generator = generate_caption.VideoCaptionGenerator(
         CHATBOT,
         SceneDetector(),
         SceneSaver()

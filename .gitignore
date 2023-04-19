@@ -1,4 +1,4 @@
-imagecompressor/__pycache__
+image_compressor/__pycache__
 __pycache__/
 */__pycache__
 cache/
@@ -12,3 +12,4 @@ response_json.json
 test_compressed.jpg
 uploaded/
 *.jpg
+test.py

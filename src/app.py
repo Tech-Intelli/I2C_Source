@@ -11,9 +11,9 @@ import asyncio
 from pathlib import Path
 from datetime import datetime
 from flask import Flask, render_template, request
-from sendmessage.sendmessage import send_message_to_bot
-from writeresponse.writeresponse import write_response_to_json
-from generatecaption.generatecaption import Chatbot, ImageCaptionGenerator
+from send_message.send_message import send_message_to_bot
+from write_response.write_response import write_response_to_json
+from generate_caption.generate_caption import Chatbot, ImageCaptionGenerator
 
 UPLOAD_FOLDER = os.path.join(Path.cwd(), "static", "uploads")
 now = datetime.now()

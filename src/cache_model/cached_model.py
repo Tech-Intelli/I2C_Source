@@ -57,7 +57,7 @@ class CachedModel:
             print("Could not open or find cache file, creating."
                   "\nThis may take a while, please wait...")
 
-        from imagecaption import ImageCaptionPipeLine
+        from image_caption import ImageCaptionPipeLine
         image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
         with open(CachedModel.CACHE_FILE, "wb") as f:
             pickle.dump(image_pipeline, f, protocol=pickle.HIGHEST_PROTOCOL)
