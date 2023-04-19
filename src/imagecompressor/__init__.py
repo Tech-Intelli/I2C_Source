@@ -1,3 +1,5 @@
-"""Image compression module
 """
+Image compression module
+"""
+
 from .imagecompressor import ImageCompressor
