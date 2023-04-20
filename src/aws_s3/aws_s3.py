@@ -2,6 +2,7 @@
 Module for creating s3 buckets, upload and download images.
 """
 import os
+from io import BytesIO
 import boto3
 
 
@@ -24,7 +25,6 @@ class AwsS3:
         """
         Upload an image file to Amazon S3
         """
-
         key_name = os.path.basename(image_path)
         AwsS3.s3.upload_file(image_path, s3_bucket_name, key_name)
 
