@@ -14,6 +14,7 @@ import generate_caption
 from send_message import send_message_to_bot
 from video_scene_detector import SceneDetector, SceneSaver
 from write_response import write_response_to_json
+from aws_s3 import AwsS3
 
 COMPANY_NAME = "ExplAIstic"
 COMPANY_LOGO = os.path.join("resources", "Background.png")
@@ -140,6 +141,8 @@ def app():
 
     uploaded_image = st.file_uploader(
         "Upload Image", type=["jpg", "jpeg", "png"])
+    if uploaded_image is not None:
+        AwsS3.upload_image_to_s3(uploaded_image, "explaisticbucket")
     uploaded_video = st.file_uploader(
         "Upload Video", type=["mp4", "mov"])
 
