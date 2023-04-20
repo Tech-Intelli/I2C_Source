@@ -141,8 +141,6 @@ def app():
 
     uploaded_image = st.file_uploader(
         "Upload Image", type=["jpg", "jpeg", "png"])
-    if uploaded_image is not None:
-        AwsS3.upload_image_to_s3(uploaded_image, "explaisticbucket")
     uploaded_video = st.file_uploader(
         "Upload Video", type=["mp4", "mov"])
 
@@ -163,6 +161,8 @@ def app():
             gif_placeholder = generate_interim_gif()
             with NamedTemporaryFile(dir='.', suffix='.jpg |.jepg | .png') as f:
                 f.write(uploaded_image.getbuffer())
+                AwsS3.upload_image_to_s3(
+                    f.name, "explaisticbucket")
                 caption, compressed_image_path = generate_image_caption(
                     f.name, caption_size, context, caption_style, num_hashtags)
                 gif_placeholder.empty()
