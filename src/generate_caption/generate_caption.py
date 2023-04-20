@@ -55,6 +55,26 @@ class Chatbot:
         )
         return response_json
 
+    def get_stream_response(self, content):
+        """Sends a message to the OpenAI GPT-3 chat model and returns its
+        response as a stream.
+
+        Args:
+            content (str): The content of the message to be sent.
+
+        Returns:
+            dict: A dictionary containing the response from the chat model.
+        """
+        self.openai.api_key = self.api_key
+        response_json = self.openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "assistant", "content": content}],
+            stream=True
+        )
+        for stream in response_json:
+            stream_json = stream['choices'][0]['delta']
+            print(stream_json.get('content'), end=' ')
+
 
 class ImageCaptionGenerator:
 
