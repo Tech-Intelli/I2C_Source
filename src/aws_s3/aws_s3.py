@@ -21,11 +21,10 @@ class AwsS3:
             'LocationConstraint': AwsS3.region})
 
     @staticmethod
-    def upload_image_to_s3(image_path, s3_bucket_name):
+    def upload_image_to_s3(image_path, s3_bucket_name, key_name):
         """
         Upload an image file to Amazon S3
         """
-        key_name = os.path.basename(image_path)
         AwsS3.s3.upload_file(image_path, s3_bucket_name, key_name)
 
     @staticmethod

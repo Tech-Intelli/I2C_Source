@@ -159,10 +159,10 @@ def app():
             st.error("Please upload an image.")
         if uploaded_image is not None and uploaded_video is None:
             gif_placeholder = generate_interim_gif()
-            with NamedTemporaryFile(dir='.', suffix='.jpg |.jepg | .png') as f:
+            with NamedTemporaryFile(dir='.', suffix='.jpg | .jepg | .png') as f:
                 f.write(uploaded_image.getbuffer())
                 AwsS3.upload_image_to_s3(
-                    f.name, "explaisticbucket")
+                    f.name, "explaisticbucket", "Test_Image_Explaistic.jpg")
                 caption, compressed_image_path = generate_image_caption(
                     f.name, caption_size, context, caption_style, num_hashtags)
                 gif_placeholder.empty()
