@@ -11,7 +11,7 @@
 import os
 import shutil
 import openai
-from cache_model import CachedModel
+from cached_model import CachedModel
 from image_compressor import ImageCompressor
 from video_scene_detector import VideoSceneDetector
 
