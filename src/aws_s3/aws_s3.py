@@ -2,7 +2,6 @@
 Module for creating s3 buckets, upload and download images.
 """
 import os
-from io import BytesIO
 import boto3
 
 
