@@ -15,7 +15,7 @@ class AwsS3:
     @staticmethod
     def create_bucket(s3_bucket_name):
         """
-        Creates an AWS S§ bucket
+        Creates an AWS S3 bucket
         """
         AwsS3.s3.create_bucket(Bucket=s3_bucket_name, CreateBucketConfiguration={
             'LocationConstraint': AwsS3.region})
