@@ -23,6 +23,8 @@ BACKGROUND_IMAGE = os.path.join("resources", "Background.png")
 CHATBOT = generate_caption.Chatbot(os.environ["OPENAI_API_KEY"])
 IMAGE_CAPTION_GENERATOR = generate_caption.ImageCaptionGenerator(CHATBOT)
 GIPHY_IMAGE = os.path.join("resources", "giphy.gif")
+S3_BUCKET_NAME = "explaisticbucket"
+KEY_NAME = "Test_Image_Explaistic.jpg"
 
 
 def generate_image_caption(
@@ -142,6 +144,10 @@ def app():
 
     uploaded_image = st.file_uploader(
         "Upload Image", type=["jpg", "jpeg", "png"])
+    if uploaded_image is not None:
+        with NamedTemporaryFile(dir='.') as temp_file:
+            temp_file.write(uploaded_image.getbuffer())
+            AwsS3.upload_image_to_s3(temp_file.name, S3_BUCKET_NAME, KEY_NAME)
     uploaded_video = st.file_uploader(
         "Upload Video", type=["mp4", "mov"])
 
@@ -160,21 +166,16 @@ def app():
             st.error("Please upload an image.")
         if uploaded_image is not None and uploaded_video is None:
             gif_placeholder = generate_interim_gif()
-            with NamedTemporaryFile(dir='.', suffix='.jpg | .jepg | .png') as f:
-                f.write(uploaded_image.getbuffer())
-                AwsS3.upload_image_to_s3(
-                    f.name, "explaisticbucket", "Test_Image_Explaistic.jpg")
-                image_save_path = os.path.join(
-                    Path.cwd(), "Test_Image_Explaistic.jpg")
-                AwsS3.download_image_from_s3(
-                    image_save_path, "Test_Image_Explaistic.jpg", "explaisticbucket")
-                caption, compressed_image_path = generate_image_caption(
-                    image_save_path, caption_size, context, caption_style, num_hashtags)
-                gif_placeholder.empty()
-                st.success(caption)
-                st.image(f.name)
-                send_to_telegram(compressed_image_path, caption)
-                os.remove(compressed_image_path)
+            image_save_path = os.path.join(Path.cwd(), KEY_NAME)
+            AwsS3.download_image_from_s3(
+                image_save_path, KEY_NAME, S3_BUCKET_NAME)
+            caption, compressed_image_path = generate_image_caption(
+                image_save_path, caption_size, context, caption_style, num_hashtags)
+            gif_placeholder.empty()
+            st.success(caption)
+            st.image(compressed_image_path)
+            send_to_telegram(compressed_image_path, caption)
+            os.remove(compressed_image_path)
     if col3.button("Generate Video Caption"):
         if uploaded_video is None:
             st.error("Please upload a video.")
