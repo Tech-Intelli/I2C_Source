@@ -8,6 +8,7 @@ Creates a Streamlit powered website
 import asyncio
 import base64
 import os
+from pathlib import Path
 from tempfile import NamedTemporaryFile
 import streamlit as st
 import generate_caption
@@ -163,8 +164,12 @@ def app():
                 f.write(uploaded_image.getbuffer())
                 AwsS3.upload_image_to_s3(
                     f.name, "explaisticbucket", "Test_Image_Explaistic.jpg")
+                image_save_path = os.path.join(
+                    Path.cwd(), "Test_Image_Explaistic.jpg")
+                AwsS3.download_image_from_s3(
+                    image_save_path, "Test_Image_Explaistic.jpg", "explaisticbucket")
                 caption, compressed_image_path = generate_image_caption(
-                    f.name, caption_size, context, caption_style, num_hashtags)
+                    image_save_path, caption_size, context, caption_style, num_hashtags)
                 gif_placeholder.empty()
                 st.success(caption)
                 st.image(f.name)
