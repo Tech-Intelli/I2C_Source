@@ -54,12 +54,14 @@ class CachedModel:
                 image_pipeline = pickle.load(f)
                 return image_pipeline(image_path)
         except (FileNotFoundError, pickle.UnpicklingError):
-            print(f'''Could not open or find cache file, creating cache file @ {CachedModel.CACHE_FILE}
+            print(f'''Could not open or find cache file,
+                  creating cache file @ {CachedModel.CACHE_FILE}
                   "\nThis may take a while, please wait...''')
 
         from image_caption import ImageCaptionPipeLine
         image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
         with open(CachedModel.CACHE_FILE, "wb") as f:
             pickle.dump(image_pipeline, f, protocol=pickle.HIGHEST_PROTOCOL)
-
+            print(
+                f'''Cache has been created at {CachedModel.CACHE_FILE} successfully.''')
         return image_pipeline(image_path)
