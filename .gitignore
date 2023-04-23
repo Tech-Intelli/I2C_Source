@@ -3,6 +3,7 @@ __pycache__/
 */__pycache__
 cache/
 src/static/
+src/.cache/
 .vscode/
 .DS_Store
 out.txt
