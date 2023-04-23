@@ -44,6 +44,7 @@ docker buildx create --use --name explaisticbuilder
 docker buildx build --platform linux/amd64,linux/arm64 -t explaistic_docker .
 docker run -v explaistic_volume:/app/data -p 8501:8501 explaistic_docker
 ```
+
 ## Contributing 🤝
 
 If you find any bugs or issues, feel free to open an issue on GitHub. Pull requests are also welcome!
