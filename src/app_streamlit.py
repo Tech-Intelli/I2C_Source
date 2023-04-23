@@ -18,11 +18,12 @@ from write_response import write_response_to_json
 from aws_s3 import AwsS3
 
 COMPANY_NAME = "ExplAIstic"
-COMPANY_LOGO = os.path.join("resources", "Background.png")
-BACKGROUND_IMAGE = os.path.join("resources", "Background.png")
+
+COMPANY_LOGO = os.path.join(Path.cwd(), "resources", "Background.png")
+BACKGROUND_IMAGE = os.path.join(Path.cwd(), "resources", "Background.png")
 CHATBOT = generate_caption.Chatbot(os.environ["OPENAI_API_KEY"])
 IMAGE_CAPTION_GENERATOR = generate_caption.ImageCaptionGenerator(CHATBOT)
-GIPHY_IMAGE = os.path.join("resources", "giphy.gif")
+GIPHY_IMAGE = os.path.join(Path.cwd(), "resources", "giphy.gif")
 S3_BUCKET_NAME = "explaisticbucket"
 KEY_NAME = "Test_Image_Explaistic.jpg"
 
