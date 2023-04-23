@@ -26,7 +26,24 @@ The current version of ExplAIstic uses Streamlit to generate the website. To use
 cd src
 streamlit run app-streamlit.py
 ```
+## How to run the Dockerfile
 
+If you want to containerize it and run it as a Docker image use the Dockerfile from the root of the repo. Add your API keys there. As this use pre-trained model, therefore initializing the pre-trained model everytime can be memory expensive and time consuming. Use a Docker Volume before running the docker file.
+
+```
+docker volume create explaistic_volume
+docker build -t explaistic_docker .
+docker run -v explaistic_volume:/app/data -p 8501:8501 explaistic_docker
+```
+
+If you are using a Mac with M1 or M2 Chip and encountering `RuntimeError: torch.UntypedStorage(): Storage device not recognized: mps` use the following command instead
+
+```
+docker volume create explaistic_volume
+docker buildx create --use --name explaisticbuilder
+docker buildx build --platform linux/amd64,linux/arm64 -t explaistic_docker .
+docker run -v explaistic_volume:/app/data -p 8501:8501 explaistic_docker
+```
 ## Contributing 🤝
 
 If you find any bugs or issues, feel free to open an issue on GitHub. Pull requests are also welcome!
