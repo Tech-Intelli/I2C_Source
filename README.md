@@ -17,6 +17,7 @@ To use the application, you need to install the following dependencies:
 - streamlit==1.21.0
 - torch==2.0.0
 - transformers==4.27.4
+- boto3
 
 You can install all of these dependencies by running `pip install -r requirements.txt` from the project directory.
 
