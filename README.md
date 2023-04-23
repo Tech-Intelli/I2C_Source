@@ -12,7 +12,6 @@ To use the application, you need to install the following dependencies:
 - Flask==2.2.3
 - openai==0.27.2
 - opencv_python==4.7.0.72
-- Pillow==9.4.0
 - Pillow==9.5.0
 - python-telegram-bot==20.2
 - streamlit==1.21.0
