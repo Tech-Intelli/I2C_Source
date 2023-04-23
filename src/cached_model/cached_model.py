@@ -29,7 +29,7 @@ class CachedModel:
             `ImageCaptionPipeLine.get_image_caption_pipeline()` method.
     """
 
-    CACHE_DIR = os.path.join(Path.home(), ".cache")
+    CACHE_DIR = os.path.join(Path.cwd(), ".cache")
     Path(CACHE_DIR).mkdir(parents=True, exist_ok=True)
     CACHE_FILE = os.path.join(CACHE_DIR, "image_caption_pipeline.pkl")
 
@@ -54,8 +54,8 @@ class CachedModel:
                 image_pipeline = pickle.load(f)
                 return image_pipeline(image_path)
         except (FileNotFoundError, pickle.UnpicklingError):
-            print("Could not open or find cache file, creating."
-                  "\nThis may take a while, please wait...")
+            print(f'''Could not open or find cache file, creating cache file @ {CachedModel.CACHE_FILE}
+                  "\nThis may take a while, please wait...''')
 
         from image_caption import ImageCaptionPipeLine
         image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
