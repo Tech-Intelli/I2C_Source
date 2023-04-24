@@ -89,7 +89,7 @@ class ImageCaptionGenerator:
         ImageCaptionGenerator class.
     - generate_caption(self, image_path, caption_size, context, style,
     num_hashtags):
-      Generates a caption for an image using the chatbot object.
+    Generates a caption for an image using the chatbot object.
 
     """
 
@@ -102,7 +102,8 @@ class ImageCaptionGenerator:
             caption_size,
             context,
             style,
-            num_hashtags):
+            num_hashtags,
+            tone):
         """
         Generates a caption for an image using the chatbot object.
 
@@ -125,28 +126,27 @@ class ImageCaptionGenerator:
         image_pipeline = CachedModel.get_image_caption_pipeline(
             compressed_image_path)
         text = image_pipeline[0]['generated_text']
-        caption_size_description = ""
+        caption_length = ""
         if caption_size == 'small':
-            caption_size_description = '''a caption within 2-3
-                                          continuous sentences'''
+            caption_length = '''Compose a concise 2-3 sentence'''
         elif caption_size == 'medium':
-            caption_size_description = '''a caption within 5-7
-                                          continuous sentences'''
+            caption_length = '''Compose a concise 5-7 sentence'''
         elif caption_size == 'large':
-            caption_size_description = '''10-15 continuous sentences'''
+            caption_length = '''Compose a concise 10-15 sentence'''
         elif caption_size == 'very large':
-            caption_size_description = '''30-50 continuous sentences'''
+            caption_length = '''Compose a concise 30-50 sentence'''
         elif caption_size == 'blog post':
-            caption_size_description = '''a complete blog post
-                                          within 100 sentences'''
+            caption_length = '''Craft a comprehensive 100-sentence'''
         response_json = None
         if context is not None or context != "":
-            context = f'''Write this in the context
-            of the following sentence: {context}'''
-        content = f''' Write {caption_size_description} for social media
-        content for this image describing: {text} in a {style} way
-        and {context} and add most popular {num_hashtags} hashtags.
-        Don't forget to add some emojis:.'''
+            context = f'''Create content in the context of the provided sentence: {context}'''
+
+        content = f'''{caption_length} social media caption for this image,
+        showcasing {text} in a {style} manner,
+        relating to the provided context: "{context}".
+        Incorporate the top {num_hashtags} trending hashtags and relevant emojis.
+        Employ a {tone} language style to engage and captivate your target audience.'''
+
         response_json = self.chatbot.get_response(content)
         return response_json, compressed_image_path
 
