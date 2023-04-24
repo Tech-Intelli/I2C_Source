@@ -17,6 +17,7 @@ warnings.filterwarnings("ignore")
 # pylint: disable=E1101
 # pylint: disable=R0903
 
+
 class ImageCaptionPipeLine:
     """
     A pipeline class for generating captions from images using the ViT-GPT2 image captioning model.
