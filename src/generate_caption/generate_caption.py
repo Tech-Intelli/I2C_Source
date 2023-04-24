@@ -178,7 +178,8 @@ class VideoCaptionGenerator:
                          video_path,
                          caption_size,
                          context, style,
-                         num_hashtags):
+                         num_hashtags,
+                         tone):
         """
         Generate a caption for a video using a chatbot.
 
@@ -189,7 +190,7 @@ class VideoCaptionGenerator:
         context (str): The context in which the caption will be used. Optional.
         style (str): The style in which the caption should be written.
         num_hashtags (int): The number of hashtags to include in the caption.
-
+        tone (string): Caption tone.
         Returns:
         dict: A JSON object containing the response from the chatbot.
         """
@@ -208,11 +209,11 @@ class VideoCaptionGenerator:
             text = image_pipeline[0]['generated_text']
             all_captions += " " + text
         if context is not None or context != "":
-            context = f'''Write this in the context
-            of the following sentence: {context}'''
-        content = f'''Connect these sentences maintaining the sequence
-        and rewrite {caption_size} in a {style} way:{all_captions} and
-        {context}. Add {num_hashtags} hashtags.'''
+            context = f'''Create content in the context of the provided sentence: {context}'''
+        content = f'''Craft a {caption_size} social media caption in a {style} manner,
+        incorporating {all_captions} and relating to the context: "{context}".
+        Include the top {num_hashtags} trending hashtags.
+        Utilize a {tone} language style to captivate and engage your target audience.'''
         response_json = self.chatbot.get_response(content)
         shutil.rmtree(scene_dir, ignore_errors=True)
         return response_json

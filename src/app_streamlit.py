@@ -61,7 +61,8 @@ def generate_video_caption(
         caption_size="small",
         context=None,
         caption_style=None,
-        num_hashtags=30):
+        num_hashtags=30,
+        tone='casual'):
     """Calls the generated caption's methods to generate video caption
 
     Args:
@@ -85,7 +86,8 @@ def generate_video_caption(
         caption_size,
         context,
         caption_style,
-        num_hashtags)
+        num_hashtags,
+        tone)
     caption = response_json["choices"][0]["message"]["content"]
     write_response_to_json(response_json)
     return caption
@@ -190,7 +192,7 @@ def app():
             with NamedTemporaryFile(dir='.', suffix='.mov | .mp4') as f:
                 f.write(uploaded_video.getbuffer())
                 caption = generate_video_caption(
-                    f.name, caption_size, context, caption_style, num_hashtags)
+                    f.name, caption_size, context, caption_style, num_hashtags, tone)
                 gif_placeholder.empty()
                 st.success(caption)
                 st.video(f.name)
