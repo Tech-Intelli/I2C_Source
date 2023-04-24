@@ -33,22 +33,24 @@ def generate_image_caption(
         caption_size="small",
         context=None,
         caption_style=None,
-        num_hashtags=30):
+        num_hashtags=30,
+        tone='casual'):
     """Calls the generate_caption's method to generate an image caption
 
     Args:
-        image_path (_type_): _description_
-        caption_size (str, optional): _description_. Defaults to "small".
-        context (_type_, optional): _description_. Defaults to None.
-        caption_style (_type_, optional): _description_. Defaults to None.
-        num_hashtags (int, optional): _description_. Defaults to 30.
+        image_path (_type_): path to the image
+        caption_size (str, optional): caption size. Defaults to "small".
+        context (_type_, optional): user's context. Defaults to None.
+        caption_style (_type_, optional): caption's style. Defaults to None.
+        num_hashtags (int, optional): number of relevant hashtag. Defaults to 30.
+        tone (int, optional): emotional tone. Defaults to casual.
 
     Returns:
         str: caption
     """
     response_json, compressed_image_path = IMAGE_CAPTION_GENERATOR.\
         generate_caption(
-            image_path, caption_size, context, caption_style, num_hashtags)
+            image_path, caption_size, context, caption_style, num_hashtags, tone)
     caption = response_json["choices"][0]["message"]["content"]
     write_response_to_json(response_json)
     return caption, compressed_image_path
@@ -63,14 +65,14 @@ def generate_video_caption(
     """Calls the generated caption's methods to generate video caption
 
     Args:
-        video_path (_type_): _description_
-        caption_size (str, optional): _description_. Defaults to "small".
-        context (_type_, optional): _description_. Defaults to None.
-        caption_style (_type_, optional): _description_. Defaults to None.
-        num_hashtags (int, optional): _description_. Defaults to 30.
+        video_path (_type_): path to the video
+        caption_size (str, optional): caption size. Defaults to "small".
+        context (_type_, optional): user's context. Defaults to None.
+        caption_style (_type_, optional): caption's style. Defaults to None.
+        num_hashtags (int, optional): number of relevant hashtag. Defaults to 30.
 
     Returns:
-        _type_: _description_
+        json: response to generate video caption
     """
 
     video_caption_generator = generate_caption.VideoCaptionGenerator(
@@ -158,6 +160,9 @@ def app():
     caption_style = st.select_slider(
         'Caption Style',
         options=['cool', 'professional', 'artistic', 'poetic', 'poetry'])
+    tone = st.select_slider('Caption tone',
+                            options=['casual', 'humorous', 'inspirational',
+                                     'conversational', 'educational', 'storytelling'])
     context = st.text_area("Write your context here...")
     num_hashtags = st.number_input("How many hashes do you want to add?")
     # pylint: disable=W0612
@@ -171,7 +176,7 @@ def app():
             AwsS3.download_image_from_s3(
                 image_save_path, KEY_NAME, S3_BUCKET_NAME)
             caption, compressed_image_path = generate_image_caption(
-                image_save_path, caption_size, context, caption_style, num_hashtags)
+                image_save_path, caption_size, context, caption_style, num_hashtags, tone)
             gif_placeholder.empty()
             st.success(caption)
             st.image(compressed_image_path)
