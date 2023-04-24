@@ -4,6 +4,8 @@ Creates a Streamlit powered website
 
 # pylint: disable=C0103
 # pylint: disable=E0401
+# pylint: disable=R0913
+# pylint: disable=R0914
 
 import asyncio
 import base64
