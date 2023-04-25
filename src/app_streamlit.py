@@ -35,7 +35,8 @@ def generate_image_caption(
         context=None,
         caption_style=None,
         num_hashtags=30,
-        tone='casual'):
+        tone='casual',
+        social_media='Instagram'):
     """Calls the generate_caption's method to generate an image caption
 
     Args:
@@ -51,7 +52,13 @@ def generate_image_caption(
     """
     response_json, compressed_image_path = IMAGE_CAPTION_GENERATOR.\
         generate_caption(
-            image_path, caption_size, context, caption_style, num_hashtags, tone)
+            image_path,
+            caption_size,
+            context,
+            caption_style,
+            num_hashtags,
+            tone,
+            social_media)
     caption = response_json["choices"][0]["message"]["content"]
     write_response_to_json(response_json)
     return caption, compressed_image_path
@@ -63,7 +70,8 @@ def generate_video_caption(
         context=None,
         caption_style=None,
         num_hashtags=30,
-        tone='casual'):
+        tone='casual',
+        social_media='Instagram'):
     """Calls the generated caption's methods to generate video caption
 
     Args:
@@ -88,7 +96,8 @@ def generate_video_caption(
         context,
         caption_style,
         num_hashtags,
-        tone)
+        tone,
+        social_media)
     caption = response_json["choices"][0]["message"]["content"]
     write_response_to_json(response_json)
     return caption
@@ -168,6 +177,8 @@ def app():
     tone = st.select_slider('Caption tone',
                             options=['casual', 'humorous', 'inspirational',
                                      'conversational', 'educational', 'storytelling'])
+    social_media = st.select_slider('Social Media',
+                                    options=['Instagram', 'Facebook', 'Twitter', 'LinkedIn'])
     context = st.text_area("Write your context here...")
     num_hashtags = st.number_input(
         "How many hashes do you want to add?", step=1)

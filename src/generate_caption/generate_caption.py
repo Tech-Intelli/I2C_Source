@@ -103,7 +103,8 @@ class ImageCaptionGenerator:
             context,
             style,
             num_hashtags,
-            tone):
+            tone,
+            social_media):
         """
         Generates a caption for an image using the chatbot object.
 
@@ -141,7 +142,7 @@ class ImageCaptionGenerator:
         if context is not None or context != "":
             context = f'''Create content in the context of the provided sentence: {context}'''
 
-        content = f'''{caption_length} social media post for this image,
+        content = f'''{caption_length} {social_media} post for this image,
         showcasing {text} in a {style} manner,
         relating to the provided context: "{context}".
         Incorporate the top {num_hashtags} trending hashtags and relevant emojis.
@@ -179,7 +180,8 @@ class VideoCaptionGenerator:
                          caption_size,
                          context, style,
                          num_hashtags,
-                         tone):
+                         tone,
+                         social_media):
         """
         Generate a caption for a video using a chatbot.
 
@@ -210,7 +212,7 @@ class VideoCaptionGenerator:
             all_captions += " " + text
         if context is not None or context != "":
             context = f'''Create content in the context of the provided sentence: {context}'''
-        content = f'''Craft a {caption_size} social media post in a {style} manner,
+        content = f'''Craft a {caption_size} {social_media} post in a {style} manner,
         incorporating {all_captions} and relating to the context: "{context}".
         Include the top {num_hashtags} trending hashtags.
         Utilize a {tone} language style to captivate and engage your target audience.'''
