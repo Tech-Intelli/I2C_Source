@@ -192,8 +192,13 @@ def app():
             image_save_path = os.path.join(Path.cwd(), key_name)
             AwsS3.download_image_from_s3(
                 image_save_path, key_name, S3_BUCKET_NAME)
-            caption, compressed_image_path = generate_image_caption(
-                image_save_path, caption_size, context, caption_style, num_hashtags, tone)
+            caption, compressed_image_path = generate_image_caption(image_save_path,
+                                                                    caption_size,
+                                                                    context,
+                                                                    caption_style,
+                                                                    num_hashtags,
+                                                                    tone,
+                                                                    social_media)
             gif_placeholder.empty()
             st.success(caption)
             st.image(compressed_image_path)
