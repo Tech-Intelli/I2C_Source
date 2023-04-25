@@ -27,7 +27,6 @@ CHATBOT = generate_caption.Chatbot(os.environ["OPENAI_API_KEY"])
 IMAGE_CAPTION_GENERATOR = generate_caption.ImageCaptionGenerator(CHATBOT)
 GIPHY_IMAGE = os.path.join(Path.cwd(), "resources", "giphy.gif")
 S3_BUCKET_NAME = "explaisticbucket"
-KEY_NAME = "Test_Image_Explaistic.jpg"
 
 
 def generate_image_caption(
@@ -151,10 +150,12 @@ def app():
 
     uploaded_image = st.file_uploader(
         "Upload Image", type=["jpg", "jpeg", "png"])
+    key_name = ""
     if uploaded_image is not None:
         with NamedTemporaryFile(dir='.') as temp_file:
             temp_file.write(uploaded_image.getbuffer())
-            AwsS3.upload_image_to_s3(temp_file.name, S3_BUCKET_NAME, KEY_NAME)
+            key_name = os.path.basename(temp_file.name) + ".jpg"
+            AwsS3.upload_image_to_s3(temp_file.name, S3_BUCKET_NAME, key_name)
     uploaded_video = st.file_uploader(
         "Upload Video", type=["mp4", "mov"])
 
@@ -177,9 +178,9 @@ def app():
             st.error("Please upload an image.")
         if uploaded_image is not None and uploaded_video is None:
             gif_placeholder = generate_interim_gif()
-            image_save_path = os.path.join(Path.cwd(), KEY_NAME)
+            image_save_path = os.path.join(Path.cwd(), key_name)
             AwsS3.download_image_from_s3(
-                image_save_path, KEY_NAME, S3_BUCKET_NAME)
+                image_save_path, key_name, S3_BUCKET_NAME)
             caption, compressed_image_path = generate_image_caption(
                 image_save_path, caption_size, context, caption_style, num_hashtags, tone)
             gif_placeholder.empty()
