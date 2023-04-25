@@ -168,7 +168,8 @@ def app():
                             options=['casual', 'humorous', 'inspirational',
                                      'conversational', 'educational', 'storytelling'])
     context = st.text_area("Write your context here...")
-    num_hashtags = st.number_input("How many hashes do you want to add?")
+    num_hashtags = st.number_input(
+        "How many hashes do you want to add?", step=1)
     # pylint: disable=W0612
     col1, col2, col3 = st.columns([1, 1, 0.80])
     if col1.button("Generate Caption"):
