@@ -12,15 +12,17 @@ class CreateDatabase:
     Class for creating a User Database in DynamoDB
     """
 
-    @staticmethod
-    def create_database(table_name):
+    def __init__(self, table_name):
+        self.table_name = table_name
+
+    def create_database(self):
         """
         Creates the database in DynamoDB
         """
         dynamodb = boto3.resource('dynamodb', region_name='eu-central-1')
 
         table = dynamodb.create_table(
-            TableName=table_name,
+            TableName=self.table_name,
             KeySchema=[
                 {
                     'AttributeName': 'username',
