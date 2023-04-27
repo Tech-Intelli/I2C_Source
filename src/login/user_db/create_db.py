@@ -48,5 +48,3 @@ class CreateDatabase:
                 'WriteCapacityUnits': 5
             }
         )
-
-        print("Table status:", table.table_status)

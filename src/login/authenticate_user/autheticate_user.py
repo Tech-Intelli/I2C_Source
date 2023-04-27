@@ -25,10 +25,5 @@ class AuthenticateUser:
             KeyConditionExpression=Key('username').eq(self.username)
         )
 
-        if len(response['Items']) == 0:
-            # User not found
-            return False
-
-        # Check if the password matches the hashed password stored in the table
         hashed_password = response['Items'][0]['password']
-        return hash_password(self.password) == hashed_password
+        return (len(response['Items']) != 0) and (hash_password(self.password) == hashed_password)
