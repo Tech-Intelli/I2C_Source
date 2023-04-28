@@ -164,7 +164,7 @@ def app():
         with NamedTemporaryFile(dir='.') as temp_file:
             temp_file.write(uploaded_image.getbuffer())
             key_name = os.path.basename(temp_file.name) + ".jpg"
-            AwsS3.upload_image_to_s3(temp_file.name, S3_BUCKET_NAME, key_name)
+            AwsS3.upload_file_to_s3(temp_file.name, S3_BUCKET_NAME, key_name)
     uploaded_video = st.file_uploader(
         "Upload Video", type=["mp4", "mov"])
 
