@@ -56,6 +56,8 @@ def upload_image():
                                                   S3_BUCKET_NAME, image_file_name)
         if response:
             return jsonify({"Uploaded Successfully": True})
+        return jsonify({"Upload Failed": False})
+    return jsonify({"No Image File Selected": False})
 
 
 @app.route('/upload_video', methods=['POST'])
@@ -72,6 +74,8 @@ def upload_video():
             video_path, S3_BUCKET_NAME, video_file_name)
         if response:
             return jsonify({"Uploaded Successfully": True})
+        return jsonify({"Uploaded Failed": False})
+    return jsonify({"No video file selected": False})
 
 
 if __name__ == '__main__':
