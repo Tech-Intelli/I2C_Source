@@ -17,7 +17,7 @@ def generate_image_caption_test():
     s3_bucket_name = "explaisticbucket"
     key_name = "nature_upload.jpg"
     # upload the image to s3
-    AwsS3.upload_image_to_s3(
+    AwsS3.upload_file_to_s3(
         image_path, s3_bucket_name, key_name)
     # download the image here from s3 bucket
     image_path = '''/Users/dipanjandas/Development/ProjectAndIdeas/talkativeAI/ExplAIstic/src/tests/test_resources/images/nature_download.jpg'''

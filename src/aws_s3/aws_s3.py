@@ -2,7 +2,9 @@
 Module for creating s3 buckets, upload and download images.
 """
 # pylint: disable=E0401
+import logging
 import boto3
+from botocore import exceptions
 
 
 class AwsS3:
@@ -20,11 +22,28 @@ class AwsS3:
             'LocationConstraint': AwsS3.region})
 
     @staticmethod
-    def upload_image_to_s3(image_path, s3_bucket_name, key_name):
+    def upload_file_to_s3(image_path, s3_bucket_name, key_name):
         """
         Upload an image file to Amazon S3
         """
-        AwsS3.s3.upload_file(image_path, s3_bucket_name, key_name)
+        try:
+            AwsS3.s3.upload_file(image_path, s3_bucket_name, key_name)
+        except exceptions.ClientError as error:
+            logging.error(error)
+            return False
+        return True
+
+    @staticmethod
+    def upload_file_object_to_s3(image_stream, s3_bucket_name, key_name):
+        """
+        Upload an image file to Amazon S3
+        """
+        try:
+            AwsS3.s3.upload_fileobj(image_stream, s3_bucket_name, key_name)
+        except exceptions.ClientError as error:
+            logging.error(error)
+            return False
+        return True
 
     @staticmethod
     def download_image_from_s3(image_save_path, key_name, s3_bucket_name):
