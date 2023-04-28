@@ -1,13 +1,13 @@
 """
 Flask end point for the caption generation
 """
+# pylint: disable=E0401
 import os
 import string
 import random
 from pathlib import Path
-from flask import Flask, request, session, jsonify
 from datetime import datetime
-# pylint: disable=E0401
+from flask import Flask, request, session, jsonify
 from generate_caption import Chatbot, ImageCaptionGenerator, VideoCaptionGenerator
 from aws_s3 import AwsS3
 
@@ -16,7 +16,6 @@ ALLOWED_VIDEO_FILE_EXTENSIONS = {'mov', 'avi', 'mp4'}
 S3_BUCKET_NAME = 'explaisticbucket'
 CHATBOT = Chatbot(os.environ["OPENAI_API_KEY"])
 IMAGE_CAPTION_GENERATOR = ImageCaptionGenerator(CHATBOT)
-UPLOADED_IMAGE_FILE_NAME: str = ""
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SESSION_SECRET_KEY']
@@ -80,8 +79,8 @@ def upload_image():
         file_extension = image_file_name.rsplit('.', 1)[1].lower()
         image_file_name = generate_random_filename(file_name, file_extension)
         session['image_file_name'] = image_file_name
-        response = AwsS3.upload_file_object_to_s3(image_path.stream,
-                                                  S3_BUCKET_NAME, image_file_name)
+        response = AwsS3.upload_file_object_to_s3(
+            image_path.stream, S3_BUCKET_NAME, image_file_name)
         if response:
             return jsonify({"Uploaded Successfully": True})
         return jsonify({"Upload Failed": False})
@@ -98,6 +97,10 @@ def upload_video():
     video_path = request.files.get('video')
     if video_path and allowed_video_file(os.path.basename(video_path)):
         video_file_name = os.path.basename(video_path)
+        file_name = video_file_name.rsplit('.', 1)[0]
+        file_extension = video_file_name.rsplit('.', 1)[1].lower()
+        video_file_name = generate_random_filename(file_name, file_extension)
+        session['video_file_name'] = video_file_name
         response = AwsS3.upload_file_to_s3(
             video_path, S3_BUCKET_NAME, video_file_name)
         if response:
