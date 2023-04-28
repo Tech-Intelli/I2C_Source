@@ -26,6 +26,19 @@ The current version of ExplAIstic uses Streamlit to generate the website. To use
 cd src
 streamlit run app-streamlit.py
 ```
+
+An endpoint to generate the caption has been created. Run the following command:
+```
+Open one termianl
+cd src
+python app_endpoints.py
+```
+Open another termianl
+```
+curl -X POST -H "Content-Type: multipart/form-data" -F "image=@/path/to/your/imagefile.jpg;type=image/jpeg" http://localhost:9000/upload_image -c cookies.txt http://localhost:9000/upload_image
+
+curl -X GET -b cookies.txt "http://localhost:9000/generate_image_caption?caption_size=small&context=some_context&style=cool&num_hashtags=3&tone=casual&social_media=instagram"
+```
 ## How to run the Dockerfile
 
 If you want to containerize it and run it as a Docker image use the Dockerfile from the root of the repo. Add your API keys there. As this use pre-trained model, therefore initializing the pre-trained model everytime can be memory expensive and time consuming. Use a Docker Volume before running the docker file.
