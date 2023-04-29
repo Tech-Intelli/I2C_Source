@@ -7,11 +7,13 @@ import string
 import random
 from pathlib import Path
 from datetime import datetime
+from functools import wraps
 from flask import Flask, request, session, jsonify
 from generate_caption import Chatbot, ImageCaptionGenerator, VideoCaptionGenerator
 from video_scene_detector import SceneDetector, SceneSaver
 from aws_s3 import AwsS3
 from login.register_user import RegisterUser
+from login.authenticate_user import AuthenticateUser
 
 ALLOWED_IMAGE_FILE_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 ALLOWED_VIDEO_FILE_EXTENSIONS = {'mov', 'avi', 'mp4'}
@@ -22,6 +24,62 @@ VIDEO_CAPTION_GENERATOR = VideoCaptionGenerator(
     CHATBOT, SceneDetector(), SceneSaver())
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SESSION_SECRET_KEY']
+
+
+@app.route('/register_user', methods=['POST'])
+def register_user():
+    """Register a user to the database
+
+    Returns:
+        JSON: JSON with response code
+    """
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    if not email or not password:
+        return jsonify({"error": "Email and Password must be provided"}), 400
+    reg_user = RegisterUser(email, password)
+    response = reg_user.register_user()
+    if response == 200:
+        return jsonify({"success": "User registered successfully"}), 200
+    else:
+        return jsonify({"error": "User registration failed"}), 500
+
+
+@app.route('/login_user', methods=['POST'])
+def login_user():
+    """Login user
+
+    Returns:
+        JSON: JSON indicating successful or failed login
+    """
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    if not email or not password:
+        return jsonify({"error": "Email and Password must be provided to login"}), 400
+    isUserAuthticated = AuthenticateUser(email, password).authenticate_user()
+    if isUserAuthticated:
+        session['email'] = email
+        return jsonify({"Success": "User is authenticated and logged in"}), 200
+    return jsonify({"Error": "Login failed, please check your email and password"}), 400
+
+
+def login_required(f):
+    """Wrapper function for login_required
+
+    Args:
+        f (function): _description_
+
+    Returns:
+        decorated_func: _description_
+    """
+    @wraps(f)
+    def decorated_func(*args, **kwargs):
+        if 'email' not in session:
+            return jsonify({"error": "You must login before using this feature"}), 401
+        return f(*args, **kwargs)
+    return decorated_func
 
 
 def generate_random_filename(filename, extension):
@@ -69,6 +127,7 @@ def allowed_video_file(filename):
 
 
 @app.route('/upload_image', methods=['POST'])
+@login_required
 def upload_image():
     """Uploads an image to the S3 Bucket.
 
@@ -91,6 +150,7 @@ def upload_image():
 
 
 @app.route('/upload_video', methods=['POST'])
+@login_required
 def upload_video():
     """Uploads a video to the S3 bucket.
 
@@ -113,6 +173,7 @@ def upload_video():
 
 
 @app.route('/generate_image_caption', methods=['GET'])
+@login_required
 def generate_image_caption():
     """Generates an image caption
 
@@ -137,6 +198,7 @@ def generate_image_caption():
 
 
 @app.route('/generate_video_caption', methods=['GET'])
+@login_required
 def generate_video_caption():
     """Generates a video caption
 
@@ -158,26 +220,6 @@ def generate_video_caption():
     if response_json is not None:
         return jsonify({"Caption": response_json["choices"][0]["message"]["content"]})
     return jsonify({"Caption": "Couldn't find a caption"})
-
-
-@app.route('/register_user', methods=['POST'])
-def register_user():
-    """Register a user to the database
-
-    Returns:
-        JSON: JSON with response code
-    """
-    data = request.json
-    email = data.get('email')
-    password = data.get('password')
-    if not email or not password:
-        return jsonify({"error": "Email and Password must be provided"}), 400
-    reg_user = RegisterUser(email, password)
-    response = reg_user.register_user()
-    if response == 200:
-        return jsonify({"success": "User registered successfully"}), 200
-    else:
-        return jsonify({"error": "User registration failed"}), 500
 
 
 if __name__ == '__main__':
