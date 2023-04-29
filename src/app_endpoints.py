@@ -9,6 +9,7 @@ from pathlib import Path
 from datetime import datetime
 from flask import Flask, request, session, jsonify
 from generate_caption import Chatbot, ImageCaptionGenerator, VideoCaptionGenerator
+from video_scene_detector import SceneDetector, SceneSaver
 from aws_s3 import AwsS3
 
 ALLOWED_IMAGE_FILE_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -16,7 +17,8 @@ ALLOWED_VIDEO_FILE_EXTENSIONS = {'mov', 'avi', 'mp4'}
 S3_BUCKET_NAME = 'explaisticbucket'
 CHATBOT = Chatbot(os.environ["OPENAI_API_KEY"])
 IMAGE_CAPTION_GENERATOR = ImageCaptionGenerator(CHATBOT)
-
+VIDEO_CAPTION_GENERATOR = VideoCaptionGenerator(
+    CHATBOT, SceneDetector(), SceneSaver())
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SESSION_SECRET_KEY']
 
@@ -95,13 +97,13 @@ def upload_video():
         JSON: if uploaded successfully returns JSON indicating success or failure
     """
     video_path = request.files.get('video')
-    if video_path and allowed_video_file(os.path.basename(video_path)):
-        video_file_name = os.path.basename(video_path)
+    if video_path and allowed_video_file(os.path.basename(video_path.filename)):
+        video_file_name = os.path.basename(video_path.filename)
         file_name = video_file_name.rsplit('.', 1)[0]
         file_extension = video_file_name.rsplit('.', 1)[1].lower()
         video_file_name = generate_random_filename(file_name, file_extension)
         session['video_file_name'] = video_file_name
-        response = AwsS3.upload_file_to_s3(
+        response = AwsS3.upload_file_object_to_s3(
             video_path, S3_BUCKET_NAME, video_file_name)
         if response:
             return jsonify({"Uploaded Successfully": True})
@@ -128,6 +130,30 @@ def generate_image_caption():
     social_media = request.args.get('social_media', 'instagram')
     response_json, _ = IMAGE_CAPTION_GENERATOR.generate_caption(
         image_save_path, caption_size, context, style, num_hashtags, tone, social_media)
+    if response_json is not None:
+        return jsonify({"Caption": response_json["choices"][0]["message"]["content"]})
+    return jsonify({"Caption": "Couldn't find a caption"})
+
+
+@app.route('/generate_video_caption', methods=['GET'])
+def generate_video_caption():
+    """Generates a video caption
+
+    Returns:
+        JSON: JSON representation of caption
+    """
+    video_file_name = session.get('video_file_name', None)
+    video_save_path = os.path.join(Path.cwd(), video_file_name)
+    AwsS3.download_image_from_s3(
+        video_save_path, video_file_name, S3_BUCKET_NAME)
+    caption_size = request.args.get('caption_size', "small")
+    context = request.args.get('context', "")
+    style = request.args.get('style', 'cool')
+    num_hashtags = request.args.get('num_hashtags', 0)
+    tone = request.args.get('tone', 'casual')
+    social_media = request.args.get('social_media', 'instagram')
+    response_json = VIDEO_CAPTION_GENERATOR.generate_caption(
+        video_save_path, caption_size, context, style, num_hashtags, tone, social_media)
     if response_json is not None:
         return jsonify({"Caption": response_json["choices"][0]["message"]["content"]})
     return jsonify({"Caption": "Couldn't find a caption"})
