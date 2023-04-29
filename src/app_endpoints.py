@@ -11,6 +11,7 @@ from flask import Flask, request, session, jsonify
 from generate_caption import Chatbot, ImageCaptionGenerator, VideoCaptionGenerator
 from video_scene_detector import SceneDetector, SceneSaver
 from aws_s3 import AwsS3
+from login.register_user import RegisterUser
 
 ALLOWED_IMAGE_FILE_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 ALLOWED_VIDEO_FILE_EXTENSIONS = {'mov', 'avi', 'mp4'}
@@ -157,6 +158,26 @@ def generate_video_caption():
     if response_json is not None:
         return jsonify({"Caption": response_json["choices"][0]["message"]["content"]})
     return jsonify({"Caption": "Couldn't find a caption"})
+
+
+@app.route('/register_user', methods=['POST'])
+def register_user():
+    """Register a user to the database
+
+    Returns:
+        JSON: JSON with response code
+    """
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    if not email or not password:
+        return jsonify({"error": "Email and Password must be provided"}), 400
+    reg_user = RegisterUser(email, password)
+    response = reg_user.register_user()
+    if response == 200:
+        return jsonify({"success": "User registered successfully"}), 200
+    else:
+        return jsonify({"error": "User registration failed"}), 500
 
 
 if __name__ == '__main__':
