@@ -10,6 +10,7 @@ Creates a Streamlit powered website
 import asyncio
 import base64
 import os
+import pathlib
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 import tempfile
@@ -162,7 +163,8 @@ def app():
         "Upload Image", type=["jpg", "jpeg", "png"])
     key_name = ""
     if uploaded_image is not None:
-        fd, temp_file_path = tempfile.mkstemp(suffix=".jpg")
+        file_extension = pathlib.Path(uploaded_image.name).suffix
+        fd, temp_file_path = tempfile.mkstemp(suffix=file_extension)
         with open(temp_file_path, "wb") as temp_file:
             temp_file.write(uploaded_image.getbuffer())
         key_name = os.path.basename(temp_file_path)
