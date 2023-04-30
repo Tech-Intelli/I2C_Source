@@ -11,7 +11,7 @@ import asyncio
 import base64
 import os
 from pathlib import Path
-from tempfile import NamedTemporaryFile
+import tempfile
 import streamlit as st
 import generate_caption
 from send_message import send_message_to_bot
@@ -161,10 +161,13 @@ def app():
         "Upload Image", type=["jpg", "jpeg", "png"])
     key_name = ""
     if uploaded_image is not None:
-        with NamedTemporaryFile(dir='.') as temp_file:
+        fd, temp_file_path = tempfile.mkstemp(suffix=".jpg")
+        with open(temp_file_path, "wb") as temp_file:
             temp_file.write(uploaded_image.getbuffer())
-            key_name = os.path.basename(temp_file.name) + ".jpg"
-            AwsS3.upload_file_to_s3(temp_file.name, S3_BUCKET_NAME, key_name)
+        key_name = os.path.basename(temp_file_path)
+        AwsS3.upload_file_to_s3(temp_file_path, S3_BUCKET_NAME, key_name)
+        os.close(fd)
+        os.remove(temp_file_path)
     uploaded_video = st.file_uploader(
         "Upload Video", type=["mp4", "mov"])
 
