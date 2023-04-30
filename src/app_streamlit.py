@@ -11,6 +11,7 @@ import asyncio
 import base64
 import os
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 import tempfile
 import streamlit as st
 import generate_caption
