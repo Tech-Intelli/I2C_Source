@@ -140,13 +140,16 @@ class ImageCaptionGenerator:
             caption_length = '''Craft a comprehensive 100-sentence'''
         response_json = None
         if context is not None or context != "":
-            context = f'''Create content in the context of the provided sentence: {context}'''
-
-        content = f'''{caption_length} {social_media} post for this image,
-        showcasing {text} in a {style} manner,
-        relating to the provided context: "{context}".
-        Incorporate the top {num_hashtags} trending hashtags and relevant emojis.
-        Employ a {tone} language style to engage and captivate your target audience.'''
+            content = f'''{caption_length} {social_media} post for this image,
+            showcasing {text} in a {style} manner,
+            relating to the provided context: "{context}".
+            Incorporate the top {num_hashtags} trending hashtags and relevant emojis.
+            Employ a {tone} language style to engage and captivate your target audience.'''
+        else:
+            content = f'''{caption_length} {social_media} post for this image,
+            showcasing {text} in a {style} manner.
+            Incorporate the top {num_hashtags} trending hashtags and relevant emojis.
+            Employ a {tone} language style to engage and captivate your target audience.'''
 
         response_json = self.chatbot.get_response(content)
         return response_json, compressed_image_path
