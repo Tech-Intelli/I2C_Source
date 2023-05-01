@@ -52,7 +52,8 @@ class Chatbot:
         response_json = self.openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "assistant", "content": content}],
-            max_tokens=1000
+            max_tokens=1000,
+            top_p=0.9
         )
         return response_json
 
@@ -70,7 +71,9 @@ class Chatbot:
         response_json = self.openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "assistant", "content": content}],
-            stream=True
+            stream=True,
+            max_tokens=1000,
+            top_p=0.9
         )
         for stream in response_json:
             stream_json = stream['choices'][0]['delta']
