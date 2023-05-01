@@ -10,6 +10,7 @@ Creates a Streamlit powered website
 import asyncio
 import base64
 import os
+import time
 import pathlib
 from pathlib import Path
 from tempfile import NamedTemporaryFile
@@ -141,6 +142,8 @@ def generate_interim_gif():
         )
     return gif_placeholder
 
+# pylint: disable=R0915
+
 
 def app():
     """
@@ -206,7 +209,14 @@ def app():
                                                                     tone,
                                                                     social_media)
             gif_placeholder.empty()
-            st.success(caption)
+            success_stream = st.success("")
+            words_of_caption = caption.split()
+            full_text = ''
+            for _, word in enumerate(words_of_caption):
+                full_text += word + ' '
+                success_stream.write(full_text)
+                time.sleep(0.1)
+            success_stream.write(full_text)
             st.image(compressed_image_path)
             send_to_telegram(compressed_image_path, caption)
             os.remove(compressed_image_path)
