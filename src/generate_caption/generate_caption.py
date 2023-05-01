@@ -144,13 +144,13 @@ class ImageCaptionGenerator:
             content = f'''{caption_length} {social_media} post for this image,
             showcasing {text} in a {style} manner,
             relating to the provided context: "{context}".
-            Incorporate the top {num_hashtags} trending hashtags and relevant emojis.
-            Employ a {tone} language style to engage and captivate your target audience.'''
+            Employ a {tone} language style to engage and captivate your target audience.
+            Incorporate the top {num_hashtags} trending hashtags and relevant emojis.'''
         else:
             content = f'''{caption_length} {social_media} post for this image,
             showcasing {text} in a {style} manner.
-            Incorporate the top {num_hashtags} trending hashtags and relevant emojis.
-            Employ a {tone} language style to engage and captivate your target audience.'''
+            Employ a {tone} language style to engage and captivate your target audience.
+            Incorporate the top {num_hashtags} trending hashtags and relevant emojis.'''
 
         response_json = self.chatbot.get_response(content)
         return response_json, compressed_image_path
@@ -218,13 +218,13 @@ class VideoCaptionGenerator:
         if context is not None or context != "":
             content = f'''Craft a {caption_size} {social_media} post in a {style} manner,
             incorporating {all_captions} and relating to the context: "{context}".
-            Include the top {num_hashtags} trending hashtags.
-            Utilize a {tone} language style to captivate and engage your target audience.'''
+            Utilize a {tone} language style to captivate and engage your target audience.
+            Include the top {num_hashtags} trending hashtags.'''
         else:
             content = f'''Craft a {caption_size} {social_media} post in a {style} manner,
             incorporating {all_captions}.
-            Include the top {num_hashtags} trending hashtags.
-            Utilize a {tone} language style to captivate and engage your target audience.'''
+            Utilize a {tone} language style to captivate and engage your target audience.
+            Include the top {num_hashtags} trending hashtags.'''
         response_json = self.chatbot.get_response(content)
         shutil.rmtree(scene_dir, ignore_errors=True)
         return response_json
