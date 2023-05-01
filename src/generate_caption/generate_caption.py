@@ -214,7 +214,7 @@ class VideoCaptionGenerator:
                 os.path.join(scene_dir, each_image))
             text = image_pipeline[0]['generated_text']
             all_captions += " " + text
-            content = None
+        content = None
         if context is not None or context != "":
             content = f'''Craft a {caption_size} {social_media} post in a {style} manner,
             incorporating {all_captions} and relating to the context: "{context}".
