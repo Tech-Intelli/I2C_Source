@@ -90,7 +90,7 @@ def _get_caption_size(caption_size):
     elif caption_size == 'very large':
         caption_length = '''Compose an extensive 30-50 sentence'''
     elif caption_size == 'blog post':
-        caption_length = '''Craft an extensive 100-sentence'''
+        caption_length = '''Craft an extensive 100 sentence'''
     return caption_length
 
 
@@ -149,16 +149,24 @@ class ImageCaptionGenerator:
         response_json = None
         content = None
         if context is not None or context != "":
+            words = caption_length.split()
+            only_length = f"{words[-2]} {words[-1]}"
             content = f'''{caption_length} {social_media} post for this image,
             showcasing {text} in a {style} manner,
             relating to the provided context: "{context}".
             Employ a {tone} language style to engage and captivate your target audience.
-            Incorporate the top {num_hashtags} trending hashtags and relevant emojis.'''
+            It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
+            Add relevant emojis.
+            Generate a {caption_size} post of {only_length} with exactly {num_hashtags}
+            trending hashtags.'''
         else:
             content = f'''{caption_length} {social_media} post for this image,
             showcasing {text} in a {style} manner.
             Employ a {tone} language style to engage and captivate your target audience.
-            Incorporate the top {num_hashtags} trending hashtags and relevant emojis.'''
+            It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
+            Add relevant emojis.
+            Generate a {caption_size} post of {only_length} with exactly {num_hashtags}
+            trending hashtags.'''
 
         response_json = self.chatbot.get_response(content)
         return response_json, compressed_image_path
