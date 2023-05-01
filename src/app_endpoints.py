@@ -42,8 +42,7 @@ def register_user():
     response = reg_user.register_user()
     if response == 200:
         return jsonify({"success": "User registered successfully"}), 200
-    else:
-        return jsonify({"error": "User registration failed"}), 500
+    return jsonify({"error": "User registration failed"}), 500
 
 
 @app.route('/login_user', methods=['POST'])
@@ -58,14 +57,14 @@ def login_user():
     password = data.get('password')
     if not email or not password:
         return jsonify({"error": "Email and Password must be provided to login"}), 400
-    isUserAuthticated = AuthenticateUser(email, password).authenticate_user()
-    if isUserAuthticated:
+    is_user_authticated = AuthenticateUser(email, password).authenticate_user()
+    if is_user_authticated:
         session['email'] = email
         return jsonify({"Success": "User is authenticated and logged in"}), 200
     return jsonify({"Error": "Login failed, please check your email and password"}), 400
 
 
-def login_required(f):
+def login_required(function):
     """Wrapper function for login_required
 
     Args:
@@ -74,11 +73,11 @@ def login_required(f):
     Returns:
         decorated_func: _description_
     """
-    @wraps(f)
+    @wraps(function)
     def decorated_func(*args, **kwargs):
         if 'email' not in session:
             return jsonify({"error": "You must login before using this feature"}), 401
-        return f(*args, **kwargs)
+        return function(*args, **kwargs)
     return decorated_func
 
 
