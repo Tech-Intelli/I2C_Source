@@ -1,7 +1,7 @@
 """
 Authenticate user with email address and password
 """
-
+# pylint: disable=E0401
 from boto3.dynamodb.conditions import Key
 from ..database import TABLE
 from ..hash_password import hash_password
