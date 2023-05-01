@@ -1,6 +1,7 @@
 """
 Module for Creating a User Database in DynamoDB
 """
+# pylint:disable=E0401
 import boto3
 
 # pylint: disable=R0903
@@ -21,7 +22,7 @@ class CreateDatabase:
         """
         dynamodb = boto3.resource('dynamodb', region_name='eu-central-1')
 
-        table = dynamodb.create_table(
+        dynamodb.create_table(
             TableName=self.table_name,
             KeySchema=[
                 {
