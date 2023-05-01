@@ -35,9 +35,24 @@ python app_endpoints.py
 ```
 Open another termianl
 ```
-curl -X POST -H "Content-Type: multipart/form-data" -F "image=@/path/to/your/imagefile.jpg;type=image/jpeg" http://localhost:9000/upload_image -c cookies.txt http://localhost:9000/upload_image
+# Register
+curl -X POST -H "Content-Type: application/json" -d '{"email":"example@email.com","password":"password"}' http://localhost:9000/register_user --cookie-jar cookies.txt
 
-curl -X GET -b cookies.txt "http://localhost:9000/generate_image_caption?caption_size=small&context=some_context&style=cool&num_hashtags=3&tone=casual&social_media=instagram"
+# login
+curl -X POST -H "Content-Type: application/json" -d '{"email":"example@email.com","password":"password"}' http://localhost:9000/login_user --cookie-jar cookies.txt
+
+# Upload Image
+curl -X POST -H "Content-Type: multipart/form-data" -F "image=@/path/to/your/image.jpg;type=image/jpeg" http://localhost:9000/upload_image --cookie cookies.txt http://localhost:9000/upload_image -c cookies.txt http://localhost:9000/upload_image
+
+# Generate Caption
+curl -X GET "http://localhost:9000/generate_image_caption?caption_size=small&context=some_context&style=cool&num_hashtags=3&tone=casual&social_media=instagram" --cookie cookies.txt
+
+# Upload Video
+curl -X POST -H "Content-Type: multipart/form-data" -F "video=@/path/to/your/video.MOV" http://localhost:9000/upload_video --cookie cookies.txt http://localhost:9000/upload_video -c cookies.txt http://localhost:9000/upload_video
+
+# Generate Caption
+curl -X GET "http://localhost:9000/generate_video_caption?caption_size=small&context=some_context&style=cool&num_hashtags=3&tone=casual&social_media=instagram" --cookie cookies.txt
+
 ```
 ## How to run the Dockerfile
 
