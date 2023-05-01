@@ -51,7 +51,8 @@ class Chatbot:
         self.openai.api_key = self.api_key
         response_json = self.openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "assistant", "content": content}]
+            messages=[{"role": "assistant", "content": content}],
+            max_tokens=1000
         )
         return response_json
 
@@ -74,6 +75,20 @@ class Chatbot:
         for stream in response_json:
             stream_json = stream['choices'][0]['delta']
             print(stream_json.get('content'), end=' ')
+
+
+def _get_caption_size(caption_size):
+    if caption_size == 'small':
+        caption_length = '''Compose a concise 2-3 sentence'''
+    elif caption_size == 'medium':
+        caption_length = '''Compose a concise 5-7 sentence'''
+    elif caption_size == 'large':
+        caption_length = '''Compose a concise 10-15 sentence'''
+    elif caption_size == 'very large':
+        caption_length = '''Compose an extensive 30-50 sentence'''
+    elif caption_size == 'blog post':
+        caption_length = '''Craft an extensive 100-sentence'''
+    return caption_length
 
 
 class ImageCaptionGenerator:
@@ -127,17 +142,7 @@ class ImageCaptionGenerator:
         image_pipeline = CachedModel.get_image_caption_pipeline(
             compressed_image_path)
         text = image_pipeline[0]['generated_text']
-        caption_length = ""
-        if caption_size == 'small':
-            caption_length = '''Compose a concise 2-3 sentence'''
-        elif caption_size == 'medium':
-            caption_length = '''Compose a concise 5-7 sentence'''
-        elif caption_size == 'large':
-            caption_length = '''Compose a concise 10-15 sentence'''
-        elif caption_size == 'very large':
-            caption_length = '''Compose a concise 30-50 sentence'''
-        elif caption_size == 'blog post':
-            caption_length = '''Craft a comprehensive 100-sentence'''
+        caption_length = _get_caption_size(caption_size)
         response_json = None
         content = None
         if context is not None or context != "":
@@ -215,13 +220,14 @@ class VideoCaptionGenerator:
             text = image_pipeline[0]['generated_text']
             all_captions += " " + text
         content = None
+        caption_length = _get_caption_size(caption_size)
         if context is not None or context != "":
-            content = f'''Craft a {caption_size} {social_media} post in a {style} manner,
+            content = f'''Craft a {caption_length} {social_media} post in a {style} manner,
             incorporating {all_captions} and relating to the context: "{context}".
             Utilize a {tone} language style to captivate and engage your target audience.
             Include the top {num_hashtags} trending hashtags.'''
         else:
-            content = f'''Craft a {caption_size} {social_media} post in a {style} manner,
+            content = f'''Craft a {caption_length} {social_media} post in a {style} manner,
             incorporating {all_captions}.
             Utilize a {tone} language style to captivate and engage your target audience.
             Include the top {num_hashtags} trending hashtags.'''
