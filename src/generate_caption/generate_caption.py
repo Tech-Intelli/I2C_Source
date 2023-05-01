@@ -214,11 +214,15 @@ class VideoCaptionGenerator:
             text = image_pipeline[0]['generated_text']
             all_captions += " " + text
         if context is not None or context != "":
-            context = f'''Create content in the context of the provided sentence: {context}'''
-        content = f'''Craft a {caption_size} {social_media} post in a {style} manner,
-        incorporating {all_captions} and relating to the context: "{context}".
-        Include the top {num_hashtags} trending hashtags.
-        Utilize a {tone} language style to captivate and engage your target audience.'''
+            content = f'''Craft a {caption_size} {social_media} post in a {style} manner,
+            incorporating {all_captions} and relating to the context: "{context}".
+            Include the top {num_hashtags} trending hashtags.
+            Utilize a {tone} language style to captivate and engage your target audience.'''
+        else:
+            content = f'''Craft a {caption_size} {social_media} post in a {style} manner,
+            incorporating {all_captions}.
+            Include the top {num_hashtags} trending hashtags.
+            Utilize a {tone} language style to captivate and engage your target audience.'''
         response_json = self.chatbot.get_response(content)
         shutil.rmtree(scene_dir, ignore_errors=True)
         return response_json
