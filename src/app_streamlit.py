@@ -210,6 +210,7 @@ def app():
             st.image(compressed_image_path)
             send_to_telegram(compressed_image_path, caption)
             os.remove(compressed_image_path)
+            os.remove(image_save_path)
     if col3.button("Generate Video Caption"):
         if uploaded_video is None:
             st.error("Please upload a video.")
