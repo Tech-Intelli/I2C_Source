@@ -21,6 +21,7 @@ from send_message import send_message_to_bot
 from video_scene_detector import SceneDetector, SceneSaver
 from write_response import write_response_to_json
 from aws_s3 import AwsS3
+from trending_hashtag import TrendingHashtag
 
 COMPANY_NAME = "ExplAIstic"
 
@@ -191,6 +192,7 @@ def app():
     context = st.text_area("Write your context here...")
     num_hashtags = st.number_input(
         "How many hashes do you want to add?", step=1)
+    is_premium_hashtags = st.checkbox("Do you need recent trending hashtags?")
     # pylint: disable=W0612
     col1, col2, col3 = st.columns([1, 1, 0.80])
     if col1.button("Generate Caption"):
@@ -217,6 +219,14 @@ def app():
                 success_stream.write(full_text)
                 time.sleep(0.1)
             success_stream.write(full_text)
+            premium_hashtags = ""
+            if is_premium_hashtags:
+                trending_hashtags = TrendingHashtag()
+                hashtags = trending_hashtags.get_trending_hashtags_from_image(
+                    compressed_image_path)
+                for hashtag in hashtags:
+                    premium_hashtags += '#' + hashtag.hashtag + ' '
+            st.success(premium_hashtags)
             st.image(compressed_image_path)
             send_to_telegram(compressed_image_path, caption)
             os.remove(compressed_image_path)
