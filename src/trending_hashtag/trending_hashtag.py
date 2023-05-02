@@ -5,6 +5,7 @@ Returns:
     _type_: _description_
 """
 import os
+# pylint: disable=E0401
 from ritetag import RiteTagApi
 
 # pylint: disable=R0903
@@ -18,8 +19,7 @@ class TrendingHashtag():
 
     def __init__(self):
         def limit_80_percentage_reached(limit):
-            message = 'Used {}% of API credits. The limit resets on {}'.format(
-                limit.usage, limit.reset)
+            message = f'Used {limit.usage}% of API credits. The limit resets on {limit.reset}'
             print(message)
         self.client.on_limit(80, limit_80_percentage_reached)
 
