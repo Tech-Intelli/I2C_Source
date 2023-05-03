@@ -233,15 +233,24 @@ class VideoCaptionGenerator:
         content = None
         caption_length = _get_caption_size(caption_size)
         if context is not None or context != "":
-            content = f'''Craft a {caption_length} {social_media} post in a {style} manner,
-            incorporating {all_captions} and relating to the context: "{context}".
-            Utilize a {tone} language style to captivate and engage your target audience.
-            Include the top {num_hashtags} trending hashtags.'''
+            words = caption_length.split()
+            only_length = f"{words[-2]} {words[-1]}"
+            content = f'''{caption_length} {social_media} post for this video,
+            showcasing {text} in a {style} manner,
+            relating to the provided context: "{context}".
+            Employ a {tone} language style to engage and captivate your target audience.
+            It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
+            Add relevant emojis.
+            Generate a {caption_size} post of {only_length} with exactly {num_hashtags}
+            trending hashtags.'''
         else:
-            content = f'''Craft a {caption_length} {social_media} post in a {style} manner,
-            incorporating {all_captions}.
-            Utilize a {tone} language style to captivate and engage your target audience.
-            Include the top {num_hashtags} trending hashtags.'''
+            content = f'''{caption_length} {social_media} post for this video,
+            showcasing {text} in a {style} manner.
+            Employ a {tone} language style to engage and captivate your target audience.
+            It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
+            Add relevant emojis.
+            Generate a {caption_size} post of {only_length} with exactly {num_hashtags}
+            trending hashtags.'''
         response_json = self.chatbot.get_response(content)
         shutil.rmtree(scene_dir, ignore_errors=True)
         return response_json
