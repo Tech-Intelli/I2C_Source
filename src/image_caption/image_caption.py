@@ -1,4 +1,5 @@
-"""Creates a Transformer pipeline from a pre-trained model
+"""
+Creates a Transformer pipeline from a pre-trained model
 
     Returns:
         Pipeline: Image caption pipeline
