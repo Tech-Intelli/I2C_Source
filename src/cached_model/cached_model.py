@@ -3,10 +3,10 @@
 # pylint: disable=C0415
 # pylint: disable=R0903
 # pylint: disable=E0401
-import torch
 import os
 import warnings
 from pathlib import Path
+import torch
 
 warnings.filterwarnings("ignore")
 
