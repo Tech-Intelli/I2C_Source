@@ -50,6 +50,7 @@ class CachedModel:
         """
 
         device = None
+        # pylint: disable=E1101
         if torch.cuda.is_available():
             device = torch.device("cuda")
             print("Cuda will be used to generate the caption")
