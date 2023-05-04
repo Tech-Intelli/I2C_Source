@@ -49,7 +49,13 @@ class CachedModel:
             The image caption pipeline for the specified image path.
         """
 
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        device = None
+        if torch.cuda.is_available():
+            device = torch.device("cuda")
+            print("Cuda will be used to generate the caption")
+        else:
+            device = torch.device("cpu")
+            print("CPU will be used to generate the caption")
 
         try:
             with open(CachedModel.CACHE_FILE, 'rb') as f:
@@ -58,7 +64,7 @@ class CachedModel:
         except FileNotFoundError:
             print(f'''Could not open or find cache file,
                   creating cache file @ {CachedModel.CACHE_FILE}
-                  "\nThis may take a while, please wait...''')
+                  \nThis may take a while, please wait...''')
 
         from image_caption import ImageCaptionPipeLine
         image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
