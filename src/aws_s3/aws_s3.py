@@ -4,7 +4,8 @@ Module for creating s3 buckets, upload and download images.
 # pylint: disable=E0401
 import logging
 import boto3
-from botocore import exceptions
+
+# pylint: disable=W0718
 
 
 class AwsS3:
@@ -21,7 +22,7 @@ class AwsS3:
         try:
             AwsS3.s3.create_bucket(Bucket=s3_bucket_name, CreateBucketConfiguration={
                 'LocationConstraint': AwsS3.region})
-        except exceptions.ClientError as error:
+        except Exception as error:
             logging.error(
                 'Error creating AWS S3 Bucket: %s due to error:\n%s', s3_bucket_name, error)
 
@@ -32,7 +33,7 @@ class AwsS3:
         """
         try:
             AwsS3.s3.upload_file(image_path, s3_bucket_name, key_name)
-        except exceptions.ClientError as error:
+        except Exception as error:
             logging.error('Error uploading file: %s to %s due to error:\n%s',
                           image_path, s3_bucket_name, error)
             return False
@@ -45,7 +46,7 @@ class AwsS3:
         """
         try:
             AwsS3.s3.upload_fileobj(image_stream, s3_bucket_name, key_name)
-        except exceptions.ClientError as error:
+        except Exception as error:
             logging.error('Error uploading file: %s to %s due to error:\n%s',
                           image_stream, s3_bucket_name, error)
             return False
@@ -62,7 +63,7 @@ class AwsS3:
         """
         try:
             AwsS3.s3.download_file(s3_bucket_name, key_name, image_save_path)
-        except exceptions.ClientError as error:
+        except Exception as error:
             logging.error(
                 'Error downloading %s from %s due to error:\n%s', key_name, s3_bucket_name, error)
             return False
@@ -79,7 +80,7 @@ class AwsS3:
         """
         try:
             AwsS3.s3.delete_object(s3_bucket_name, key_name)
-        except exceptions.ClientError as error:
+        except Exception as error:
             logging.error(
                 'Error deleting %s from %s due to error:\n%s', key_name, s3_bucket_name, error)
             return False
