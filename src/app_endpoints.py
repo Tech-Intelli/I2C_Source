@@ -191,6 +191,7 @@ def generate_image_caption():
     social_media = request.args.get('social_media', 'instagram')
     response_json, _ = IMAGE_CAPTION_GENERATOR.generate_caption(
         image_save_path, caption_size, context, style, num_hashtags, tone, social_media)
+    AwsS3.delete_file_from_s3(S3_BUCKET_NAME, image_file_name)
     if response_json is not None:
         return jsonify({"Caption": response_json["choices"][0]["message"]["content"]})
     return jsonify({"Caption": "Couldn't find a caption"})
@@ -216,6 +217,7 @@ def generate_video_caption():
     social_media = request.args.get('social_media', 'instagram')
     response_json = VIDEO_CAPTION_GENERATOR.generate_caption(
         video_save_path, caption_size, context, style, num_hashtags, tone, social_media)
+    AwsS3.delete_file_from_s3(S3_BUCKET_NAME, video_file_name)
     if response_json is not None:
         return jsonify({"Caption": response_json["choices"][0]["message"]["content"]})
     return jsonify({"Caption": "Couldn't find a caption"})
