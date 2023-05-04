@@ -244,7 +244,6 @@ def app():
                 gif_placeholder.empty()
                 st.success(caption)
                 st.video(f.name)
-                os.remove(f.name)
 
 
 if __name__ == "__main__":
