@@ -63,8 +63,8 @@ class CachedModel:
                 return image_pipeline(image_path)
         except FileNotFoundError:
             print(f'''Could not open or find cache file,
-                  creating cache file @ {CachedModel.CACHE_FILE}
-                  \nThis may take a while, please wait...''')
+creating cache file @ {CachedModel.CACHE_FILE}
+\nThis may take a while, please wait...''')
 
         from image_caption import ImageCaptionPipeLine
         image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
