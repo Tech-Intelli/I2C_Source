@@ -231,6 +231,7 @@ def app():
             send_to_telegram(compressed_image_path, caption)
             os.remove(compressed_image_path)
             os.remove(image_save_path)
+            AwsS3.delete_file_from_s3(S3_BUCKET_NAME, key_name)
     if col3.button("Generate Video Caption"):
         if uploaded_video is None:
             st.error("Please upload a video.")
@@ -243,6 +244,7 @@ def app():
                 gif_placeholder.empty()
                 st.success(caption)
                 st.video(f.name)
+                os.remove(f.name)
 
 
 if __name__ == "__main__":
