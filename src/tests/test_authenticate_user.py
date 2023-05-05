@@ -34,7 +34,7 @@ def test_authenticate_user_incorrect_password(mocker):
 
 def test_authenticate_user_incorrect_user(mocker):
     """
-    Test authenticate_user when password is incorrect.
+    Test authenticate_user when user does not exist.
     """
     username = "username"
     password = "password"
