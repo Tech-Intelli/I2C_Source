@@ -9,3 +9,4 @@ transformers==4.27.4
 boto3
 ritetag
 pytest
+pytest-mock
