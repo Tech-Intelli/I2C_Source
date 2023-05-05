@@ -24,6 +24,7 @@ class AuthenticateUser:
         response = TABLE.query(
             KeyConditionExpression=Key('username').eq(self.username)
         )
-
+        if not response['Items']:
+            return False
         hashed_password = response['Items'][0]['password']
         return (len(response['Items']) != 0) and (hash_password(self.password) == hashed_password)
