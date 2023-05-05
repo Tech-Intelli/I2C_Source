@@ -1,3 +1,4 @@
+[![Run Unit Tests](https://github.com/dasdipanjan04/ExplAIstic/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/dasdipanjan04/ExplAIstic/actions/workflows/run_tests.yml) [![Pylint](https://github.com/dasdipanjan04/ExplAIstic/actions/workflows/pylint.yml/badge.svg?branch=main)](https://github.com/dasdipanjan04/ExplAIstic/actions/workflows/pylint.yml)
 ## ExplAIstic
 
 ![ExplAIstic Logo](/src/resources/Background.png)
