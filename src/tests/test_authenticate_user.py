@@ -1,6 +1,6 @@
 """Pytest to test authenticate_user
 """
-import pytest
+# pylint: disable=E0401
 from login.authenticate_user import AuthenticateUser
 from login.database import TABLE
 from login.hash_password import hash_password
