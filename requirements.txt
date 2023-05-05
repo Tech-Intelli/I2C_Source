@@ -8,3 +8,4 @@ torch==2.0.0
 transformers==4.27.4
 boto3
 ritetag
+pytest
