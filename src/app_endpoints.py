@@ -197,6 +197,16 @@ def generate_image_caption():
     return jsonify({"Caption": "Couldn't find a caption"})
 
 
+@app.route("/retry_image_caption", methods=["GET"])
+@login_required
+def retry_image_caption():
+    """Retry captioning
+    Returns:
+        generate_image_caption
+    """
+    return generate_image_caption()
+
+
 @app.route('/generate_video_caption', methods=['GET'])
 @login_required
 def generate_video_caption():
@@ -221,6 +231,16 @@ def generate_video_caption():
     if response_json is not None:
         return jsonify({"Caption": response_json["choices"][0]["message"]["content"]})
     return jsonify({"Caption": "Couldn't find a caption"})
+
+
+@app.route("/retry_video_caption", methods=["GET"])
+@login_required
+def retry_video_caption():
+    """Retry captioning
+    Returns:
+        generate_image_caption
+    """
+    return generate_image_caption()
 
 
 if __name__ == '__main__':
