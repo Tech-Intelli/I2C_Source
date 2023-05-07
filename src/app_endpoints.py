@@ -14,6 +14,7 @@ from video_scene_detector import SceneDetector, SceneSaver
 from aws_s3 import AwsS3
 from login.register_user import RegisterUser
 from login.authenticate_user import AuthenticateUser
+from login.authenticate_user import ForgetPassword
 
 ALLOWED_IMAGE_FILE_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 ALLOWED_VIDEO_FILE_EXTENSIONS = {'mov', 'avi', 'mp4'}
@@ -43,6 +44,24 @@ def register_user():
     if response == 200:
         return jsonify({"success": "User registered successfully"}), 200
     return jsonify({"error": "User registration failed"}), 500
+
+
+@app.route('/forget_password', methods=['POST'])
+def forget_password():
+    """Forget password
+    Returns:
+        JSON: JSON indicating forget password successful
+    """
+    data = request.json
+    username = data.get('username')
+    new_password = data.get('password')
+
+    if not username or not new_password:
+        return jsonify({"error": "Email and Password must be provided to reset password"}), 400
+    is_password_reset = ForgetPassword(username).forget_password(new_password)
+    if is_password_reset:
+        return jsonify({"Success": "User's password is reset"}), 200
+    return jsonify({"Error": "Password Reset Failed"}), 400
 
 
 @app.route('/login_user', methods=['POST'])
