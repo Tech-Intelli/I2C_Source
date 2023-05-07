@@ -146,6 +146,22 @@ def generate_interim_gif():
 # pylint: disable=R0915
 
 
+def stream_text(caption):
+    """Generate stream text
+
+    Args:
+        caption (string): generated caption
+    """
+    success_stream = st.success("")
+    words_of_caption = caption.split()
+    full_text = ''
+    for _, word in enumerate(words_of_caption):
+        full_text += word + ' '
+        success_stream.write(full_text)
+        time.sleep(0.1)
+    success_stream.write(full_text)
+
+
 def app():
     """
     The main application that powers the streamlit.
@@ -211,14 +227,7 @@ def app():
                                                                     tone,
                                                                     social_media)
             gif_placeholder.empty()
-            success_stream = st.success("")
-            words_of_caption = caption.split()
-            full_text = ''
-            for _, word in enumerate(words_of_caption):
-                full_text += word + ' '
-                success_stream.write(full_text)
-                time.sleep(0.1)
-            success_stream.write(full_text)
+            stream_text(caption)
             premium_hashtags = ""
             if is_premium_hashtags:
                 trending_hashtags = TrendingHashtag()
