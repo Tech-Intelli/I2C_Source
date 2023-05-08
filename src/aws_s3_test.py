@@ -21,7 +21,7 @@ def generate_image_caption_test():
         image_path, s3_bucket_name, key_name)
     # download the image here from s3 bucket
     image_path = '''/Users/dipanjandas/Development/ProjectAndIdeas/talkativeAI/ExplAIstic/src/tests/test_resources/images/nature_download.jpg'''
-    AwsS3.download_image_from_s3(image_path, key_name, s3_bucket_name)
+    AwsS3.download_file_from_s3(image_path, key_name, s3_bucket_name)
     chatbot = generate_caption.Chatbot(os.environ["OPENAI_API_KEY"])
     image_caption_generator = generate_caption.ImageCaptionGenerator(chatbot)
     caption, _ = image_caption_generator.generate_caption(

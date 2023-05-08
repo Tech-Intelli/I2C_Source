@@ -53,7 +53,7 @@ class AwsS3:
         return True
 
     @staticmethod
-    def download_image_from_s3(image_save_path, key_name, s3_bucket_name):
+    def download_file_from_s3(image_save_path, key_name, s3_bucket_name):
         """Download image from S3 bucket.
 
         Args:
