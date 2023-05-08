@@ -27,15 +27,12 @@ class AwsS3:
                 'Error creating AWS S3 Bucket: %s due to error:\n%s', s3_bucket_name, error)
 
     @staticmethod
-    def upload_file_to_s3(file_path, user_id, s3_bucket_name, key_name):
+    def upload_file_to_s3(file_path, s3_bucket_name, key_name):
         """
         Upload an image file to Amazon S3
         """
         try:
-            directory_name = f'{user_id}/'
-            AwsS3.s3.put_object(Bucket=s3_bucket_name, Key=directory_name)
-            AwsS3.s3.upload_file(file_path, s3_bucket_name,
-                                 f'{directory_name}{key_name}')
+            AwsS3.s3.upload_file(file_path, s3_bucket_name, key_name)
         except Exception as error:
             logging.error('Error uploading file: %s to %s due to error:\n%s',
                           file_path, s3_bucket_name, error)
