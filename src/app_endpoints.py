@@ -78,10 +78,13 @@ def login_user():
     password = data.get('password')
     if not email or not password:
         return jsonify({"error": "Email and Password must be provided to login"}), 400
-    is_user_authenticated = AuthenticateUser(
-        email, password).authenticate_user()
+    authenticate_user = AuthenticateUser(email, password)
+    is_user_authenticated = authenticate_user.authenticate_user()
     if is_user_authenticated:
         session['email'] = email
+        user_id = authenticate_user.get_user_id()
+        session['user_id'] = user_id
+        print(f"==== user_id={user_id} was set in the session ====")
         return jsonify({"Success": "User is authenticated and logged in"}), 200
     return jsonify({"Error": "Login failed, please check your email and password"}), 400
 
@@ -148,9 +151,10 @@ def upload_file():
         file_extension = file_name.rsplit('.', 1)[1].lower()
         file_name = file_name.rsplit('.', 1)[0]
         file_name = generate_random_filename(file_name, file_extension)
-        session['file_name'] = file_name
+        session['file_name'] = f'''{session['user_id']}/{file_name}'''
+        print(f" ==== {session['file_name']} ==== ")
         response = AwsS3.upload_file_object_to_s3(
-            file_path.stream, S3_BUCKET_NAME, file_name)
+            file_path.stream, session['user_id'], S3_BUCKET_NAME, file_name)
         if response:
             return jsonify({"Uploaded Successfully": True})
         return jsonify({"Upload Failed": False})
@@ -166,7 +170,9 @@ def generate_image_video_caption():
         JSON: JSON representation of caption
     """
     file_name = session.get('file_name', None)
-    file_save_path = os.path.join(Path.cwd(), file_name)
+    print(f"==== {file_name} ====")
+    file_name_only = file_name.split('/')[1]
+    file_save_path = os.path.join(Path.cwd(), file_name_only)
     AwsS3.download_file_from_s3(
         file_save_path, file_name, S3_BUCKET_NAME)
     caption_size = request.args.get('caption_size', "small")
