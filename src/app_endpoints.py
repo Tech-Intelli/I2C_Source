@@ -200,7 +200,7 @@ def generate_image_caption():
     """
     image_file_name = session.get('image_file_name', None)
     image_save_path = os.path.join(Path.cwd(), image_file_name)
-    AwsS3.download_image_from_s3(
+    AwsS3.download_file_from_s3(
         image_save_path, image_file_name, S3_BUCKET_NAME)
     caption_size = request.args.get('caption_size', "small")
     context = request.args.get('context', "")
@@ -235,7 +235,7 @@ def generate_video_caption():
     """
     video_file_name = session.get('video_file_name', None)
     video_save_path = os.path.join(Path.cwd(), video_file_name)
-    AwsS3.download_image_from_s3(
+    AwsS3.download_file_from_s3(
         video_save_path, video_file_name, S3_BUCKET_NAME)
     caption_size = request.args.get('caption_size', "small")
     context = request.args.get('context', "")
