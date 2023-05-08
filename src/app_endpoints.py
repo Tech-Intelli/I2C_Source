@@ -145,8 +145,8 @@ def upload_file():
     file_path = request.files.get('file')
     if file_path and allowed_file(os.path.basename(file_path.filename)):
         file_name = os.path.basename(file_path.filename)
+        file_extension = file_name.rsplit('.', 1)[1].lower()
         file_name = file_name.rsplit('.', 1)[0]
-        file_extension = file_path.filename.rsplit('.', 1)[1].lower()
         file_name = generate_random_filename(file_name, file_extension)
         session['file_name'] = file_name
         response = AwsS3.upload_file_object_to_s3(
