@@ -13,7 +13,6 @@ import os
 import time
 import pathlib
 from pathlib import Path
-from tempfile import NamedTemporaryFile
 import tempfile
 import streamlit as st
 import generate_caption
