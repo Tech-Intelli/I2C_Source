@@ -6,10 +6,10 @@ import os
 import string
 import random
 import pathlib
-import requests
 from pathlib import Path
 from datetime import datetime
 from functools import wraps
+import requests
 from flask import Flask, request, session, jsonify
 from generate_caption import Chatbot, ImageCaptionGenerator, VideoCaptionGenerator
 from video_scene_detector import SceneDetector, SceneSaver
