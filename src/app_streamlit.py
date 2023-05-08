@@ -179,20 +179,19 @@ def app():
         </style>
     """, unsafe_allow_html=True)
 
-    uploaded_image = st.file_uploader(
-        "Upload Image", type=["jpg", "jpeg", "png"])
+    uploaded_file = st.file_uploader(
+        "Upload Image or Video", type=["jpg", "jpeg", "png", "mp4", "mov"])
     key_name = ""
-    if uploaded_image is not None:
-        file_extension = pathlib.Path(uploaded_image.name).suffix
+    file_extension = ""
+    if uploaded_file is not None:
+        file_extension = pathlib.Path(uploaded_file.name).suffix.lower()
         fd, temp_file_path = tempfile.mkstemp(suffix=file_extension)
         with open(temp_file_path, "wb") as temp_file:
-            temp_file.write(uploaded_image.getbuffer())
+            temp_file.write(uploaded_file.getbuffer())
         key_name = os.path.basename(temp_file_path)
         AwsS3.upload_file_to_s3(temp_file_path, S3_BUCKET_NAME, key_name)
         os.close(fd)
         os.remove(temp_file_path)
-    uploaded_video = st.file_uploader(
-        "Upload Video", type=["mp4", "mov"])
 
     caption_size = st.select_slider(
         'Caption Size',
@@ -212,46 +211,46 @@ def app():
     # pylint: disable=W0612
     col1, col2, col3 = st.columns([1, 1, 0.80])
     if col1.button("Generate Caption"):
-        if uploaded_image is None:
-            st.error("Please upload an image.")
-        if uploaded_image is not None and uploaded_video is None:
-            gif_placeholder = generate_interim_gif()
-            image_save_path = os.path.join(Path.cwd(), key_name)
-            AwsS3.download_image_from_s3(
-                image_save_path, key_name, S3_BUCKET_NAME)
-            caption, compressed_image_path = generate_image_caption(image_save_path,
-                                                                    caption_size,
-                                                                    context,
-                                                                    caption_style,
-                                                                    num_hashtags,
-                                                                    tone,
-                                                                    social_media)
-            gif_placeholder.empty()
-            stream_text(caption)
-            premium_hashtags = ""
-            if is_premium_hashtags:
-                trending_hashtags = TrendingHashtag()
-                hashtags = trending_hashtags.get_trending_hashtags_from_image(
-                    compressed_image_path)
-                for hashtag in hashtags:
-                    premium_hashtags += '#' + hashtag.hashtag + ' '
-            st.success(premium_hashtags)
-            st.image(compressed_image_path)
-            send_to_telegram(compressed_image_path, caption)
-            os.remove(compressed_image_path)
-            os.remove(image_save_path)
-    if col3.button("Generate Video Caption"):
-        if uploaded_video is None:
-            st.error("Please upload a video.")
-        else:
-            gif_placeholder = generate_interim_gif()
-            with NamedTemporaryFile(dir='.', suffix='.mov | .mp4') as f:
-                f.write(uploaded_video.getbuffer())
+        if uploaded_file is None:
+            st.error("Please upload an image or a video.")
+        elif uploaded_file is not None:
+            if file_extension in (".png", ".jpeg", ".jpg"):
+                gif_placeholder = generate_interim_gif()
+                image_save_path = os.path.join(Path.cwd(), key_name)
+                AwsS3.download_file_from_s3(
+                    image_save_path, key_name, S3_BUCKET_NAME)
+                caption, compressed_image_path = generate_image_caption(image_save_path,
+                                                                        caption_size,
+                                                                        context,
+                                                                        caption_style,
+                                                                        num_hashtags,
+                                                                        tone,
+                                                                        social_media)
+                gif_placeholder.empty()
+                stream_text(caption)
+                premium_hashtags = ""
+                if is_premium_hashtags:
+                    trending_hashtags = TrendingHashtag()
+                    hashtags = trending_hashtags.get_trending_hashtags_from_image(
+                        compressed_image_path)
+                    for hashtag in hashtags:
+                        premium_hashtags += '#' + hashtag.hashtag + ' '
+                st.success(premium_hashtags)
+                st.image(compressed_image_path)
+                send_to_telegram(compressed_image_path, caption)
+                os.remove(compressed_image_path)
+                os.remove(image_save_path)
+            elif file_extension in (".mp4", ".mov"):
+                gif_placeholder = generate_interim_gif()
+                video_save_path = os.path.join(Path.cwd(), key_name)
+                print(f"==== {video_save_path} ====")
+                AwsS3.download_file_from_s3(
+                    video_save_path, key_name, S3_BUCKET_NAME)
                 caption = generate_video_caption(
-                    f.name, caption_size, context, caption_style, num_hashtags, tone)
+                    video_save_path, caption_size, context, caption_style, num_hashtags, tone)
                 gif_placeholder.empty()
                 st.success(caption)
-                st.video(f.name)
+                st.video(video_save_path)
 
 
 if __name__ == "__main__":
