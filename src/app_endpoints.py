@@ -6,6 +6,7 @@ import os
 import string
 import random
 import pathlib
+import requests
 from pathlib import Path
 from datetime import datetime
 from functools import wraps
@@ -17,6 +18,11 @@ from login.register_user import RegisterUser
 from login.authenticate_user import AuthenticateUser
 from login.authenticate_user import ForgetPassword
 
+INSTAGRAM_CLIENT_ID = os.environ.get('INSTAGRAM_CLIENT_ID')
+INSTAGRAM_CLIENT_SECRET = os.environ.get('INSTAGRAM_CLIENT_SECRET')
+REDIRECT_URI = 'http://localhost:9000/auth'
+AUTH_URL = 'https://api.instagram.com/oauth/authorize'
+TOKEN_URL = 'https://api.instagram.com/oauth/access_token'
 ALLOWED_FILE_EXTENSIONS = {'png', 'jpg', 'jpeg', 'mov', 'avi', 'mp4'}
 ALLOWED_IMAGE_FILE_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 ALLOWED_VIDEO_FILE_EXTENSIONS = {'mov', 'avi', 'mp4'}
@@ -87,6 +93,42 @@ def login_user():
         print(f"==== user_id={user_id} was set in the session ====")
         return jsonify({"Success": "User is authenticated and logged in"}), 200
     return jsonify({"Error": "Login failed, please check your email and password"}), 400
+
+
+@app.route('/insta_login')
+def insta_login():
+    """Instagram link
+    """
+    auth_url = f'''{AUTH_URL}?client_id={INSTAGRAM_CLIENT_ID}&
+redirect_uri={REDIRECT_URI}&scope=user_profile&response_type=code'''
+    return f'<a href="{auth_url}">Log in with Instagram</a>'
+
+
+@app.route('/insta_auth')
+def instagram_auth():
+    """Authentication using Instagram
+
+    Returns:
+        _type_: _description_
+    """
+    code = request.args.get('code')
+    if not code:
+        return 'Error: Authorization code not found.', 400
+
+    data = {
+        'client_id': INSTAGRAM_CLIENT_ID,
+        'client_secret': INSTAGRAM_CLIENT_SECRET,
+        'grant_type': 'authorization_code',
+        'redirect_uri': REDIRECT_URI,
+        'code': code,
+    }
+    response = requests.post(TOKEN_URL, data=data, timeout=30)
+    if response.status_code != 200:
+        return jsonify({f'Error: {response.json().get("error_message")}'}), 400
+
+    user_id = response.json().get('user_id')
+    session['email'] = user_id
+    return jsonify({f'Logged in successfully! User ID: {user_id}'})
 
 
 def login_required(function):
