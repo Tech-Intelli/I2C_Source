@@ -37,7 +37,8 @@ class RegisterUser:
             Item={
                 'username': self.username,
                 'user_id': user_id,
-                'password': hashed_password
+                'password': hashed_password,
+                'verified': False
             }
         )
         return response['ResponseMetadata']['HTTPStatusCode']
