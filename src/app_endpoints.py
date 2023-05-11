@@ -94,6 +94,9 @@ def login_user():
         return jsonify({"Success": "User is authenticated and logged in"}), 200
     return jsonify({"Error": "Login failed, please check your email and password"}), 400
 
+# pylint: disable=W0511
+# fixme:This should be handled directly in the front-end
+
 
 @app.route('/insta_login')
 def insta_login():
