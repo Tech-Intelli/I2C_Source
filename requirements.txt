@@ -10,3 +10,5 @@ boto3
 ritetag
 pytest
 pytest-mock
+dnspython
+email-validator
