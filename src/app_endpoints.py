@@ -106,7 +106,8 @@ def login_user():
         user_id = get_user_id(email)
         session['user_id'] = user_id
         return jsonify({"Success": "User is authenticated and logged in"}), 200
-    return jsonify({"Error": "Login failed, please check your email and password"}), 400
+    return jsonify({"Error": """Login failed, please check your email and password.
+                    Please make sure you have verified your email address."""}), 400
 
 # pylint: disable=W0511
 # fixme:This should be handled directly in the front-end
