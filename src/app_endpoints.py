@@ -18,6 +18,7 @@ from login.register_user import RegisterUser
 from login.register_user import VerifyEmail
 from login.authenticate_user import AuthenticateUser
 from login.authenticate_user import ForgetPassword
+from login.database import get_user_id
 
 INSTAGRAM_CLIENT_ID = os.environ.get('INSTAGRAM_CLIENT_ID')
 INSTAGRAM_CLIENT_SECRET = os.environ.get('INSTAGRAM_CLIENT_SECRET')
@@ -102,9 +103,8 @@ def login_user():
     is_user_authenticated = authenticate_user.authenticate_user()
     if is_user_authenticated:
         session['email'] = email
-        user_id = authenticate_user.get_user_id()
+        user_id = get_user_id(email)
         session['user_id'] = user_id
-        print(f"==== user_id={user_id} was set in the session ====")
         return jsonify({"Success": "User is authenticated and logged in"}), 200
     return jsonify({"Error": "Login failed, please check your email and password"}), 400
 
