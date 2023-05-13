@@ -15,6 +15,7 @@ from generate_caption import Chatbot, ImageCaptionGenerator, VideoCaptionGenerat
 from video_scene_detector import SceneDetector, SceneSaver
 from aws_s3 import AwsS3
 from login.register_user import RegisterUser
+from login.register_user import VerifyEmail
 from login.authenticate_user import AuthenticateUser
 from login.authenticate_user import ForgetPassword
 
@@ -52,6 +53,19 @@ def register_user():
     if response == 200:
         return jsonify({"success": "User registered successfully"}), 200
     return jsonify({"error": "User registration failed"}), 500
+
+
+@app.route('/verify/<unique_id>', methods=['GET'])
+def verify(unique_id):
+    """Verifies a user
+
+    Returns:
+        JSON: JSON with response code
+    """
+    response = VerifyEmail.verify_email(unique_id)
+    if response:
+        return jsonify({"success": "User verified successfully"}), 200
+    return jsonify({"Failure": "User cannot be verified"}), 400
 
 
 @app.route('/forget_password', methods=['POST'])
