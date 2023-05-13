@@ -2,7 +2,7 @@ import React from 'react'
 import "./card.css";
 
 import image from "./image.jpeg";
-import logo from "./logo.jpg";
+//import logo from "./logo.jpg";
 
 const Card = () => {
   return (
@@ -10,7 +10,7 @@ const Card = () => {
         <div className="top">
             <div className="userDetails">
                 <div className="profile_img">
-                    <img src ={logo} class = "cover"/>
+                    <img src ="" class = "cover"/>
                 </div>
                 <h3>User_Name<br/><span>India</span></h3>
             </div>

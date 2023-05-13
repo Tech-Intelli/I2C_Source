@@ -14,3 +14,11 @@ test_compressed.jpg
 uploaded/
 *.jpg
 test.py
+.env
+cookies.txt
+Dockerfile
+entrypoint.sh
+just_test.py
+awstest.py
+task-definition.json
+Pipfile
