@@ -1,0 +1,330 @@
+
+body{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    /* overflow: hidden; */
+}
+.header-page1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:  5px 30px;
+    font-size: 30px;
+    color: #1C4042;
+    margin:0.5rem;
+    
+}
+.header-page1 .icons-page1 {
+    width:90px;
+    display: flex;
+    justify-content: space-between;
+}
+section{
+    position: relative;
+    width: 100%;
+    height:100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+section::before{
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:0;
+    width: 100%;
+    height:25%;
+    background: #E9A9CC;
+    border-radius:50% 50% 0 0 /100% 100% 0 0 ;
+    transform: scaleX(1.5);
+    /* overflow-x: hidden; */
+}
+.content-page1{
+    margin-top: 0px;
+    width: 100%;
+    height:100%;
+    border-radius: 60px;
+    background: #E9FDFF;
+    
+}
+.innerContent-page1{
+    position: relative;
+    width: 550px;
+    height: auto;
+    font-size: 70px;
+    font-weight: 600;
+    margin: 90px 100px auto;
+    color: #1C4042;
+}
+
+.innerContent-page1 span{
+    color: #E9A9CC;
+}
+.btn-style-page1{
+    width: 460px;
+    height:auto;
+    background-color: #1C4042;
+    border-radius:50px;
+    padding: 10px 10px;
+    font-size: 30px;
+    font-weight: 500;
+    color: #fff;
+    margin-top: 20px !important;
+    margin-left: 20px !important;
+    /* z-index: 0; */
+}
+section .footer-page1 {
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    max-width: 900px;
+    text-align: center;
+}
+.drop-file-input {
+    position: relative;
+    width: 680px;
+    height:450px;
+    border: 2px solid #B6B6B6;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    box-shadow: 0 0 10px inset rgb(80, 80, 80);
+}
+.steps{
+    margin-top: -50px;
+    font-size: 30px;
+    margin-bottom: 20px !important;
+}
+.label{
+    font-size: 20px;
+    /* margin-bottom: -30px !important; */
+    /* margin-left: 20px; */
+}
+.label-page1 span {
+    font-size: 16px;
+}
+.errorText{
+    font-size: 16px;
+    color: red;
+    padding: 20px;
+}
+/* .innerContent input{
+    margin-top: -70px !important;
+    border: none;
+    font-size: 16px;
+    color: #000;
+}  */
+.context-page1{
+    border: none;
+    width: 680px;
+    /* padding-top: 20px; */
+    margin-top: -30px;
+    margin-left: -4px !important;
+    font-size: 16px;
+    /* color: #B6B6B6; */
+}
+.content-page1::placeholder{
+
+    color: #B6B6B6;
+}
+.btn-style-page1{
+    width: 400px;
+    text-align: center;
+    padding: 0;
+    border: none;
+    height: 50px;
+    /* margin-left: 20px; */
+}
+.title{
+    font-size: 30px;
+}
+.selectedFile{
+    width: 100%;
+    height: 400px;
+    z-index: 999;
+}
+.deleteBtn{
+    margin-top: 20px;
+    border-radius: 20px;
+    /* margin-left: 20px; */
+    background: #1C4042;
+    color: white;
+    cursor: pointer;
+    border: none;
+    width:150px;
+    height:40px;
+    font-size: 13px;
+
+}
+.subtitle{
+    font-size: 20px;
+    font-weight: 300;
+}
+.drop-file-input:hover,
+.drop-file-input.dragover{
+    opacity: 0.8;
+}
+.drop-file-input input {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+
+
+.drop-file-input__label {
+    text-align: center;
+    color: #B6B6B6;
+    font-weight: 600;
+    padding: 10px;
+}
+
+.drop-file-input__label i {
+    width: 100px;
+}
+
+.drop-file-preview {
+    margin-top: 30px;
+}
+
+.drop-file-preview p {
+    font-weight: 500;
+}
+
+.drop-file-preview__title {
+    margin-bottom: 20px;
+}
+
+.drop-file-preview__item {
+    position: relative;
+    display: flex;
+    margin-bottom: 10px;
+    background-color: var(--input-bg);
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.drop-file-preview__item img {
+    width: 50px;
+    margin-right: 20px;
+}
+
+.drop-file-preview__item__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.drop-file-preview__item__del {
+    background-color: var(--box-bg);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.drop-file-input:hover,
+.drop-file-input.dragover,.selectedFile:hover {
+    opacity: 1;
+}
+
+@media only screen and (max-width:870px) {
+    .context-page1{
+        width:500px;
+        margin-bottom: 30px !important;
+    }
+
+    .drop-file-input {
+        position: relative;
+        width: 500px;
+        height:300px;
+        border: 2px solid #B6B6B6;
+        border-radius: 50px;
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        box-shadow: 0 0 10px inset rgb(80, 80, 80);
+    }
+    .selectedFile{
+        width: 100%;
+        height:250px;
+    }
+}
+@media only screen and (max-width:550px){
+
+    .innerContent-page1{
+        margin: 22px 20px auto 34px;
+    }
+    .context-page1{
+        width:300px;
+        margin-bottom: 30px !important;
+    }
+    .content-page1::placeholder{
+        font-size: 10px !important;
+    }
+    .steps{
+        margin-left: 0px !important;
+    }
+    .drop-file-input {
+        position: relative;
+        width: 300px !important;
+        height:200px !important;
+        border: none;
+        border-radius: 50px;
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        box-shadow:none;
+    }
+    .drop-file-input__label {
+        text-align: center;
+        color: #B6B6B6;
+        font-weight: 200;
+        padding: 10px;
+    }
+    .drop-file-input__label i{
+        font-size: 50px !important;
+    }
+    .title{
+        font-size: 18px;
+    }
+    .selectedFile{
+        width: 100%;
+        height: 150px;
+    }
+    .subtitle{
+        font-size: 14px;
+        font-weight: 300;
+    }
+    .btn-style-page1{
+        position: relative;
+        width: 250px;
+        margin-left: 22px;
+    }
+    /* .drop-file-input__label i {
+        width: 20px;
+    } */
+
+}
