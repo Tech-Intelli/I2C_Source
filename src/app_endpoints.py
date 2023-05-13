@@ -212,7 +212,6 @@ def upload_file():
         file_name = file_name.rsplit('.', 1)[0]
         file_name = generate_random_filename(file_name, file_extension)
         session['file_name'] = f'''{session['user_id']}/{file_name}'''
-        print(f" ==== {session['file_name']} ==== ")
         response = AwsS3.upload_file_object_to_s3(
             file_path.stream, session['user_id'], S3_BUCKET_NAME, file_name)
         if response:
@@ -230,7 +229,6 @@ def generate_image_video_caption():
         JSON: JSON representation of caption
     """
     file_name = session.get('file_name', None)
-    print(f"==== {file_name} ====")
     file_name_only = file_name.split('/')[1]
     file_save_path = os.path.join(Path.cwd(), file_name_only)
     AwsS3.download_file_from_s3(
