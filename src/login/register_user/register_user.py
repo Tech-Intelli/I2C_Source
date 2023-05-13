@@ -9,10 +9,13 @@ import smtplib
 from email.message import EmailMessage
 # pylint: disable=E0401
 from boto3.dynamodb.conditions import Key
-from ..database import TABLE
+from ..database import TABLE, get_user_id
 from ..hash_password import hash_password
 
 # pylint: disable=R0903
+# pylint: disable=W0718
+
+EMAIL_VERIFICATION_UNIQUE_ID = {}
 
 
 class RegisterUser:
@@ -34,10 +37,14 @@ class RegisterUser:
         msg["To"] = self.username
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-            server.login(os.environ["EMAIL_ADDRESS"],
-                         os.environ["EMAIL_PASSWORD"])
-            server.sendmail(os.environ["EMAIL_ADDRESS"],
-                            self.username, msg.as_string())
+            try:
+                server.login(os.environ["EMAIL_ADDRESS"],
+                             os.environ["EMAIL_PASSWORD"])
+                server.sendmail(os.environ["EMAIL_ADDRESS"],
+                                self.username, msg.as_string())
+                EMAIL_VERIFICATION_UNIQUE_ID[self.username] = unique_id
+            except Exception as error:
+                print(f'Unable to send email due to error: \n{error}')
 
     def register_user(self):
         """
@@ -53,7 +60,7 @@ class RegisterUser:
                 is_existing_user['Items'][0]['username'] == self.username:
             return 400
         unique_id = str(uuid.uuid4())
-        self.send_email("http://localhost:9000/somevalue/", unique_id)
+        self.send_email("http://localhost:9000/verify", unique_id)
         response = TABLE.put_item(
             Item={
                 'username': self.username,
@@ -63,3 +70,34 @@ class RegisterUser:
             }
         )
         return response['ResponseMetadata']['HTTPStatusCode']
+
+
+class VerifyEmail:
+    """Verifies the email address
+    """
+
+    @staticmethod
+    def verify_email(unique_id):
+        """verify email address based on unique_id
+
+        Args:
+            unique_id (string): Unique Identifier
+        """
+        email = [key for key, value in EMAIL_VERIFICATION_UNIQUE_ID.items()
+                 if value == unique_id]
+        if email:
+            email = email[0]
+            del EMAIL_VERIFICATION_UNIQUE_ID[email]
+            verified_status = True
+            TABLE.update_item(
+                Key={
+                    'username': email,
+                    'user_id': get_user_id(email)
+                },
+                UpdateExpression='SET verified = :val',
+                ExpressionAttributeValues={
+                    ':val': verified_status
+                }
+            )
+            return True
+        return False
