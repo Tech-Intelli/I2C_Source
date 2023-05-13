@@ -1,9 +1,5 @@
 import React, { useState } from 'react'
 import "./ChooseCaption.css"
-import facebook from "./facebook.svg";
-import instagram from "./instagram.svg";
-import twitter from "./twitter.svg";
-import linkedin from "./linkedin.svg";
 import { Link } from 'react-router-dom';
 
 const ChooseCaption = () => {
