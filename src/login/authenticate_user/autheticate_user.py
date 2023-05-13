@@ -26,6 +26,9 @@ class AuthenticateUser:
         )
         if not response['Items']:
             return False
+        if not response['Items'][0]['verified']:
+            print("Please verify your email address.")
+            return False
         hashed_password = response['Items'][0]['password']
         return (len(response['Items']) != 0) and (hash_password(self.password) == hashed_password)
 
