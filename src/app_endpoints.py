@@ -9,6 +9,7 @@ import pathlib
 from pathlib import Path
 from datetime import datetime
 from functools import wraps
+import jwt
 import requests
 from flask import Flask, request, session, jsonify
 from generate_caption import Chatbot, ImageCaptionGenerator, VideoCaptionGenerator
@@ -105,7 +106,9 @@ def login_user():
         session['email'] = email
         user_id = get_user_id(email)
         session['user_id'] = user_id
-        return jsonify({"Success": "User is authenticated and logged in"}), 200
+        token = authenticate_user.generate_auth_token()
+        print(f"==== {token} ====")
+        return jsonify({"Success": "User is authenticated and logged in", "token": token}), 200
     return jsonify({"Error": """Login failed, please check your email and password.
                     Please make sure you have verified your email address."""}), 400
 
@@ -160,9 +163,23 @@ def login_required(function):
     """
     @wraps(function)
     def decorated_func(*args, **kwargs):
-        if 'email' not in session:
-            return jsonify({"error": "You must login before using this feature"}), 401
+        auth_header = request.headers.get('Authorization')
+        if not auth_header:
+            return jsonify({"error": "Missing Authorization header"}), 401
+
+        token = auth_header.split(' ')[1]
+        try:
+            payload = jwt.decode(
+                token, os.environ['AUTH_SECRET_KEY'], algorithms=['HS256'])
+            request.user_id = payload['user_id']
+            request.email = payload['email']
+        except jwt.ExpiredSignatureError:
+            return jsonify({"error": "Token has expired"}), 403
+        except jwt.InvalidTokenError:
+            return jsonify({"error": "Invalid token"}), 403
+
         return function(*args, **kwargs)
+
     return decorated_func
 
 

@@ -2,6 +2,9 @@
 Authenticate user with email address and password
 """
 # pylint: disable=E0401
+import os
+from datetime import datetime, timedelta
+import jwt
 from boto3.dynamodb.conditions import Key
 from ..database import TABLE, get_user_id
 from ..hash_password import hash_password
@@ -31,6 +34,21 @@ class AuthenticateUser:
             return False
         hashed_password = response['Items'][0]['password']
         return (len(response['Items']) != 0) and (hash_password(self.password) == hashed_password)
+
+    def generate_auth_token(self):
+        """Generate an authentication token
+
+        Returns:
+            _type_: _description_
+        """
+        expires_in = timedelta(hours=1)
+        expiration = datetime.utcnow() + expires_in
+        payload = {
+            'user_id': str(get_user_id(self.username)),
+            'email': self.username,
+            'exp': expiration
+        }
+        return jwt.encode(payload, os.environ['AUTH_SECRET_KEY'], algorithm='HS256')
 
 
 class ForgetPassword:
