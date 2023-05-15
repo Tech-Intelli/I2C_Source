@@ -19,6 +19,12 @@ To use the application, you need to install the following dependencies:
 - torch==2.0.0
 - transformers==4.27.4
 - boto3
+- ritetag
+- pytest
+- pytest-mock
+- dnspython
+- email-validator
+- PyJWT
 
 You can install all of these dependencies by running `pip install -r requirements.txt` from the project directory.
 
