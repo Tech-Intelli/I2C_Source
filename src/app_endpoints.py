@@ -130,7 +130,7 @@ def instagram_auth():
     """Authentication using Instagram
 
     Returns:
-        _type_: _description_
+        JSON Response: JSON response indicating authentication success.
     """
     code = request.args.get('code')
     if not code:
@@ -156,10 +156,10 @@ def login_required(function):
     """Wrapper function for login_required
 
     Args:
-        f (function): _description_
+        function (function): _description_
 
     Returns:
-        decorated_func: _description_
+        decorated_func: Decode payload
     """
     @wraps(function)
     def decorated_func(*args, **kwargs):
