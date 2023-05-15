@@ -184,10 +184,10 @@ class VideoCaptionGenerator:
 
     Methods:
     - __init__(self, chatbot, scene_detector, scene_saver):
-      Constructor method for the VideoCaptionGenerator class.
+        Constructor method for the VideoCaptionGenerator class.
     - generate_caption(self, video_path, caption_size, context, style,
         num_hashtags):
-      Generates a caption for a video using the chatbot object.
+        Generates a caption for a video using the chatbot object.
     """
 
     def __init__(self, chatbot, scene_detector, scene_saver):
@@ -195,13 +195,14 @@ class VideoCaptionGenerator:
         self.scene_detector = scene_detector
         self.scene_saver = scene_saver
 
-    def generate_caption(self,
-                         video_path,
-                         caption_size,
-                         context, style,
-                         num_hashtags,
-                         tone,
-                         social_media):
+    def generate_caption(
+            self,
+            video_path,
+            caption_size,
+            context, style,
+            num_hashtags,
+            tone,
+            social_media):
         """
         Generate a caption for a video using a chatbot.
 
