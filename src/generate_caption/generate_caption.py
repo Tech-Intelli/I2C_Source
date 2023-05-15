@@ -82,13 +82,13 @@ class Chatbot:
 
 def _get_caption_size(caption_size):
     if caption_size == 'small':
-        caption_length = '''Compose a concise 2-3 sentence'''
+        caption_length = '''Compose a concise 2 to 3 sentence'''
     elif caption_size == 'medium':
-        caption_length = '''Compose a concise 5-7 sentence'''
+        caption_length = '''Compose a concise 5 to 7 sentence'''
     elif caption_size == 'large':
-        caption_length = '''Compose a concise 10-15 sentence'''
+        caption_length = '''Compose a concise 10 to 15 sentence'''
     elif caption_size == 'very large':
-        caption_length = '''Compose an extensive 30-50 sentence'''
+        caption_length = '''Compose an extensive 30 to 50 sentence'''
     elif caption_size == 'blog post':
         caption_length = '''Craft an extensive 100 sentence'''
     return caption_length
