@@ -223,15 +223,22 @@ def upload_file():
     Returns:
         JSON: if uploaded successfully returns JSON indicating success or failure
     """
+    auth_header = request.headers.get('Authorization')
+    token = ''
+    if auth_header:
+        token = auth_header.split(" ")[1]
+    else:
+        token = ''
+
     file_path = request.files.get('file')
     if file_path and allowed_file(os.path.basename(file_path.filename)):
         file_name = os.path.basename(file_path.filename)
         file_extension = file_name.rsplit('.', 1)[1].lower()
         file_name = file_name.rsplit('.', 1)[0]
         file_name = generate_random_filename(file_name, file_extension)
-        session['file_name'] = f'''{session['user_id']}/{file_name}'''
+        session['file_name'] = f'''{request.user_id}/{file_name}'''
         response = AwsS3.upload_file_object_to_s3(
-            file_path.stream, session['user_id'], S3_BUCKET_NAME, file_name)
+            file_path.stream, request.user_id, S3_BUCKET_NAME, file_name)
         if response:
             return jsonify({"Uploaded Successfully": True})
         return jsonify({"Upload Failed": False})
@@ -246,6 +253,12 @@ def generate_image_video_caption():
     Returns:
         JSON: JSON representation of caption
     """
+    auth_header = request.headers.get('Authorization')
+    token = ''
+    if auth_header:
+        token = auth_header.split(" ")[1]
+    else:
+        token = ''
     file_name = session.get('file_name', None)
     file_name_only = file_name.split('/')[1]
     file_save_path = os.path.join(Path.cwd(), file_name_only)
