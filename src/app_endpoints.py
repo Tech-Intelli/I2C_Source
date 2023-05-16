@@ -12,6 +12,7 @@ from functools import wraps
 import jwt
 import requests
 from flask import Flask, request, session, jsonify
+from flask_cors import CORS
 from generate_caption import Chatbot, ImageCaptionGenerator, VideoCaptionGenerator
 from video_scene_detector import SceneDetector, SceneSaver
 from aws_s3 import AwsS3
@@ -35,6 +36,7 @@ IMAGE_CAPTION_GENERATOR = ImageCaptionGenerator(CHATBOT)
 VIDEO_CAPTION_GENERATOR = VideoCaptionGenerator(
     CHATBOT, SceneDetector(), SceneSaver())
 app = Flask(__name__)
+CORS(app)
 app.secret_key = os.environ['FLASK_SESSION_SECRET_KEY']
 
 
