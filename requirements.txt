@@ -13,3 +13,4 @@ pytest-mock
 dnspython
 email-validator
 PyJWT
+flask_cors
