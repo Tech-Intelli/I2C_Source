@@ -271,6 +271,7 @@ def generate_image_video_caption():
         response_json = VIDEO_CAPTION_GENERATOR.generate_caption(
             file_save_path, caption_size, context, style, num_hashtags, tone, social_media)
     if response_json is not None:
+        os.remove(file_save_path)
         return jsonify({"Caption": response_json["choices"][0]["message"]["content"]})
     return jsonify({"Caption": "Couldn't find a caption"})
 
