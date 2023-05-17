@@ -260,6 +260,8 @@ def generate_image_video_caption():
     else:
         token = ''
     file_name = session.get('file_name', None)
+    if file_name is None:
+        return jsonify({"Error": "Cannot fetch file from session."}), 500
     file_name_only = file_name.split('/')[1]
     file_save_path = os.path.join(Path.cwd(), file_name_only)
     AwsS3.download_file_from_s3(
