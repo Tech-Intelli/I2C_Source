@@ -223,12 +223,6 @@ def upload_file():
     Returns:
         JSON: if uploaded successfully returns JSON indicating success or failure
     """
-    auth_header = request.headers.get('Authorization')
-    token = ''
-    if auth_header:
-        token = auth_header.split(" ")[1]
-    else:
-        token = ''
 
     file_path = request.files.get('file')
     if file_path and allowed_file(os.path.basename(file_path.filename)):
@@ -253,12 +247,7 @@ def generate_image_video_caption():
     Returns:
         JSON: JSON representation of caption
     """
-    auth_header = request.headers.get('Authorization')
-    token = ''
-    if auth_header:
-        token = auth_header.split(" ")[1]
-    else:
-        token = ''
+
     file_name = session.get('file_name', None)
     if file_name is None:
         return jsonify({"Error": "Cannot fetch file from session."}), 500
