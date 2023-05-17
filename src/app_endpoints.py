@@ -273,6 +273,8 @@ def generate_image_video_caption():
     if response_json is not None:
         os.remove(file_save_path)
         return jsonify({"Caption": response_json["choices"][0]["message"]["content"]})
+    if file_save_path is not None:
+        os.remove(file_save_path)
     return jsonify({"Caption": "Couldn't find a caption"})
 
 
