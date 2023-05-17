@@ -1,6 +1,8 @@
 """Pytest to test authenticate_user
 """
 # pylint: disable=E0401
+import os
+import jwt
 from login.authenticate_user import AuthenticateUser
 from login.database import TABLE
 from login.hash_password import hash_password
@@ -59,6 +61,39 @@ def test_authenticate_user_not_verified(mocker):
                         })
     auth = AuthenticateUser(username, password)
     assert auth.authenticate_user() is False
+
+
+def test_authentication_token(mocker):
+    """
+    Test authentication token generation
+    """
+
+    username = "username"
+    user_id = "user_id"
+    password = "password"
+    verified = True
+    hashed_password = hash_password("password")
+    mocker.patch.object(TABLE, 'query', return_value={
+                        'Items': [{
+                            'username': username,
+                            'password': hashed_password,
+                            'verified': verified
+                        }]
+                        })
+    auth = AuthenticateUser(username, password)
+    token = auth.generate_auth_token(user_id)
+    email = ""
+    try:
+        payload = jwt.decode(
+            token, os.environ['AUTH_SECRET_KEY'], algorithms=['HS256'])
+        email = payload['email']
+        print(username)
+        print(email)
+        assert username == email
+    except jwt.ExpiredSignatureError:
+        assert False
+    except jwt.InvalidTokenError:
+        assert False
 
 
 def test_authenticate_user_incorrect_user(mocker):
