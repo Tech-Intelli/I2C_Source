@@ -35,7 +35,7 @@ class AuthenticateUser:
         hashed_password = response['Items'][0]['password']
         return (len(response['Items']) != 0) and (hash_password(self.password) == hashed_password)
 
-    def generate_auth_token(self):
+    def generate_auth_token(self, user_id):
         """Generate an authentication token
 
         Returns:
@@ -44,7 +44,7 @@ class AuthenticateUser:
         expires_in = timedelta(hours=1)
         expiration = datetime.utcnow() + expires_in
         payload = {
-            'user_id': str(get_user_id(self.username)),
+            'user_id': str(user_id),
             'email': self.username,
             'exp': expiration
         }

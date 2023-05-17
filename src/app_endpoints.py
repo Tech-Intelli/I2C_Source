@@ -108,7 +108,7 @@ def login_user():
         session['email'] = email
         user_id = get_user_id(email)
         session['user_id'] = user_id
-        token = authenticate_user.generate_auth_token()
+        token = authenticate_user.generate_auth_token(user_id)
         return jsonify({"Success": "User is authenticated and logged in", "token": token}), 200
     return jsonify({"Error": """Login failed, please check your email and password.
                     Please make sure you have verified your email address."""}), 400
