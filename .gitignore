@@ -22,3 +22,4 @@ just_test.py
 awstest.py
 task-definition.json
 Pipfile
+secrets.ps1
