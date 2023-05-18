@@ -4,6 +4,24 @@
     /* border-radius: 30px !important; */
     /* width:600px; */
 }
+.errorText {
+  padding :0 !important;
+  margin: 0 !important;
+  font-size: 14px;
+  color: red;
+}
+.success{
+  padding: 8px !important;
+  margin: 0 !important;
+  font-size: 20px;
+  color: green;
+
+}
+.spinners{
+  display: flex;
+  justify-content: center;
+
+}
 .modal-content{
     padding:20px;
     border-radius: 50px !important;

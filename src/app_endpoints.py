@@ -36,7 +36,13 @@ IMAGE_CAPTION_GENERATOR = ImageCaptionGenerator(CHATBOT)
 VIDEO_CAPTION_GENERATOR = VideoCaptionGenerator(
     CHATBOT, SceneDetector(), SceneSaver())
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={
+    r"/*": {
+        "origins": "http://localhost:3000",
+        "allow_headers": ["Content-Type", "Authorization"],
+        "methods": ["GET", "POST", "PUT", "DELETE"]
+    }
+})
 app.secret_key = os.environ['FLASK_SESSION_SECRET_KEY']
 
 
@@ -247,7 +253,6 @@ def generate_image_video_caption():
     Returns:
         JSON: JSON representation of caption
     """
-
     file_name = session.get('file_name', None)
     if file_name is None:
         return jsonify({"Error": "Cannot fetch file from session."}), 500
