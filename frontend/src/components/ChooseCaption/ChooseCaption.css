@@ -56,9 +56,9 @@ section::before{
     height: auto;
     /* position: absolute; */
     position: relative;
-    font-size: 70px;
+    /* font-size: 70px; */
     font-weight: 600;
-    margin: 90px 100px auto;
+    margin: 40px auto auto 50px;
     color: #1C4042;
     /* max-height: 600px; */
     /* border:1px solid red; */
@@ -82,7 +82,7 @@ section::before{
 
 
 .captionSize-icons{
-    margin-top: -20px;
+    /* margin-top: -20px; */
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -90,9 +90,13 @@ section::before{
 }
 .captionStyle-icons{
     /* width: 450px; */
+    margin-bottom: 40px;
     display: flex;
     justify-content: space-between;
     align-self:center;
+}
+.captionSize-icons i{
+    margin-bottom: 5px;
 }
 
 
@@ -113,6 +117,9 @@ section::before{
     color: #fff;
 } */
 
+.tone{
+    margin-bottom: 20px !important;
+}
 
 
 .preference_heading .label {
@@ -120,6 +127,7 @@ section::before{
 }
 .preferences{
     margin-top: 20px;
+    margin-bottom: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -200,6 +208,21 @@ section .footer-page2 {
     width: 4.5rem;
     height: 4.5rem;
     
+
+}
+.images-page2{
+     position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    right: -90px;
+    top:0;
+    
+}
+@media only screen and (max-width:880px){
+    .images-page2{
+        display: none !important;
+    }
 }
 
 
@@ -207,11 +230,11 @@ section .footer-page2 {
   
     .steps{
         font-size: 25px !important;
-        margin: 50px 20px 20px 0px !important;
+        /* margin: 40px 20px 20px 0px !important; */
     }
    .innerContent-page2{
     /* position: absolute; */
-    margin: 45px 100px auto 40px;
+    margin: 40px 40px auto 40px;
     width: auto;
     /* margin: auto !important; */
     /* width: fit-content; */
@@ -226,6 +249,7 @@ section .footer-page2 {
 .captionStyle-icons{
     width: 400px;
     flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 .captionStyle{
     margin-bottom: 10px;
@@ -262,9 +286,15 @@ section .footer-page2 {
     height: fit-content;
     padding: 10px;
 }
-
+.preferences{
+    margin-bottom: 20px;
+}
 .preffered-platform{
     position: relative;
+   }
+   .preffered-platform svg {
+    width: 40px;
+    height: 40px;
    }
 
 
@@ -301,10 +331,7 @@ section .footer-page2 {
 .captionTone{
     width:140px;
 }
-.preffered-platform{
-    margin-top: 10px;
-    
-}
+
 .captionStyle-icons{
     width: auto;
     flex-wrap:wrap;
@@ -377,7 +404,13 @@ section .footer-page2 {
     section{
         height:110vh !important;
     }
-    
+    .preffered-platform svg {
+        width:35px;
+        height:35px
+    }
+    .preferences{
+        margin-bottom: 20px !important;
+    }
 
     .innerContent-page2{
     /* width: 550px; */
@@ -385,7 +418,7 @@ section .footer-page2 {
     position: relative;
     font-size: 70px;
     font-weight: 600;
-    margin: -10px 20px auto 20px;
+    margin: 20px 20px auto 40px;
     color: #1C4042;
     /* border: 2px solid red; */
     max-height: 575px;

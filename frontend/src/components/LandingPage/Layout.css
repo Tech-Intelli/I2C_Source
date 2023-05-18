@@ -4,7 +4,7 @@ body{
     font-family: 'Josefin Sans'!important;
     box-sizing: border-box;
     overflow: hidden; 
-    
+    position: relative;
     
 }
 p{
@@ -52,6 +52,16 @@ section::before{
     height:100%;
     border-radius: 60px;
     background: #E9FDFF;
+    display: flex;
+
+    
+}
+.images{
+    position: absolute;
+    width: 50%;
+    right:40px;
+    height: 90%;
+    bottom: 70px;
     
 }
 
@@ -69,6 +79,7 @@ section::before{
     color: #E9A9CC;
 }
 .btn-style{
+    border: none;
     width: 460px;
     position: relative;
     height:auto;
