@@ -61,7 +61,8 @@ const ChooseCaption = () => {
         axios.get(`http://localhost:9000/generate_image_video_caption?caption_size=${selectSizeId}&context=${context}&style=${targetId}&num_hashtags=30&tone=${tone}&social_media=${platformId}`,{
             headers:{
                 Authorization: `Bearer ${token}`
-            }
+            },
+            withCredentials: true
         }).then(res=>{
             console.log(res);
         }).catch(err=>{

@@ -13,6 +13,7 @@ import jwt
 import requests
 from flask import Flask, request, session, jsonify
 from flask_cors import CORS
+from flask_session import Session
 from generate_caption import Chatbot, ImageCaptionGenerator, VideoCaptionGenerator
 from video_scene_detector import SceneDetector, SceneSaver
 from aws_s3 import AwsS3
@@ -36,7 +37,15 @@ IMAGE_CAPTION_GENERATOR = ImageCaptionGenerator(CHATBOT)
 VIDEO_CAPTION_GENERATOR = VideoCaptionGenerator(
     CHATBOT, SceneDetector(), SceneSaver())
 app = Flask(__name__)
-CORS(app, resources={
+app.secret_key = os.environ['FLASK_SESSION_SECRET_KEY']
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config.update(
+    SESSION_COOKIE_SAMESITE="None",
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True
+)
+Session(app)
+CORS(app, supports_credentials=True, resources={
     r"/*": {
         "origins": "http://localhost:3000",
         "allow_headers": ["Content-Type", "Authorization"],
@@ -240,7 +249,7 @@ def upload_file():
         response = AwsS3.upload_file_object_to_s3(
             file_path.stream, request.user_id, S3_BUCKET_NAME, file_name)
         if response:
-            return jsonify({"Uploaded Successfully": True})
+            return jsonify({"Uploaded Successfully": True, "file_name": session['file_name']})
         return jsonify({"Upload Failed": False})
     return jsonify({"No File Selected": False})
 
@@ -253,7 +262,13 @@ def generate_image_video_caption():
     Returns:
         JSON: JSON representation of caption
     """
-    file_name = session.get('file_name', None)
+    auth_header = request.headers.get('Authorization')
+    token = ''
+    if auth_header:
+        token = auth_header.split(" ")[1]
+    else:
+        token = ''
+    file_name = session.get('file_name')
     if file_name is None:
         return jsonify({"Error": "Cannot fetch file from session."}), 500
     file_name_only = file_name.split('/')[1]

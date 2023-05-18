@@ -54,6 +54,7 @@ export const UploadFile = (props) => {
             Authorization: `Bearer ${token}`,
             "Content-Type": 'multipart/form-data',
           },
+          withCredentials: true,
         }
       )
       .then((res) => {
