@@ -263,6 +263,7 @@ def generate_image_video_caption():
         JSON: JSON representation of caption
     """
     auth_header = request.headers.get('Authorization')
+    # pylint: disable=W0612
     token = ''
     if auth_header:
         token = auth_header.split(" ")[1]
