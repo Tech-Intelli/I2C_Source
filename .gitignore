@@ -23,3 +23,8 @@ awstest.py
 task-definition.json
 Pipfile
 secrets.ps1
+--cookie
+.cache/
+aws_docker_command.sh
+flask_session/
+src/flask_session/
