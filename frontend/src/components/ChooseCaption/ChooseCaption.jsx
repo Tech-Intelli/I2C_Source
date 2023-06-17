@@ -5,7 +5,6 @@ import axios from "axios"
 
 const ChooseCaption = () => {
     const token = localStorage.getItem('token')
-    
     const [targetId, settargetId] = useState();
     const [selectSizeId,setSelectsizeId] = useState();
     const [platformId, setplatformId] = useState();
@@ -159,7 +158,7 @@ const ChooseCaption = () => {
                         </div>
                     </div>
                     <div className='preffered-platform'>
-                        <p className="label" style={{marginTop:"0px",marginBottom:"15px"}}>Preffered PlatForm?</p>
+                        <p className="label" style={{marginTop:"0px",marginBottom:"15px"}}>Preferred PlatForm?</p>
                         <div className='socialHandle-icons'>
                         {/* <img src ={facebook} alt= "facebook" style = {{border:"1px solid #1C4042",padding:"none"}}></img> */}
 

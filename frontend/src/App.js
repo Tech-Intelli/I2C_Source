@@ -13,11 +13,10 @@ function App() {
 
 
 <BrowserRouter>
-      <Routes>
+     <Routes>
           <Route path="/" element={<Layout />}></Route>
      </Routes>
      <Routes>
-     
           <Route path="/uploadfile" element={<UploadFile onFileChange={(files) => onFileChange(files)}  />} />
      </Routes>
      <Routes>
