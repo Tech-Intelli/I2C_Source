@@ -1,10 +1,10 @@
 import React,{useState} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import "./SignModal.css"
-import facebook from "./facebook.svg";
-import instagram from "./instagram.svg";
-import twitter from "./twitter.svg";
-import linkedin from "./linkedin.svg";
+import facebook from "../assets/icons/facebook.svg";
+import instagram from "../assets/icons/instagram.svg";
+import twitter from "../assets/icons/twitter.svg";
+import linkedin from "../assets/icons/linkedin.svg";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import {Circles} from "react-loader-spinner"

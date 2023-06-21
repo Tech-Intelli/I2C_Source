@@ -1,8 +1,11 @@
 import React from 'react'
-
 import "./Caption.css";
 import Card from './Post/Card';
+import { useLocation } from 'react-router-dom';
+
+
 const Caption = () => {
+    const { state } = useLocation();
   return (
 
     <>
@@ -25,7 +28,7 @@ const Caption = () => {
                     <div className='text' >
                         <p className="steps-page3" >Step 3 :Share Your Caption</p>
                         <div className='generated-caption'>
-                            <textarea style={{resize:"none"}} className='caption'></textarea>
+                            <textarea style={{resize:"none"}} value={state.caption} className='caption'></textarea>
                             <button className='btn-refresh'>Refresh <i class="fa-solid fa-arrows-rotate"></i></button>
                         </div>
                     </div>
