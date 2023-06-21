@@ -72,7 +72,7 @@ const ChooseCaption = () => {
             console.log(res);
             setLoading(false);
             setcaption(res.data.Caption);
-            navigate("/caption",{state:{caption:res.data.Caption,file_path:res.data.File_PATH}})
+            navigate("/caption",{state:{caption:res.data.Caption, file_path:res.data.File_PATH}})
         }).catch(err=>{
             setLoading(false);
             console.log(err);

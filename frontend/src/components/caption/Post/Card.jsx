@@ -4,7 +4,8 @@ import "./card.css";
 import image from "./image.jpeg";
 //import logo from "./logo.jpg";
 
-const Card = () => {
+const Card = (props) => {
+    const relativePath = props.path.split('/public/')[1];
   return (
     <div className="card-page">
         <div className="top">
@@ -19,7 +20,7 @@ const Card = () => {
             </div>
         </div>
         <div className="imgBx">
-            <img src={image} alt="" className='cover'/>
+            <img src={`${process.env.PUBLIC_URL}/${relativePath}`} alt="" className='cover'/>
         </div>
         <div className='actionBtns'>
             <div className="left">
@@ -31,8 +32,8 @@ const Card = () => {
             <i class="fa-regular fa-bookmark"></i>
             </div>
         </div>
-        <h4 className='likes'>3,684 likes</h4>
-        <h4 className='message'>Newly generated Caption<span>#cards #html # css</span></h4>
+        <h4 className='likes'></h4>
+        <h4 className='message'><span></span></h4>
 
     </div>
   )

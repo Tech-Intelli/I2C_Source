@@ -141,7 +141,7 @@ class ImageCaptionGenerator:
         - compressed_image_path (str): The path of the compressed image used
             for generating the caption.
         """
-        compressed_image_path = ImageCompressor.compress(image_path, 10)
+        compressed_image_path = image_path  # ImageCompressor.compress(image_path, 10)
         image_pipeline = CachedModel.get_image_caption_pipeline(
             compressed_image_path)
         text = image_pipeline[0]['generated_text']

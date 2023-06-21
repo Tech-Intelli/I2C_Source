@@ -6,6 +6,7 @@ import os
 import string
 import random
 import pathlib
+import shutil
 from pathlib import Path
 from datetime import datetime
 from functools import wraps
@@ -292,8 +293,16 @@ def generate_image_video_caption():
         response_json = VIDEO_CAPTION_GENERATOR.generate_caption(
             file_save_path, caption_size, context, style, num_hashtags, tone, social_media)
     if response_json is not None:
-        os.remove(file_save_path)
-        return jsonify({"Caption": response_json["choices"][0]["message"]["content"]})
+        target = os.path.join(
+            os.path.dirname(Path.cwd()),
+            "frontend",
+            "public",
+            os.path.basename(file_save_path))
+        shutil.move(file_save_path, target)
+        # os.remove(file_save_path)
+        return jsonify({
+            "Caption": response_json["choices"][0]["message"]["content"],
+            "File_PATH": target})
     if file_save_path is not None:
         os.remove(file_save_path)
     return jsonify({"Caption": "Couldn't find a caption"})
