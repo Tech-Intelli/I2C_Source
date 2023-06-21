@@ -12,7 +12,7 @@ import os
 import shutil
 import openai
 from cached_model import CachedModel
-from image_compressor import ImageCompressor
+# from image_compressor import ImageCompressor
 from video_scene_detector import VideoSceneDetector
 
 
