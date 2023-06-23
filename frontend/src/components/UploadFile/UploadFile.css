@@ -118,7 +118,7 @@ section .footer-page1 {
     font-size: 16px;
     color: #000;
 }  */
-.context-page1{
+.inputs, .context-page1{
     border: none;
     width: 100%;
     /* padding-top: 20px; */
@@ -196,8 +196,15 @@ section .footer-page1 {
 }
 
 
-
-
+.context-location-container{
+    display: flex;
+    width: 30rem;
+    margin: 1rem;
+    justify-content: space-between;
+}
+.context-location-container input{
+    width: 100%;
+}
 .drop-file-input__label {
     text-align: center;
     color: #B6B6B6;
@@ -266,7 +273,7 @@ section .footer-page1 {
 }
 
 @media only screen and (max-width:870px) {
-    .context-page1{
+    .inputs, .context-page1{
         width:500px;
         margin-bottom: 30px !important;
     }
@@ -275,7 +282,7 @@ section .footer-page1 {
         margin: 40px auto auto 40px !important;
 
     }
-    .context-page1{
+    .inputs, .context-page1{
         width: 100%;
 
     }
@@ -306,7 +313,7 @@ section .footer-page1 {
         margin: 40px auto auto 40px;
        
     }
-    .context-page1{
+    .inputs, .context-page1{
         width:300px;
         margin-bottom: 30px !important;
     }
