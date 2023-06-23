@@ -13,7 +13,6 @@ body{
     font-size: 30px;
     color: #1C4042;
     margin:0.5rem;
-    
 }
 .header-page1 .icons-page1 {
     width:90px;
@@ -47,7 +46,6 @@ section::before{
     height:100%;
     border-radius: 60px;
     background: #E9FDFF;
-    
 }
 .innerContent-page1{
     position: relative;
@@ -118,7 +116,7 @@ section .footer-page1 {
     font-size: 16px;
     color: #000;
 }  */
-.context-page1{
+.inputs, .context-page1{
     border: none;
     width: 100%;
     /* padding-top: 20px; */
@@ -183,7 +181,6 @@ section .footer-page1 {
 
 }
 .images-page1{
- 
     /* right:0px; */
     position: absolute;
     width: 50%;
@@ -191,13 +188,18 @@ section .footer-page1 {
     display: flex;
     right: -90px;
     top:0;
-    
-
 }
 
 
-
-
+.context-location-container{
+    display: flex;
+    width: 35rem;
+    margin: 1rem;
+    justify-content: space-between;
+}
+.context-location-container input{
+    width: 100%;
+}
 .drop-file-input__label {
     text-align: center;
     color: #B6B6B6;
@@ -266,7 +268,7 @@ section .footer-page1 {
 }
 
 @media only screen and (max-width:870px) {
-    .context-page1{
+    .inputs, .context-page1{
         width:500px;
         margin-bottom: 30px !important;
     }
@@ -275,7 +277,7 @@ section .footer-page1 {
         margin: 40px auto auto 40px !important;
 
     }
-    .context-page1{
+    .inputs, .context-page1{
         width: 100%;
 
     }
@@ -286,14 +288,12 @@ section .footer-page1 {
         height:50%;
         border: 2px solid #B6B6B6;
         border-radius: 50px;
-        
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: #fff;
         box-shadow: 0 0 10px inset rgb(80, 80, 80);
     }
- 
     .btn-style-page1{
         width: 80%;
         margin-left: 30px !important;
@@ -304,9 +304,8 @@ section .footer-page1 {
     .innerContent-page1{
         width: 100%;
         margin: 40px auto auto 40px;
-       
     }
-    .context-page1{
+    .inputs, .context-page1{
         width:300px;
         margin-bottom: 30px !important;
     }
@@ -316,14 +315,12 @@ section .footer-page1 {
     .deleteBtn{
         margin-left: 100px
     }
-  
     .drop-file-input {
         position: relative;
         width: 300px !important;
         height:200px !important;
         border: none;
         border-radius: 50px;
-        
         display: flex;
         align-items: center;
         justify-content: center;

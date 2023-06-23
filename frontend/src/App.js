@@ -25,7 +25,6 @@ function App() {
      <Routes>
           <Route path="/caption" element={<Caption />} />
      </Routes>
-          {/* <Route path="*" element={<NoPage />} /> */}
     </BrowserRouter>
     </div>
   );

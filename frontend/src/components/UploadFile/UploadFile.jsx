@@ -1,38 +1,76 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Circles } from "react-loader-spinner";
-
 import "./UploadFile.css";
+const apiKey = process.env.REACT_APP_MAP_API;
+const mapApiJs = 'https://maps.googleapis.com/maps/api/js';
+
+function loadAsyncScript(src) {
+  return new Promise(resolve => {
+    const script = document.createElement("script");
+    Object.assign(script, {
+      type: "text/javascript",
+      async: true,
+      src
+    })
+    script.addEventListener("load", () => resolve(script));
+    document.head.appendChild(script);
+  })
+}
+
+const extractAddress = (place) => {
+
+  const address = {
+    city: "",
+    country: "",
+    plain() {
+      const city = this.city ? this.city + ", " : "";
+      return city + this.country;
+    }
+  }
+
+  if (!Array.isArray(place?.address_components)) {
+    return address;
+  }
+
+  place.address_components.forEach(component => {
+    const types = component.types;
+    const value = component.long_name;
+
+    if (types.includes("locality")) {
+      address.city = value;
+    }
+
+    if (types.includes("country")) {
+      address.country = value;
+    }
+
+  });
+
+  return address;
+}
+
+
 
 export const UploadFile = (props) => {
   const token = localStorage.getItem("token");
-  console.log(token);
   const inputref = useRef();
   const navigate = useNavigate();
-  const wrapperRef = useRef(null);
+  const wrapperRef = useRef();
   const [fileList, setFileList] = useState();
   const [file, setfile] = useState();
   const [fileType, setFileType] = useState();
   const [loading,setLoading] = useState(false);
-
   const onDragEnter = () => wrapperRef.current.classList.add("dragover");
   const onDragLeave = () => wrapperRef.current.classList.remove("dragover");
   const onDrop = () => wrapperRef.current.classList.remove("dragover");
+
+
   const onFileDrop = (e) => {
     const newFile = e.target.files[0];
     const input_file = e.target.files[0];
     setFileList(input_file);
-   
-    const d = URL.createObjectURL(e.target.files[0]);
-    const header = {
-      Authorization: `Bearer ${token}`,
-    };
-    console.log(header);
-
-   
-    const type = newFile.type.split("/")[1];
-    console.log(newFile.type.split("/")[1]);
     setFileType(newFile.type.split("/")[1]);
     setfile(URL.createObjectURL(e.target.files[0]));
   };
@@ -41,11 +79,49 @@ export const UploadFile = (props) => {
     setfile();
     setFileList();
   };
+  const searchInput = useRef(null);
+  const [address, setAddress] = useState({});
+
+
+  // init gmap script
+  const initMapScript = () => {
+    // if script already loaded
+    if(window.google) {
+      return Promise.resolve();
+    }
+    console.log(apiKey)
+    const src = `${mapApiJs}?key=${apiKey}&libraries=places&v=weekly`;
+    return loadAsyncScript(src);
+  }
+
+  // do something on address change
+  const onChangeAddress = (autocomplete) => {
+    const place = autocomplete.getPlace();
+    setAddress(extractAddress(place));
+  }
+
+  // init autocomplete
+  const initAutocomplete = () => {
+    if (!searchInput.current) return;
+
+    const autocomplete = new window.google.maps.places.Autocomplete(searchInput.current);
+    autocomplete.setFields(["address_component", "geometry"]);
+    autocomplete.addListener("place_changed", () => onChangeAddress(autocomplete));
+
+  }
+  // load map script after mounted
+  useEffect(() => {
+    initMapScript().then(() => initAutocomplete())
+  }, []);
 
   const handleClick = () => {
     setLoading(true);
      const formData = new FormData();
      formData.append("file", fileList);
+     if (address) {
+      formData.append("address", JSON.stringify(address));
+    }
+    console.log(JSON.stringify(address));
      axios
       .post(
         "http://localhost:9000/upload_file",formData,
@@ -64,10 +140,8 @@ export const UploadFile = (props) => {
       .catch((err) => {
         console.log("Error", err);
       });
-
-
-   
   };
+
   return (
     <>
       <div>
@@ -84,16 +158,26 @@ export const UploadFile = (props) => {
           <div className="content-page1">
             <div className="innerContent-page1">
               <p className="steps">Step 1 :Upload Files</p>
-              <div>
-                <p className="label">
-                  Add Context <span>(optional)</span>
-                </p>
-                <input
-                  placeholder="Tell us something about your memory"
-                  className="context-page1"
-                ></input>
+              <div className="context-location-container">
+                <div>
+                  <p className="label">
+                    Add Context <span>(optional)</span>
+                  </p>
+                  <input
+                    type = "text"
+                    placeholder="Tell us something about your memory"
+                    className="inputs context-page1"
+                  ></input>
+                </div>
+                <div>
+                  <p className="label">
+                    Add Location:
+                  </p>
+                  <div className="search">
+                      <input ref={searchInput} type="text" placeholder="Search location...." />
+                  </div>
+                </div>
               </div>
-
               <div
                 ref={wrapperRef}
                 className="drop-file-input"
@@ -161,7 +245,7 @@ export const UploadFile = (props) => {
           <div className="footer-page1"></div>
         </section>
         <div className="images-page1">
-          <svg
+        <svg
             width="100%"
             height="100%"
             viewBox="0 0 683 953"
