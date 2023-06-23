@@ -115,7 +115,8 @@ class ImageCaptionGenerator:
         self.chatbot = chatbot
 
     def generate_caption(
-        self,
+            self,
+            location,
             image_path,
             caption_size,
             context,
@@ -151,8 +152,8 @@ class ImageCaptionGenerator:
         if context is not None or context != "":
             words = caption_length.split()
             only_length = f"{words[-2]} {words[-1]}"
-            content = f'''{caption_length} {social_media} post for this image,
-            showcasing {text} in a {style} manner,
+            content = f'''{caption_length} {social_media} post for this image
+            for the location: {location}, showcasing {text} in a {style} manner,
             relating to the provided context: "{context}".
             Employ a {tone} language style to engage and captivate your target audience.
             It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
@@ -161,7 +162,7 @@ class ImageCaptionGenerator:
             trending hashtags.'''
         else:
             content = f'''{caption_length} {social_media} post for this image,
-            showcasing {text} in a {style} manner.
+            for the location: {location}, showcasing {text} in a {style} manner.
             Employ a {tone} language style to engage and captivate your target audience.
             It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
             Add relevant emojis.
@@ -197,6 +198,7 @@ class VideoCaptionGenerator:
 
     def generate_caption(
             self,
+            location,
             video_path,
             caption_size,
             context, style,
@@ -237,7 +239,7 @@ class VideoCaptionGenerator:
             words = caption_length.split()
             only_length = f"{words[-2]} {words[-1]}"
             content = f'''{caption_length} {social_media} post for this video,
-            showcasing {text} in a {style} manner,
+            for the location: {location}, showcasing {text} in a {style} manner,
             relating to the provided context: "{context}".
             Employ a {tone} language style to engage and captivate your target audience.
             It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
@@ -246,7 +248,7 @@ class VideoCaptionGenerator:
             trending hashtags.'''
         else:
             content = f'''{caption_length} {social_media} post for this video,
-            showcasing {text} in a {style} manner.
+            for the location: {location}, showcasing {text} in a {style} manner.
             Employ a {tone} language style to engage and captivate your target audience.
             It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
             Add relevant emojis.

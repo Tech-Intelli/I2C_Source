@@ -291,10 +291,24 @@ def generate_image_video_caption():
     response_json = None
     if file_extension in ALLOWED_IMAGE_FILE_EXTENSIONS:
         response_json, _ = IMAGE_CAPTION_GENERATOR.generate_caption(
-            file_save_path, caption_size, context, style, num_hashtags, tone, social_media)
+            session['address'],
+            file_save_path,
+            caption_size,
+            context,
+            style,
+            num_hashtags,
+            tone,
+            social_media)
     elif file_extension in ALLOWED_VIDEO_FILE_EXTENSIONS:
         response_json = VIDEO_CAPTION_GENERATOR.generate_caption(
-            file_save_path, caption_size, context, style, num_hashtags, tone, social_media)
+            session['address'],
+            file_save_path,
+            caption_size,
+            context,
+            style,
+            num_hashtags,
+            tone,
+            social_media)
     if response_json is not None:
         target = os.path.join(
             os.path.dirname(Path.cwd()),
