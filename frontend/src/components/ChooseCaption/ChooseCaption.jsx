@@ -44,20 +44,16 @@ const ChooseCaption = () => {
         setSelectsizeId(id);
     }
     const handleFacebook = (id)=>{
-        console.log(id);
         setplatformId(id);
     }
 
     const handleTwitter= (id)=>{
-        console.log(id);
         setplatformId(id);
     }
     const handleInstagram = (id)=>{
-        console.log(id);
         setplatformId(id);
     }
     const handleLinkedIn = (id)=>{
-        console.log(id);
         setplatformId(id);
     }
     const generateCaption = () =>{
@@ -69,7 +65,6 @@ const ChooseCaption = () => {
             },
             withCredentials: true
         }).then(res=>{
-            console.log(res);
             setLoading(false);
             setcaption(res.data.Caption);
             navigate("/caption",{state:{caption:res.data.Caption, file_path:res.data.File_PATH}})

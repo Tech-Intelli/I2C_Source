@@ -5,7 +5,6 @@ import { Circles } from "react-loader-spinner";
 import "./UploadFile.css";
 const apiKey = process.env.REACT_APP_MAP_API;
 const mapApiJs = 'https://maps.googleapis.com/maps/api/js';
-const geocodeJson = 'https://maps.googleapis.com/maps/api/geocode/json';
 
 function loadAsyncScript(src) {
   return new Promise(resolve => {
@@ -24,14 +23,10 @@ const extractAddress = (place) => {
 
   const address = {
     city: "",
-    state: "",
-    zip: "",
     country: "",
     plain() {
       const city = this.city ? this.city + ", " : "";
-      const zip = this.zip ? this.zip + ", " : "";
-      const state = this.state ? this.state + ", " : "";
-      return city + zip + state + this.country;
+      return city + this.country;
     }
   }
 
@@ -47,14 +42,6 @@ const extractAddress = (place) => {
       address.city = value;
     }
 
-    if (types.includes("administrative_area_level_2")) {
-      address.state = value;
-    }
-
-    if (types.includes("postal_code")) {
-      address.zip = value;
-    }
-
     if (types.includes("country")) {
       address.country = value;
     }
@@ -67,9 +54,7 @@ const extractAddress = (place) => {
 
 
 export const UploadFile = (props) => {
-  
   const token = localStorage.getItem("token");
-  console.log(token);
   const inputref = useRef();
   const navigate = useNavigate();
   const wrapperRef = useRef();
@@ -77,26 +62,15 @@ export const UploadFile = (props) => {
   const [file, setfile] = useState();
   const [fileType, setFileType] = useState();
   const [loading,setLoading] = useState(false);
-  
   const onDragEnter = () => wrapperRef.current.classList.add("dragover");
   const onDragLeave = () => wrapperRef.current.classList.remove("dragover");
   const onDrop = () => wrapperRef.current.classList.remove("dragover");
-  
+
 
   const onFileDrop = (e) => {
     const newFile = e.target.files[0];
     const input_file = e.target.files[0];
     setFileList(input_file);
-   
-    const d = URL.createObjectURL(e.target.files[0]);
-    const header = {
-      Authorization: `Bearer ${token}`,
-    };
-    console.log(header);
-
-   
-    const type = newFile.type.split("/")[1];
-    console.log(newFile.type.split("/")[1]);
     setFileType(newFile.type.split("/")[1]);
     setfile(URL.createObjectURL(e.target.files[0]));
   };
@@ -104,32 +78,6 @@ export const UploadFile = (props) => {
   const fileRemove = () => {
     setfile();
     setFileList();
-  };
-  const handleClick = () => {
-    setLoading(true);
-     const formData = new FormData();
-     formData.append("file", fileList);
-     axios
-      .post(
-        "http://localhost:9000/upload_file",formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": 'multipart/form-data',
-          },
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        setLoading(false);
-        navigate("/generatecaption");
-      })
-      .catch((err) => {
-        console.log("Error", err);
-      });
-
-
-   
   };
   const searchInput = useRef(null);
   const [address, setAddress] = useState({});
@@ -161,39 +109,38 @@ export const UploadFile = (props) => {
     autocomplete.addListener("place_changed", () => onChangeAddress(autocomplete));
 
   }
-
-
-  const reverseGeocode = ({ latitude: lat, longitude: lng}) => {
-    const url = `${geocodeJson}?key=${apiKey}&latlng=${lat},${lng}`;
-    searchInput.current.value = "Getting your location...";
-    fetch(url)
-        .then(response => response.json())
-        .then(location => {
-          const place = location.results[0];
-          const _address = extractAddress(place);
-          setAddress(_address);
-          searchInput.current.value = _address.plain();
-        })
-  }
-
-
-  const findMyLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        reverseGeocode(position.coords)
-      })
-    }
-  }
-
-
-
-
-
   // load map script after mounted
   useEffect(() => {
     initMapScript().then(() => initAutocomplete())
   }, []);
 
+  const handleClick = () => {
+    setLoading(true);
+     const formData = new FormData();
+     formData.append("file", fileList);
+     if (address) {
+      formData.append("address", JSON.stringify(address));
+    }
+    console.log(JSON.stringify(address));
+     axios
+      .post(
+        "http://localhost:9000/upload_file",formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": 'multipart/form-data',
+          },
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        setLoading(false);
+        navigate("/generatecaption");
+      })
+      .catch((err) => {
+        console.log("Error", err);
+      });
+  };
 
   return (
     <>

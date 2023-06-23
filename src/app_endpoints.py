@@ -241,6 +241,9 @@ def upload_file():
     """
 
     file_path = request.files.get('file')
+    address = request.form.get('address')
+    if address is not None:
+        session['address'] = address
     if file_path and allowed_file(os.path.basename(file_path.filename)):
         file_name = os.path.basename(file_path.filename)
         file_extension = file_name.rsplit('.', 1)[1].lower()
