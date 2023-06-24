@@ -1,10 +1,9 @@
-body{
+*{
     margin:0;
     padding:0;
+}
+body{
     box-sizing: border-box;
-    /* overflow: hidden; */
-    
-    
 }
 .header-page2{
     display: flex;
@@ -40,7 +39,6 @@ section::before{
     background: #E9A9CC;
     border-radius:50% 50% 0 0 /100% 100% 0 0 ;
     transform: scaleX(1.5);
-    /* overflow-x: hidden; */
 }
 .content-page2{
     margin-top: 0px;
@@ -48,21 +46,16 @@ section::before{
     height:100%;
     border-radius: 60px;
     background: #E9FDFF;
-
+    
 }
 
 .innerContent-page2{
     width: 550px;
     height: auto;
-    /* position: absolute; */
     position: relative;
-    /* font-size: 70px; */
     font-weight: 600;
     margin: 40px auto auto 50px;
     color: #1C4042;
-    /* max-height: 600px; */
-    /* border:1px solid red; */
-    /* overflow-y: auto; */
 }
 
 .innerContent-page2 span{
@@ -82,17 +75,16 @@ section::before{
 
 
 .captionSize-icons{
-    /* margin-top: -20px; */
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     cursor: pointer;
 }
 .captionStyle-icons{
-    /* width: 450px; */
     margin-bottom: 40px;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap:1rem;
     align-self:center;
 }
 .captionSize-icons i{
@@ -112,10 +104,6 @@ section::before{
     background: #fff;
     cursor: pointer;
 }
-/* .captionStyle{
-    background: #1C4042;
-    color: #fff;
-} */
 
 .tone{
     margin-bottom: 20px !important;
@@ -142,7 +130,8 @@ section::before{
 .socialHandle-icons{
     width: 250px;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
     cursor: pointer;
 
 }
@@ -165,7 +154,9 @@ section::before{
     font-size: 30px;
     font-weight: 500;
     color: #fff;
-    /* z-index: 0; */
+}
+.btn-style-page2:hover{
+    background-color: hsl(183, 40%, 25%);
 }
 section .footer-page2 {
     position: relative;
@@ -211,6 +202,7 @@ section .footer-page2 {
 
 }
 .images-page2{
+    transform: scale(0.9);
      position: absolute;
     width: 50%;
     height: 100%;
@@ -223,6 +215,9 @@ section .footer-page2 {
     .images-page2{
         display: none !important;
     }
+    .btn-style-page2{
+        margin-inline: auto;
+    }
 }
 
 
@@ -230,14 +225,10 @@ section .footer-page2 {
   
     .steps{
         font-size: 25px !important;
-        /* margin: 40px 20px 20px 0px !important; */
     }
    .innerContent-page2{
-    /* position: absolute; */
     margin: 40px 40px auto 40px;
     width: auto;
-    /* margin: auto !important; */
-    /* width: fit-content; */
    }
    
    .captionSize-icons{
@@ -245,11 +236,6 @@ section .footer-page2 {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-}
-.captionStyle-icons{
-    width: 400px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
 }
 .captionStyle{
     margin-bottom: 10px;
@@ -292,10 +278,10 @@ section .footer-page2 {
 .preffered-platform{
     position: relative;
    }
-   .preffered-platform svg {
-    width: 40px;
-    height: 40px;
-   }
+.preffered-platform svg {
+width: 40px;
+height: 40px;
+}
 
 
 .btn-style-page2{
@@ -303,6 +289,9 @@ section .footer-page2 {
     position: relative;
     font-size: 20px !important;
    }
+   .btn-style-page2{
+    margin-inline: auto;
+}
 }
 
 @media only screen and (max-width:550px) {
@@ -315,11 +304,8 @@ section .footer-page2 {
         margin: 20px 20px 20px 0px !important;
     }
    .innerContent-page2{
-    /* position: absolute; */
     margin: 20px 20px auto 20px;
     width: auto;
-    /* margin: auto !important; */
-    /* width: fit-content; */
    }
    
    .captionSize-icons{
@@ -332,10 +318,6 @@ section .footer-page2 {
     width:140px;
 }
 
-.captionStyle-icons{
-    width: auto;
-    flex-wrap:wrap;
-}
 .captionStyle{
     margin-bottom: 10px;
 }
@@ -343,8 +325,6 @@ section .footer-page2 {
     font-size: 15px;
     width: 30px;
     height: 30px;
- 
-    /* padding: 10px; */
 }
 
 .medium{
@@ -375,8 +355,6 @@ section .footer-page2 {
 
 .socialHandle-icons{
     width: 140px;
-    display: flex;
-    flex-wrap: wrap;
 }
 .preffered-platform{
     position: relative;
@@ -390,6 +368,9 @@ section .footer-page2 {
     position: relative;
     font-size: 20px !important;
    }
+   .btn-style-page2{
+    margin-inline: 5rem;
+}
     
 }
 
@@ -413,14 +394,12 @@ section .footer-page2 {
     }
 
     .innerContent-page2{
-    /* width: 550px; */
     height: 76%;
     position: relative;
     font-size: 70px;
     font-weight: 600;
     margin: 20px 20px auto 40px;
     color: #1C4042;
-    /* border: 2px solid red; */
     max-height: 575px;
     overflow-y: auto;
 }
@@ -429,5 +408,8 @@ section .footer-page2 {
     }
     section::before{
         height: 10% !important;
+    }
+    .btn-style-page2{
+        margin-inline: auto;
     }
     }

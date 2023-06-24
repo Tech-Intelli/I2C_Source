@@ -3,7 +3,6 @@ body{
     margin:0;
     padding:0;
     box-sizing: border-box;
-    /* overflow: hidden; */
 }
 .header-page1{
     display: flex;
@@ -13,6 +12,7 @@ body{
     font-size: 30px;
     color: #1C4042;
     margin:0.5rem;
+    
 }
 .header-page1 .icons-page1 {
     width:90px;
@@ -38,7 +38,6 @@ section::before{
     background: #E9A9CC;
     border-radius:50% 50% 0 0 /100% 100% 0 0 ;
     transform: scaleX(1.5);
-    /* overflow-x: hidden; */
 }
 .content-page1{
     margin-top: 0px;
@@ -46,12 +45,12 @@ section::before{
     height:100%;
     border-radius: 60px;
     background: #E9FDFF;
+    
 }
 .innerContent-page1{
     position: relative;
-    width: 33%;
+    max-width: 45rem;
     height:80%;
-    /* font-size: 70px; */
     font-weight: 600;
     margin: 20px auto auto 50px;
     color: #1C4042;
@@ -70,8 +69,10 @@ section::before{
     font-weight: 500;
     color: #fff;
     margin-top: 20px !important;
-    /* margin-left: 20px !important; */
-    /* z-index: 0; */
+}
+.btn-style-page1:hover{
+    background-color: hsl(183, 40%, 25%);
+
 }
 section .footer-page1 {
     position: relative;
@@ -82,7 +83,7 @@ section .footer-page1 {
 }
 .drop-file-input {
     position: relative;
-    width: 100%;
+    width: 80%;
     height:50%;
     border: 2px solid #B6B6B6;
     border-radius: 50px;
@@ -93,14 +94,11 @@ section .footer-page1 {
     box-shadow: 0 0 10px inset rgb(80, 80, 80);
 }
 .steps{
-    /* margin-top: -50px; */
     font-size: 30px;
     margin-bottom: 20px !important;
 }
 .label{
     font-size: 20px;
-    /* margin-bottom: -30px !important; */
-    /* margin-left: 20px; */
 }
 .label-page1 span {
     font-size: 16px;
@@ -110,20 +108,12 @@ section .footer-page1 {
     color: red;
     padding: 20px;
 }
-/* .innerContent input{
-    margin-top: -70px !important;
-    border: none;
-    font-size: 16px;
-    color: #000;
-}  */
 .inputs, .context-page1{
     border: none;
     width: 100%;
-    /* padding-top: 20px; */
     margin-top: -30px;
     margin-left: -4px !important;
     font-size: 16px;
-    /* color: #B6B6B6; */
 }
 .content-page1::placeholder{
 
@@ -135,7 +125,6 @@ section .footer-page1 {
     padding: 0;
     border: none;
     height: 40px;
-    /* margin-left: 20px; */
 }
 .title{
     font-size: 25px;
@@ -147,7 +136,6 @@ section .footer-page1 {
 }
 .deleteBtn{
     border-radius: 20px;
-    /* margin-left: 20px; */
     background: #1C4042;
     color: white;
     cursor: pointer;
@@ -181,24 +169,52 @@ section .footer-page1 {
 
 }
 .images-page1{
-    /* right:0px; */
+ 
     position: absolute;
     width: 50%;
     height: 100%;
     display: flex;
     right: -90px;
     top:0;
+    
+
 }
 
 
+/*Styling the autocomplete location box*/
+
+.pac-container{
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0.1rem;
+}
+
+
+.pac-item{
+    background-color: #E9FDFF;
+}
+.pac-item-query{
+    color:#1C4042;
+}
+.pac-item:hover{
+    background-color: #E9A9CC;
+    transform: scale(1.02);
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+.pac-icon{
+    margin-inline: 0.3rem;
+}
+/*End of styling the autocomplete location box*/
+
 .context-location-container{
+    width: 100%;
     display: flex;
-    width: 35rem;
-    margin: 1rem;
     justify-content: space-between;
 }
 .context-location-container input{
-    width: 100%;
+    width: 20rem;
 }
 .drop-file-input__label {
     text-align: center;
@@ -273,7 +289,7 @@ section .footer-page1 {
         margin-bottom: 30px !important;
     }
     .innerContent-page1{
-        width:60%;
+        max-width: 35rem ;
         margin: 40px auto auto 40px !important;
 
     }
@@ -281,22 +297,34 @@ section .footer-page1 {
         width: 100%;
 
     }
-
+    .images-page1{
+        display: none;
+    }
+    .context-location-container input{
+        width: 15rem;
+    }
     .drop-file-input {
         position: relative;
-        width: 100%;
         height:50%;
         border: 2px solid #B6B6B6;
         border-radius: 50px;
+        margin-inline: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: #fff;
         box-shadow: 0 0 10px inset rgb(80, 80, 80);
     }
+ 
     .btn-style-page1{
         width: 80%;
         margin-left: 30px !important;
+    }
+}
+@media only screen and (max-width:600px)
+{
+    .context-location-container{
+        flex-direction: column;
     }
 }
 @media only screen and (max-width:550px){
@@ -304,6 +332,7 @@ section .footer-page1 {
     .innerContent-page1{
         width: 100%;
         margin: 40px auto auto 40px;
+       
     }
     .inputs, .context-page1{
         width:300px;
@@ -315,12 +344,14 @@ section .footer-page1 {
     .deleteBtn{
         margin-left: 100px
     }
+  
     .drop-file-input {
         position: relative;
         width: 300px !important;
         height:200px !important;
         border: none;
         border-radius: 50px;
+        
         display: flex;
         align-items: center;
         justify-content: center;
@@ -349,8 +380,5 @@ section .footer-page1 {
         width: 250px;
         margin-left: 22px;
     }
-    /* .drop-file-input__label i {
-        width: 20px;
-    } */
 
 }

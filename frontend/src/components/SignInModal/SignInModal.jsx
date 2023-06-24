@@ -193,18 +193,7 @@ export function SignInModal(props) {
               </p>
             </div>
           </div>
-        )}
-
-        {/* <Modal.Body>
-          I will not close if you click outside me. Don't even try to press
-          escape key.
-        </Modal.Body> */}
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={props.handleClose}>
-            Close
-          </Button>
-          <Button variant="primary">Understood</Button>
-        </Modal.Footer> */}
+        )}  
       </Modal>
     </>
   );
