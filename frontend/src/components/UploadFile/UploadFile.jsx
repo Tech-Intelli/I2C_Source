@@ -161,11 +161,11 @@ export const UploadFile = (props) => {
               <div className="context-location-container">
                 <div>
                   <p className="label">
-                    Add Context <span>(optional)</span>
+                    Something about your memory:
                   </p>
                   <input
                     type = "text"
-                    placeholder="Tell us something about your memory"
+                    placeholder="Memory (optional)..."
                     className="inputs context-page1"
                   ></input>
                 </div>
@@ -174,7 +174,7 @@ export const UploadFile = (props) => {
                     Add Location:
                   </p>
                   <div className="search">
-                      <input ref={searchInput} type="text" placeholder="Search location...." />
+                      <input ref={searchInput} type="text" placeholder="Search location...." className="inputs location"/>
                   </div>
                 </div>
               </div>
