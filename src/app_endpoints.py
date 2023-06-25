@@ -5,6 +5,7 @@ Flask end point for the caption generation
 import os
 import string
 import random
+import uuid
 import pathlib
 import shutil
 from pathlib import Path
@@ -21,6 +22,7 @@ from aws_s3 import AwsS3
 from login.register_user import RegisterUser
 from login.register_user import VerifyEmail
 from login.authenticate_user import AuthenticateUser
+from login.authenticate_user import AuthenticateAsGuest
 from login.authenticate_user import ForgetPassword
 from login.database import get_user_id
 
@@ -133,6 +135,22 @@ def login_user():
 # fixme:This should be handled directly in the front-end
 
 
+@app.route('/login_as_guest', methods=['POST'])
+def login_as_guest():
+    """ login as guest
+    Returns:
+        JSON: JSON indicating successful or failed login as guest
+    """
+    session_id = str(uuid.uuid4())
+    session['guest_id'] = session_id
+    auth_as_guest_user = AuthenticateAsGuest()
+    token = auth_as_guest_user.generate_auth_token_guest(session_id)
+    return jsonify({
+        "Success": "User logged in successfully as a guest",
+        "guest_id": session_id,
+        "token": token}), 200
+
+
 @app.route('/insta_login')
 def insta_login():
     """Instagram link
@@ -183,7 +201,6 @@ def login_required(function):
         auth_header = request.headers.get('Authorization')
         if not auth_header:
             return jsonify({"error": "Missing Authorization header"}), 401
-
         token = auth_header.split(' ')[1]
         try:
             payload = jwt.decode(
@@ -194,7 +211,6 @@ def login_required(function):
             return jsonify({"error": "Token has expired"}), 403
         except jwt.InvalidTokenError:
             return jsonify({"error": "Invalid token"}), 403
-
         return function(*args, **kwargs)
 
     return decorated_func

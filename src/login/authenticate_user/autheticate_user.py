@@ -78,3 +78,24 @@ class ForgetPassword:
             }
         )
         return True
+
+
+class AuthenticateAsGuest:
+    """
+    Authenticate user as a guest
+    """
+
+    def generate_auth_token_guest(self, guest_id):
+        """Generate an authentication token
+
+        Returns:
+            _type_: _description_
+        """
+        expires_in = timedelta(hours=1)
+        expiration = datetime.utcnow() + expires_in
+        payload = {
+            'user_id': str(guest_id),
+            'email': str(guest_id),
+            'exp': expiration
+        }
+        return jwt.encode(payload, os.environ['AUTH_SECRET_KEY'], algorithm='HS256')
