@@ -90,7 +90,6 @@ export const UploadFile = (props) => {
     if(window.google) {
       return Promise.resolve();
     }
-    console.log(apiKey)
     const src = `${mapApiJs}?key=${apiKey}&libraries=places&v=weekly`;
     return loadAsyncScript(src);
   }

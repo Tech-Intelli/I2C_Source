@@ -114,12 +114,12 @@ const ChooseCaption = () => {
 
                     </div>
                     <div>
-                    <i class="fa-solid fa-align-center captionSize extra-large" id = "very large" style = {selectSizeId === "very large" ? selectdiv:styles} onClick = {(e)=>handleSize(e.target.id)}></i>
+                    <i class="fa-solid fa-align-center captionSize extra-large" id = "very-large" style = {selectSizeId === "very large" ? selectdiv:styles} onClick = {()=>handleSize("very large")}></i>
                     <p style= {{fontSize:"14px",textAlign:"center"}}>extra large</p>
 
                     </div>
                     <div>
-                    <i class="fa-solid fa-align-center captionSize blog-post" id = "blog post" style = {selectSizeId === "blog post" ? selectdiv:styles} onClick = {(e)=>handleSize(e.target.id)}></i>
+                    <i class="fa-solid fa-align-center captionSize blog-post" id = "blog-post" style = {selectSizeId === "blog post" ? selectdiv:styles} onClick = {()=>handleSize("blog post")}></i>
                     <p style= {{fontSize:"14px",textAlign:"center"}}>Blog Post</p>
 
 
