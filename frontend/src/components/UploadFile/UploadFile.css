@@ -88,6 +88,7 @@ section .footer-page1 {
     border: 2px solid #B6B6B6;
     border-radius: 50px;
     display: flex;
+    margin-inline: auto;
     align-items: center;
     justify-content: center;
     background-color: #fff;
