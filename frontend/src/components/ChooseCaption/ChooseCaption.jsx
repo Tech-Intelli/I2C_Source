@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "./ChooseCaption.css"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from "axios"
 import { Circles } from "react-loader-spinner";
 import facebook from "../assets/icons/facebook.svg";
@@ -9,11 +9,12 @@ import twitter from "../assets/icons/twitter.svg";
 import linkedin from "../assets/icons/linkedin.svg";
 
 const ChooseCaption = () => {
+    const location = useLocation()
     const token = localStorage.getItem('token')
     const [targetId, settargetId] = useState();
     const [selectSizeId,setSelectsizeId] = useState();
     const [platformId, setplatformId] = useState();
-    const [tone,setTone]=useState();
+    const [tone,setTone]=useState("Casual");
     const [caption,setcaption] =useState("");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -58,7 +59,8 @@ const ChooseCaption = () => {
     }
     const generateCaption = () =>{
         setLoading(true);
-        const context='';
+        const context= location?.state?.memory || ''; //Setting the context as the memory that the user provides. If the user does not provide any value, the context is set to ''. 
+        
         axios.get(`http://localhost:9000/generate_image_video_caption?caption_size=${selectSizeId}&context=${context}&style=${targetId}&num_hashtags=30&tone=${tone}&social_media=${platformId}`,{
             headers:{
                 Authorization: `Bearer ${token}`
@@ -151,7 +153,7 @@ const ChooseCaption = () => {
                     <div className='captionTone'>
                         <p className="label tone" style={{marginTop:"0px",marginBottom:"0px"}}>Caption Tone ?</p>
                         <div className='dropdown-wrapper'>
-                            <select className='dropdown' onChange = {(e)=>setTone(e.target.value)}>
+                            <select className='dropdown' onChange = {(e)=>setTone(e.target.value)} onClick={(e) => { console.log(e.target.value) }}>
                                 <option selected>Casual</option>
                                 <option>Humorous</option>
                                 <option>Inspirational</option>

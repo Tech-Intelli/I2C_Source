@@ -66,6 +66,7 @@ export const UploadFile = (props) => {
   const onDragLeave = () => wrapperRef.current.classList.remove("dragover");
   const onDrop = () => wrapperRef.current.classList.remove("dragover");
 
+  const [memory,setMemory] = useState(''); //memory is used to access the memory context
 
   const onFileDrop = (e) => {
     const newFile = e.target.files[0];
@@ -135,7 +136,7 @@ export const UploadFile = (props) => {
       )
       .then((res) => {
         setLoading(false);
-        navigate("/generatecaption");
+        navigate("/generatecaption", {state: { memory }});
       })
       .catch((err) => {
         console.log("Error", err);
@@ -167,6 +168,8 @@ export const UploadFile = (props) => {
                     type = "text"
                     placeholder="Memory (optional)..."
                     className="inputs context-page1"
+                    value={memory}
+                    onChange={(e) => setMemory(e.target.value)}
                   ></input>
                 </div>
                 <div>
