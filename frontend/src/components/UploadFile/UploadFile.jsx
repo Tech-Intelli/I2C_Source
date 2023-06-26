@@ -211,7 +211,7 @@ export const UploadFile = (props) => {
                 {!file ? (
                   <input
                     ref={inputref}
-                    accept="image/jpg,image/png,image/jpeg,video/mp4,video/mov"
+                    accept="image/jpg,image/png,image/jpeg,video/mp4,video/quicktime"
                     type="file"
                     value=""
                     onChange={(e) => onFileDrop(e)}

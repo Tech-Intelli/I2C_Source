@@ -27,6 +27,11 @@
     padding: 30px 0 10px 0;
     margin-left:18px;
 }
+.forgot-password{
+  margin: 5px 16px ;
+  text-align: end;
+  width: 400px;
+}
 input{
     padding: 20px;
     width: 400px;
@@ -97,9 +102,11 @@ input{
   .modalFooter{
     margin-top: 20px;
     text-align: center;
+    display: flex;
+    justify-content: space-evenly;
     color: #1C4042;
   }
-  .modalFooter span {
+  .modalFooter span, .forgot-password span {
     text-decoration: underline;
     cursor: pointer;
 
@@ -110,6 +117,10 @@ input{
     
     input{
       margin: 10px auto auto 20px !important;
+      width: 300px;
+    }
+    .forgot-password{
+      margin: 10px auto auto 20px;
       width: 300px;
     }
     .modal-btn-btn{

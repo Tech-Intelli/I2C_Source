@@ -22,7 +22,7 @@ export const Layout = ()=>{
         <section>
         <div className="content">
             <div className="innerContent">
-                <p>Having tough time finding <span>Perfect Caption</span>?</p>
+                <p><span>ExplAIstic</span>: Explore the Art of Expression with <span>AI Captions</span></p>
                 <button className="btn-style" onClick={handleShow}>Start Now</button>
            </div>
           
