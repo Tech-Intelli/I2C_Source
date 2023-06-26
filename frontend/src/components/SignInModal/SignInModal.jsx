@@ -8,100 +8,141 @@ import linkedin from "../assets/icons/linkedin.svg";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import {Circles} from "react-loader-spinner"
+
 export function SignInModal(props) {
-  const navigate =useNavigate();
+  const navigate = useNavigate();
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [login, setLogin] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState(false);
+  const [errorText, setErrorText] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState('');
 
-  const [login,setlogin]  = useState(false);
-  const [email,setEmail]= useState();
-  const [password,setPassword] = useState();
-  const [confirmPass,setConfirmPass] =useState();
-  const [error,setError]  = useState(false);
-  const [ErrorText,setErrorText]  = useState("");
-  const [success,setsuccess] = useState();
-  const [loading,setLoading] = useState(false);
-
-  const handleLogin = async ()=>{
-    if(!email|| !password){
-      console.log("Please Enter All Fields");
-    }else{
+  const handleLogin = async () => {
+    if (!email || !password) {
+      console.log('Please enter all fields');
+    } else {
       setLoading(true);
-      const body ={
-        email:email,
-        password:password
-      }
-      await axios.post("http://localhost:9000/login_user",body).then(res=>{
+      const body = {
+        email: email,
+        password: password
+      };
+      await axios
+        .post('http://localhost:9000/login_user', body)
+        .then(res => {
+          setLoading(false);
+          localStorage.setItem('token', res.data.token);
+          navigate('/uploadfile');
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  };
+
+  const handleGuestLogin = async () => {
+    await axios
+      .post('http://localhost:9000/login_as_guest')
+      .then(res => {
         setLoading(false);
-        localStorage.setItem("token",res.data.token);
-        navigate("/uploadfile");
-        
-      }).catch(err=>{
+        localStorage.setItem('token', res.data.token);
+        navigate('/uploadfile');
+      })
+      .catch(err => {
         console.log(err);
       });
-    }
-  }
+  };
 
-  const handleSignUp = async () =>{
-    if(!email || !password){
+  const handleSignUp = async () => {
+    if (!email || !password) {
       setError(true);
-      setErrorText("Please Enter All Fields ")
-    }else{
+      setErrorText('Please enter all fields');
+    } else {
       setError(false);
-      if(password !== confirmPass){
+      if (password !== confirmPassword) {
         setError(true);
-        setErrorText("Passwords Don't Match!");
-      }else{
+        setErrorText("Passwords don't match!");
+      } else {
         setLoading(true);
         setError(false);
-         const body = {
-           email: email,
-           password:password
-         };
-         await axios.post("http://localhost:9000/register_user",body).then(res=>{
-            setsuccess("User Registered Successfully! Please verify Your Email To Login!");
+        const body = {
+          email: email,
+          password: password
+        };
+        await axios
+          .post('http://localhost:9000/register_user', body)
+          .then(res => {
+            setSuccess('User registered successfully! Please verify your email to login!');
             setLoading(false);
-            setEmail();
-            setPassword();
-            setConfirmPass();
-         }).catch(err=>{
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+          })
+          .catch(err => {
             console.log(err);
-         });
-
+          });
       }
-     
     }
+  };
 
-  }
+  const handleResetPassword = async () => {
+    if (!email || !password || !confirmPassword) {
+      setError(true);
+      setErrorText('Please enter all fields');
+    } else if (password !== confirmPassword) {
+      setError(true);
+      setErrorText("Passwords don't match!");
+    } else {
+      setLoading(true);
+      setError(false);
+      const body = {
+        username: username,
+        password: confirmPassword
+      };
+      await axios
+        .post('http://localhost:9000/forget_password', body)
+        .then(res => {
+          setLoading(false);
+          setSuccess('Password has been changed successfully. You can now login with the new password.');
+          setEmail('');
+          setPassword('');
+          setConfirmPassword('');
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  };
+
   return (
     <>
-      <Modal
-        className="SignModal"
-        show={props.show}
-        onHide={props.handleClose}
-        // backdrop="static"
-        keyboard={false}
-      >
+      <Modal className="SignModal" show={props.show} onHide={props.handleClose} keyboard={false}>
         {!login ? (
           <div>
             <Modal.Title>
-              Sign Up {error ? <p className="errorText">{ErrorText}</p> : null}
+              Sign Up {error ? <p className="errorText">{errorText}</p> : null}
             </Modal.Title>
 
             <input
               placeholder="Enter email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
             />
             <input
               placeholder="Enter Password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
             />
             <input
               placeholder="Confirm Password"
               type="password"
-              value={confirmPass}
-              onChange={(e) => setConfirmPass(e.target.value)}
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)}
             />
             {!success ? (
               loading ? (
@@ -115,87 +156,131 @@ export function SignInModal(props) {
                       wrapperStyle={{}}
                       wrapperClass=""
                       visible={true}
-                    ></Circles>
+                    />
                   </div>
                 </>
               ) : (
-                <button
-                  className="btn-style modal-btn-btn"
-                  onClick={handleSignUp}
-                >
+                <button className="btn-style modal-btn-btn" onClick={handleSignUp}>
                   Sign Up
                 </button>
               )
             ) : (
               <p className="success">{success}</p>
             )}
-            <hr class="hr-text" data-content="OR" />
+            <hr className="hr-text" data-content="OR" />
             <div className="socialHandles">
-              <img src={facebook} alt="facebook"></img>
-              <img src={instagram} alt="instagram"></img>
-              <img src={twitter} alt="twitter"></img>
-              <img src={linkedin} alt="linkedin"></img>
+              <img src={facebook} alt="facebook" />
+              <img src={instagram} alt="instagram" />
+              <img src={twitter} alt="twitter" />
+              <img src={linkedin} alt="linkedin" />
             </div>
             <div className="modalFooter">
               <p>
-                Already a user?{" "}
-                <span onClick={() => setlogin(!login)}>LOGIN</span>
+                Already a user? <span onClick={() => setLogin(!login)}>LOGIN</span>
               </p>
+              <span onClick={handleGuestLogin}>LOGIN as Guest</span>
             </div>
           </div>
         ) : (
-          <div>
-            <Modal.Title>Sign In</Modal.Title>
-            <input
-              placeholder="Enter email or mobile"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              placeholder="Enter Password"
-              type="password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-              {loading ? (
-                <>
-                  <div className="spinners">
-                    <Circles
-                      height="50"
-                      width="50"
-                      color="#1c4042"
-                      ariaLabel="circles-loading"
-                      wrapperStyle={{}}
-                      wrapperClass=""
-                      visible={true}
-                    ></Circles>
-                  </div>
-                </>
-              ) : (
-                <button
-                  className="btn-style modal-btn-btn"
-                  onClick={handleLogin}
-                >
-                  Login
-                </button>
-              )}
-            <hr class="hr-text" data-content="OR" />
+          <div className="Login">
+            {!forgotPassword ? (
+              <>
+                <Modal.Title>Sign In</Modal.Title>
+                <input
+                  placeholder="Enter email or mobile"
+                  onChange={e => setEmail(e.target.value)}
+                />
+                <input
+                  placeholder="Enter Password"
+                  type="password"
+                  onChange={e => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <div className="forgot-password">
+                  <span onClick={() => setForgotPassword(true)}>Forgot Password?</span>
+                </div>
+                {loading ? (
+                  <>
+                    <div className="spinners">
+                      <Circles
+                        height="50"
+                        width="50"
+                        color="#1c4042"
+                        ariaLabel="circles-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <button className="btn-style modal-btn-btn" onClick={handleLogin}>
+                    Login
+                  </button>
+                )}
+              </>
+            ) : (
+              <>
+                <Modal.Title>Reset Password</Modal.Title>
+                <input
+                  placeholder="Enter username"
+                  value={email}
+                  onChange={e => setUsername(e.target.value)}
+                />
+                <input
+                  placeholder="Enter new password"
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+                <input
+                  placeholder="Confirm new password"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                />
+                {error ? <p className="errorText">{errorText}</p> : null}
+                {!success ? (
+                  loading ? (
+                    <>
+                      <div className="spinners">
+                        <Circles
+                          height="50"
+                          width="50"
+                          color="#1c4042"
+                          ariaLabel="circles-loading"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                          visible={true}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <button className="btn-style modal-btn-btn" onClick={handleResetPassword}>
+                      Reset Password
+                    </button>
+                  )
+                ) : (
+                  <p className="success">{success}</p>
+                )}
+              </>
+            )}
+            <hr className="hr-text" data-content="OR" />
             <div className="socialHandles">
-              <img src={facebook} alt="facebook"></img>
-              <img src={instagram} alt="instagram"></img>
-              <img src={twitter} alt="twitter"></img>
-              <img src={linkedin} alt="linkedin"></img>
+              <img src={facebook} alt="facebook" />
+              <img src={instagram} alt="instagram" />
+              <img src={twitter} alt="twitter" />
+              <img src={linkedin} alt="linkedin" />
             </div>
             <div className="modalFooter">
               <p>
-                Not a user?{" "}
-                <span onClick={() => setlogin(!login)}>SIGN UP</span>
+                Not a user? <span onClick={() => setLogin(!login)}>SIGN UP</span>
               </p>
             </div>
           </div>
-        )}  
+        )}
       </Modal>
     </>
   );
 }
-
