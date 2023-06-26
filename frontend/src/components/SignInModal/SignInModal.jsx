@@ -20,7 +20,6 @@ export function SignInModal(props) {
   const [errorText, setErrorText] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState('');
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -100,7 +99,7 @@ export function SignInModal(props) {
       setLoading(true);
       setError(false);
       const body = {
-        username: username,
+        username: email,
         password: confirmPassword
       };
       await axios
@@ -224,9 +223,9 @@ export function SignInModal(props) {
               <>
                 <Modal.Title>Reset Password</Modal.Title>
                 <input
-                  placeholder="Enter username"
+                  placeholder="Enter username or email"
                   value={email}
-                  onChange={e => setUsername(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                 />
                 <input
                   placeholder="Enter new password"
@@ -277,6 +276,7 @@ export function SignInModal(props) {
               <p>
                 Not a user? <span onClick={() => setLogin(!login)}>SIGN UP</span>
               </p>
+              <span onClick={handleGuestLogin}>LOGIN as Guest</span>
             </div>
           </div>
         )}
