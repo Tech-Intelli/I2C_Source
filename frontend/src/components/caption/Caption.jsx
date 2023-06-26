@@ -2,11 +2,25 @@ import React from 'react'
 import "./Caption.css";
 import Card from './Post/Card';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import Typed from 'typed.js';
 
 
 
 const Caption = () => {
+    const el = React.useRef(null);
+    //Type Animation
+    React.useEffect(() => {
+        const typed = new Typed(el.current, {
+          strings: [state.caption],
+          typeSpeed: 5,
+        });
+    
+        return () => {
+          // Destroy Typed instance during cleanup to stop animation
+          typed.destroy();
+        };
+      }, []);
+
     const navigate = useNavigate();
     const { state } = useLocation();
     const handleReupload = () => {
@@ -40,7 +54,7 @@ const Caption = () => {
                     <div className='text' >
                         <p className="steps-page3" >Step 3 :Share Your Caption</p>
                         <div className='generated-caption'>
-                            <textarea style={{resize:"none"}} value={state.caption} className='caption'></textarea>
+                            <textarea style={{resize:"none"}}className='caption' ref={el}></textarea>
                         </div>
                         <div className="utilities">
                             <button className='btn-reupload' onClick={handleReupload}>Reupload <i class="fa-solid fa-cloud-arrow-up"></i></button>
