@@ -1,11 +1,25 @@
 import React from 'react'
 import "./Caption.css";
 import Card from './Post/Card';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+
 
 
 const Caption = () => {
+    const navigate = useNavigate();
     const { state } = useLocation();
+    const handleReupload = () => {
+        navigate('/uploadfile') ;// Go back two pages
+      };
+    
+    const handleRegenerate = () => {
+        navigate('/generatecaption'); // Should only go back 1 page
+    };
+    const handleShare = () => {
+        console.log("Share");
+        //Logic for Implementing the Share Button
+    };
   return (
 
     <>
@@ -27,14 +41,17 @@ const Caption = () => {
                         <p className="steps-page3" >Step 3 :Share Your Caption</p>
                         <div className='generated-caption'>
                             <textarea style={{resize:"none"}} value={state.caption} className='caption'></textarea>
-                            <button className='btn-refresh'>Refresh <i class="fa-solid fa-arrows-rotate"></i></button>
+                        </div>
+                        <div className="utilities">
+                            <button className='btn-reupload' onClick={handleReupload}>Reupload <i class="fa-solid fa-cloud-arrow-up"></i></button>
+                            <button className='btn-regenerate' onClick={handleRegenerate} >Regenerate <i class="fa-solid fa-arrows-rotate"></i></button>
                         </div>
                     </div>
                     <div>
                         <Card path={state.file_path} />
                     </div>
                 </div>
-                <button className='btn-style-page3'>Share</button>
+                <button className='btn-style-page3' onClick={handleShare}>Share</button>
                 
            </div>
            

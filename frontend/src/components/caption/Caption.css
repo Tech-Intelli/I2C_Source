@@ -107,18 +107,26 @@ textarea{
 .innerContent-page3 span{
     color: #E9A9CC;
 }
-.btn-refresh{
+.utilities{
+    display: flex;
+    justify-content: space-between;
+}
+.btn-regenerate,.btn-reupload{
     width:150px;
     height: 40px !important;;
     border-radius: 30px;
-    background: #E9A9CC;
+    background: #1C4042;
     color: #fff;
     border: none;
     font-size: 16px;
-    position: absolute;
+    margin: 0.5rem;
+    /* position: absolute;
     bottom: 20px;
-    right:20px;
+    right:20px; */
     cursor: pointer;
+}
+.btn-regenerate:hover,.btn-reupload:hover{
+    background-color: hsl(183, 40%, 25%);
 }
 .btn-style-page3{
     margin-top: -60px;

@@ -167,12 +167,12 @@ export function SignInModal(props) {
               <p className="success">{success}</p>
             )}
             <hr className="hr-text" data-content="OR" />
-            <div className="socialHandles">
+            {/* <div className="socialHandles">
               <img src={facebook} alt="facebook" />
               <img src={instagram} alt="instagram" />
               <img src={twitter} alt="twitter" />
               <img src={linkedin} alt="linkedin" />
-            </div>
+            </div> */}
             <div className="modalFooter">
               <p>
                 Already a user? <span onClick={() => setLogin(!login)}>LOGIN</span>
@@ -266,12 +266,12 @@ export function SignInModal(props) {
               </>
             )}
             <hr className="hr-text" data-content="OR" />
-            <div className="socialHandles">
+            {/* <div className="socialHandles">
               <img src={facebook} alt="facebook" />
               <img src={instagram} alt="instagram" />
               <img src={twitter} alt="twitter" />
               <img src={linkedin} alt="linkedin" />
-            </div>
+            </div> */}
             <div className="modalFooter">
               <p>
                 Not a user? <span onClick={() => setLogin(!login)}>SIGN UP</span>
