@@ -18,7 +18,7 @@ const ChooseCaption = () => {
     const [caption,setcaption] =useState("");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-
+    const [hashtag, setHashtag] = useState(0); // Number of hashtags
     const addBorder = {
         border:"2px solid #1C4042",
         borderRadius:"5px"
@@ -61,7 +61,7 @@ const ChooseCaption = () => {
         setLoading(true);
         const context= location?.state?.memory || ''; //Setting the context as the memory that the user provides. If the user does not provide any value, the context is set to ''. 
         
-        axios.get(`http://localhost:9000/generate_image_video_caption?caption_size=${selectSizeId}&context=${context}&style=${targetId}&num_hashtags=30&tone=${tone}&social_media=${platformId}`,{
+        axios.get(`http://localhost:9000/generate_image_video_caption?caption_size=${selectSizeId}&context=${context}&style=${targetId}&num_hashtags=${hashtag}&tone=${tone}&social_media=${platformId}`,{
             headers:{
                 Authorization: `Bearer ${token}`
             },
@@ -93,7 +93,13 @@ const ChooseCaption = () => {
         });
         console.log("Go to Login")
     };
-
+    // Handling mouse move
+    const handleHashtag = (e)=>{
+        setHashtag(e.target.value);
+        const x = (hashtag / 30) * 100;
+        const gradient = (x!=0)?`linear-gradient(90deg, #1C4042 ${x}%, #E9A9CC${x}%`: "#E9A9CC";
+        e.target.style.backgroundImage = gradient;
+    }
 
   return (
     <>
@@ -121,6 +127,7 @@ const ChooseCaption = () => {
             )}
             <div className="innerContent-page2">
                 <p className="steps" style ={{marginBottom:"40px"}}>Choose Preference</p>
+                <div className="caption-size">
                 <div >
                     <p className="label">Caption Size ?</p>
                 </div>
@@ -152,14 +159,22 @@ const ChooseCaption = () => {
 
 
                     </div>
-
+                    </div>
 
 
 
                 </div>
-                <div className='preference_heading'>
-                <p className="label " style={{marginTop:"20px",}}>Caption Style ?</p>
+                <div className="style-hashtag-heading">
+                    <div className='preference_heading'>
+                    <p className="label " style={{marginTop:"20px",}}>Caption Style ?</p>
+                    </div>
+                    <div className='preference_heading'>
+                    <p className="label " style={{marginTop:"20px",}}>Hashtags ?</p>
+                    </div>
                 </div>
+                <div className="style-hashtag">
+                    <div className="caption-style">
+                    
                 <div className='captionStyle-icons'>
                     <div className='captionStyle'  id = "cool" onClick={(e)=>handleChange(e.target.id)}  style = {targetId === "cool" ? selectdiv:styles}>
                         Cool
@@ -177,6 +192,13 @@ const ChooseCaption = () => {
                         Poetry
                     </div>
                 </div>
+                    </div>
+                    <div className="hashtags">
+                            <input type="range" value={hashtag} min="0" max="30"  onChange = {handleHashtag} />
+                            <p className='hash'>{hashtag}</p>
+                    </div>
+                </div>
+                
                 <div className='preferences'>
                     <div className='captionTone'>
                         <p className="label tone" style={{marginTop:"0px",marginBottom:"0px"}}>Caption Tone ?</p>
@@ -225,7 +247,7 @@ const ChooseCaption = () => {
                         ></Circles>
                     </div>:<button className="btn-style-page2" style = {{border:"none"}} onClick ={generateCaption}>Generate Caption</button>
                   }
-           </div>
+           </div>           
         </div>
         <div className="footer-page2">
         </div>
