@@ -25,12 +25,12 @@ const Card = (props) => {
             </div>
         <div className='actionBtns'>
             <div className="left">
-                <i class="fa-regular fa-heart"></i>
-                <i class="fa-regular fa-comment"></i>
-                <i class="fa-solid fa-share"></i>
+                <i className="fa-regular fa-heart"></i>
+                <i className="fa-regular fa-comment"></i>
+                <i className="fa-solid fa-share"></i>
             </div>
             <div className="right">
-            <i class="fa-regular fa-bookmark"></i>
+            <i className="fa-regular fa-bookmark"></i>
             </div>
         </div>
         <h4 className='likes'></h4>

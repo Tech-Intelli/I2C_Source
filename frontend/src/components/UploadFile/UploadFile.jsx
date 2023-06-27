@@ -184,7 +184,7 @@ export const UploadFile = (props) => {
           )}
             <div className="innerContent-page1">
             
-              <p className="steps">Step 1 :Upload Files</p>
+              <p className="steps">Upload Files</p>
               <div className="context-location-container">
                 <div>
                   <p className="label">
@@ -218,7 +218,7 @@ export const UploadFile = (props) => {
                   {!file ? (
                     <>
                       <i
-                        class="fa-regular fa-image"
+                        className="fa-regular fa-image"
                         style={{ color: "#989aa0" }}
                       ></i>
                       <p className="title">

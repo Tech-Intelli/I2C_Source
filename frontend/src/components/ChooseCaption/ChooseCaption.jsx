@@ -120,34 +120,34 @@ const ChooseCaption = () => {
                 </div>
             )}
             <div className="innerContent-page2">
-                <p className="steps" style ={{marginBottom:"40px"}}>Step 2 :Choose Preference</p>
+                <p className="steps" style ={{marginBottom:"40px"}}>Choose Preference</p>
                 <div >
                     <p className="label">Caption Size ?</p>
                 </div>
                 <div className='captionSize-icons'>
                     <div>
-                    <i class="fa-solid fa-align-center captionSize small-i" id = "small" style = {selectSizeId === "small" ? selectdiv:styles} onClick = {(e)=>handleSize(e.target.id)}></i>
+                    <i className="fa-solid fa-align-center captionSize small-i" id = "small" style = {selectSizeId === "small" ? selectdiv:styles} onClick = {(e)=>handleSize(e.target.id)}></i>
                     <p style= {{fontSize:"14px",textAlign:"center"}}>small</p>
 
                     </div>
                     <div>
-                    <i class="fa-solid fa-align-center captionSize medium" id = "medium" style = {selectSizeId === "medium" ? selectdiv:styles} onClick = {(e)=>handleSize(e.target.id)}></i>
+                    <i className="fa-solid fa-align-center captionSize medium" id = "medium" style = {selectSizeId === "medium" ? selectdiv:styles} onClick = {(e)=>handleSize(e.target.id)}></i>
                     <p style= {{fontSize:"14px",textAlign:"center"}}>medium</p>
 
                     </div>
                     <div>
-                    <i class="fa-solid fa-align-center captionSize large" id = "large" style = {selectSizeId === "large" ? selectdiv:styles} onClick = {(e)=>handleSize(e.target.id)}></i>
+                    <i className="fa-solid fa-align-center captionSize large" id = "large" style = {selectSizeId === "large" ? selectdiv:styles} onClick = {(e)=>handleSize(e.target.id)}></i>
                     <p style= {{fontSize:"14px",textAlign:"center"}}>large</p>
 
 
                     </div>
                     <div>
-                    <i class="fa-solid fa-align-center captionSize extra-large" id = "very-large" style = {selectSizeId === "very large" ? selectdiv:styles} onClick = {()=>handleSize("very large")}></i>
+                    <i className="fa-solid fa-align-center captionSize extra-large" id = "very-large" style = {selectSizeId === "very large" ? selectdiv:styles} onClick = {()=>handleSize("very large")}></i>
                     <p style= {{fontSize:"14px",textAlign:"center"}}>extra large</p>
 
                     </div>
                     <div>
-                    <i class="fa-solid fa-align-center captionSize blog-post" id = "blog-post" style = {selectSizeId === "blog post" ? selectdiv:styles} onClick = {()=>handleSize("blog post")}></i>
+                    <i className="fa-solid fa-align-center captionSize blog-post" id = "blog-post" style = {selectSizeId === "blog post" ? selectdiv:styles} onClick = {()=>handleSize("blog post")}></i>
                     <p style= {{fontSize:"14px",textAlign:"center"}}>Blog Post</p>
 
 
