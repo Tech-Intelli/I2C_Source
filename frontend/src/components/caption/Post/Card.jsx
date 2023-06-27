@@ -20,7 +20,14 @@ const Card = (props) => {
             </div>
         </div>
         <div className="imgBx">
-            <img src={`${process.env.PUBLIC_URL}/${relativePath}`} alt="" className='cover'/>
+            {(fileType === "mp4" || fileType === "mov" || fileType === "quicktime")? (
+                <video controls className="cover">
+                    <source src={`${process.env.PUBLIC_URL}/${relativePath}`} ></source>
+                </video>
+                ) : (
+                <img src={`${process.env.PUBLIC_URL}/${relativePath}`} alt="" className='cover'/>
+            )}
+            
         </div>
         <div className='actionBtns'>
             <div className="left">

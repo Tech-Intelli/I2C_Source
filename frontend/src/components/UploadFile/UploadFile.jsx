@@ -200,7 +200,7 @@ export const UploadFile = (props) => {
                       </p>
                       <p className="subtitle">Drag & Drop your files here</p>
                     </>
-                  ) : (fileType == "mp4") | "mov" ? (
+                  ) : (fileType === "mp4" || fileType === "mov" || fileType === "quicktime") ? (
                     <video controls className="selectedFile">
                       <source src={file}></source>
                     </video>
