@@ -80,13 +80,13 @@ const Caption = () => {
             <div className="innerContent-page3">
                 <div className='innerContent-div'> 
                     <div className='text' >
-                        <p className="steps-page3" >Step 3 :Share Your Caption</p>
+                        <p className="steps-page3" >Share Your Caption</p>
                         <div className='generated-caption'>
                             <textarea style={{resize:"none"}}className='caption' ref={el}></textarea>
                         </div>
                         <div className="utilities">
-                            <button className='btn-reupload' onClick={handleReupload}>Reupload <i class="fa-solid fa-cloud-arrow-up"></i></button>
-                            <button className='btn-regenerate' onClick={handleRegenerate} >Regenerate <i class="fa-solid fa-arrows-rotate"></i></button>
+                            <button className='btn-reupload' onClick={handleReupload}>Reupload <i className="fa-solid fa-cloud-arrow-up"></i></button>
+                            <button className='btn-regenerate' onClick={handleRegenerate} >Regenerate <i className="fa-solid fa-arrows-rotate"></i></button>
                         </div>
                     </div>
                     <div>

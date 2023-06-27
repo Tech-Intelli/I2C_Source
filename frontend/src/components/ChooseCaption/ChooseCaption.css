@@ -54,14 +54,63 @@ section::before{
 }
 
 .innerContent-page2{
-    width: 550px;
+    width: 950px;
     height: auto;
     position: relative;
     font-weight: 600;
     margin: 40px auto auto 50px;
     color: #1C4042;
 }
-
+.caption-size{
+    width: 60%
+}
+.style-hashtag-heading{
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+}
+.style-hashtag{
+    display: flex;
+    justify-content: space-between;
+}
+.hashtags{
+    width: 30%;
+    position: relative;
+    padding: 0 2rem;
+}
+.hash{
+    color: #1C4042;
+    position: absolute;
+    right: 20%;
+    top: 12%;
+    width: 15%;
+}
+.hashtags input[type="range"]{
+    appearance: none;
+    background: #E9A9CC;
+    outline: none;
+    border: none;
+    margin: 0;
+    position: absolute;
+    left: 10%;
+    padding: 0;
+    width: 50%;
+    height: 0.4rem;
+    -webkit-appearance: none;
+}
+.hashtags input[type="range"]::-webkit-slider-thumb{
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: #265759;
+    padding: 0.5rem;
+    -webkit-appearance: none;
+}
+.hashtags p{
+    text-align: center;
+}
 .innerContent-page2 span{
     color: #E9A9CC;
 }
@@ -160,7 +209,7 @@ section::before{
     color: #fff;
 }
 .btn-style-page2:hover{
-    background-color: hsl(183, 40%, 25%);
+    background-color: #265759;
 }
 section .footer-page2 {
     position: relative;
