@@ -20,6 +20,9 @@ body{
     display: flex;
     justify-content: space-between;
 }
+.icons-page2 i:nth-child(1):hover{
+    cursor: pointer;
+}
 section{
     position: relative;
     width: 100%;
@@ -41,6 +44,7 @@ section::before{
     transform: scaleX(1.5);
 }
 .content-page2{
+    position: relative;
     margin-top: 0px;
     width: 100%;
     height:100%;
