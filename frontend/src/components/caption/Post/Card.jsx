@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import "./card.css";
 
 import image from "./image.jpeg";
@@ -6,29 +6,23 @@ import image from "./image.jpeg";
 
 const Card = (props) => {
     const relativePath = props.path.split('/public/')[1];
-  return (
-    <div className="card-page">
-        <div className="top">
-            <div className="userDetails">
-                <div className="profile_img">
-                    <img src ="" class = "cover"/>
-                </div>
-                <h3>User_Name<br/><span>India</span></h3>
-            </div>
-            <div>
-                <i class="fa-solid fa-ellipsis-vertical dot"></i>
-            </div>
-        </div>
-        <div className="imgBx">
-            {(fileType === "mp4" || fileType === "mov" || fileType === "quicktime")? (
-                <video controls className="cover">
-                    <source src={`${process.env.PUBLIC_URL}/${relativePath}`} ></source>
-                </video>
+    const fileExtension = relativePath.split('.').pop().toLowerCase();
+    const fileType = fileExtension === 'mp4' || fileExtension === 'mov' || fileExtension === 'quicktime'
+        ? 'video'
+        : 'image';
+
+    return (
+        <div className="card-page">
+            {/* Rest of the code */}
+            <div className="imgBx">
+                {fileType === "video" ? (
+                    <video controls className="cover">
+                        <source src={`${process.env.PUBLIC_URL}/${relativePath}`}></source>
+                    </video>
                 ) : (
-                <img src={`${process.env.PUBLIC_URL}/${relativePath}`} alt="" className='cover'/>
-            )}
-            
-        </div>
+                    <img src={`${process.env.PUBLIC_URL}/${relativePath}`} alt="" className='cover' />
+                )}
+            </div>
         <div className='actionBtns'>
             <div className="left">
                 <i class="fa-regular fa-heart"></i>

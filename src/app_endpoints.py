@@ -55,7 +55,6 @@ CORS(app, supports_credentials=True, resources={
         "methods": ["GET", "POST", "PUT", "DELETE"]
     }
 })
-app.secret_key = os.environ['FLASK_SESSION_SECRET_KEY']
 
 
 @app.route('/register_user', methods=['POST'])
@@ -149,6 +148,16 @@ def login_as_guest():
         "Success": "User logged in successfully as a guest",
         "guest_id": session_id,
         "token": token}), 200
+
+
+@app.route('/logout_user', methods=['POST'])
+def logout_user():
+    """ logout user
+    Returns:
+        JSON: JSON indicating if user successfully logged out.
+    """
+    session.clear()
+    return jsonify({"Success": "User Successfully Logged Out"}), 200
 
 
 @app.route('/insta_login')
