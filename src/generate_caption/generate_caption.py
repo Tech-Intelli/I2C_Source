@@ -152,22 +152,22 @@ class ImageCaptionGenerator:
         if context is not None or context != "":
             words = caption_length.split()
             only_length = f"{words[-2]} {words[-1]}"
-            content = f'''{caption_length} {social_media} post for this image
-            for the location: {location}, showcasing {text} in a {style} manner,
-            relating to the provided context: "{context}".
-            Employ a {tone} language style to engage and captivate your target audience.
-            It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
-            Add relevant emojis.
-            Generate a {caption_size} post of {only_length} with exactly {num_hashtags}
-            trending hashtags.'''
+            content = f'''{caption_length} {social_media} caption for the given image.
+            The caption should be set in {location}, with a focus on highlighting {text} in a {style} style, 
+            while also tying into the context: "{context}".
+            Use a {tone} language style to hook and enthrall the intended audience.
+            It's of utmost importance to weave in exactly {num_hashtags} popular trending hashtags.
+            Sprinkle in pertinent emojis to add flair.
+            Finally, ensure the caption consists of {only_length} sentences,
+            and includes the specified {num_hashtags} trending hashtags.'''
         else:
-            content = f'''{caption_length} {social_media} post for this image,
-            for the location: {location}, showcasing {text} in a {style} manner.
-            Employ a {tone} language style to engage and captivate your target audience.
-            It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
-            Add relevant emojis.
-            Generate a {caption_size} post of {only_length} with exactly {num_hashtags}
-            trending hashtags.'''
+            content = f'''{caption_length} {social_media} caption for the given image.
+            The caption should be set in {location}, with a focus on highlighting {text} in a {style} style.
+            Use a {tone} language style to hook and enthrall the intended audience.
+            It's of utmost importance to weave in exactly {num_hashtags} popular trending hashtags.
+            Sprinkle in pertinent emojis to add flair.
+            Finally, ensure the caption consists of {only_length} sentences,
+            and includes the specified {num_hashtags} trending hashtags.'''
 
         response_json = self.chatbot.get_response(content)
         return response_json, compressed_image_path
@@ -238,22 +238,23 @@ class VideoCaptionGenerator:
         if context is not None or context != "":
             words = caption_length.split()
             only_length = f"{words[-2]} {words[-1]}"
-            content = f'''{caption_length} {social_media} post for this video,
-            for the location: {location}, showcasing {text} in a {style} manner,
-            relating to the provided context: "{context}".
-            Employ a {tone} language style to engage and captivate your target audience.
-            It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
-            Add relevant emojis.
-            Generate a {caption_size} post of {only_length} with exactly {num_hashtags}
-            trending hashtags.'''
+            content = f'''{caption_length} {social_media} caption for the given video.
+            The caption should be set in {location}, with a focus on highlighting {text} in a {style} style, 
+            while also tying into the context: "{context}".
+            Use a {tone} language style to hook and enthrall the intended audience.
+            It's of utmost importance to weave in exactly {num_hashtags} popular trending hashtags.
+            Sprinkle in pertinent emojis to add flair.
+            Finally, ensure the caption consists of {only_length} sentences,
+            and includes the specified {num_hashtags} trending hashtags.'''
         else:
-            content = f'''{caption_length} {social_media} post for this video,
-            for the location: {location}, showcasing {text} in a {style} manner.
-            Employ a {tone} language style to engage and captivate your target audience.
-            It is crucial to incorporate exactly {num_hashtags} top trending hashtags.
-            Add relevant emojis.
-            Generate a {caption_size} post of {only_length} with exactly {num_hashtags}
-            trending hashtags.'''
+            content = f'''{caption_length} {social_media} caption for the given image.
+            The caption should be set in {location}, with a focus on highlighting {text} in a {style} style.
+            Use a {tone} language style to hook and enthrall the intended audience.
+            It's of utmost importance to weave in exactly {num_hashtags} popular trending hashtags.
+            Sprinkle in pertinent emojis to add flair.
+            Finally, ensure the caption consists of {only_length} sentences,
+            and includes the specified {num_hashtags} trending hashtags.'''
+
         response_json = self.chatbot.get_response(content)
         shutil.rmtree(scene_dir, ignore_errors=True)
         return response_json
