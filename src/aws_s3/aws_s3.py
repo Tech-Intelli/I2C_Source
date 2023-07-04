@@ -4,6 +4,7 @@ Module for creating s3 buckets, upload and download images.
 # pylint: disable=E0401
 import logging
 import boto3
+import requests
 
 # pylint: disable=W0718
 
@@ -71,6 +72,28 @@ class AwsS3:
                 'Error downloading %s from %s due to error:\n%s', key_name, s3_bucket_name, error)
             return False
         return True
+
+    @staticmethod
+    def create_presigned_url(s3_bucket_name, key_name):
+        """
+        Create a presigned URL for the specified key name
+        Args:
+            s3_bucket_name (str): Amazon S3 bucket name
+            key_name (str): file name in s3 bucket
+        """
+        try:
+            presigned_url = AwsS3.s3.generate_presigned_url(
+                'get_object',
+                Params={
+                    'Bucket': s3_bucket_name,
+                    'Key': key_name,
+                },
+                ExpiresIn=3600
+            )
+        except Exception as error:
+            print(f"Error creating presigned url: {error}")
+            return None
+        return presigned_url
 
     @staticmethod
     def delete_file_from_s3(s3_bucket_name, key_name):

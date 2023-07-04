@@ -7,20 +7,22 @@ import facebook from "../assets/icons/facebook.svg";
 import instagram from "../assets/icons/instagram.svg";
 import twitter from "../assets/icons/twitter.svg";
 import linkedin from "../assets/icons/linkedin.svg";
+import Navbar from "../Navbar/Navbar";
+import {Slider} from '@mui/material';
 
 const ChooseCaption = () => {
     const location = useLocation()
     const token = localStorage.getItem('token')
-    const [targetId, settargetId] = useState();
-    const [selectSizeId,setSelectsizeId] = useState();
-    const [platformId, setplatformId] = useState();
+    const [targetId, settargetId] = useState('cool');
+    const [selectSizeId,setSelectsizeId] = useState('small');
+    const [platformId, setplatformId] = useState('instagram');
     const [tone,setTone]=useState("Casual");
     const [caption,setcaption] =useState("");
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [hashtag, setHashtag] = useState(0); // Number of hashtags
     const addBorder = {
-        border:"2px solid #1C4042",
+        border:"2px solid var(--bg-button)",
         borderRadius:"5px"
     }
     const bordernone = {
@@ -29,12 +31,13 @@ const ChooseCaption = () => {
 
 
     const selectdiv = {
-        background :"#1C4042",
+        backgroundColor :"var(--bg-button)",
+
         color : "#fff"
     }
     const styles = {
-        background :"#fff",
-        color:"#1C4042",
+        background :"#2D2D2D",
+        color:"var(--font-col)",
     }
 
     const handleChange = (id)=>{
@@ -60,8 +63,9 @@ const ChooseCaption = () => {
     const generateCaption = () =>{
         setLoading(true);
         const context= location?.state?.memory || ''; //Setting the context as the memory that the user provides. If the user does not provide any value, the context is set to ''. 
-        
-        axios.get(`http://localhost:9000/generate_image_video_caption?caption_size=${selectSizeId}&context=${context}&style=${targetId}&num_hashtags=${hashtag}&tone=${tone}&social_media=${platformId}`,{
+        const address = location?.state?.address || '';
+        const file = location?.state?.file || '';
+        axios.get(`http://localhost:9000/generate_image_video_caption?caption_size=${selectSizeId}&context=${context}&style=${targetId}&num_hashtags=${hashtag}&tone=${tone}&social_media=${platformId}&file_name=${JSON.stringify(file)}&address=${address}`,{
             headers:{
                 Authorization: `Bearer ${token}`
             },
@@ -69,7 +73,11 @@ const ChooseCaption = () => {
         }).then(res=>{
             setLoading(false);
             setcaption(res.data.Caption);
-            navigate("/caption",{state:{caption:res.data.Caption, file_path:res.data.File_PATH}})
+            navigate("/caption",{state:{caption:res.data.Caption,
+                file_path:res.data.File_URL,
+                context: context,
+                address: address,
+                file_name: file}})
         }).catch(err=>{
             setLoading(false);
             console.log(err);
@@ -77,125 +85,88 @@ const ChooseCaption = () => {
 
 
     }
-    //To handle Logout
-    const [showDropdown, setShowDropdown] = useState(false); // To convert the user icon into dropdown
-    const toggleDropdown = () => {
-        console.log("User was clicked");
-        setShowDropdown(!showDropdown);
-    };
-    const handleLogout = async() => {
-        await axios.post("http://localhost:9000/logout_user")
-        .then((res)=>{
-        navigate("/");
-        })
-        .catch((err) => {
-        console.log("Error", err);
-        });
-        console.log("Go to Login")
-    };
     // Handling mouse move
     const handleHashtag = (e)=>{
         setHashtag(e.target.value);
-        const x = (hashtag / 30) * 100;
-        const gradient = (x!=0)?`linear-gradient(90deg, #1C4042 ${x}%, #E9A9CC${x}%`: "#E9A9CC";
-        e.target.style.backgroundImage = gradient;
     }
 
   return (
     <>
     <div>
-        <div className="header-page2">
-            <div>
-                <p>ExplAIstic</p>
-            </div>
-            <div className= "icons-page2">
-            <i
-                className={`fa-regular fa-user ${showDropdown ? 'active' : ''}`}
-                onClick={toggleDropdown}
-              ></i>
-            <i className="fa-solid fa-bars"></i>
-            </div>
-        </div>
+        <Navbar flag={true}/>
         <section>
-        <div className="content-page2">
-            {showDropdown && (
-                <div className="dropdown-input">
-                <ul>
-                    <li onClick={handleLogout}>Log out</li>
-                </ul>
-                </div>
-            )}
+        <div className="content">
             <div className="innerContent-page2">
+
                 <p className="steps" style ={{marginBottom:"40px"}}>Choose Preference</p>
                 <div className="caption-size">
                 <div >
                     <p className="label">Caption Size ?</p>
                 </div>
                 <div className='captionSize-icons'>
-                    <div>
-                    <i className="fa-solid fa-align-center captionSize small-i" id = "small" style = {selectSizeId === "small" ? selectdiv:styles} onClick = {(e)=>handleSize(e.target.id)}></i>
-                    <p style= {{fontSize:"14px",textAlign:"center"}}>small</p>
-
-                    </div>
-                    <div>
-                    <i className="fa-solid fa-align-center captionSize medium" id = "medium" style = {selectSizeId === "medium" ? selectdiv:styles} onClick = {(e)=>handleSize(e.target.id)}></i>
-                    <p style= {{fontSize:"14px",textAlign:"center"}}>medium</p>
-
-                    </div>
-                    <div>
-                    <i className="fa-solid fa-align-center captionSize large" id = "large" style = {selectSizeId === "large" ? selectdiv:styles} onClick = {(e)=>handleSize(e.target.id)}></i>
-                    <p style= {{fontSize:"14px",textAlign:"center"}}>large</p>
-
-
-                    </div>
-                    <div>
-                    <i className="fa-solid fa-align-center captionSize extra-large" id = "very-large" style = {selectSizeId === "very large" ? selectdiv:styles} onClick = {()=>handleSize("very large")}></i>
-                    <p style= {{fontSize:"14px",textAlign:"center"}}>extra large</p>
-
-                    </div>
-                    <div>
-                    <i className="fa-solid fa-align-center captionSize blog-post" id = "blog-post" style = {selectSizeId === "blog post" ? selectdiv:styles} onClick = {()=>handleSize("blog post")}></i>
-                    <p style= {{fontSize:"14px",textAlign:"center"}}>Blog Post</p>
-
-
-                    </div>
+                    <p style= {selectSizeId === "small" ? selectdiv:styles} className='captionSize captionSize-text' id="small" onClick = {(e)=>handleSize(e.target.id)}>small</p>
+                    <p style= {selectSizeId === "medium" ? selectdiv:styles} className='captionSize captionSize-text' id="medium" onClick = {(e)=>handleSize(e.target.id)}>medium</p>
+                    <p style= {selectSizeId === "large" ? selectdiv:styles} className='captionSize captionSize-text' id="large" onClick = {(e)=>handleSize(e.target.id)}>large</p>
                     </div>
 
 
 
-                </div>
-                <div className="style-hashtag-heading">
-                    <div className='preference_heading'>
-                    <p className="label " style={{marginTop:"20px",}}>Caption Style ?</p>
-                    </div>
-                    <div className='preference_heading'>
-                    <p className="label " style={{marginTop:"20px",}}>Hashtags ?</p>
-                    </div>
                 </div>
                 <div className="style-hashtag">
                     <div className="caption-style">
-                    
-                <div className='captionStyle-icons'>
-                    <div className='captionStyle'  id = "cool" onClick={(e)=>handleChange(e.target.id)}  style = {targetId === "cool" ? selectdiv:styles}>
-                        Cool
-                    </div>
-                    <div className='captionStyle'  id ="professional" onClick={(e)=>handleChange(e.target.id)} style = {targetId === "professional" ? selectdiv:styles}>
-                        Professional
-                    </div>
-                    <div className='captionStyle'  id = "artistic" onClick={(e)=>handleChange(e.target.id)} style = {targetId === "artistic" ? selectdiv:styles}>
-                        Artistic
-                    </div>
-                    <div className='captionStyle'  id = "poetic" onClick={(e)=>handleChange(e.target.id)} style = {targetId === "poetic" ? selectdiv:styles}>
-                        Poetic
-                    </div>
-                    <div className='captionStyle'  id = "poetry" onClick={(e)=>handleChange(e.target.id)} style = {targetId === "poetry" ? selectdiv:styles}>
-                        Poetry
-                    </div>
-                </div>
+                        <div className='preference_heading'>
+                            <p className="label " style={{marginTop:"20px",}}>Caption Style ?</p>
+                        </div>
+                        <div className='captionStyle-icons'>
+                            <div className='captionStyle'  id = "cool" onClick={(e)=>handleChange(e.target.id)}  style = {targetId === "cool" ? selectdiv:styles}>
+                                Cool
+                            </div>
+                            <div className='captionStyle'  id ="professional" onClick={(e)=>handleChange(e.target.id)} style = {targetId === "professional" ? selectdiv:styles}>
+                                Professional
+                            </div>
+                            <div className='captionStyle'  id = "artistic" onClick={(e)=>handleChange(e.target.id)} style = {targetId === "artistic" ? selectdiv:styles}>
+                                Artistic
+                            </div>
+                            <div className='captionStyle'  id = "poetic" onClick={(e)=>handleChange(e.target.id)} style = {targetId === "poetic" ? selectdiv:styles}>
+                                Poetic
+                            </div>
+                            <div className='captionStyle'  id = "poetry" onClick={(e)=>handleChange(e.target.id)} style = {targetId === "poetry" ? selectdiv:styles}>
+                                Poetry
+                            </div>
+                        </div>
                     </div>
                     <div className="hashtags">
-                            <input type="range" value={hashtag} min="0" max="30"  onChange = {handleHashtag} />
-                            <p className='hash'>{hashtag}</p>
+                        <div className='preference_heading'>
+                        <p className="label " style={{marginTop:"20px",}}>Hashtags ?</p>
+                        </div>
+                            <Slider 
+                                value={hashtag}
+                                valueLabelDisplay='on'
+                                onChange = {handleHashtag}
+                                max={30}
+                                min={0}
+                                sx={{
+                                    width: 200,
+                                    color: 'var(--font-accent)',
+                                    '& .MuiSlider-thumb': {
+                                      backgroundColor: 'var(--bg-button)',
+                                    },
+                                    '& .MuiSlider-track': {
+                                        backgroundColor: 'var(--bg-button-hov)',
+                                        border: 'none',
+                                      },
+                                    '& .MuiSlider-valueLabel':{
+                                        backgroundColor: 'var(--bg-button-hov)',
+                                        color: 'var(--font-col)',
+                                        height: 1,
+                                        width: 1,
+                                        fontSize: 14,
+                                        fontFamily: 'Source Sans 3'
+                                    }
+                                      
+                                  }}
+
+                            />
                     </div>
                 </div>
                 
@@ -203,7 +174,7 @@ const ChooseCaption = () => {
                     <div className='captionTone'>
                         <p className="label tone" style={{marginTop:"0px",marginBottom:"0px"}}>Caption Tone ?</p>
                         <div className='dropdown-wrapper'>
-                            <select className='dropdown' onChange = {(e)=>setTone(e.target.value)} onClick={(e) => { console.log(e.target.value) }}>
+                            <select className='dropdown' onChange = {(e)=>setTone(e.target.value)}>
                                 <option selected>Casual</option>
                                 <option>Humorous</option>
                                 <option>Inspirational</option>
@@ -239,21 +210,20 @@ const ChooseCaption = () => {
                         <Circles
                         height="50"
                         width="50"
-                        color="#1c4042"
+                        color="var(--font-col)"
                         ariaLabel="circles-loading"
                         wrapperStyle={{}}
                         wrapperClass=""
                         visible={true}
                         ></Circles>
-                    </div>:<button className="btn-style-page2" style = {{border:"none"}} onClick ={generateCaption}>Generate Caption</button>
+                        <p className="load-message">Generating the Caption. Grab a cup of tea or coffee in the meantime!!</p>
+                    </div>:<button id = "generate_button"className="btn-style-page1" style = {{border:"none"}} onClick ={generateCaption}>Generate Caption</button>
                   }
            </div>           
         </div>
         <div className="footer-page2">
         </div>
         </section>
-         <div className="images-page2">
-        </div>
         
     </div>
    

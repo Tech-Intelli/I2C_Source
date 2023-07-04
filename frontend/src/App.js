@@ -4,6 +4,9 @@ import { Layout } from './components/LandingPage/Layout';
 import { UploadFile } from './components/UploadFile/UploadFile';
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import Caption from './components/caption/Caption';
+import './App.css';
+
+
 function App() {
   const onFileChange = (files) => {
     console.log(files);

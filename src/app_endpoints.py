@@ -13,6 +13,8 @@ from datetime import datetime
 from functools import wraps
 import jwt
 import requests
+import cv2
+import numpy as np
 from flask import Flask, request, session, jsonify
 from flask_cors import CORS
 from flask_session import Session
@@ -25,6 +27,7 @@ from login.authenticate_user import AuthenticateUser
 from login.authenticate_user import AuthenticateAsGuest
 from login.authenticate_user import ForgetPassword
 from login.database import get_user_id
+from PIL import Image
 
 INSTAGRAM_CLIENT_ID = os.environ.get('INSTAGRAM_CLIENT_ID')
 INSTAGRAM_CLIENT_SECRET = os.environ.get('INSTAGRAM_CLIENT_SECRET')
@@ -50,7 +53,7 @@ app.config.update(
 Session(app)
 CORS(app, supports_credentials=True, resources={
     r"/*": {
-        "origins": "http://localhost:3000",
+        "origins": "*",
         "allow_headers": ["Content-Type", "Authorization"],
         "methods": ["GET", "POST", "PUT", "DELETE"]
     }
@@ -266,9 +269,9 @@ def upload_file():
     """
 
     file_path = request.files.get('file')
-    address = request.form.get('address')
-    if address is not None:
-        session['address'] = address
+    session['address'] = 'Somewhere on Earth'
+    if request.form.get('address') is not None:
+        session['address'] = request.form.get('address')
     if file_path and allowed_file(os.path.basename(file_path.filename)):
         file_name = os.path.basename(file_path.filename)
         file_extension = file_name.rsplit('.', 1)[1].lower()
@@ -278,7 +281,10 @@ def upload_file():
         response = AwsS3.upload_file_object_to_s3(
             file_path.stream, request.user_id, S3_BUCKET_NAME, file_name)
         if response:
-            return jsonify({"Uploaded Successfully": True, "file_name": session['file_name']})
+            return jsonify({
+                "Uploaded Successfully": True,
+                "file_name": session['file_name'],
+                "address": session['address']})
         return jsonify({"Upload Failed": False})
     return jsonify({"No File Selected": False})
 
@@ -298,25 +304,36 @@ def generate_image_video_caption():
         token = auth_header.split(" ")[1]
     else:
         token = ''
-    file_name = session.get('file_name')
+    file_name = request.args.get('file_name')
+    if file_name.startswith('"') and file_name.endswith('"'):
+        file_name = file_name[1:-1]
     if file_name is None:
         return jsonify({"Error": "Cannot fetch file from session."}), 500
-    file_name_only = file_name.split('/')[1]
-    file_save_path = os.path.join(Path.cwd(), file_name_only)
-    AwsS3.download_file_from_s3(
-        file_save_path, file_name, S3_BUCKET_NAME)
-    caption_size = request.args.get('caption_size', "small")
-    context = request.args.get('context', "")
+    caption_size = request.args.get('caption_size', 'small')
+    context = request.args.get('context', '')
     style = request.args.get('style', 'cool')
     num_hashtags = request.args.get('num_hashtags', 0)
     tone = request.args.get('tone', 'casual')
     social_media = request.args.get('social_media', 'instagram')
-    file_extension = pathlib.Path(
-        file_save_path).suffix.rsplit('.', 1)[1].lower()
+    location = request.args.get('address', 'Somewhere on Earth')
+    presigned_url = AwsS3.create_presigned_url(S3_BUCKET_NAME, file_name)
+    has_image_file_extension = False
+    has_video_file_extension = False
+    video_file_extension = ""
+    for any_image_extension in ALLOWED_IMAGE_FILE_EXTENSIONS:
+        if any_image_extension in presigned_url:
+            has_image_file_extension = True
+            break
+    for any_video_extension in ALLOWED_VIDEO_FILE_EXTENSIONS:
+        if any_video_extension in presigned_url:
+            has_video_file_extension = True
+            video_file_extension = any_video_extension
+            break
     response_json = None
-    if file_extension in ALLOWED_IMAGE_FILE_EXTENSIONS:
+    if has_image_file_extension:
+        file_save_path = Image.open(requests.get(presigned_url, stream=True).raw)
         response_json, _ = IMAGE_CAPTION_GENERATOR.generate_caption(
-            session['address'],
+            location,
             file_save_path,
             caption_size,
             context,
@@ -324,29 +341,27 @@ def generate_image_video_caption():
             num_hashtags,
             tone,
             social_media)
-    elif file_extension in ALLOWED_VIDEO_FILE_EXTENSIONS:
+    elif has_video_file_extension:
+        file_name_only = file_name.split('/')[1]
+        video_file_path = generate_random_filename(file_name_only, video_file_extension)
+        req = requests.get(presigned_url, stream=True)
+        if req.status_code == 200:
+            with open(video_file_path, 'wb') as file:
+                file.write(req.content)
         response_json = VIDEO_CAPTION_GENERATOR.generate_caption(
-            session['address'],
-            file_save_path,
+            location,
+            video_file_path,
             caption_size,
             context,
             style,
             num_hashtags,
             tone,
             social_media)
+        os.remove(video_file_path)
     if response_json is not None:
-        target = os.path.join(
-            os.path.dirname(Path.cwd()),
-            "frontend",
-            "public",
-            os.path.basename(file_save_path))
-        shutil.move(file_save_path, target)
-        # os.remove(file_save_path)
         return jsonify({
             "Caption": response_json["choices"][0]["message"]["content"],
-            "File_PATH": target})
-    if file_save_path is not None:
-        os.remove(file_save_path)
+            "File_URL": presigned_url})
     return jsonify({"Caption": "Couldn't find a caption"})
 
 

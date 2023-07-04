@@ -3,78 +3,14 @@ body{
     margin:0;
     padding:0;
     box-sizing: border-box;
-}
-.header-page1{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding:  5px 30px;
-    font-size: 30px;
-    color: #1C4042;
-    margin:0.5rem;
-    
-}
-.header-page1 .icons-page1 {
-    width:90px;
-    display: flex;
-    z-index: 99;
-    justify-content: space-between;
-}
-.icons-page1 i:nth-child(1):hover{
-    cursor: pointer;
-}
-.dropdown-input {
-    width: 22rem;
-    z-index: 99;
-    position: absolute;
-    top: 0; /* Adjust as needed to position the dropdown */
-    right: 5%;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .dropdown-input ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 1rem;
-  }
-  .dropdown-input ul:hover{
-    background-color: #E9A9CC;
-    cursor: pointer;
-  }
-  
-  .dropdown-input ul li {
-    font-size: 1.5rem;
-    text-align: end;
-  }
-section{
-    position: relative;
-    width: 100%;
-    height:100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-section::before{
-    content:'';
-    position:absolute;
-    bottom:0;
-    left:0;
-    width: 100%;
-    height:25%;
-    background: #E9A9CC;
-    border-radius:50% 50% 0 0 /100% 100% 0 0 ;
-    transform: scaleX(1.5);
+    overflow-x: hidden;
 }
 .content-page1{
     position: relative;
     margin-top: 0px;
     width: 100%;
-    height:100%;
-    border-radius: 60px;
-    background: #E9FDFF;
+    height:100vh;
+    background: var(--bg-body);
     
 }
 .innerContent-page1{
@@ -82,27 +18,42 @@ section::before{
     height:80%;
     font-weight: 600;
     margin: 20px auto auto 50px;
-    color: #1C4042;
+    color: var(--font-accent);
 }
-
-
+.spinners{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.load-message{
+    color: var(--font-col);
+    font-size: 20px;
+}
 .innerContent-page1 span{
     color: #E9A9CC;
 }
 .btn-style-page1{
-    width: 460px;
-    height:auto;
-    background-color: #1C4042;
-    border-radius:50px;
-    padding: 10px 10px;
-    font-size: 30px;
+    background-color: var(--bg-button);
+    text-align: center;
+    padding: 0.1rem 3rem;
+    border: none;
+    width: 50%;
+    font-size: 2rem;
     font-weight: 500;
-    color: #fff;
+    color: var(--font-col);
     margin-top: 20px !important;
+    border-radius: 2rem;
+
+
 }
 .btn-style-page1:hover{
-    background-color: hsl(183, 40%, 25%);
+    background-color: var(--bg-button-hov);
+    transition: background-color 0.1s ease-in-out;
 
+}
+.btn-style-page1 span{
+    color: var(--font-col);
+    margin: auto;
 }
 section .footer-page1 {
     position: relative;
@@ -115,17 +66,27 @@ section .footer-page1 {
     position: relative;
     width: 80%;
     height:50%;
-    border: 2px solid #B6B6B6;
     border-radius: 50px;
     display: flex;
-    margin-inline: auto;
+    margin: 2rem auto;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
-    box-shadow: 0 0 10px inset rgb(80, 80, 80);
+    background-color: #2D2D2D;
+}
+.removeBtn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.1rem 3rem;
+    color: var(--font-col);
+    background-color: #2D2D2D;
+    border: none;
+    outline: none;
+    font-size: 1.5rem;
 }
 .steps{
     font-size: 30px;
+    color: var(--font-col);
     margin-bottom: 20px !important;
 }
 .label{
@@ -134,13 +95,14 @@ section .footer-page1 {
 .label-page1 span {
     font-size: 16px;
 }
-.errorText{
-    font-size: 16px;
+.error-message{
+    font-size: 1.2rem;
     color: red;
-    padding: 20px;
 }
 .inputs, .context-page1{
     border: none;
+    background-color: transparent;
+    border-bottom: 3px solid var(--bg-button-hov);
     width: 100%;
     margin-top: -30px;
     margin-left: -4px !important;
@@ -149,13 +111,6 @@ section .footer-page1 {
 .content-page1::placeholder{
 
     color: #B6B6B6;
-}
-.btn-style-page1{
-    width: 100%;
-    text-align: center;
-    padding: 0;
-    border: none;
-    height: 40px;
 }
 .title{
     font-size: 25px;
@@ -199,20 +154,13 @@ section .footer-page1 {
     margin-top: 10px;
 
 }
-.images-page1{
- 
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    right: -90px;
-    top:0;
-    
-
-}
 
 
 /*Styling the autocomplete location box*/
+
+.location{
+    color: var(--font-col);
+}
 
 .pac-container{
     border: none;
@@ -223,13 +171,13 @@ section .footer-page1 {
 
 
 .pac-item{
-    background-color: #E9FDFF;
+    background-color: var(--bg-body);
 }
 .pac-item-query{
-    color:#1C4042;
+    color: var(--font-accent);
 }
 .pac-item:hover{
-    background-color: #E9A9CC;
+    background-color: #303030;
     transform: scale(1.02);
     transition: transform 0.3s;
     cursor: pointer;
@@ -246,10 +194,11 @@ section .footer-page1 {
 }
 .context-location-container input{
     width: 20rem;
+    color: var(--font-col)
 }
 .drop-file-input__label {
     text-align: center;
-    color: #B6B6B6;
+    color: var(--font-accent);
     font-weight: 600;
     padding: 10px;
 }
@@ -322,14 +271,10 @@ section .footer-page1 {
     .innerContent-page1{
         max-width: 35rem ;
         margin: 40px auto auto 40px !important;
-
     }
     .inputs, .context-page1{
         width: 100%;
 
-    }
-    .images-page1{
-        display: none;
     }
     .context-location-container input{
         width: 15rem;
@@ -337,19 +282,15 @@ section .footer-page1 {
     .drop-file-input {
         position: relative;
         height:50%;
-        border: 2px solid #B6B6B6;
+        margin-inline: auto;
         border-radius: 50px;
-        margin-inline: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #fff;
-        box-shadow: 0 0 10px inset rgb(80, 80, 80);
     }
  
     .btn-style-page1{
         width: 80%;
-        margin-left: 30px !important;
     }
 }
 @media only screen and (max-width:600px)
@@ -361,8 +302,7 @@ section .footer-page1 {
 @media only screen and (max-width:550px){
 
     .innerContent-page1{
-        width: 100%;
-        margin: 40px auto auto 40px;
+        margin: 0;
        
     }
     .inputs, .context-page1{
@@ -379,14 +319,12 @@ section .footer-page1 {
     .drop-file-input {
         position: relative;
         width: 300px !important;
-        height:200px !important;
+        height:300px !important;
         border: none;
         border-radius: 50px;
-        
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #fff;
         box-shadow:none;
     }
     .drop-file-input__label {
@@ -409,7 +347,7 @@ section .footer-page1 {
     .btn-style-page1{
         position: relative;
         width: 250px;
-        margin-left: 22px;
+        margin-inline: 0;
     }
 
 }

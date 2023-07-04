@@ -1,89 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700&display=swap');
+
 *{
     margin:0;
     padding:0;
 }
 :root{
-    --dark-gray: #1C4042;
-    --muted-gray: hsl(183, 40%, 25%);
-    --light-gray: #E9A9CC;
-    --muted-white: #E9FDFF;
+    --bg-body: #111111;
+    --font-col: #E9FDFF;
+    --bg-button: #8121D7;
+    --bg-button-hov: #9B52DB;
+    --font-accent: #E9A9CC;
 }
 body{
     
-    font-family: 'Josefin Sans'!important;
+    font-family: 'Source Sans 3', sans-serif;
     box-sizing: border-box;
-    overflow: hidden; 
     position: relative;
-    
 }
 
 p{
-    margin-bottom: 0 !important;
+    margin-bottom: 0;
 }
-.header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding:  5px 30px;
-    font-size: 30px;
-    color: var(--dark-gray);
-    margin:0.5rem;
-    
-}
-.header .icons {
-    width:90px;
-    display: flex;
-    justify-content: space-between;
-}
+
 section{
     position: relative;
     width: 100%;
-    height:100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-section::before{
-    content:'';
-    position:absolute;
-    bottom:0;
-    left:0;
-    width: 100%;
-    height:200px !important;
-    background: var(--light-gray);
-    border-radius:50% 50% 0 0 /100% 100% 0 0 ;
-    transform: scaleX(1.5);
 }
 .content{
     margin-top: 0px;
     width: 100%;
-    height:100%;
-    border-radius: 60px;
-    background: var(--muted-white);
+    min-height:100vh;
+    background: var(--bg-body);
+    padding: 1rem 1rem 5rem;
     display: flex;
-
+    align-items: center;
+    justify-content: space-between;
     
 }
 .images{
-    position: absolute;
+    display: flex;
+    align-items: center;
     width: 50%;
-    right:40px;
-    height: 90%;
-    bottom: 70px;
+    height: 70%;
+    justify-content: center;
+}
+.images img{
+    width: 100%;
+    height: 100%;
+}
+.innerContent{
+    padding: 0.5rem;
+    font-weight: 600;
+    margin: auto 5rem;
+    color: var(--font-col);
     
 }
-
-.innerContent{
-    width: 650px;
-    padding: 0.5rem;
-    font-size: 60px;
-    font-weight: 600;
-    margin: 90px 100px auto;
-    color: var(--dark-gray);
- 
+.innerContent .tagline{
+    line-height: 4rem;
+    padding-block: 2rem;
 }
-
+.innerContent .title{
+    font-size: 5rem;
+}
+.innerContent .tag{
+    font-size: 2rem;
+    font-weight: 100;
+}
 .innerContent span{
     color: var(--light-gray);
 }
@@ -92,15 +77,16 @@ section::before{
     width: 460px;
     position: relative;
     height:auto;
-    background-color: var(--dark-gray);
+    background-color: var(--bg-button);
     border-radius:50px;
     padding: 10px 10px;
     font-size: 30px;
     font-weight: 500;
-    color: #fff;
+    color: var(--font-col);
 }
 .btn-style:hover{
-    background-color: var(--muted-gray);
+    background-color: var(--bg-button-hov);
+    transition: background-color 0.3s ease-in-out;
 }
 section .footer {
     position: relative;
@@ -109,44 +95,13 @@ section .footer {
     max-width: 900px;
     text-align: center;
 }
-@media only screen and (max-width: 1090px)
-{
-
-    .images{
-        transform: scale(0.8);
-        right: 20px;
-    }
-}
-@media only screen and (max-width: 1000px)
-{
-
-    .images{
-        right: -50px;
-    }
-}
 @media only screen and (max-width: 870px)
 {
-
-    .images{
-        top:20%;
-        left: 50%;
-        transform: translateX(-50%);
+    body{
+        overflow: auto;
     }
-    .images svg{
-        transform: scale(0.7);
-    }
-    .innerContent{
-        width: 550px;
-        font-size: 2.75rem;
-        margin-inline: auto;
-    }
-    .innerContent p, .innerContent button{
-        margin-inline: 1rem
-    }
-}
-@media only screen and (max-width:670px) {
-    .images svg{
-        transform: scale(1);
+    .content{
+        flex-direction: column-reverse;
     }
 }
 @media only screen and (max-width: 560px){
@@ -164,24 +119,16 @@ section .footer {
     .btn-style{
         width: 260px;
         height:50px;
-        background-color: var(--dark-gray);
+        background-color: var(--bg-button);
         border-radius:50px;
-        border: var(--dark-gray);
         padding: 0;
         font-size: 30px;
         font-weight: 500;
         color: #fff;
     }
-    .images svg{
-        transform: scale(1.2);
-    }
-   
   }
 @media only screen and (max-width:510px)
 {
-.images svg{
-    transform: scale(1.5);
-}
 .innerContent{
     width: 400px;
     margin-inline:auto;
@@ -189,9 +136,6 @@ section .footer {
 }
 @media only screen and (max-width:455px)
 {
-.images svg{
-    transform: scale(1.2);
-}
 .innerContent{
     width: 350px;
     margin-inline:auto;
