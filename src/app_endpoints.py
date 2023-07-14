@@ -3,7 +3,6 @@ Flask end point for the caption generation
 """
 # pylint: disable=E0401
 # pylint: disable=R0914
-# pylint: disable=W0611
 import os
 import string
 import random

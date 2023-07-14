@@ -4,7 +4,6 @@ Module for creating s3 buckets, upload and download images.
 # pylint: disable=E0401
 import logging
 import boto3
-import requests
 
 # pylint: disable=W0718
 
