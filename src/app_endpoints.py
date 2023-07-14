@@ -2,19 +2,17 @@
 Flask end point for the caption generation
 """
 # pylint: disable=E0401
+# pylint: disable=R0914
+
 import os
 import string
 import random
 import uuid
-import pathlib
-import shutil
-from pathlib import Path
 from datetime import datetime
 from functools import wraps
 import jwt
 import requests
-import cv2
-import numpy as np
+from PIL import Image
 from flask import Flask, request, session, jsonify
 from flask_cors import CORS
 from flask_session import Session
@@ -27,7 +25,6 @@ from login.authenticate_user import AuthenticateUser
 from login.authenticate_user import AuthenticateAsGuest
 from login.authenticate_user import ForgetPassword
 from login.database import get_user_id
-from PIL import Image
 
 INSTAGRAM_CLIENT_ID = os.environ.get('INSTAGRAM_CLIENT_ID')
 INSTAGRAM_CLIENT_SECRET = os.environ.get('INSTAGRAM_CLIENT_SECRET')
@@ -287,7 +284,6 @@ def upload_file():
                 "address": session['address']})
         return jsonify({"Upload Failed": False})
     return jsonify({"No File Selected": False})
-
 
 @app.route('/generate_image_video_caption', methods=['GET'])
 @login_required
