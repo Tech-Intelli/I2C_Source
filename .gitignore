@@ -28,3 +28,4 @@ secrets.ps1
 aws_docker_command.sh
 flask_session/
 src/flask_session/
+node_modules
