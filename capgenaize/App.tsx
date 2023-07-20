@@ -1,9 +1,7 @@
 import * as React from 'react';
-import type {PropsWithChildren} from 'react';
-import { View, Text, Button, GestureResponderEvent } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import DocumentPicker, { DocumentPickerResponse } from 'react-native-document-picker';
+import { DocumentPickerResponse } from 'react-native-document-picker';
 import Home from './components/Home';
 import Register from './components/Sign Up-Sign In/Register';
 import Login from './components/Sign Up-Sign In/Login';
@@ -14,31 +12,36 @@ import Caption from './components/Caption';
 
 export type RootStackParamList = {
   Home: undefined;
-  Generate: {memory: string, address: string, filename: DocumentPickerResponse | null, filenameURI: string}
+  Generate: {
+    memory: string;
+    address: string;
+    filename: DocumentPickerResponse | null;
+    filenameURI: string;
+  };
   Register: undefined;
   Login: undefined;
   Forgot: undefined;
   Upload: undefined;
-  Caption: {caption: string, filename:string}
+  Caption: { caption: string; filename: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function App() {
+export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Home'
+        initialRouteName="Home"
         screenOptions={{
           headerTitleStyle: {
             fontFamily: 'Josefin Sans',
             color: '#E9FDFF',
-            fontWeight: "bold"
+            fontWeight: 'bold',
           },
           headerStyle: {
-            backgroundColor: '#111111'
+            backgroundColor: '#111111',
           },
-          headerTintColor: '#E9FDFF'
+          headerTintColor: '#E9FDFF',
         }}
       >
         <Stack.Screen
@@ -49,50 +52,48 @@ function App() {
           }}
         />
         <Stack.Screen
-         name="Register"
-         component={Register}
-         options={{
-          title: 'Sign Up'
-         }}
-         />
-         <Stack.Screen
-         name="Login"
-         component={Login}
-         options={{
-          title: 'Sign In'
-         }}
-         />
-         <Stack.Screen
-         name="Forgot"
-         component={Forgot}
-         options={{
-          title: 'Reset Password'
-         }}
-         />
-         <Stack.Screen
-         name="Upload"
-         component={Upload}
-         options={{
-          title: 'Upload Files'
-         }}
-         />
-         <Stack.Screen
-         name="Generate"
-         component={Generate}
-         options={{
-          title: 'Choose Caption'
-         }}
-         />
-         <Stack.Screen
-         name="Caption"
-         component={Caption}
-         options={{
-          title: 'Caption'
-         }}
-         />
+          name="Register"
+          component={Register}
+          options={{
+            title: 'Sign Up',
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            title: 'Sign In',
+          }}
+        />
+        <Stack.Screen
+          name="Forgot"
+          component={Forgot}
+          options={{
+            title: 'Reset Password',
+          }}
+        />
+        <Stack.Screen
+          name="Upload"
+          component={Upload}
+          options={{
+            title: 'Upload Files',
+          }}
+        />
+        <Stack.Screen
+          name="Generate"
+          component={Generate}
+          options={{
+            title: 'Choose Caption',
+          }}
+        />
+        <Stack.Screen
+          name="Caption"
+          component={Caption}
+          options={{
+            title: 'Caption',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-export default App;

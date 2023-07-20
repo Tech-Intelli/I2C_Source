@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
-import { Platform , Alert, View, Text, TextInput ,TouchableOpacity, Button, GestureResponderEvent, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Platform , Alert, View, Text, TextInput ,TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 export default function Register(props: { navigation: { navigate: (arg0: string) => void; }; }) {
   const [email, setEmail] = useState("");  
