@@ -9,7 +9,7 @@ import axios from 'axios';
 type CaptionProps = NativeStackScreenProps<RootStackParamList, 'Caption'>
 
 export default function Caption({ route, navigation }: CaptionProps) {
-  const { caption, filename } = route.params;
+  const { caption, filename, file_path } = route.params;
   const handleRegenerate = () => {
     navigation.goBack();
   }
@@ -82,7 +82,7 @@ export default function Caption({ route, navigation }: CaptionProps) {
         <View style={(Platform.OS == 'android') ? styles_android.preview_card : styles_ios.preview_card}>
           <View style={(Platform.OS == 'android') ? styles_android.image_container : styles_ios.image_container}>
             {filename.includes('image') ? (
-              <Image source={{ uri: filename }} style={(Platform.OS == 'android') ? styles_android.image : styles_ios.image} />
+              <Image source={{ uri: file_path }} style={(Platform.OS == 'android') ? styles_android.image : styles_ios.image} />
             ) : (
                 <Video source={{ uri: filename }} style={(Platform.OS == 'android') ? styles_android.video : styles_ios.video} />
               )}

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import Config from "react-native-config";
 import {
   Alert,
   AlertButton,
@@ -142,6 +143,7 @@ export default function Upload({navigation}: UploadProps) {
     }
   }
   const handleLogout = async () => {
+    console.log(Config.API_KEY)
     const logoutAlertOptions: AlertButton[] = [
       { text: 'Cancel', style: 'cancel' },
       {

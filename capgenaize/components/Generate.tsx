@@ -67,7 +67,7 @@ export default function Generate({ route, navigation }: GenerateProps) {
       },
       withCredentials: true
   }).then(res=>{
-    navigation.push("Caption",{caption: res.data.Caption, filename:filenameURI});
+    navigation.push("Caption",{caption: res.data.Caption, filename:filenameURI, file_path: res.data.File_URL});
     setLoading(false);
 }).catch((err) => {
   console.log(err);
@@ -256,7 +256,7 @@ useLayoutEffect(() => {
         <View style={(Platform.OS == 'android')?styles_android.popupContainer: styles_ios.popupContainer}>
           <Image source={require('../assets/loading_page_image.png')} style={(Platform.OS == 'android')?styles_android.loaderImage: styles_ios.loaderImage}/>
           <Image source={require('../assets/loader.gif') } style={(Platform.OS == 'android')?styles_android.loaderContainer: styles_ios.loaderContainer}/>
-          <Text style={(Platform.OS == 'android')?styles_android.loadingText: styles_ios.loadingText}>Generating the caption. Grab a cup of tea or coffee in the meantime!</Text>
+          <Text style={(Platform.OS == 'android')?styles_android.loadingText: styles_ios.loadingText}>Generating the caption. Grab a cup of tea or coffee!</Text>
         </View>
       </Modal>
     </View>

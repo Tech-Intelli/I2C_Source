@@ -22,7 +22,7 @@ export type RootStackParamList = {
   Login: undefined;
   Forgot: undefined;
   Upload: undefined;
-  Caption: { caption: string; filename: string };
+  Caption: { caption: string; filename: string; file_path: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
