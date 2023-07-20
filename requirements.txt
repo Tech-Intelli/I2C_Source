@@ -14,3 +14,6 @@ dnspython
 email-validator
 PyJWT
 flask_cors
+gunicorn
+Flask-Session
+gevent
