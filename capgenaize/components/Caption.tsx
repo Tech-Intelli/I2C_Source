@@ -93,8 +93,8 @@ export default function Caption({ route, navigation }: CaptionProps) {
             </Text>
           </View>
         </View>
-        <TouchableOpacity style={(Platform.OS == 'android') ? styles_android.share_button : styles_ios.share_button}>
-          <Text style={(Platform.OS == 'android') ? styles_android.share_text : styles_ios.share_text} onPress={handleCopy}>Copy</Text>
+        <TouchableOpacity style={(Platform.OS == 'android') ? styles_android.share_button : styles_ios.share_button} onPress={handleCopy}>
+          <Text style={(Platform.OS == 'android') ? styles_android.share_text : styles_ios.share_text}>Copy</Text>
           <Image style={(Platform.OS == 'android') ? styles_android.button_image : styles_ios.button_image} source={require('../assets/copy.png')} />
         </TouchableOpacity>
         <TouchableOpacity style={(Platform.OS == 'android') ? styles_android.share_button : styles_ios.share_button} onPress={handleReUpload}>
