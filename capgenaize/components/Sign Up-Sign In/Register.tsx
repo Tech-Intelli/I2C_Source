@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import { Alert, View, Text, TextInput ,TouchableOpacity, Button, GestureResponderEvent, StyleSheet, Platform } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Alert, View, Text, TextInput ,TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-export default function Register(props: { navigation: { navigate: (arg0: string) => void; }; }) {
+export default function Register(props: { navigation: {
+    setOptions(arg0: { headerRight: () => React.JSX.Element; title: string; }): unknown; navigate: (arg0: string) => void; 
+}; }) {
   const [email, setEmail] = useState("");  
   const [password, setPassword] = useState("");  
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -69,7 +69,6 @@ export default function Register(props: { navigation: { navigate: (arg0: string)
       console.log(error);
     }
   };
-
   return (
     <View style={(Platform.OS == 'android')?styles_android.view: styles_ios.view}>
         <View style = {(Platform.OS == 'android')?styles_android.sign_up_components: styles_ios.sign_up_components}>
@@ -155,7 +154,12 @@ const styles_android = StyleSheet.create({
         fontFamily: 'Source Sans Pro',
         fontWeight: "700",
         marginHorizontal:30,
-    }
+    },
+    logoutIcon: {
+        height: 30,
+        width: 30,
+        marginHorizontal: 5,
+      }
 });
 const styles_ios = StyleSheet.create({
   view:{
@@ -211,5 +215,10 @@ const styles_ios = StyleSheet.create({
       fontFamily: 'Source Sans Pro',
       fontWeight: "700",
       marginHorizontal:30,
+  },
+  logoutIcon: {
+    height: 30,
+    width: 30,
+    marginHorizontal: 5,
   }
 });

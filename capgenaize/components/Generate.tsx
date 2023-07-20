@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView, Platform, Modal} from 'react-native';
+import React, { useState, useLayoutEffect } from 'react';
+import { Alert,AlertButton,View, Image, Text, TouchableOpacity, StyleSheet, ScrollView, Platform, Modal} from 'react-native';
 import { RootStackParamList } from '../App';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Slider from '@react-native-community/slider';
@@ -73,7 +73,48 @@ export default function Generate({ route, navigation }: GenerateProps) {
   console.log(err);
 });
 }
+const handleLogout = async () => {
+  const logoutAlertOptions: AlertButton[] = [
+    { text: 'Cancel', style: 'cancel' },
+    {
+      text: 'OK',
+      onPress: async () => {
+        console.log('Logout');
+        await axios
+          .post('http://192.168.0.159:9000/logout_user')
+          .then((res) => {
+            // Perform any additional actions after successful logout
+            navigation.popToTop()
+          })
+          .catch((error) => {
+            // Handle error if logout fails
+            console.log(error);
+          });
+      },
+    },
+  ];
 
+  Alert.alert('Logout', 'Are you sure you want to logout?', logoutAlertOptions, {
+    cancelable: false,
+  });
+};
+useLayoutEffect(() => {
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity onPress={handleLogout}>
+        <Image
+          source={require('../assets/logout.png')}
+          style={
+            Platform.OS === 'android'
+              ? styles_android.logoutIcon
+              : styles_ios.logoutIcon
+          }
+        />
+      </TouchableOpacity>
+    ),
+    title: 'Choose Caption',
+  });
+}, [navigation]);
   return (
     <View style={(Platform.OS == 'android')?styles_android.page: styles_ios.page}>
       <ScrollView>
@@ -215,7 +256,7 @@ export default function Generate({ route, navigation }: GenerateProps) {
         <View style={(Platform.OS == 'android')?styles_android.popupContainer: styles_ios.popupContainer}>
           <Image source={require('../assets/loading_page_image.png')} style={(Platform.OS == 'android')?styles_android.loaderImage: styles_ios.loaderImage}/>
           <Image source={require('../assets/loader.gif') } style={(Platform.OS == 'android')?styles_android.loaderContainer: styles_ios.loaderContainer}/>
-          <Text style={(Platform.OS == 'android')?styles_android.loadingText: styles_ios.loadingText}>Generating the caption. This may take a while.</Text>
+          <Text style={(Platform.OS == 'android')?styles_android.loadingText: styles_ios.loadingText}>Generating the caption. Grab a cup of tea or coffee in the meantime!</Text>
         </View>
       </Modal>
     </View>
@@ -348,6 +389,7 @@ const styles_android = StyleSheet.create({
     color: '#E9FDFF',
     marginTop: 10,
     fontSize: 18,
+    textAlign: 'center',
     fontFamily: 'Source Sans Pro',
     fontWeight: '700',
   },
@@ -365,6 +407,11 @@ const styles_android = StyleSheet.create({
     marginVertical: 30, 
     height: 20, 
     transform: [{scale: 2}]
+  },
+  logoutIcon: {
+    height: 30,
+    width: 30,
+    marginHorizontal: 5,
   }
 });
 
@@ -496,6 +543,7 @@ const styles_ios= StyleSheet.create({
     color: '#E9FDFF',
     marginTop: 10,
     fontSize: 18,
+    textAlign: 'center',
     fontFamily: 'Source Sans Pro',
     fontWeight: '700',
   },
@@ -513,5 +561,10 @@ const styles_ios= StyleSheet.create({
     marginVertical: 30, 
     height: 20, 
     transform: [{scale: 2}]
+  },
+  logoutIcon: {
+    height: 30,
+    width: 30,
+    marginHorizontal: 5,
   }
 });

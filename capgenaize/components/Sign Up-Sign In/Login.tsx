@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
-import { Platform, View, Text, TextInput ,TouchableOpacity, Button, GestureResponderEvent, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Platform, View, Text, TextInput ,TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Login(props: { navigation: { navigate: (arg0: string) => void; }; }) {
@@ -60,7 +58,7 @@ export default function Login(props: { navigation: { navigate: (arg0: string) =>
         <TouchableOpacity style={(Platform.OS == 'android')?styles_android.login_button: styles_ios.login_button} onPress={handleSignIn}>
             <Text style={(Platform.OS == 'android')?styles_android.login_buttonText: styles_ios.login_buttonText}>Sign In</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={(Platform.OS == 'android')?styles_android.login_button: styles_ios.login_button} onPress={() => { props.navigation.navigate("Home") }}>
+        <TouchableOpacity style={(Platform.OS == 'android')?styles_android.login_button: styles_ios.login_button} onPress={handleGuestLogin}>
             <Text style={(Platform.OS == 'android')?styles_android.login_buttonText: styles_ios.login_buttonText}>Continue as Guest</Text>
         </TouchableOpacity>
         <View style={(Platform.OS == 'android')?styles_android.options: styles_ios.options}>

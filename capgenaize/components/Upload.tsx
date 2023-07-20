@@ -1,5 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import {
+  Alert,
+  AlertButton,
   Platform,
   View,
   Image,
@@ -20,7 +22,6 @@ import axios from 'axios';
 import {NativeStackScreenProps} from "@react-navigation/native-stack"
 import {RootStackParamList} from '../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {REACT_APP_MAP_API} from '@env';
 
 interface Address {
   city: string;
@@ -140,7 +141,48 @@ export default function Upload({navigation}: UploadProps) {
       console.log('No file selected');
     }
   }
+  const handleLogout = async () => {
+    const logoutAlertOptions: AlertButton[] = [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'OK',
+        onPress: async () => {
+          console.log('Logout');
+          await axios
+            .post('http://192.168.0.159:9000/logout_user')
+            .then((res) => {
+              // Perform any additional actions after successful logout
+              navigation.popToTop()
+            })
+            .catch((error) => {
+              // Handle error if logout fails
+              console.log(error);
+            });
+        },
+      },
+    ];
 
+    Alert.alert('Logout', 'Are you sure you want to logout?', logoutAlertOptions, {
+      cancelable: false,
+    });
+  };
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={handleLogout}>
+          <Image
+            source={require('../assets/logout.png')}
+            style={
+              Platform.OS === 'android'
+                ? styles_android.logoutIcon
+                : styles_ios.logoutIcon
+            }
+          />
+        </TouchableOpacity>
+      ),
+      title: 'Upload Files',
+    });
+  }, [navigation]);
   return (
     <View style={(Platform.OS == 'android')?styles_android.container:styles_ios.container}>
       <View >
@@ -193,7 +235,7 @@ export default function Upload({navigation}: UploadProps) {
                 setAddress(data.description)
               }}
               query={{
-                key: REACT_APP_MAP_API,
+                key: 'REACT_APP_MAP_API',
                 language: 'en',
               }}
               enablePoweredByContainer={false}
@@ -227,7 +269,7 @@ export default function Upload({navigation}: UploadProps) {
         <View style={(Platform.OS == 'android')?styles_android.popupContainer: styles_ios.popupContainer}>
           <Image source={require('../assets/upload_file_loading.png')} style={(Platform.OS == 'android')?styles_android.loaderImage: styles_ios.loaderImage}/>
           <Image source={require('../assets/loader.gif') } style={(Platform.OS == 'android')?styles_android.loaderContainer: styles_ios.loaderContainer}/>
-          <Text style={(Platform.OS == 'android')?styles_android.loadingText: styles_ios.loadingText}>Uploading the file. Grab a cup of tea or coffee in the meantime!</Text>
+          <Text style={(Platform.OS == 'android')?styles_android.loadingText: styles_ios.loadingText}>Uploading the file...</Text>
         </View>
       </Modal>
     </View>
@@ -353,6 +395,11 @@ const styles_android = StyleSheet.create({
     width: 300,
     height: 300,
     alignSelf: 'center'
+  },
+  logoutIcon: {
+    height: 30,
+    width: 30,
+    marginHorizontal: 5,
   }
 });
 
@@ -477,5 +524,10 @@ const styles_ios = StyleSheet.create({
     width: 300,
     height: 300,
     alignSelf: 'center'
+  },
+  logoutIcon: {
+    height: 30,
+    width: 30,
+    marginHorizontal: 5,
   }
 });

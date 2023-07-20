@@ -1,10 +1,11 @@
-import React from 'react';
-import { Alert, Platform, View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
+import React, {useLayoutEffect} from 'react';
+import { Alert,AlertButton, Platform, View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import Typing from './Text Streaming/Typing';
 import { RootStackParamList } from '../App';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Clipboard from '@react-native-clipboard/clipboard';
 import Video from 'react-native-video';
+import axios from 'axios';
 type CaptionProps = NativeStackScreenProps<RootStackParamList, 'Caption'>
 
 export default function Caption({ route, navigation }: CaptionProps) {
@@ -33,7 +34,48 @@ export default function Caption({ route, navigation }: CaptionProps) {
     Clipboard.setString(caption);
     showAlert("Caption copied successfully!");
   };
+  const handleLogout = async () => {
+    const logoutAlertOptions: AlertButton[] = [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'OK',
+        onPress: async () => {
+          console.log('Logout');
+          await axios
+            .post('http://192.168.0.159:9000/logout_user')
+            .then((res) => {
+              // Perform any additional actions after successful logout
+              navigation.popToTop()
+            })
+            .catch((error) => {
+              // Handle error if logout fails
+              console.log(error);
+            });
+        },
+      },
+    ];
 
+    Alert.alert('Logout', 'Are you sure you want to logout?', logoutAlertOptions, {
+      cancelable: false,
+    });
+  };
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={handleLogout}>
+          <Image
+            source={require('../assets/logout.png')}
+            style={
+              Platform.OS === 'android'
+                ? styles_android.logoutIcon
+                : styles_ios.logoutIcon
+            }
+          />
+        </TouchableOpacity>
+      ),
+      title: 'Caption',
+    });
+  }, [navigation]);
   return (
     <View style={(Platform.OS == 'android') ? styles_android.page_container : styles_ios.page_container}>
       <ScrollView>
@@ -156,6 +198,11 @@ const styles_android = StyleSheet.create({
         height:150,
         borderRadius:16,
         justifyContent:'center'
+    },
+    logoutIcon: {
+      height: 30,
+      width: 30,
+      marginHorizontal: 5,
     }
 
 });
@@ -248,6 +295,11 @@ const styles_ios = StyleSheet.create({
         height:150,
         borderRadius:16,
         justifyContent:'center'
+    },
+    logoutIcon: {
+      height: 30,
+      width: 30,
+      marginHorizontal: 5,
     }
 
 });
