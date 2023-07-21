@@ -23,7 +23,7 @@ import axios from 'axios';
 import {NativeStackScreenProps} from "@react-navigation/native-stack"
 import {RootStackParamList} from '../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { REACT_APP_MAP_API, REACT_APP_BACKEND_URL } from '@env';
 interface Address {
   city: string;
   country: string;
@@ -112,7 +112,7 @@ export default function Upload({navigation}: UploadProps) {
         }
         axios
       .post(
-        "http://192.168.0.159:9000/upload_file",formData,
+        `${REACT_APP_BACKEND_URL}/upload_file`,formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -151,7 +151,7 @@ export default function Upload({navigation}: UploadProps) {
         onPress: async () => {
           console.log('Logout');
           await axios
-            .post('http://192.168.0.159:9000/logout_user')
+            .post(`${REACT_APP_BACKEND_URL}/logout_user`)
             .then((res) => {
               // Perform any additional actions after successful logout
               navigation.popToTop()
@@ -237,7 +237,7 @@ export default function Upload({navigation}: UploadProps) {
                 setAddress(data.description)
               }}
               query={{
-                key: 'REACT_APP_MAP_API',
+                key: `${REACT_APP_MAP_API}`,
                 language: 'en',
               }}
               enablePoweredByContainer={false}

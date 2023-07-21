@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Alert, View, Text, TextInput ,TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { REACT_APP_BACKEND_URL } from '@env';
 
 
 export default function Register(props: { navigation: {
@@ -32,7 +33,7 @@ export default function Register(props: { navigation: {
           password: password
         };
         await axios
-          .post('http://192.168.0.159:9000/register_user', body)
+          .post(`${REACT_APP_BACKEND_URL}/register_user`, body)
           .then((res: any) => {
             
             setEmail('');
@@ -61,7 +62,7 @@ export default function Register(props: { navigation: {
     
     console.log("Signing Up")
     try {
-      const response = await axios.post('http://192.168.0.159:9000/login_as_guest');
+      const response = await axios.post(`${REACT_APP_BACKEND_URL}/login_as_guest`);
       console.log("Signing Up")
       await AsyncStorage.setItem('token', response.data.token);
       props.navigation.navigate("Upload");

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Platform, View, Text, TextInput ,TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { REACT_APP_BACKEND_URL } from '@env';
 export default function Login(props: { navigation: { navigate: (arg0: string) => void; }; }) {
   const [email, setEmail] = useState("");  
   const [password, setPassword] = useState("");  
@@ -21,7 +22,7 @@ export default function Login(props: { navigation: { navigate: (arg0: string) =>
           password: password
         };
         await axios
-          .post('http://192.168.0.159:9000/login_user', body)
+          .post(`${REACT_APP_BACKEND_URL}/login_user`, body)
           .then((res: any) => {
             
             setEmail('');
@@ -36,7 +37,7 @@ export default function Login(props: { navigation: { navigate: (arg0: string) =>
 
   const handleGuestLogin = async () => {
     try {
-      const response = await axios.post('http://192.168.0.159:9000/login_as_guest');
+      const response = await axios.post(`${REACT_APP_BACKEND_URL}/login_as_guest`);
       await AsyncStorage.setItem('token', response.data.token);
       props.navigation.navigate("Upload");
     } catch (error) {

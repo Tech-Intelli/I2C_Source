@@ -6,6 +6,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Clipboard from '@react-native-clipboard/clipboard';
 import Video from 'react-native-video';
 import axios from 'axios';
+import { REACT_APP_BACKEND_URL } from '@env';
 type CaptionProps = NativeStackScreenProps<RootStackParamList, 'Caption'>
 
 export default function Caption({ route, navigation }: CaptionProps) {
@@ -42,7 +43,7 @@ export default function Caption({ route, navigation }: CaptionProps) {
         onPress: async () => {
           console.log('Logout');
           await axios
-            .post('http://192.168.0.159:9000/logout_user')
+            .post(`${REACT_APP_BACKEND_URL}/logout_user`)
             .then((res) => {
               // Perform any additional actions after successful logout
               navigation.popToTop()

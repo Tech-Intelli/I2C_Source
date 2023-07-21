@@ -5,7 +5,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Slider from '@react-native-community/slider';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { REACT_APP_BACKEND_URL } from '@env';
 
 
 type GenerateProps = NativeStackScreenProps<RootStackParamList, 'Generate'>;
@@ -61,7 +61,7 @@ export default function Generate({ route, navigation }: GenerateProps) {
       file_name = filename.name;
     }
     const token = await AsyncStorage.getItem("token");
-    await axios.get(`http://192.168.0.159:9000/generate_image_video_caption?caption_size=${selectedSize}&context=${memory}&style=${selectedStyle}&num_hashtags=${hashtags}&tone=${tone}&social_media=${socials}&file_name=${JSON.stringify(filename)}&address=${address}`,{
+    await axios.get(`${REACT_APP_BACKEND_URL}/generate_image_video_caption?caption_size=${selectedSize}&context=${memory}&style=${selectedStyle}&num_hashtags=${hashtags}&tone=${tone}&social_media=${socials}&file_name=${JSON.stringify(filename)}&address=${address}`,{
       headers:{
           Authorization: `Bearer ${token}`
       },
@@ -81,7 +81,7 @@ const handleLogout = async () => {
       onPress: async () => {
         console.log('Logout');
         await axios
-          .post('http://192.168.0.159:9000/logout_user')
+          .post(`${REACT_APP_BACKEND_URL}/logout_user`)
           .then((res) => {
             // Perform any additional actions after successful logout
             navigation.popToTop()

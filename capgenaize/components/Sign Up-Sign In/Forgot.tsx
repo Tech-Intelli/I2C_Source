@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { Platform , Alert, View, Text, TextInput ,TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
+import { REACT_APP_BACKEND_URL } from '@env';
 export default function Register(props: { navigation: { navigate: (arg0: string) => void; }; }) {
   const [email, setEmail] = useState("");  
   const [password, setPassword] = useState("");  
@@ -27,7 +28,7 @@ export default function Register(props: { navigation: { navigate: (arg0: string)
           password: password
         };
         await axios
-          .post('http://192.168.0.159:9000/forget_password', body)
+          .post(`${REACT_APP_BACKEND_URL}/forget_password`, body)
           .then((res: any) => {
             
             setEmail('');
