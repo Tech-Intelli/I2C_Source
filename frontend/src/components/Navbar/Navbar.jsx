@@ -12,7 +12,7 @@ export default function Navbar(props) {
       setShowDropdown(!showDropdown);
   };
   const handleLogout = async() => {
-    await axios.post("${process.env.REACT_APP_BACKEND_URL}/logout_user")
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/logout_user`)
     .then((res)=>{
       navigate("/");
       setShowDropdown(false);
