@@ -5,7 +5,7 @@ import { Circles } from "react-loader-spinner";
 import "./UploadFile.css";
 import Navbar from "../Navbar/Navbar";
 
-const apiKey = process.env.REACT_APP_MAP_API;
+const apiKey = `${process.env.REACT_APP_MAP_API}`;
 const mapApiJs = 'https://maps.googleapis.com/maps/api/js';
 
 function loadAsyncScript(src) {
