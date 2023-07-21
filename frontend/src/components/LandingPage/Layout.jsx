@@ -11,7 +11,7 @@ export const Layout = ()=>{
     return (
         <>
     <div>
-        <Navbar flag={false}/>
+        {/* <Navbar flag={false}/> */}
         <section>
         <div className="content">
             <div className="innerContent">
