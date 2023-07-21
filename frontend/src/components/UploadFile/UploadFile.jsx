@@ -138,7 +138,7 @@ export const UploadFile = (props) => {
       formData.append("address", JSON.stringify(address));
     }
     axios
-      .post("http://localhost:9000/upload_file", formData, {
+      .post("${process.env.REACT_APP_BACKEND_URL}/upload_file", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

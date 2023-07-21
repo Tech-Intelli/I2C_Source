@@ -31,7 +31,7 @@ export function SignInModal(props) {
         password: password
       };
       await axios
-        .post('http://localhost:9000/login_user', body)
+        .post('${process.env.REACT_APP_BACKEND_URL}/login_user', body)
         .then(res => {
           setLoading(false);
           localStorage.setItem('token', res.data.token);
@@ -45,7 +45,7 @@ export function SignInModal(props) {
 
   const handleGuestLogin = async () => {
     await axios
-      .post('http://localhost:9000/login_as_guest')
+      .post('${process.env.REACT_APP_BACKEND_URL}/login_as_guest')
       .then(res => {
         setLoading(false);
         localStorage.setItem('token', res.data.token);
@@ -73,7 +73,7 @@ export function SignInModal(props) {
           password: password
         };
         await axios
-          .post('http://localhost:9000/register_user', body)
+          .post('${process.env.REACT_APP_BACKEND_URL}/register_user', body)
           .then(res => {
             setSuccess('User registered successfully! Please verify your email to login!');
             setLoading(false);
@@ -103,7 +103,7 @@ export function SignInModal(props) {
         password: confirmPassword
       };
       await axios
-        .post('http://localhost:9000/forget_password', body)
+        .post('${process.env.REACT_APP_BACKEND_URL}/forget_password', body)
         .then(res => {
           setLoading(false);
           setSuccess('Password has been changed successfully. You can now login with the new password.');

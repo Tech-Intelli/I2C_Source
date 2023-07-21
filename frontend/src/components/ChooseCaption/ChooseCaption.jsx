@@ -65,7 +65,7 @@ const ChooseCaption = () => {
         const context= location?.state?.memory || ''; //Setting the context as the memory that the user provides. If the user does not provide any value, the context is set to ''. 
         const address = location?.state?.address || '';
         const file = location?.state?.file || '';
-        axios.get(`http://localhost:9000/generate_image_video_caption?caption_size=${selectSizeId}&context=${context}&style=${targetId}&num_hashtags=${hashtag}&tone=${tone}&social_media=${platformId}&file_name=${JSON.stringify(file)}&address=${address}`,{
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/generate_image_video_caption?caption_size=${selectSizeId}&context=${context}&style=${targetId}&num_hashtags=${hashtag}&tone=${tone}&social_media=${platformId}&file_name=${JSON.stringify(file)}&address=${address}`,{
             headers:{
                 Authorization: `Bearer ${token}`
             },
