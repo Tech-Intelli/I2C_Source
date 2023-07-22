@@ -39,6 +39,9 @@ export function SignInModal(props) {
         })
         .catch(err => {
           console.log(err);
+          setLoading(false);
+          setError(true);
+          setErrorText("*Invalid credentials. Please enter email and password correctly")
         });
     }
   };
@@ -150,7 +153,7 @@ export function SignInModal(props) {
                     <Circles
                       height="50"
                       width="50"
-                      color="#1c4042"
+                      color="#E9FDFF"
                       ariaLabel="circles-loading"
                       wrapperStyle={{}}
                       wrapperClass=""
@@ -199,13 +202,14 @@ export function SignInModal(props) {
                 <div className="forgot-password">
                   <span onClick={() => setForgotPassword(true)}>Forgot Password?</span>
                 </div>
+                {error ? <p className="errorText">{errorText}</p> : null}
                 {loading ? (
                   <>
                     <div className="spinners">
                       <Circles
                         height="50"
                         width="50"
-                        color="#1c4042"
+                        color="#E9FDFF"
                         ariaLabel="circles-loading"
                         wrapperStyle={{}}
                         wrapperClass=""
@@ -247,7 +251,7 @@ export function SignInModal(props) {
                         <Circles
                           height="50"
                           width="50"
-                          color="#1c4042"
+                          color="#E9FDFF"
                           ariaLabel="circles-loading"
                           wrapperStyle={{}}
                           wrapperClass=""
