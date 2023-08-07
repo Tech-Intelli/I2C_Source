@@ -60,7 +60,7 @@ class RegisterUser:
                 is_existing_user['Items'][0]['username'] == self.username:
             return 400
         unique_id = str(uuid.uuid4())
-        self.send_email("http://localhost:9000/verify", unique_id)
+        self.send_email("http://www.capgenaize.com/verify", unique_id)
         response = TABLE.put_item(
             Item={
                 'username': self.username,
