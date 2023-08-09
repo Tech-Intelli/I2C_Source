@@ -62,6 +62,7 @@ body{
 
 .captionSize-icons{
     display: flex;
+    flex-wrap: wrap;
     gap: 3rem;
     align-items: baseline;
     cursor: pointer;
@@ -180,6 +181,10 @@ section .footer-page2 {
     
 
 }
+.innerContent-page2 .btn-style-page2{
+    width: 100%;
+}
+
 @media only screen and (max-width:880px){
     .style-hashtag{
         flex-direction: column;
@@ -267,7 +272,7 @@ height: 40px;
     position: relative;
     font-size: 20px !important;
    }
-   .btn-style-page2{
+.btn-style-page2{
     margin-inline: auto;
 }
 }
@@ -357,7 +362,7 @@ height: 40px;
 
 
 
-@media only screen and (max-width:500px)and (max-height:670px){
+@media (max-width:500px)and (max-height:670px){
     .steps{
         margin-top: 0px;
     }
@@ -392,3 +397,9 @@ height: 40px;
         margin-inline: auto;
     }
     }
+
+@media (max-width: 355px) {
+    .innerContent-page2 .btn-style-page2{
+        font-size: 10rem;
+    }
+}
