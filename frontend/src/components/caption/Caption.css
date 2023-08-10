@@ -27,6 +27,7 @@ body{
 }
 .text{
     width:50%;
+    min-width: 25rem;
 }
 .innerContent-page3 .steps{
     font-size: 30px;
@@ -106,8 +107,37 @@ section .footer-page3 {
     text-align: center;
 }
 
+@media (max-width: 1160px) {
+    .utilities{
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-inline: auto;
+    }
+    
+}
+
 @media (max-width:870px) {
     .utilities{
         flex-direction: column;
+    }
+}
+
+@media (max-width: 460px) {
+    .text{
+        min-width: 20rem;
+    }
+    .generated-caption{
+        min-width: 20rem;
+    }
+}
+@media (max-width: 400px) {
+    .text{
+        min-width: 15rem;
+    }
+    .generated-caption{
+        min-width: 15rem;
+    }
+    .content{
+        min-height: 150vh;
     }
 }
