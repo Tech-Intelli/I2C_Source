@@ -8,6 +8,9 @@
     color: var(--font-col);
     
 }
+.navbar-logo{
+  cursor: pointer;
+}
 .header .icons {
     width:90px;
     display: flex;
