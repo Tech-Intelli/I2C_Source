@@ -217,7 +217,7 @@ const ChooseCaption = () => {
                         visible={true}
                         ></Circles>
                         <p className="load-message">Generating the Caption. Grab a cup of tea or coffee in the meantime!!</p>
-                    </div>:<button id = "generate_button"className="btn-style-page1 btn-style-page2" style = {{border:"none"}} onClick ={generateCaption}>Generate Caption</button>
+                    </div>:<button id = "generate_button"className="btn-style-page1" style = {{border:"none"}} onClick ={generateCaption}>Generate Caption</button>
                   }
            </div>           
         </div>

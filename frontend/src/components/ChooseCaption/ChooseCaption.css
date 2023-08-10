@@ -397,9 +397,3 @@ height: 40px;
         margin-inline: auto;
     }
     }
-
-@media (max-width: 355px) {
-    .innerContent-page2 .btn-style-page2{
-        font-size: 10rem;
-    }
-}
