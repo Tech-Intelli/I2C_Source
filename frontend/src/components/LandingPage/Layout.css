@@ -11,6 +11,9 @@
     --bg-button-hov: #9B52DB;
     --font-accent: #E9A9CC;
 }
+html{
+    overflow-x: hidden;
+}
 body{
     
     font-family: 'Source Sans 3', sans-serif;
@@ -95,13 +98,27 @@ section .footer {
     max-width: 900px;
     text-align: center;
 }
-@media only screen and (max-width: 870px)
+/* @media (max-width: 915px){
+    .images{
+        width:100%;
+        height: 35%;
+        background-color: yellow;
+    }
+    .innerContent{
+        background-color: red;
+        width: 60%;
+    }
+} */
+@media only screen and (max-width: 950px)
 {
     body{
         overflow: auto;
     }
     .content{
         flex-direction: column-reverse;
+    }
+    .images{
+        height: 50%;
     }
 }
 @media only screen and (max-width: 560px){
@@ -134,14 +151,97 @@ section .footer {
     margin-inline:auto;
 }
 }
-@media only screen and (max-width:455px)
+@media (max-width:500px)
+{
+html{
+    overflow-x: hidden;
+}
+.innerContent{
+    max-width: 350px;
+    margin-inline:auto;
+}
+.innerContent .tagline{
+    width: 100%;
+
+}
+.innerContent .tagline .title{
+    font-size: 3.5rem;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.innerContent .tagline .tag{
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.innerContent button{
+    margin: 0 2.5rem;
+}
+.images{
+    width: 70%;
+    height: 40%;
+}
+.images img{
+    width: 100%;
+}
+}    
+@media(max-width:455px)
 {
 .innerContent{
-    width: 350px;
+    width: 100%;
     margin-inline:auto;
 }
 .innerContent button{
     margin: 0 2.5rem;
 }
 }
-    
+@media(max-width: 390px) {
+    .innerContent{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .innerContent .tagline .title{
+        font-size: 3rem;
+    }
+    .btn-style{
+        margin: auto;
+    }
+}
+@media (max-width: 340px) {
+    .innerContent{
+        margin-inline: auto;
+    }
+    .innerContent .tagline .tag{
+        line-height: 1.5rem;
+        font-size: 1.2rem;
+        text-align: center;
+    }
+}
+@media (max-width: 310px)
+{
+    .innerContent{
+        width: 100%;
+    }
+    .innerContent .tagline .title{
+        font-size: 100%;
+    }
+    .btn-style{
+        width: 100%;
+    }
+
+}
+@media(max-width: 270px){
+    .innerContent .tagline .title{
+        font-size: 90%;
+    }
+}
+@media(max-width: 245px){
+    .innerContent .tagline .title{
+        font-size: 85%;
+    }
+}

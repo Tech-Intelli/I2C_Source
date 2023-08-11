@@ -22,12 +22,14 @@ export default function Navbar(props) {
     });
     console.log("Go to Login")
   };
-
+  const handleLogoClick = ()=>{
+    navigate("/");
+  }
 
   return (
     <div className="header">
           <div>
-              <p>CapGenAIze</p>
+              <p class="navbar-logo" onClick={handleLogoClick}>CapGenAIze</p>
           </div>
           <div className= "icons">
           <i

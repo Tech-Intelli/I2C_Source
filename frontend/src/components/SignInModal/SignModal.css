@@ -4,6 +4,10 @@
 .SignModal div *:not(button){
   background-color: var(--bg-body);
   color: var(--font-col);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .errorText {
   padding :0 !important;
@@ -37,7 +41,7 @@
   text-align: end;
   width: 400px;
 }
-input{
+.SignModal input{
     padding: 20px;
     width: 400px;
     border: none;
@@ -104,12 +108,19 @@ input{
     margin: auto;
     
   }
-  .modalFooter{
+  .SignModal .modalFooter{
     margin-top: 20px;
+    width: 100%;
     text-align: center;
     display: flex;
+    flex-direction: row;
     justify-content: space-evenly;
     color: #1C4042;
+  }
+  .SignModal .modalFooter p{
+    flex-direction: row;
+    margin-block: auto;
+    gap: 0;
   }
   .modalFooter span, .forgot-password span {
     text-decoration: underline;
@@ -129,9 +140,54 @@ input{
       width: 300px;
     }
     .modal-btn-btn{
-      width: 300px;
-      margin: 10px auto auto 20px;
+      width: 100%;
+      margin-inline: auto;
     }
 
   }
-  
+
+@media(max-width: 400px){
+  .SignModal div *:not(button){
+    width: 100%;
+  }
+  .SignModal .modalFooter{
+    width: 80%;
+  }
+  .SignModal .modalFooter span:nth-child(1){
+    padding-left: 0.5rem;
+  }
+  .SignModal .modalFooter *{
+    font-size: 90%;
+  }
+  .SignModal .modalFooter p{
+    width: 50%;
+  }
+}
+
+@media (max-width: 420px)
+{
+  .modal-btn-btn{
+    width: 90%;
+  }
+}
+
+@media (max-width: 375px){
+  .modal-btn-btn{
+    width: 100%;
+    margin-inline: auto;
+  }
+}
+@media(max-width: 350px){
+  .SignModal .modalFooter{
+    width: 100%;
+    flex-direction: column;
+    gap:0.5rem;
+  }
+  .SignModal .modalFooter *:nth-child(1){
+    width: 100%;
+  }
+  .SignModal .modalFooter *:nth-child(1) span{
+    text-align: start;
+    width: 15%;
+  }
+}
