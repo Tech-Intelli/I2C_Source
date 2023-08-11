@@ -55,6 +55,13 @@ CORS(app, supports_credentials=True, resources={
     }
 })
 
+@app.route('/health', methods=['GET'])
+def health():
+    """Basic health check
+    Returns:
+        200
+    """
+    return "Healthy", 200
 
 @app.route('/register_user', methods=['POST'])
 def register_user():
