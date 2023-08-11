@@ -83,14 +83,14 @@ export const UploadFile = (props) => {
   };
 
   // init gmap script
-  const initMapScript = () => {
+  /*const initMapScript = () => {
     // if script already loaded
     if (window.google) {
       return Promise.resolve();
     }
     const src = `${mapApiJs}?key=${apiKey}&libraries=places&v=weekly`;
     return loadAsyncScript(src);
-  };
+  };*/
 
   // do something on address change
   const onChangeAddress = (autocomplete) => {
@@ -99,6 +99,7 @@ export const UploadFile = (props) => {
   };
 
   // init autocomplete
+  
   const initAutocomplete = () => {
     if (!searchInput.current) return;
 
@@ -110,10 +111,23 @@ export const UploadFile = (props) => {
       onChangeAddress(autocomplete)
     );
   };
+  const initMapAndAutocomplete = () => {
+    initAutocomplete();
+  };
 
   // load map script after mounted
   useEffect(() => {
-    initMapScript().then(() => initAutocomplete());
+    if (window.google) {
+      initMapAndAutocomplete();
+    } else {
+      const script = document.createElement("script");
+      script.src = `${mapApiJs}?key=${apiKey}&libraries=places&v=weekly&callback=Function.prototype`;
+      script.onload = initMapAndAutocomplete;
+      script.onerror = (error) => {
+        console.error("Error loading Google Maps API:", error);
+      };
+      document.head.appendChild(script);
+    }
   }, []);
 
 
