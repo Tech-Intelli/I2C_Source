@@ -76,9 +76,12 @@ body{
     border: none;
     padding: 0.5rem;
     height:100% !important;
-
-   border-radius: 30px; 
-
+    max-height: 10rem;
+    overflow-y:auto;
+    position: relative;
+    border-radius: 30px; 
+    box-shadow: 0 0px 0px transparent,
+              inset 0 -15px 10px -15px var(--font-accent);
 }
 .utilities{
     display: flex;
