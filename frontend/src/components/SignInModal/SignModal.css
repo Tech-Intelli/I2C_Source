@@ -39,7 +39,11 @@
 .forgot-password{
   margin: 5px 16px ;
   text-align: end;
-  width: 400px;
+  width: 100%;
+}
+.SignModal .forgot-password{
+  display: flex;
+  align-items: end;
 }
 .SignModal input{
     padding: 20px;
