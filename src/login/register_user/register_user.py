@@ -60,7 +60,6 @@ class RegisterUser:
                 is_existing_user['Items'][0]['username'] == self.username:
             return 400
         unique_id = str(uuid.uuid4())
-        self.send_email("https://www.explaistic.com/verify", unique_id)
         response = TABLE.put_item(
             Item={
                 'username': self.username,
@@ -69,6 +68,7 @@ class RegisterUser:
                 'verified': False
             }
         )
+        self.send_email("https://www.explaistic.com/verify", unique_id)
         return response['ResponseMetadata']['HTTPStatusCode']
 
 
