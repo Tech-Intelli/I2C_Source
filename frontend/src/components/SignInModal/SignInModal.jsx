@@ -113,6 +113,10 @@ export function SignInModal(props) {
           setEmail('');
           setPassword('');
           setConfirmPassword('');
+          timeout = setTimeout(()=>{
+            setForgotPassword(false);
+          },2000);
+          clearTimeout(timeout);
         })
         .catch(err => {
           console.log(err);
