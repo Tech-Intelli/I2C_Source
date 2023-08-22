@@ -13,11 +13,13 @@ const Caption = () => {
           typeSpeed: 5,
           showCursor: false,
         });
+    
         return () => {
           // Destroy Typed instance during cleanup to stop animation
           typed.destroy();
         };
       }, []);
+
     const navigate = useNavigate();
     const [copied, setCopied]=useState(false);
     const { state } = useLocation();
@@ -31,6 +33,7 @@ const Caption = () => {
         navigate('/generatecaption', {state:{ memory, address, file}}); // Should only go back 1 page
     };
     const handleCopy = () => { // To handle Copy text Feature
+        console.log(state?.file_path);
         navigator.clipboard.writeText(el.current.innerHTML);
         setCopied(true);
         setTimeout(()=>{
@@ -67,7 +70,7 @@ const Caption = () => {
                                   <img src={state?.file_path}  alt="" className='cover' />
                               )}
                           </div>
-                            <p className="textarea caption" contentEditable="true" ref={el} ></p>
+                            <p className='textarea caption' contentEditable="true" ref={el}></p>
                         </div>
                         <div className="utilities">
                             <button className='btn-reupload' onClick={handleReupload}>Reupload <i className="fa-solid fa-cloud-arrow-up"></i></button>

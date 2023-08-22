@@ -113,9 +113,6 @@ export function SignInModal(props) {
           setEmail('');
           setPassword('');
           setConfirmPassword('');
-          setTimeout(()=>{
-            setForgotPassword(false);
-          },2000);
           /*timeout = setTimeout(()=>{
             setForgotPassword(false);
           },2000);
