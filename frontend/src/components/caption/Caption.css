@@ -70,13 +70,12 @@ body{
     margin: 0.5rem auto 1rem;
 }
 .textarea{
-
     width: 100%;
     font-size: 16px !important;
     border: none;
     padding: 0.5rem;
     height:100% !important;
-    border-radius: 30px;
+    overflow-y: scroll;
 }
 .utilities{
     display: flex;
@@ -129,13 +128,64 @@ section .footer-page3 {
     }
 }
 @media (max-width: 400px) {
-    .text{
-        min-width: 15rem;
-    }
-    .generated-caption{
-        min-width: 15rem;
-    }
     .content{
         min-height: 150vh;
+    }
+}
+@media (max-width: 325px) {
+    .text{
+        min-width: 18rem;
+    }
+    .generated-caption{
+        min-width: 18rem;
+    } 
+}
+@media (max-width:320px){
+    .content{
+        min-height: 200vh;
+    }
+}
+
+@media (max-height:1075px)
+{
+    .content{
+        min-height: 200vh;
+    }
+}
+@media (max-height: 950px) {
+    .content{
+        min-height: 250vh;
+    }
+}
+@media (max-height: 700px) {
+    .content{
+        min-height: 300vh;
+    }
+    
+}
+@media (max-height: 565px) {
+    .content{
+        min-height: 350vh;
+    }
+}
+@media (max-height: 470px) {
+    .content{
+        min-height: 400vh;
+    }
+}
+
+@media (max-height: 405px) {
+    .content{
+        min-height: 450vh;
+    }
+}
+@media (max-height: 355px) {
+    .content{
+        min-height: 500vh;
+    }
+}
+@media (max-height: 310px) {
+    .content{
+        min-height: 550vh;
     }
 }
