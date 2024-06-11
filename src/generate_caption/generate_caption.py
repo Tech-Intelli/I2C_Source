@@ -49,7 +49,7 @@ class Chatbot:
         """
 
         self.openai.api_key = self.api_key
-        response_json = self.openai.ChatCompletion.create(
+        response_json = self.openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "assistant", "content": content}],
             max_tokens=1000,
@@ -68,16 +68,14 @@ class Chatbot:
             dict: A dictionary containing the response from the chat model.
         """
         self.openai.api_key = self.api_key
-        response_json = self.openai.ChatCompletion.create(
+        stream_caption = self.openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "assistant", "content": content}],
             stream=True,
             max_tokens=1000,
             top_p=0.9
         )
-        for stream in response_json:
-            stream_json = stream['choices'][0]['delta']
-            print(stream_json.get('content'), end=' ')
+        return stream_caption
 
 
 def _get_caption_size(caption_size):
@@ -169,8 +167,8 @@ class ImageCaptionGenerator:
             Finally, ensure the caption consists of {only_length} sentences,
             and includes the specified {num_hashtags} trending hashtags.'''
 
-        response_json = self.chatbot.get_response(content)
-        return response_json, compressed_image_path
+        stream_caption = self.chatbot.get_stream_response(content)
+        return stream_caption, compressed_image_path
 
 
 class VideoCaptionGenerator:
@@ -221,6 +219,7 @@ class VideoCaptionGenerator:
         """
 
         scene_dir = "extracted_images"
+        os.makedirs(scene_dir, exist_ok=True)
         vid_scn_detector = VideoSceneDetector(
             video_path,
             self.scene_detector,
@@ -239,7 +238,7 @@ class VideoCaptionGenerator:
             words = caption_length.split()
             only_length = f"{words[-2]} {words[-1]}"
             content = f'''{caption_length} {social_media} caption for the given video.
-            The caption should be set in {location}, with a focus on highlighting {text} in a {style} style, 
+            The caption should be set in {location}, with a focus on highlighting {all_captions} in a {style} style, 
             while also tying into the context: "{context}".
             Use a {tone} language style to hook and enthrall the intended audience.
             It's of utmost importance to weave in exactly {num_hashtags} popular trending hashtags.
@@ -248,13 +247,13 @@ class VideoCaptionGenerator:
             and includes the specified {num_hashtags} trending hashtags.'''
         else:
             content = f'''{caption_length} {social_media} caption for the given image.
-            The caption should be set in {location}, with a focus on highlighting {text} in a {style} style.
+            The caption should be set in {location}, with a focus on highlighting {all_captions} in a {style} style.
             Use a {tone} language style to hook and enthrall the intended audience.
             It's of utmost importance to weave in exactly {num_hashtags} popular trending hashtags.
             Sprinkle in pertinent emojis to add flair.
             Finally, ensure the caption consists of {only_length} sentences,
             and includes the specified {num_hashtags} trending hashtags.'''
 
-        response_json = self.chatbot.get_response(content)
+        stream_caption = self.chatbot.get_stream_response(content)
         shutil.rmtree(scene_dir, ignore_errors=True)
-        return response_json
+        return stream_caption
