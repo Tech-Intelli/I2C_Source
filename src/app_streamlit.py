@@ -7,20 +7,15 @@ Creates a Streamlit powered website
 # pylint: disable=R0913
 # pylint: disable=R0914
 
-import asyncio
 import base64
 import os
 import time
 import pathlib
 from pathlib import Path
-import tempfile
 import streamlit as st
 import generate_caption
-from send_message import send_message_to_bot
 from video_scene_detector import SceneDetector, SceneSaver
 from write_response import write_response_to_json
-from aws_s3 import AwsS3
-from trending_hashtag import TrendingHashtag
 
 COMPANY_NAME = "ExplAIstic"
 
@@ -29,7 +24,6 @@ BACKGROUND_IMAGE = os.path.join(Path.cwd(), "resources", "Background.png")
 CHATBOT = generate_caption.Chatbot(os.environ["OPENAI_API_KEY"])
 IMAGE_CAPTION_GENERATOR = generate_caption.ImageCaptionGenerator(CHATBOT)
 GIPHY_IMAGE = os.path.join(Path.cwd(), "resources", "giphy.gif")
-S3_BUCKET_NAME = "explaisticbucket"
 
 
 def generate_image_caption(
@@ -53,8 +47,9 @@ def generate_image_caption(
     Returns:
         str: caption
     """
-    response_json, compressed_image_path = IMAGE_CAPTION_GENERATOR.\
+    caption, compressed_image_path = IMAGE_CAPTION_GENERATOR.\
         generate_caption(
+            "Anywhere on earth",
             image_path,
             caption_size,
             context,
@@ -62,8 +57,6 @@ def generate_image_caption(
             num_hashtags,
             tone,
             social_media)
-    caption = response_json["choices"][0]["message"]["content"]
-    write_response_to_json(response_json)
     return caption, compressed_image_path
 
 
@@ -93,7 +86,8 @@ def generate_video_caption(
         SceneDetector(),
         SceneSaver()
     )
-    response_json = video_caption_generator.generate_caption(
+    caption = video_caption_generator.generate_caption(
+        "Anywhere on earth",
         video_path,
         caption_size,
         context,
@@ -101,25 +95,7 @@ def generate_video_caption(
         num_hashtags,
         tone,
         social_media)
-    caption = response_json["choices"][0]["message"]["content"]
-    write_response_to_json(response_json)
     return caption
-
-
-def send_to_telegram(compressed_image_path, caption):
-    """
-    Send the caption and compressed image to Telegram
-
-    Args:
-        compressed_image_path (str): compressed image path
-        caption (str): caption
-    """
-    asyncio.run(send_message_to_bot(
-        compressed_image_path,
-        caption,
-    ))
-    st.success("Message sent.")
-
 
 def generate_interim_gif():
     """
@@ -145,20 +121,22 @@ def generate_interim_gif():
 # pylint: disable=R0915
 
 
-def stream_text(caption):
-    """Generate stream text
+def stream_text(stream):
+    """Generate and display stream text
 
     Args:
-        caption (string): generated caption
+        stream: an iterable streaming API response
     """
-    success_stream = st.success("")
-    words_of_caption = caption.split()
+    success_stream = st.empty()
     full_text = ''
-    for _, word in enumerate(words_of_caption):
-        full_text += word + ' '
-        success_stream.write(full_text)
-        time.sleep(0.1)
-    success_stream.write(full_text)
+
+    for chunk in stream:
+        new_text = chunk.choices[0].delta.content if (chunk.choices[0].delta and chunk.choices[0].delta.content) else ''
+        full_text += new_text
+        success_stream.success(full_text)
+        time.sleep(0.05)
+
+    success_stream.success(full_text)
 
 
 def app():
@@ -180,18 +158,16 @@ def app():
 
     uploaded_file = st.file_uploader(
         "Upload Image or Video", type=["jpg", "jpeg", "png", "mp4", "mov"])
-    key_name = ""
-    file_extension = ""
+    local_directory = 'temp'
+    os.makedirs(local_directory, exist_ok=True)
     if uploaded_file is not None:
         file_extension = pathlib.Path(uploaded_file.name).suffix.lower()
-        fd, temp_file_path = tempfile.mkstemp(suffix=file_extension)
-        with open(temp_file_path, "wb") as temp_file:
-            temp_file.write(uploaded_file.getbuffer())
-        key_name = os.path.basename(temp_file_path)
-        AwsS3.upload_file_to_s3(temp_file_path, S3_BUCKET_NAME, key_name)
-        os.close(fd)
-        os.remove(temp_file_path)
+        file_path = os.path.join(local_directory, uploaded_file.name)
 
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+        st.success("File uploaded successfully!")
+    
     caption_size = st.select_slider(
         'Caption Size',
         options=['small', 'medium', 'large', 'very large', 'blog post'])
@@ -207,7 +183,6 @@ def app():
     num_hashtags = st.number_input(
         "How many hashes do you want to add?", step=1)
     is_premium_hashtags = st.checkbox("Do you need recent trending hashtags?")
-    # pylint: disable=W0612
     col1, col2, col3 = st.columns([1, 1, 0.80])
     if col1.button("Generate Caption"):
         if uploaded_file is None:
@@ -215,10 +190,8 @@ def app():
         elif uploaded_file is not None:
             if file_extension in (".png", ".jpeg", ".jpg"):
                 gif_placeholder = generate_interim_gif()
-                image_save_path = os.path.join(Path.cwd(), key_name)
-                AwsS3.download_file_from_s3(
-                    image_save_path, key_name, S3_BUCKET_NAME)
-                caption, compressed_image_path = generate_image_caption(image_save_path,
+                print(f"==== {os.path.abspath(file_path)} ====")
+                caption, compressed_image_path = generate_image_caption(file_path,
                                                                         caption_size,
                                                                         context,
                                                                         caption_style,
@@ -227,29 +200,17 @@ def app():
                                                                         social_media)
                 gif_placeholder.empty()
                 stream_text(caption)
-                premium_hashtags = ""
-                if is_premium_hashtags:
-                    trending_hashtags = TrendingHashtag()
-                    hashtags = trending_hashtags.get_trending_hashtags_from_image(
-                        compressed_image_path)
-                    for hashtag in hashtags:
-                        premium_hashtags += '#' + hashtag.hashtag + ' '
-                st.success(premium_hashtags)
                 st.image(compressed_image_path)
-                send_to_telegram(compressed_image_path, caption)
-                os.remove(compressed_image_path)
-                os.remove(image_save_path)
+                os.remove(file_path)
             elif file_extension in (".mp4", ".mov"):
                 gif_placeholder = generate_interim_gif()
-                video_save_path = os.path.join(Path.cwd(), key_name)
-                print(f"==== {video_save_path} ====")
-                AwsS3.download_file_from_s3(
-                    video_save_path, key_name, S3_BUCKET_NAME)
+                print(f"==== {file_path} ====")
                 caption = generate_video_caption(
-                    video_save_path, caption_size, context, caption_style, num_hashtags, tone)
+                    file_path, caption_size, context, caption_style, num_hashtags, tone)
                 gif_placeholder.empty()
-                st.success(caption)
-                st.video(video_save_path)
+                stream_text(caption)
+                st.video(file_path)
+                os.remove(file_path)
 
 
 if __name__ == "__main__":
