@@ -5,8 +5,10 @@
 # pylint: disable=E0401
 import os
 import warnings
-from pathlib import Path
 import torch
+from pathlib import Path
+from torchvision import transforms
+from PIL import Image
 
 warnings.filterwarnings("ignore")
 
@@ -49,19 +51,25 @@ class CachedModel:
             The image caption pipeline for the specified image path.
         """
 
-        device = None
+        device = "cpu"
         # pylint: disable=E1101
+        '''
         if torch.cuda.is_available():
             device = torch.device("cuda")
             print("Cuda will be used to generate the caption")
         else:
             device = torch.device("cpu")
             print("CPU will be used to generate the caption")
-
+        '''
+        transform = transforms.Resize((256, 256))
         try:
             with open(CachedModel.CACHE_FILE, 'rb') as f:
                 image_pipeline = torch.load(f, map_location=device)
-                return image_pipeline(image_path)
+                image = Image.open(image_path)
+                image_input = transform(image)
+                if hasattr(image_pipeline, 'to'):
+                    image_pipeline = image_pipeline.to(device)
+                return image_pipeline(image_input)
         except FileNotFoundError:
             print(f'''Could not open or find cache file,
 creating cache file @ {CachedModel.CACHE_FILE}
