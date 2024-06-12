@@ -5,8 +5,8 @@
 # pylint: disable=E0401
 import os
 import warnings
-import torch
 from pathlib import Path
+import torch
 from torchvision import transforms
 from PIL import Image
 

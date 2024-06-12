@@ -15,7 +15,6 @@ from pathlib import Path
 import streamlit as st
 import generate_caption
 from video_scene_detector import SceneDetector, SceneSaver
-from write_response import write_response_to_json
 
 COMPANY_NAME = "ExplAIstic"
 
@@ -131,7 +130,9 @@ def stream_text(stream):
     full_text = ''
 
     for chunk in stream:
-        new_text = chunk.choices[0].delta.content if (chunk.choices[0].delta and chunk.choices[0].delta.content) else ''
+        new_text = chunk.choices[0].delta.content \
+        if (chunk.choices[0].delta and chunk.choices[0].delta.content)\
+        else ''
         full_text += new_text
         success_stream.success(full_text)
         time.sleep(0.05)
@@ -182,8 +183,7 @@ def app():
     context = st.text_area("Write your context here...")
     num_hashtags = st.number_input(
         "How many hashes do you want to add?", step=1)
-    is_premium_hashtags = st.checkbox("Do you need recent trending hashtags?")
-    col1, col2, col3 = st.columns([1, 1, 0.80])
+    col1, _, _ = st.columns([1, 1, 0.80])
     if col1.button("Generate Caption"):
         if uploaded_file is None:
             st.error("Please upload an image or a video.")
