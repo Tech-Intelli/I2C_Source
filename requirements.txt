@@ -5,6 +5,7 @@ Pillow==9.5.0
 python-telegram-bot==20.2
 streamlit==1.21.0
 torch==2.0.0
+torchvision==0.15.0
 transformers==4.27.4
 boto3
 ritetag
