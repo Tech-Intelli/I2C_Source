@@ -7,7 +7,8 @@ import pytest
 # pylint: disable=E0401
 from generate_caption import Chatbot
 
-@pytest.mark.skip(reason="This test is currently not required, this will be fixed and enabled later.")
+@pytest.mark.skip(reason="This test is currently not required,\
+                  this will be fixed and enabled later.")
 def test_chat_bot():
     """
     Test the ChatBot response functionality.
