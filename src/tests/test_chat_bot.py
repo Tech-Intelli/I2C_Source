@@ -3,7 +3,6 @@ Unit Test for ChatBot
 """
 
 import os
-import pytest
 # pylint: disable=E0401
 from generate_caption import Chatbot
 
