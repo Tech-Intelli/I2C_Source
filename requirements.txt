@@ -1,10 +1,9 @@
 Flask>=2.2.5
-openai==0.27.2
+openai
 opencv_python==4.7.0.72
 Pillow==9.5.0
 python-telegram-bot==20.2
 streamlit==1.21.0
-torch==2.0.0
 transformers==4.27.4
 boto3
 ritetag
