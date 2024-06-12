@@ -77,7 +77,6 @@ class Chatbot:
         )
         return stream_caption
 
-# pylint: disable=E0606
 def _get_caption_size(caption_size):
     if caption_size == 'small':
         caption_length = '''Compose a concise 2 to 3 sentence'''

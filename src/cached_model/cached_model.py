@@ -53,6 +53,7 @@ class CachedModel:
 
         device = "cpu"
         # pylint: disable=E1101
+        # pylint: disable=W0105
         '''
         if torch.cuda.is_available():
             device = torch.device("cuda")

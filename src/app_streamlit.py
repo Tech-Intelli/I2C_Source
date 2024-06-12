@@ -168,7 +168,7 @@ def app():
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
         st.success("File uploaded successfully!")
-    
+
     caption_size = st.select_slider(
         'Caption Size',
         options=['small', 'medium', 'large', 'very large', 'blog post'])
