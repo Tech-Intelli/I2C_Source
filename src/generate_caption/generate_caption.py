@@ -8,6 +8,7 @@
 # pylint: disable=R0913
 # pylint: disable=E0401
 # pylint: disable=R0914
+# pylint: disable=E0606
 import os
 import shutil
 import openai
