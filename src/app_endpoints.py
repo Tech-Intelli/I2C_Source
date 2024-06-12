@@ -332,6 +332,7 @@ def generate_image_video_caption():
             video_file_extension = any_video_extension
             break
     response_json = None
+    # pylint: disable=W3101
     if has_image_file_extension:
         file_save_path = Image.open(requests.get(presigned_url, stream=True).raw)
         response_json, _ = IMAGE_CAPTION_GENERATOR.generate_caption(
