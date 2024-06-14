@@ -60,7 +60,7 @@ class ImageCaptionPipeLine:
             "Salesforce/blip2-opt-2.7b",
             torch_dtype=torch.float16,
             device_map="auto",
-            quantization_config=quantization_config)  
+            quantization_config=quantization_config)
         return model
 
     @staticmethod
