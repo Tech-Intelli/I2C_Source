@@ -51,10 +51,13 @@ class ImageCaptionPipeLine:
     
     @staticmethod
     def get_blip2_image_caption_pipeline():
-        processor = AutoProcessor.from_pretrained("Salesforce/blip2-opt-2.7b")
         quantization_config = BitsAndBytesConfig(load_in_8bit=True)
         model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b",
                                                       torch_dtype=torch.float16,
                                                       device_map="auto", 
                                                       quantization_config=quantization_config)  
-        return processor, model
+        return model
+
+    @staticmethod
+    def get_blip2_image_processor():
+        return AutoProcessor.from_pretrained("Salesforce/blip2-opt-2.7b")

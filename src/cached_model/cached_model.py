@@ -4,12 +4,14 @@
 # pylint: disable=R0903
 # pylint: disable=E0401
 import os
+import pickle
 import warnings
 from pathlib import Path
 import dill
 import torch
 from torchvision import transforms
 from PIL import Image
+from image_caption import ImageCaptionPipeLine
 
 warnings.filterwarnings("ignore")
 
@@ -109,7 +111,9 @@ creating cache file @ {CachedModel.CACHE_FILE}
             print("CPU will be used to generate the caption")
         try:
             with open(CachedModel.CACHE_FILE_BLIP2, 'rb') as f:
-                processor, model = dill.load(f)
+                processor = ImageCaptionPipeLine.get_blip2_image_processor()
+                unpickler = pickle.Unpickler(f)
+                model = unpickler.load()
                 image = Image.open(image_path).convert('RGB')
                 inputs = processor(images=image, return_tensors="pt").to(device, torch.float16)
                 generated_ids = model.generate(**inputs)
@@ -119,8 +123,8 @@ creating cache file @ {CachedModel.CACHE_FILE}
             print(f'''Could not open or find cache file,
 creating cache file @ {CachedModel.CACHE_FILE_BLIP2}
 \nThis may take a while, please wait...''')
-        from image_caption import ImageCaptionPipeLine
-        processor, model = ImageCaptionPipeLine.get_blip2_image_caption_pipeline()
+        processor = ImageCaptionPipeLine.get_blip2_image_processor()
+        model = ImageCaptionPipeLine.get_blip2_image_caption_pipeline()
         with open(CachedModel.CACHE_FILE_BLIP2, "wb") as f:
             dill.dump(model, f)
             print(
