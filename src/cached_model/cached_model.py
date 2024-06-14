@@ -79,8 +79,6 @@ class CachedModel:
             print(f'''Could not open or find cache file,
 creating cache file @ {CachedModel.CACHE_FILE}
 \nThis may take a while, please wait...''')
-
-        from image_caption import ImageCaptionPipeLine
         image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
         with open(CachedModel.CACHE_FILE, "wb") as f:
             torch.save(image_pipeline, CachedModel.CACHE_FILE)
@@ -117,7 +115,9 @@ creating cache file @ {CachedModel.CACHE_FILE}
                 image = Image.open(image_path).convert('RGB')
                 inputs = processor(images=image, return_tensors="pt").to(device, torch.float16)
                 generated_ids = model.generate(**inputs)
-                generated_text = processor.batch_decode(generated_ids, skip_special_tokens=True)[0].strip()
+                generated_text = processor.batch_decode(
+                    generated_ids,
+                    skip_special_tokens=True)[0].strip()
                 return generated_text
         except FileNotFoundError:
             print(f'''Could not open or find cache file,
@@ -130,7 +130,11 @@ creating cache file @ {CachedModel.CACHE_FILE_BLIP2}
             print(
                 f'''Cache has been created at {CachedModel.CACHE_FILE_BLIP2} successfully.''')
             image = Image.open(image_path).convert('RGB')
-            inputs = processor(images=image, return_tensors="pt").to(device, torch.float16)
+            inputs = processor(
+                images=image,
+                return_tensors="pt").to(device, torch.float16)
             generated_ids = model.generate(**inputs)
-            generated_text = processor.batch_decode(generated_ids, skip_special_tokens=True)[0].strip()
+            generated_text = processor.batch_decode(
+                generated_ids,
+                skip_special_tokens=True)[0].strip()
             return generated_text
