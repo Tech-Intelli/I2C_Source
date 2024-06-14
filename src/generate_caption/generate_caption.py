@@ -141,9 +141,11 @@ class ImageCaptionGenerator:
             for generating the caption.
         """
         compressed_image_path = image_path  # ImageCompressor.compress(image_path, 10)
-        image_pipeline = CachedModel.get_image_caption_pipeline(
+        #image_pipeline = CachedModel.get_image_caption_pipeline(
+        #    compressed_image_path)
+        #text = image_pipeline[0]['generated_text']
+        text = CachedModel.get_blip2_image_caption_pipeline(
             compressed_image_path)
-        text = image_pipeline[0]['generated_text']
         caption_length = _get_caption_size(caption_size)
         content = None
         if context is not None or context != "":

@@ -7,11 +7,16 @@ Creates a Transformer pipeline from a pre-trained model
 # pylint: disable=E0401
 
 import warnings
-from transformers import VisionEncoderDecoderModel
-from transformers import ViTImageProcessor
-from transformers import AutoTokenizer
-from transformers import Pipeline
-from transformers import pipeline
+import torch
+from transformers import \
+    VisionEncoderDecoderModel,\
+    ViTImageProcessor,\
+    AutoTokenizer,\
+    Pipeline,\
+    pipeline,\
+    AutoProcessor,\
+    Blip2ForConditionalGeneration,\
+    BitsAndBytesConfig
 
 warnings.filterwarnings("ignore")
 # pylint: disable=E1101
@@ -43,3 +48,24 @@ class ImageCaptionPipeLine:
             feature_extractor=ImageCaptionPipeLine.feature_extractor,
             image_processor=ImageCaptionPipeLine.feature_extractor)
         return image_caption_pipeline
+
+    @staticmethod
+    def get_blip2_image_caption_pipeline():
+        """
+        Returns a pipeline for generating captions from images
+        using the BLIP2 model.
+        """
+        quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+        model = Blip2ForConditionalGeneration.from_pretrained(
+            "Salesforce/blip2-opt-2.7b",
+            torch_dtype=torch.float16,
+            device_map="auto",
+            quantization_config=quantization_config)
+        return model
+
+    @staticmethod
+    def get_blip2_image_processor():
+        """
+        Returns Salesforce/blip2-opt-2.7b's image processor.
+        """
+        return AutoProcessor.from_pretrained("Salesforce/blip2-opt-2.7b")
