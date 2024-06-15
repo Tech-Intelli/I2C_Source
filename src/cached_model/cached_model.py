@@ -90,7 +90,7 @@ creating cache file @ {CachedModel.CACHE_FILE}
         return image_pipeline(image_path)
 
     @staticmethod
-    def get_blip2_image_caption_pipeline(image_path):
+    def get_blip2_image_caption_pipeline(image_path, device = 'cpu'):
         """
         Returns the image caption pipeline for the specified image path.
         If the pipeline is not cached, it
@@ -100,17 +100,11 @@ creating cache file @ {CachedModel.CACHE_FILE}
         Args:
             image_path (str): The path to the image for which the caption
             pipeline is required.
-
+            device (str): The device on which the model and the inputs will be loaded.
         Returns:
             The image caption pipeline for the specified image path.
         """
         os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:128'
-        if torch.cuda.is_available():
-            device = torch.device("cuda")
-            print("Cuda will be used to generate the caption")
-        else:
-            device = torch.device("cpu")
-            print("CPU will be used to generate the caption")
         image = Image.open(image_path).convert('RGB')
         # pylint: disable=E1102
         inputs = CachedModel.BLIP2_PROCESSOR(
