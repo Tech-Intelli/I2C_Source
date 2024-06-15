@@ -15,6 +15,7 @@ from pathlib import Path
 import streamlit as st
 import generate_caption
 from video_scene_detector import SceneDetector, SceneSaver
+from cached_model import CachedModel
 
 COMPANY_NAME = "ExplAIstic"
 
@@ -24,6 +25,10 @@ CHATBOT = generate_caption.Chatbot(os.environ["OPENAI_API_KEY"])
 IMAGE_CAPTION_GENERATOR = generate_caption.ImageCaptionGenerator(CHATBOT)
 GIPHY_IMAGE = os.path.join(Path.cwd(), "resources", "giphy.gif")
 
+def load_model():
+    if 'model_loaded' not in st.session_state:
+        CachedModel.load_blip2()
+        st.session_state['model_loaded'] = True
 
 def generate_image_caption(
         image_path,
@@ -144,6 +149,7 @@ def app():
     """
     The main application that powers the streamlit.
     """
+    load_model()
     st.set_page_config(page_title=COMPANY_NAME, page_icon=COMPANY_LOGO)
     st.image(COMPANY_LOGO)
     st.markdown('<style>img { display: block; margin: auto; }</style>',
@@ -191,6 +197,7 @@ def app():
             if file_extension in (".png", ".jpeg", ".jpg"):
                 gif_placeholder = generate_interim_gif()
                 print(f"==== {os.path.abspath(file_path)} ====")
+                caption_start_time = time.time()
                 caption, compressed_image_path = generate_image_caption(file_path,
                                                                         caption_size,
                                                                         context,
@@ -198,6 +205,8 @@ def app():
                                                                         num_hashtags,
                                                                         tone,
                                                                         social_media)
+                caption_end_time = time.time() - caption_start_time
+                print(f'Total time taken to to generate a caption is : {caption_end_time} seconds')
                 gif_placeholder.empty()
                 stream_text(caption)
                 st.image(compressed_image_path)
