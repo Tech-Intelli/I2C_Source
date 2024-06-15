@@ -146,7 +146,9 @@ creating cache file @ {CachedModel.CACHE_FILE}
                 CachedModel.BLIP2_MODEL = unpickler.load()
                 print("BLIP2 model loaded from the cache successfully.")
         except FileNotFoundError:
-            print(f'''Could not open or find cache file, creating cache file @ {CachedModel.CACHE_FILE_BLIP2} \nThis may take a while, please wait...''')
+            print(f'''Could not open or find cache file,
+creating cache file @ {CachedModel.CACHE_FILE_BLIP2} 
+\nThis may take a while, please wait...''')
             CachedModel.BLIP2_PROCESSOR = ImageCaptionPipeLine.get_blip2_image_processor()
             CachedModel.BLIP2_MODEL = ImageCaptionPipeLine.get_blip2_image_caption_pipeline()
             with open(CachedModel.CACHE_FILE_BLIP2, "wb") as f:
