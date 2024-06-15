@@ -4,6 +4,7 @@
 # pylint: disable=R0903
 # pylint: disable=E0401
 import os
+import gc
 import pickle
 import warnings
 from pathlib import Path
@@ -38,6 +39,8 @@ class CachedModel:
     Path(CACHE_DIR).mkdir(parents=True, exist_ok=True)
     CACHE_FILE = os.path.join(CACHE_DIR, "image_caption_pipeline.pt")
     CACHE_FILE_BLIP2 = os.path.join(CACHE_DIR, "blip2_8bit.pkl")
+    BLIP2_MODEL = None
+    BLIP2_PROCESSOR = None
 
     @staticmethod
     def get_image_caption_pipeline(image_path):
@@ -87,7 +90,7 @@ creating cache file @ {CachedModel.CACHE_FILE}
         return image_pipeline(image_path)
 
     @staticmethod
-    def get_blip2_image_caption_pipeline(image_path):
+    def get_blip2_image_caption_pipeline(image_path, device = 'cpu'):
         """
         Returns the image caption pipeline for the specified image path.
         If the pipeline is not cached, it
@@ -97,44 +100,57 @@ creating cache file @ {CachedModel.CACHE_FILE}
         Args:
             image_path (str): The path to the image for which the caption
             pipeline is required.
-
+            device (str): The device on which the model and the inputs will be loaded.
         Returns:
             The image caption pipeline for the specified image path.
         """
-        if torch.cuda.is_available():
-            device = torch.device("cuda")
-            print("Cuda will be used to generate the caption")
-        else:
-            device = torch.device("cpu")
-            print("CPU will be used to generate the caption")
+        os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:128'
+        image = Image.open(image_path).convert('RGB')
+        # pylint: disable=E1102
+        inputs = CachedModel.BLIP2_PROCESSOR(
+            images=image,
+            return_tensors="pt").to(device, torch.float16)
+        generated_ids = CachedModel.BLIP2_MODEL.generate(**inputs)
+        generated_text = CachedModel.BLIP2_PROCESSOR.batch_decode(
+            generated_ids,
+            skip_special_tokens=True)[0].strip()
+        torch.cuda.empty_cache()
+        torch.cuda.synchronize()
+        gc.collect()
+        del inputs
+        return generated_text
+
+    @staticmethod
+    def load_blip2():
+        """
+        Load the blip2 image caption model.
+        If the pipeline is not cached, it
+        will be created and cached using the
+        `ImageCaptionPipeLine.get_blip2_image_caption_pipeline()` method.
+
+        Args:
+            None.
+
+        Returns:
+            None.
+        """
+
         try:
             with open(CachedModel.CACHE_FILE_BLIP2, 'rb') as f:
-                processor = ImageCaptionPipeLine.get_blip2_image_processor()
+                print("BLIP2 model loading from the cache started.")
+                CachedModel.BLIP2_PROCESSOR = ImageCaptionPipeLine.get_blip2_image_processor()
                 unpickler = pickle.Unpickler(f)
-                model = unpickler.load()
-                image = Image.open(image_path).convert('RGB')
-                inputs = processor(images=image, return_tensors="pt").to(device, torch.float16)
-                generated_ids = model.generate(**inputs)
-                generated_text = processor.batch_decode(
-                    generated_ids,
-                    skip_special_tokens=True)[0].strip()
-                return generated_text
+                CachedModel.BLIP2_MODEL = unpickler.load()
+                print("BLIP2 model loaded from the cache successfully.")
         except FileNotFoundError:
             print(f'''Could not open or find cache file,
-creating cache file @ {CachedModel.CACHE_FILE_BLIP2}
+creating cache file @ {CachedModel.CACHE_FILE_BLIP2} 
 \nThis may take a while, please wait...''')
-        processor = ImageCaptionPipeLine.get_blip2_image_processor()
-        model = ImageCaptionPipeLine.get_blip2_image_caption_pipeline()
-        with open(CachedModel.CACHE_FILE_BLIP2, "wb") as f:
-            dill.dump(model, f)
-            print(
-                f'''Cache has been created at {CachedModel.CACHE_FILE_BLIP2} successfully.''')
-            image = Image.open(image_path).convert('RGB')
-            inputs = processor(
-                images=image,
-                return_tensors="pt").to(device, torch.float16)
-            generated_ids = model.generate(**inputs)
-            generated_text = processor.batch_decode(
-                generated_ids,
-                skip_special_tokens=True)[0].strip()
-            return generated_text
+            CachedModel.BLIP2_PROCESSOR = ImageCaptionPipeLine.get_blip2_image_processor()
+            CachedModel.BLIP2_MODEL = ImageCaptionPipeLine.get_blip2_image_caption_pipeline()
+            with open(CachedModel.CACHE_FILE_BLIP2, "wb") as f:
+                dill.dump(CachedModel.BLIP2_MODEL, f)
+                print(
+                    f'''Cache has been created at
+{CachedModel.CACHE_FILE_BLIP2} successfully.''')
+            print("BLIP2 model loaded successfully")
