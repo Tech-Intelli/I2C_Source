@@ -1,4 +1,5 @@
 [![Run Unit Tests](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml) [![Pylint](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml)
+
 ## ExplAIstic
 
 ![ExplAIstic Logo](/src/resources/Background.png)
@@ -29,27 +30,36 @@ To use the application, you need to install the following dependencies:
 You can install all of these dependencies by running `pip install -r requirements.txt` from the project directory.
 
 The current version of ExplAIstic uses Streamlit to generate the website. To use this app run
+
 ```
 cd src
 streamlit run app-streamlit.py
 ```
 
 An endpoint to generate the caption has been created. Run the following command:
+
 ```
 Open one termianl
 cd src
 python app_endpoints.py
 ```
+
 Open another termianl
+
 ## Register
+
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"email":"example@email.com","password":"password"}' http://localhost:9000/register_user --cookie-jar cookies.txt
 ```
+
 ## login
+
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"email":"example@email.com","password":"password"}' http://localhost:9000/login_user --cookie-jar cookies.txt
 ```
+
 ## Upload Image or Video
+
 ```
 curl -X POST -H "Content-Type: multipart/form-data" \
     -H "Authorization: Bearer your-token" \
@@ -58,13 +68,16 @@ curl -X POST -H "Content-Type: multipart/form-data" \
     http://localhost:9000/upload_file \
     --cookie-jar cookies.txt
 ```
+
 ## Generate Caption
+
 ```
 curl -X GET 
     -H "Authorization: Bearer your-token" \
     "http://localhost:9000/generate_image_video_caption?caption_size=small&context=some_context&style=cool&num_hashtags=3&tone=casual&social_media=instagram" \
     --cookie cookies.txt
 ```
+
 ## How to run the Dockerfile
 
 If you want to containerize it and run it as a Docker image use the Dockerfile from the root of the repo. Add your API keys there. As this use pre-trained model, therefore initializing the pre-trained model everytime can be memory expensive and time consuming. Use a Docker Volume before running the docker file.
@@ -94,13 +107,16 @@ ExplAIstic was created by [Dipanjan Das](https://github.com/dasdipanjan04). It u
 
 ## License 📝
 
-ExplAIstic is licensed under the MIT license. See [LICENSE](LICENSE) for more information.
+ExplAIstic is licensed under the Proprietary Software License. See [LICENSE](LICENSE) for more information.
 
 ## Logo License
+
 See [LOGO LICENSE](https://github.com/dasdipanjan04/ExplAIstic/blob/main/LOGO%20LICENSE) for more information.
+
 ## Acknowledgments 👏
+
 Thank you to the PyTorch, OpenAI, and Hugging Face communities for providing pre-trained models that were instrumental in the creation of this project. Special thanks to the Telegram team for providing an easy-to-use API for messaging.
 
 ## Join the Discord Community
-<a href="https://discord.gg/UvMWN7k7"><img class="icon-3AqZ2e" src="https://cdn.discordapp.com/icons/1097599444800770060/5bc54720d99c6bc7b86322a3b8683fd6.webp?size=240" alt=" " width="100" height="100" aria-hidden="true"></a>
 
+`<a href="https://discord.gg/UvMWN7k7"><img class="icon-3AqZ2e" src="https://cdn.discordapp.com/icons/1097599444800770060/5bc54720d99c6bc7b86322a3b8683fd6.webp?size=240" alt=" " width="100" height="100" aria-hidden="true">``</a>`
