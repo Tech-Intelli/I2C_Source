@@ -229,9 +229,8 @@ class VideoCaptionGenerator:
         image_list = os.listdir(scene_dir)
         all_captions = ""
         for each_image in image_list:
-            image_pipeline = CachedModel.get_image_caption_pipeline(
+            text = CachedModel.get_blip2_image_caption_pipeline(
                 os.path.join(scene_dir, each_image))
-            text = image_pipeline[0]['generated_text']
             all_captions += " " + text
         content = None
         caption_length = _get_caption_size(caption_size)
