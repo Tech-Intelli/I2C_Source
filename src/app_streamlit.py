@@ -26,6 +26,9 @@ IMAGE_CAPTION_GENERATOR = generate_caption.ImageCaptionGenerator(CHATBOT)
 GIPHY_IMAGE = os.path.join(Path.cwd(), "resources", "giphy.gif")
 
 def load_model():
+    """
+    Loads the model
+    """
     if 'model_loaded' not in st.session_state:
         CachedModel.load_blip2()
         st.session_state['model_loaded'] = True
