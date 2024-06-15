@@ -53,20 +53,17 @@ def generate_image_caption(
 
     Returns:
         str: caption
+        # Do not remove this commented out block. 
+        # If needed pass device at the end of the parameter list
+        # of generate_caption, default device = 'cpu'
+
+        if torch.cuda.is_available():
+            device = torch.device("cuda")
+            print("Cuda will be used to generate the caption")
+        else:
+            device = torch.device("cpu")
+            print("CPU will be used to generate the caption")
     """
-
-    '''
-    # Do not remove this commented out block. 
-    # If needed pass device at the end of the parameter list
-    # of generate_caption, default device = 'cpu'
-
-    if torch.cuda.is_available():
-        device = torch.device("cuda")
-        print("Cuda will be used to generate the caption")
-    else:
-        device = torch.device("cpu")
-        print("CPU will be used to generate the caption")
-    '''
     caption, compressed_image_path = IMAGE_CAPTION_GENERATOR.\
         generate_caption(
             "Anywhere on earth",
@@ -76,7 +73,7 @@ def generate_image_caption(
             caption_style,
             num_hashtags,
             tone,
-            social_media) 
+            social_media)
     return caption, compressed_image_path
 
 
