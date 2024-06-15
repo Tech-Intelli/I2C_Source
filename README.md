@@ -107,7 +107,7 @@ ExplAIstic was created by [Dipanjan Das](https://github.com/dasdipanjan04). It u
 
 ## License 📝
 
-ExplAIstic is licensed under the Proprietary Software License. See [LICENSE](LICENSE) for more information.
+ExplAIstic is licensed under the Proprietary Software License. See [LICENSE](LICENSE) for more informatio
 
 ## Logo License
 
