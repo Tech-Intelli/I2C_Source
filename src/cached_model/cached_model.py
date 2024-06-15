@@ -112,7 +112,10 @@ creating cache file @ {CachedModel.CACHE_FILE}
             device = torch.device("cpu")
             print("CPU will be used to generate the caption")
         image = Image.open(image_path).convert('RGB')
-        inputs = CachedModel.BLIP2_PROCESSOR(images=image, return_tensors="pt").to(device, torch.float16)
+        # pylint: disable=E1102
+        inputs = CachedModel.BLIP2_PROCESSOR(
+            images=image,
+            return_tensors="pt").to(device, torch.float16)
         generated_ids = CachedModel.BLIP2_MODEL.generate(**inputs)
         generated_text = CachedModel.BLIP2_PROCESSOR.batch_decode(
             generated_ids,
@@ -154,5 +157,6 @@ creating cache file @ {CachedModel.CACHE_FILE_BLIP2}
             with open(CachedModel.CACHE_FILE_BLIP2, "wb") as f:
                 dill.dump(CachedModel.BLIP2_MODEL, f)
                 print(
-                    f'''Cache has been created at {CachedModel.CACHE_FILE_BLIP2} successfully.''')
+                    f'''Cache has been created at
+{CachedModel.CACHE_FILE_BLIP2} successfully.''')
             print("BLIP2 model loaded successfully")
