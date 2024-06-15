@@ -1,21 +1,33 @@
-MIT License
+Proprietary Software License
 
-Copyright (c) 2023 Dipanjan Das
+Copyright (c) 2024 Dipanjan Das and Sayantan Roy
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+All rights reserved.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The software and associated documentation files (the "Software") are the proprietary information and valuable intellectual property of Dipanjan Das and Sayantan Roy and are provided under this license for restricted use. Unauthorized copying, modification, redistribution, use, or publication by any means is strictly prohibited without the express prior written permission of Dipanjan Das and Sayantan Roy.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+LICENSE GRANT
+
+Dipanjan Das and Sayantan Roy hereby grant, to reliable parties, a limited, non-exclusive, non-transferable, non-sublicensable license to use the Software solely for personal or internal business purposes. Any other use including, but not limited to, the modification, distribution, sale, reproduction, or broadcasting of the Software in any form, without the prior written permission of Dipanjan Das and Sayantan Roy, is strictly prohibited and may subject the violator to legal action.
+
+RESTRICTIONS
+
+1. You may not modify, reverse engineer, disassemble, create derivative works of, sublicense, or transfer the Software, and you must prevent any unauthorized copying of the Software.
+2. You may not rent, lease, lend, sell, redistribute or sublicense the Software.
+3. You may not permit third parties to benefit from the use or functionality of the software via a timesharing, service bureau, or other arrangement.
+
+TERMINATION
+
+This license is effective until terminated. This license will terminate immediately without notice from Dipanjan Das and Sayantan Roy if you fail to comply with any provision of this license. Upon termination, you must destroy all copies of the Software in your possession.
+
+WARRANTY DISCLAIMER
+
+The Software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall Dipanjan Das and Sayantan Roy be liable for any claim, damages, or other liability, whether in an action of contract, tort or otherwise, arising from, out of, or in connection with the Software or the use or other dealings in the Software.
+
+COPYRIGHT
+
+The Software and all rights therein, including intellectual property rights, are owned by Dipanjan Das and Sayantan Roy and are protected by local and international copyright laws. All rights not expressly granted are reserved by Dipanjan Das and Sayantan Roy.
+
+CONTACT INFORMATION
+
+If you require permission for any uses not permitted in this license, please contact Dipanjan Das and Sayantan Roy.
