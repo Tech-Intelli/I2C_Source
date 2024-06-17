@@ -44,27 +44,34 @@ class VideoSceneDetector:
         frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         duration = frame_count / fps
         frame_index = 0
+        last_saved_frame_index = 0
+        min_frames_between_saves = 30
 
-        if duration > 120:
-            cap.release()
-            raise Exception("Please provide a short duration video")
+        if duration <= 10:
+            skip_rate = 5
+        elif duration <= 30:
+            skip_rate = 10
+        elif duration <= 45:
+            skip_rate = 15
+        elif duration <= 60:
+            skip_rate = 20
+        else:
+            skip_rate = 30
 
         while True:
             ret, frame = cap.read()
             if not ret:
                 break
+            if frame_index % skip_rate != 0:
+                frame_index += 1
+                continue
 
-            # Skip frames to reduce processing time.
-            if duration <= 10 and frame_index % 3 != 0:
-                frame_index += 1
-                continue
-            if duration > 10 and frame_index % 10 != 0:
-                frame_index += 1
-                continue
             self.scene_detector.process_frame(frame)
             if self.scene_detector.scene_changed():
-                scene = self.scene_detector.get_scene()
-                self.scene_saver.save_scene(scene)
+                if frame_index - last_saved_frame_index >= min_frames_between_saves:
+                    scene = self.scene_detector.get_scene()
+                    self.scene_saver.save_scene(scene)
+                    last_saved_frame_index = frame_index
 
             frame_index += 1
 
