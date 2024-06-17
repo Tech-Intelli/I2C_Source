@@ -8,7 +8,8 @@
 # pylint: disable=R0913
 # pylint: disable=E0401
 # pylint: disable=R0914
-# pylint: disable=E0606
+# pylint: disable=W0511
+
 import os
 import shutil
 import openai
@@ -231,6 +232,12 @@ class VideoCaptionGenerator:
         vid_scn_detector.detect_scenes()
         image_list = os.listdir(scene_dir)
         all_captions = ""
+        # FIXME: Use parallelism, currently
+        #       the code is sequential
+        #       and takes a long time to execute
+        #       but typical parallelism implementation
+        #       does not work, due to model loading
+        #       and other issues.
         for each_image in image_list:
             text = CachedModel.get_blip2_image_caption_pipeline(
                 os.path.join(scene_dir, each_image),
