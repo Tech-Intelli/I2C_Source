@@ -12,6 +12,7 @@ import os
 import time
 import pathlib
 from pathlib import Path
+import torch
 import streamlit as st
 import generate_caption
 from video_scene_detector import SceneDetector, SceneSaver
@@ -64,6 +65,7 @@ def generate_image_caption(
             device = torch.device("cpu")
             print("CPU will be used to generate the caption")
     """
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     caption, compressed_image_path = IMAGE_CAPTION_GENERATOR.\
         generate_caption(
             "Anywhere on earth",
@@ -73,7 +75,8 @@ def generate_image_caption(
             caption_style,
             num_hashtags,
             tone,
-            social_media)
+            social_media,
+            device)
     return caption, compressed_image_path
 
 
@@ -113,6 +116,7 @@ def generate_video_caption(
         SceneDetector(),
         SceneSaver()
     )
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     caption = video_caption_generator.generate_caption(
         "Anywhere on earth",
         video_path,
@@ -121,7 +125,8 @@ def generate_video_caption(
         caption_style,
         num_hashtags,
         tone,
-        social_media)
+        social_media,
+        device)
     return caption
 
 def generate_interim_gif():
