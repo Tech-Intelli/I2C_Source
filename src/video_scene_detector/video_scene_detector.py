@@ -45,9 +45,8 @@ class VideoSceneDetector:
         duration = frame_count / fps
         frame_index = 0
         last_saved_frame_index = 0
-        min_frames_between_saves = 30  # Adjust this value based on your fps and desired minimum scene length
+        min_frames_between_saves = 30
 
-        # Adjust frame skipping dynamically based on video duration
         if duration <= 10:
             skip_rate = 5
         elif duration <= 30:
