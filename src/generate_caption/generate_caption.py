@@ -9,6 +9,8 @@
 # pylint: disable=E0401
 # pylint: disable=R0914
 # pylint: disable=E0606
+# pylint: disable=W0511
+# pylint: disable=W1514
 import os
 import shutil
 import openai
@@ -16,6 +18,11 @@ from cached_model import CachedModel
 # from image_compressor import ImageCompressor
 from video_scene_detector import VideoSceneDetector
 
+def read_prompt_template(file_path):
+    """Reads a prompt template from a file.
+    """
+    with open(file_path, 'r') as file:
+        return file.read()
 
 class Chatbot:
     """
@@ -149,27 +156,24 @@ class ImageCaptionGenerator:
             compressed_image_path,
             device)
         caption_length = _get_caption_size(caption_size)
+        words = caption_length.split()
+        only_length = f"{words[-2]} {words[-1]}"
         content = None
         if context is not None or context != "":
-            words = caption_length.split()
-            only_length = f"{words[-2]} {words[-1]}"
-            content = f'''{caption_length} {social_media} caption for the given image.
-            The caption should be set in {location}, with a focus on highlighting {text} in a {style} style, 
-            while also tying into the context: "{context}".
-            Use a {tone} language style to hook and enthrall the intended audience.
-            It's of utmost importance to weave in exactly {num_hashtags} popular trending hashtags.
-            Sprinkle in pertinent emojis to add flair.
-            Finally, ensure the caption consists of {only_length} sentences,
-            and includes the specified {num_hashtags} trending hashtags.'''
+            template = read_prompt_template("prompt_template/prompt_with_context.txt")
         else:
-            content = f'''{caption_length} {social_media} caption for the given image.
-            The caption should be set in {location}, with a focus on highlighting {text} in a {style} style.
-            Use a {tone} language style to hook and enthrall the intended audience.
-            It's of utmost importance to weave in exactly {num_hashtags} popular trending hashtags.
-            Sprinkle in pertinent emojis to add flair.
-            Finally, ensure the caption consists of {only_length} sentences,
-            and includes the specified {num_hashtags} trending hashtags.'''
-
+            template = read_prompt_template("prompt_template/prompt_without_context.txt")
+        content = template.format(
+            caption_length=caption_length,
+            social_media=social_media,
+            location=location,
+            text=text,
+            style=style,
+            context=context,
+            tone=tone,
+            num_hashtags=num_hashtags,
+            only_length=only_length
+        )
         stream_caption = self.chatbot.get_stream_response(content)
         return stream_caption, compressed_image_path
 
@@ -231,6 +235,12 @@ class VideoCaptionGenerator:
         vid_scn_detector.detect_scenes()
         image_list = os.listdir(scene_dir)
         all_captions = ""
+        # FIXME: Use parallelism, currently
+        #       the code is sequential
+        #       and takes a long time to execute
+        #       but typical parallelism implementation
+        #       does not work, due to model loading
+        #       and other issues.
         for each_image in image_list:
             text = CachedModel.get_blip2_image_caption_pipeline(
                 os.path.join(scene_dir, each_image),
@@ -238,26 +248,23 @@ class VideoCaptionGenerator:
             all_captions += " " + text
         content = None
         caption_length = _get_caption_size(caption_size)
+        words = caption_length.split()
+        only_length = f"{words[-2]} {words[-1]}"
         if context is not None or context != "":
-            words = caption_length.split()
-            only_length = f"{words[-2]} {words[-1]}"
-            content = f'''{caption_length} {social_media} caption for the given video.
-            The caption should be set in {location}, with a focus on highlighting {all_captions} in a {style} style, 
-            while also tying into the context: "{context}".
-            Use a {tone} language style to hook and enthrall the intended audience.
-            It's of utmost importance to weave in exactly {num_hashtags} popular trending hashtags.
-            Sprinkle in pertinent emojis to add flair.
-            Finally, ensure the caption consists of {only_length} sentences,
-            and includes the specified {num_hashtags} trending hashtags.'''
+            template = read_prompt_template("prompt_template/prompt_with_context.txt")
         else:
-            content = f'''{caption_length} {social_media} caption for the given image.
-            The caption should be set in {location}, with a focus on highlighting {all_captions} in a {style} style.
-            Use a {tone} language style to hook and enthrall the intended audience.
-            It's of utmost importance to weave in exactly {num_hashtags} popular trending hashtags.
-            Sprinkle in pertinent emojis to add flair.
-            Finally, ensure the caption consists of {only_length} sentences,
-            and includes the specified {num_hashtags} trending hashtags.'''
-
+            template = read_prompt_template("prompt_template/prompt_without_context.txt")
+        content = template.format(
+            caption_length=caption_length,
+            social_media=social_media,
+            location=location,
+            text=text,
+            style=style,
+            context=context,
+            tone=tone,
+            num_hashtags=num_hashtags,
+            only_length=only_length
+        )
         stream_caption = self.chatbot.get_stream_response(content)
         shutil.rmtree(scene_dir, ignore_errors=True)
         return stream_caption

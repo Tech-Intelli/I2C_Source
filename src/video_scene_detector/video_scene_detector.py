@@ -48,6 +48,8 @@ class VideoSceneDetector:
         min_frames_between_saves = 30
 
         if duration <= 10:
+            skip_rate = 3
+        elif duration <= 15:
             skip_rate = 5
         elif duration <= 30:
             skip_rate = 10
