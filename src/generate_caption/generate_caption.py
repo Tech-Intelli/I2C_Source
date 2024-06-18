@@ -10,7 +10,7 @@
 # pylint: disable=R0914
 # pylint: disable=E0606
 # pylint: disable=W0511
-
+# pylint: disable=W1514
 import os
 import shutil
 import openai
@@ -19,6 +19,8 @@ from cached_model import CachedModel
 from video_scene_detector import VideoSceneDetector
 
 def read_prompt_template(file_path):
+    """Reads a prompt template from a file.
+    """
     with open(file_path, 'r') as file:
         return file.read()
 
@@ -249,9 +251,9 @@ class VideoCaptionGenerator:
         words = caption_length.split()
         only_length = f"{words[-2]} {words[-1]}"
         if context is not None or context != "":
-           template = read_prompt_template("prompt_template/prompt_with_context.txt")
+            template = read_prompt_template("prompt_template/prompt_with_context.txt")
         else:
-           template = read_prompt_template("prompt_template/prompt_without_context.txt")
+            template = read_prompt_template("prompt_template/prompt_without_context.txt")
         content = template.format(
             caption_length=caption_length,
             social_media=social_media,
