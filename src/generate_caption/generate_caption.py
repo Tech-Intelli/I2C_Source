@@ -56,7 +56,7 @@ class Chatbot:
             options={
                 'temperature': 0,
                 'top_p': 0.9 
-            },           
+            },
         )
         return response
 

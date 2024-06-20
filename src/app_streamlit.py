@@ -22,7 +22,7 @@ COMPANY_NAME = "ExplAIstic"
 
 COMPANY_LOGO = os.path.join(Path.cwd(), "resources", "Background.png")
 BACKGROUND_IMAGE = os.path.join(Path.cwd(), "resources", "Background.png")
-CHATBOT = generate_caption.Chatbot(os.environ["OPENAI_API_KEY"])
+CHATBOT = generate_caption.Chatbot()
 IMAGE_CAPTION_GENERATOR = generate_caption.ImageCaptionGenerator(CHATBOT)
 GIPHY_IMAGE = os.path.join(Path.cwd(), "resources", "giphy.gif")
 
@@ -163,10 +163,7 @@ def stream_text(stream):
     full_text = ''
 
     for chunk in stream:
-        new_text = chunk.choices[0].delta.content \
-        if (chunk.choices[0].delta and chunk.choices[0].delta.content)\
-        else ''
-        full_text += new_text
+        full_text += chunk['message']['content']
         success_stream.success(full_text)
         time.sleep(0.05)
 
