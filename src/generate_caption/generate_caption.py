@@ -13,13 +13,14 @@
 # pylint: disable=W1514
 import os
 import shutil
-import openai
+import ollama
 from cached_model import CachedModel
 # from image_compressor import ImageCompressor
 from video_scene_detector import VideoSceneDetector
 
 def read_prompt_template(file_path):
-    """Reads a prompt template from a file.
+    """
+    Reads a prompt template from a file.
     """
     with open(file_path, 'r') as file:
         return file.read()
@@ -27,26 +28,16 @@ def read_prompt_template(file_path):
 class Chatbot:
     """
     A class representing a chatbot that interacts with the OpenAI Chat API.
-
-    Attributes:
-        api_key (str): The API key for accessing the OpenAI Chat API.
-        openai (module): The OpenAI module used for interacting with the
-        Chat API.
     """
 
-    def __init__(self, api_key):
+    def __init__(self):
         """
         Initializes a new Chatbot instance.
-
-        Args:
-            api_key (str): The API key for accessing the OpenAI Chat API.
         """
 
-        self.api_key = api_key
-        self.openai = openai
-
     def get_response(self, content):
-        """Sends a message to the OpenAI GPT-3 chat model and returns its
+        """
+        Sends a message to the Ollama llama-3 or phi-3 chat model and returns its
         response.
 
         Args:
@@ -56,17 +47,21 @@ class Chatbot:
             dict: A dictionary containing the response from the chat model.
         """
 
-        self.openai.api_key = self.api_key
-        response_json = self.openai.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "assistant", "content": content}],
-            max_tokens=1000,
-            top_p=0.9
+        response = ollama.chat(
+            model='llama3',
+            messages=[{
+                'role': 'user',
+                'content': content
+            }],
+            options={
+                'temperature': 0,
+                'top_p': 0.9 
+            },
         )
-        return response_json
+        return response
 
     def get_stream_response(self, content):
-        """Sends a message to the OpenAI GPT-3 chat model and returns its
+        """Sends a message to the Ollama llama-3 or phi-3 chat model and returns its
         response as a stream.
 
         Args:
@@ -75,13 +70,17 @@ class Chatbot:
         Returns:
             dict: A dictionary containing the response from the chat model.
         """
-        self.openai.api_key = self.api_key
-        stream_caption = self.openai.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "assistant", "content": content}],
+        stream_caption = ollama.chat(
+            model='phi3',
+            messages=[{
+                'role': 'user',
+                'content': content
+            }],
             stream=True,
-            max_tokens=1000,
-            top_p=0.9
+            options={
+                'temperature': 0,
+                'top_p': 0.9 
+            },
         )
         return stream_caption
 
