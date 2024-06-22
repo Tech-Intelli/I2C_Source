@@ -69,7 +69,8 @@ def add_image_to_chroma(collection, unique_id, input_tensor, caption):
     collection.add(
         embeddings=input_tensor_flatten,
         ids=[unique_id],
-        metadatas=[{"caption": caption, "image_tensor_shape": input_tesnor_shape}]
+        metadatas=[{"caption": caption,
+                    "image_tensor_shape": input_tesnor_shape}]
     )
     print(f"Added entry with unique_id {unique_id}.")
 
