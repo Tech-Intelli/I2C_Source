@@ -17,6 +17,8 @@ import streamlit as st
 import generate_caption
 from video_scene_detector import SceneDetector, SceneSaver
 from cached_model import CachedModel
+from chromadb_vector_store import initialize_chroma_client
+from chromadb_vector_store import get_chroma_collection
 
 COMPANY_NAME = "ExplAIstic"
 
@@ -25,7 +27,9 @@ BACKGROUND_IMAGE = os.path.join(Path.cwd(), "resources", "Background.png")
 CHATBOT = generate_caption.Chatbot()
 IMAGE_CAPTION_GENERATOR = generate_caption.ImageCaptionGenerator(CHATBOT)
 GIPHY_IMAGE = os.path.join(Path.cwd(), "resources", "giphy.gif")
-
+CHROMA_COLLECTION = get_chroma_collection(
+    initialize_chroma_client(),
+    'image_caption_vector')
 def load_model():
     """
     Loads the model
@@ -76,7 +80,8 @@ def generate_image_caption(
             num_hashtags,
             tone,
             social_media,
-            device)
+            device,
+            CHROMA_COLLECTION)
     return caption, compressed_image_path
 
 
@@ -126,7 +131,8 @@ def generate_video_caption(
         num_hashtags,
         tone,
         social_media,
-        device)
+        device,
+        CHROMA_COLLECTION)
     return caption
 
 def generate_interim_gif():
