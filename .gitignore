@@ -32,3 +32,6 @@ src/flask_session/
 node_modules
 package-lock.json
 secrets.sh
+src/sqlite_chroma_db/
+src/test/
+src/test_chat.py
