@@ -54,7 +54,7 @@ class Chatbot:
                 'content': content
             }],
             options={
-                'temperature': 0,
+                'temperature': 1,
                 'top_p': 0.9 
             },
         )
@@ -78,7 +78,7 @@ class Chatbot:
             }],
             stream=True,
             options={
-                'temperature': 0,
+                'temperature': 1,
                 'top_p': 0.9 
             },
         )
