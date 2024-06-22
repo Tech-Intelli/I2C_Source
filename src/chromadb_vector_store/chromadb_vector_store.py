@@ -1,3 +1,13 @@
+""" Initialise the chroma db
+    store image tensor pixel values as embedding
+    unique_id generated from image tensor and
+    generated basic caption.
+
+    Returns:
+"""
+
+# pylint: disable=E0401
+# pylint: disable=W0702
 import uuid
 import hashlib
 import torch
