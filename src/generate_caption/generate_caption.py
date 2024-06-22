@@ -128,7 +128,8 @@ class ImageCaptionGenerator:
             num_hashtags,
             tone,
             social_media,
-            device='cpu'):
+            device='cpu',
+            collection=None):
         """
         Generates a caption for an image using the chatbot object.
 
@@ -147,13 +148,11 @@ class ImageCaptionGenerator:
         - compressed_image_path (str): The path of the compressed image used
             for generating the caption.
         """
-        compressed_image_path = image_path  # ImageCompressor.compress(image_path, 10)
-        #image_pipeline = CachedModel.get_image_caption_pipeline(
-        #    compressed_image_path)
-        #text = image_pipeline[0]['generated_text']
+        compressed_image_path = image_path
         text = CachedModel.get_blip2_image_caption_pipeline(
             compressed_image_path,
-            device)
+            device,
+            collection)
         caption_length = _get_caption_size(caption_size)
         words = caption_length.split()
         only_length = f"{words[-2]} {words[-1]}"
@@ -209,7 +208,8 @@ class VideoCaptionGenerator:
             num_hashtags,
             tone,
             social_media,
-            device='cpu'):
+            device='cpu',
+            collection=None):
         """
         Generate a caption for a video using a chatbot.
 
@@ -243,7 +243,8 @@ class VideoCaptionGenerator:
         for each_image in image_list:
             text = CachedModel.get_blip2_image_caption_pipeline(
                 os.path.join(scene_dir, each_image),
-                device)
+                device,
+                collection)
             all_captions += " " + text
         content = None
         caption_length = _get_caption_size(caption_size)

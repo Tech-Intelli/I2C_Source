@@ -7,12 +7,15 @@ import os
 import gc
 import pickle
 import warnings
+import concurrent.futures
 from pathlib import Path
 import dill
 import torch
 from torchvision import transforms
 from PIL import Image
 from image_caption import ImageCaptionPipeLine
+from chromadb_vector_store import get_unique_image_id
+from chromadb_vector_store import add_image_to_chroma
 
 warnings.filterwarnings("ignore")
 
@@ -90,7 +93,7 @@ creating cache file @ {CachedModel.CACHE_FILE}
         return image_pipeline(image_path)
 
     @staticmethod
-    def get_blip2_image_caption_pipeline(image_path, device = 'cpu'):
+    def get_blip2_image_caption_pipeline(image_path, device = 'cpu', collection = None):
         """
         Returns the image caption pipeline for the specified image path.
         If the pipeline is not cached, it
@@ -117,7 +120,23 @@ creating cache file @ {CachedModel.CACHE_FILE}
         torch.cuda.empty_cache()
         torch.cuda.synchronize()
         gc.collect()
-        del inputs
+        pixel_values = inputs['pixel_values']
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            unique_id_future = executor.submit(get_unique_image_id, pixel_values)
+            def store_in_chroma_db(fut, collection, pixel_values, generated_text):
+                unique_id = fut.result()
+                add_image_to_chroma(
+                    collection,
+                    unique_id,
+                    pixel_values,
+                    generated_text)
+            unique_id_future.add_done_callback(lambda fut: store_in_chroma_db(
+                fut,
+                collection,
+                pixel_values,
+                generated_text))
+            del inputs
+        del generated_ids
         return generated_text
 
     @staticmethod
