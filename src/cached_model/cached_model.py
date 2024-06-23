@@ -153,7 +153,7 @@ creating cache file @ {CachedModel.CACHE_FILE}
         Returns:
             None.
         """
-
+        """
         try:
             with open(CachedModel.CACHE_FILE_BLIP2, 'rb') as f:
                 print("BLIP2 model loading from the cache started.")
@@ -174,4 +174,8 @@ creating cache file @ {CachedModel.CACHE_FILE_BLIP2}
                 f'''Cache has been created at
 {CachedModel.CACHE_FILE_BLIP2} successfully.''')
         print("BLIP2 model loaded successfully")
+        return CachedModel.BLIP2_MODEL
+        """
+        CachedModel.BLIP2_PROCESSOR = ImageCaptionPipeLine.get_blip2_image_processor()
+        CachedModel.BLIP2_MODEL = ImageCaptionPipeLine.get_blip2_image_caption_pipeline()
         return CachedModel.BLIP2_MODEL
