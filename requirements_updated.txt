@@ -1,0 +1,12 @@
+opencv_python==4.7.0.72
+Pillow
+streamlit==1.21.0
+pytest
+pytest-mock
+dnspython
+PyJWT
+dill
+accelerate
+ollama
+chromadb
+bitsandbytes
