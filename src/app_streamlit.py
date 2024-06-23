@@ -226,7 +226,7 @@ def app():
             st.error("Please upload an image or a video.")
         elif uploaded_file is not None:
             if file_extension in (".png", ".jpeg", ".jpg"):
-                gif_placeholder = generate_interim_gif()
+                #gif_placeholder = generate_interim_gif()
                 print(f"==== {os.path.abspath(file_path)} ====")
                 caption_start_time = time.time()
                 caption, compressed_image_path = generate_image_caption(file_path,
@@ -238,16 +238,16 @@ def app():
                                                                         social_media)
                 caption_end_time = time.time() - caption_start_time
                 print(f'Total time taken to to generate a caption is : {caption_end_time} seconds')
-                gif_placeholder.empty()
+                #gif_placeholder.empty()
                 stream_text(caption)
                 st.image(compressed_image_path)
                 os.remove(file_path)
             elif file_extension in (".mp4", ".mov"):
-                gif_placeholder = generate_interim_gif()
+                #gif_placeholder = generate_interim_gif()
                 print(f"==== {file_path} ====")
                 caption = generate_video_caption(
                     file_path, caption_size, context, caption_style, num_hashtags, tone)
-                gif_placeholder.empty()
+                #gif_placeholder.empty()
                 stream_text(caption)
                 st.video(file_path)
                 os.remove(file_path)
