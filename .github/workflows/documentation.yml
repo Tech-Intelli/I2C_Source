@@ -52,3 +52,4 @@ jobs:
         path: |
           docs/build/html
           docs/build/latex/*.pdf
+          

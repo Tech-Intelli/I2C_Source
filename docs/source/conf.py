@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'I2C'
+project = 'main'
 copyright = '2024, Dipanjan Das and Sayantan Roy'
 author = 'Sayantan Roy'
 release = 'N/A'
