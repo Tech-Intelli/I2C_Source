@@ -39,7 +39,7 @@ jobs:
     - name: Build PDF documentation with LaTeX
       uses: dante-ev/latex-action@latest
       with:
-        root_file: 'docs/build/latex/i2c.tex'
+        root_file: 'docs/build/latex/main.tex'
 
     - name: Print LaTeX log
       if: failure()
