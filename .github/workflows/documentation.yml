@@ -28,7 +28,6 @@ jobs:
 
     - name: Generate Sphinx Documentation
       run: |
-        # Assuming your docs configuration is in the 'docs' directory
         sphinx-apidoc -o docs/source/ .
         sphinx-build -b html docs/source/ docs/build/html
 
@@ -38,10 +37,13 @@ jobs:
         sudo apt-get install -y texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra
 
     - name: Build PDF documentation with LaTeX
-      run: |
-        sphinx-build -b latex docs/source/ docs/build/latex
-        cd docs/build/latex
-        make all-pdf
+      uses: xu-cheng/latex-action@v2
+      with:
+        root_file: 'docs/build/latex/main.tex'
+
+    - name: Print LaTeX log
+      if: failure()
+      run: cat *.log
 
     - name: Upload Documentation Artifacts
       uses: actions/upload-artifact@v2
