@@ -119,9 +119,10 @@ Thank you to the PyTorch, OpenAI, and Hugging Face communities for providing pre
 
 ## Join the Discord Community
 
-`<a href="https://discord.gg/UvMWN7k7"><img class="icon-3AqZ2e" src="https://cdn.discordapp.com/icons/1097599444800770060/5bc54720d99c6bc7b86322a3b8683fd6.webp?size=240" alt=" " width="100" height="100" aria-hidden="true">``</a>`
+`<a href="https://discord.gg/UvMWN7k7"><img class="icon-3AqZ2e" 
+src="https://cdn.discordapp.com/icons/1097599444800770060/5bc54720d99c6bc7b86322a3b8683fd6.webp?size=240" alt=" " width="100" height="100" aria-hidden="true">``</a>`
 
-## =========================================================================================================================================
+## ==================================================================
 
 ## IMPORTANT NOTE:
 
