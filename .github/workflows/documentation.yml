@@ -37,9 +37,9 @@ jobs:
         sudo apt-get install -y texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra
 
     - name: Build PDF documentation with LaTeX
-      uses: xu-cheng/latex-action@v2
+      uses: dante-ev/latex-action@latest
       with:
-        root_file: 'docs/build/latex/main.tex'
+        root_file: 'docs/build/latex/i2c.tex'
 
     - name: Print LaTeX log
       if: failure()
