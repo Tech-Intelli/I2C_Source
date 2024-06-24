@@ -1,4 +1,4 @@
-[![Unit Tests](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml)[![Pylint](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml)[![Docs](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml)
+[![Unit Tests](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml) [![Pylint](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml) [![Docs](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml)
 
 ## ExplAIstic
 
