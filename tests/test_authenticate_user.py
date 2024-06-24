@@ -3,9 +3,9 @@
 # pylint: disable=E0401
 import os
 import jwt
-from login.authenticate_user import AuthenticateUser
-from login.database import TABLE
-from login.hash_password import hash_password
+from src.login.authenticate_user import AuthenticateUser
+from src.login.database import TABLE
+from src.login.hash_password import hash_password
 
 
 def test_authenticate_user_correct_password(mocker):
