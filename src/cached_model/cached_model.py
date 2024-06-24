@@ -5,11 +5,9 @@
 # pylint: disable=E0401
 import os
 import gc
-import pickle
 import warnings
 import concurrent.futures
 from pathlib import Path
-import dill
 import torch
 from torchvision import transforms
 from PIL import Image
@@ -152,8 +150,6 @@ creating cache file @ {CachedModel.CACHE_FILE}
 
         Returns:
             None.
-        """
-        """
         try:
             with open(CachedModel.CACHE_FILE_BLIP2, 'rb') as f:
                 print("BLIP2 model loading from the cache started.")
