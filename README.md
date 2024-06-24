@@ -1,8 +1,6 @@
-[![Run Unit Tests](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml) [![Pylint](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml)
+[![Unit Tests](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml)[![Pylint](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml)[![Docs](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml)
 
 ## ExplAIstic
-
-![ExplAIstic Logo](/src/resources/Background.png)
 
 ExplAIstic is an image captioning and image hashtagging application that generates nicely written captions and adds related hashtags to your images and reels. It utilizes pre-trained Imagenet models and ChatGPT for the image analysis and caption generation, and the Telegram API for the messaging feature.
 
@@ -109,18 +107,13 @@ ExplAIstic was created by [Dipanjan Das](https://github.com/dasdipanjan04). It u
 
 ExplAIstic is licensed under the Proprietary Software License. See [LICENSE](LICENSE) for more informatio
 
-## Logo License
-
-See [LOGO LICENSE](https://github.com/dasdipanjan04/ExplAIstic/blob/main/LOGO%20LICENSE) for more information.
-
 ## Acknowledgments 👏
 
 Thank you to the PyTorch, OpenAI, and Hugging Face communities for providing pre-trained models that were instrumental in the creation of this project. Special thanks to the Telegram team for providing an easy-to-use API for messaging.
 
 ## Join the Discord Community
 
-`<a href="https://discord.gg/UvMWN7k7"><img class="icon-3AqZ2e" 
-src="https://cdn.discordapp.com/icons/1097599444800770060/5bc54720d99c6bc7b86322a3b8683fd6.webp?size=240" alt=" " width="100" height="100" aria-hidden="true">``</a>`
+`<a href="https://discord.gg/UvMWN7k7"><img class="icon-3AqZ2e"  src="https://cdn.discordapp.com/icons/1097599444800770060/5bc54720d99c6bc7b86322a3b8683fd6.webp?size=240" alt=" " width="100" height="100" aria-hidden="true">``</a>`
 
 ## ==================================================================
 
@@ -218,7 +211,6 @@ cd \path\to\your\desired\lodation\where\you\want\to\checkout (DO NOT CHECK TRANS
 git clone https://github.com/huggingface/transformers.git
 ```
 
-
 ```
 cd transformers
 pip install -e .
@@ -273,7 +265,6 @@ pip install -U --force-reinstall numpy<1.24
 ## Model Initialization and Cache Creation
 
 Check whether your Ollama is running
-![Ollama Logo](/src/resources/Ollama_start.png)
 
 If it is not running start it from the application or simply execute the following command
 
