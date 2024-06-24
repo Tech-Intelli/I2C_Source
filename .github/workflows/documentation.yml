@@ -31,25 +31,10 @@ jobs:
         sphinx-apidoc -o docs/source/ .
         sphinx-build -b html docs/source/ docs/build/html
 
-    - name: Install LaTeX packages
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra
-
-    - name: Build PDF documentation with LaTeX
-      uses: dante-ev/latex-action@latest
-      with:
-        root_file: 'docs/build/latex/main.tex'
-
-    - name: Print LaTeX log
-      if: failure()
-      run: cat *.log
-
     - name: Upload Documentation Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: documentation-artifacts
         path: |
-          docs/build/html
-          docs/build/latex/*.pdf
+          docs/build/html          
           
