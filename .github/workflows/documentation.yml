@@ -7,7 +7,14 @@ on:
   pull_request:
     paths:
       - '**.py'
-
+  workflow_dispatch:   # Add workflow_dispatch event
+    inputs:
+      manual-trigger:
+        description: 'Manually trigger workflow'
+        required: false
+permissions:
+  contents: write
+      
 jobs:
   build-docs:
     runs-on: ubuntu-latest
