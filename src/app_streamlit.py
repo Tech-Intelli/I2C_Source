@@ -20,10 +20,14 @@ from cached_model import CachedModel
 from chromadb_vector_store import initialize_chroma_client
 from chromadb_vector_store import get_chroma_collection
 
-COMPANY_NAME = "ExplAIstic"
+import signal
 
-COMPANY_LOGO = os.path.join(Path.cwd(), "resources", "Background.png")
-BACKGROUND_IMAGE = os.path.join(Path.cwd(), "resources", "Background.png")
+def close_server():
+    os.kill(os.getpid(), signal.SIGTERM)
+
+if st.button('Exit'):
+    close_server()
+    
 CHATBOT = generate_caption.Chatbot()
 IMAGE_CAPTION_GENERATOR = generate_caption.ImageCaptionGenerator(CHATBOT)
 GIPHY_IMAGE = os.path.join(Path.cwd(), "resources", "giphy.gif")
@@ -169,8 +173,8 @@ def stream_text(stream):
     full_text = ''
 
     for chunk in stream:
-        full_text += chunk['message']['content']
-        success_stream.success(full_text)
+        full_text += chunk['message']['content'].replace('\n', '<br>')  # Replace \n with <br> for HTML rendering
+        success_stream.markdown(full_text, unsafe_allow_html=True)
         time.sleep(0.05)
 
     success_stream.success(full_text)
@@ -181,18 +185,6 @@ def app():
     The main application that powers the streamlit.
     """
     load_model()
-    st.set_page_config(page_title=COMPANY_NAME, page_icon=COMPANY_LOGO)
-    st.image(COMPANY_LOGO)
-    st.markdown('<style>img { display: block; margin: auto; }</style>',
-                unsafe_allow_html=True)
-    st.markdown(f"""
-        <style>
-            body {{
-                background-image: url('{BACKGROUND_IMAGE}');
-                background-size: cover;
-            }}
-        </style>
-    """, unsafe_allow_html=True)
 
     uploaded_file = st.file_uploader(
         "Upload Image or Video", type=["jpg", "jpeg", "png", "mp4", "mov"])
@@ -226,7 +218,7 @@ def app():
             st.error("Please upload an image or a video.")
         elif uploaded_file is not None:
             if file_extension in (".png", ".jpeg", ".jpg"):
-                #gif_placeholder = generate_interim_gif()
+                gif_placeholder = generate_interim_gif()
                 print(f"==== {os.path.abspath(file_path)} ====")
                 caption_start_time = time.time()
                 caption, compressed_image_path = generate_image_caption(file_path,
@@ -243,7 +235,7 @@ def app():
                 st.image(compressed_image_path)
                 os.remove(file_path)
             elif file_extension in (".mp4", ".mov"):
-                #gif_placeholder = generate_interim_gif()
+                gif_placeholder = generate_interim_gif()
                 print(f"==== {file_path} ====")
                 caption = generate_video_caption(
                     file_path, caption_size, context, caption_style, num_hashtags, tone)

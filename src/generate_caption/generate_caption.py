@@ -48,7 +48,7 @@ class Chatbot:
         """
 
         response = ollama.chat(
-            model='llama3',
+            model='phi3',
             messages=[{
                 'role': 'user',
                 'content': content
@@ -85,18 +85,134 @@ class Chatbot:
         return stream_caption
 
 def _get_caption_size(caption_size):
-    if caption_size == 'small':
-        caption_length = '''Compose a concise 2 to 3 sentence'''
-    elif caption_size == 'medium':
-        caption_length = '''Compose a concise 5 to 7 sentence'''
-    elif caption_size == 'large':
-        caption_length = '''Compose a concise 10 to 15 sentence'''
-    elif caption_size == 'very large':
-        caption_length = '''Compose an extensive 30 to 50 sentence'''
-    elif caption_size == 'blog post':
-        caption_length = '''Craft an extensive 100 sentence'''
-    return caption_length
+    """
+    Get the description of the caption size.
 
+    This function maps a given caption size to a corresponding description string.
+    If the provided caption size is not recognized, it returns "Invalid caption size".
+
+    Args:
+        caption_size (str): The size of the caption. Can be one of 'small', 'medium',
+                            'large', 'very large', or 'blog post'.
+
+    Returns:
+        str: The description corresponding to the caption size, or "Invalid caption size"
+             if the caption size is not recognized.
+    """
+    # Dictionary to map caption sizes to their corresponding description
+    caption_length_mapping = {
+        'small': 'Compose a concise 2 to 3 sentences',          # Mapping for 'small' caption size
+        'medium': 'Compose a concise 5 to 7 sentences',         # Mapping for 'medium' caption size
+        'large': 'Compose a concise 10 to 15 sentences',        # Mapping for 'large' caption size
+        'very large': 'Compose an extensive 30 to 50 sentences',# Mapping for 'very large' caption size
+        'blog post': 'Craft an extensive 100 sentences'         # Mapping for 'blog post' caption size
+    }
+    
+    # Retrieve the description based on the caption size provided.
+    # If the caption size is not found, return "Compose a concise 2 to 3 sentence".
+    return caption_length_mapping.get(caption_size, "Compose a concise 2 to 3 sentences")
+
+
+
+def parse_hashtags(caption):
+    """
+    Parses hashtags from the caption and removes them from the original string.
+
+    Args:
+    caption (str): The caption containing hashtags.
+
+    Returns:
+    tuple: A tuple containing the cleaned caption and a list of hashtags.
+    """
+    # Split the caption into words
+    words = caption.split()
+    # Extract hashtags from the words
+    hashtags = [word for word in words if word.startswith('#')]
+    # Reconstruct the caption without hashtags
+    cleaned_caption = ' '.join(word for word in words if not word.startswith('#'))
+    return cleaned_caption, hashtags
+
+def find_synonyms(word):
+    """
+    Find synonyms for a given word using Ollama.
+
+    Args:
+    word (str): The word to find synonyms for.
+
+    Returns:
+    list: A list of synonyms for the given word.
+    """
+    response = ollama.chat(
+        model='phi3',
+        messages=[{
+            'role': 'user',
+            'content': f"Find synonyms for the word '{word}'."
+        }],
+        options={
+            'temperature': 0.7,
+            'top_p': 0.9 
+        },
+    )
+    synonyms = response['choices'][0]['text'].strip().split(', ')
+    return synonyms
+
+def generate_additional_hashtags(existing_hashtags, num_needed):
+    """
+    Generate additional hashtags if needed.
+
+    Args:
+    existing_hashtags (list): List of existing hashtags.
+    num_needed (int): Number of additional hashtags needed.
+
+    Returns:
+    list: List of additional hashtags.
+    """
+    additional_hashtags = []
+    # Extract words from existing hashtags (remove the '#')
+    words = {hashtag[1:] for hashtag in existing_hashtags}
+
+    for word in words:
+        # Find synonyms for each word
+        synonyms = find_synonyms(word)
+        for synonym in synonyms:
+            # Stop if the required number of additional hashtags is reached
+            if len(additional_hashtags) >= num_needed:
+                break
+            # Add the synonym as a hashtag if it's not already in the existing hashtags
+            if f'#{synonym}' not in existing_hashtags:
+                additional_hashtags.append(f'#{synonym}')
+
+    return additional_hashtags
+
+
+def generate_hashtaged_caption(caption, num_tags):
+    """
+    Generate a string of hashtags from a caption.
+
+    Parameters:
+    caption (str): The caption from which to generate hashtags.
+    num_tags (int): The desired number of hashtags to generate.
+
+    Returns:
+    str: A string containing the original caption and the generated hashtags.
+    """
+    MAX_HASHTAGS = 20
+
+    # Parse hashtags from the caption
+    cleaned_caption, hashtags = parse_hashtags(caption)
+    num_existing_tags = len(hashtags)
+
+    # Generate additional hashtags if needed
+    if num_existing_tags < MAX_HASHTAGS:
+        additional_hashtags = generate_additional_hashtags(hashtags, MAX_HASHTAGS - num_existing_tags)
+        hashtags.extend(additional_hashtags)
+
+    # Ensure the number of hashtags does not exceed the maximum limit
+    hashtags = hashtags[:MAX_HASHTAGS]
+
+    # Construct the result with a line break between the caption and hashtags
+    return f"{cleaned_caption}\n\n{' '.join(hashtags)}"
+ 
 
 class ImageCaptionGenerator:
 
@@ -172,7 +288,8 @@ class ImageCaptionGenerator:
             num_hashtags=num_hashtags,
             only_length=only_length
         )
-        stream_caption = self.chatbot.get_stream_response(content)
+        
+        stream_caption = self.chatbot.get_stream_response(generate_hashtaged_caption(content, num_hashtags))
         return stream_caption, compressed_image_path
 
 
