@@ -59,7 +59,7 @@ class CachedModel:
             The image caption pipeline for the specified image path.
         """
 
-        device = "cpu"
+        device = "cuda" if torch.cuda.is_available() else "cpu"
         # pylint: disable=E1101
         # pylint: disable=W0105
         '''
@@ -83,6 +83,7 @@ class CachedModel:
             print(f'''Could not open or find cache file,
 creating cache file @ {CachedModel.CACHE_FILE}
 \nThis may take a while, please wait...''')
+            
         image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
         with open(CachedModel.CACHE_FILE, "wb") as f:
             torch.save(image_pipeline, CachedModel.CACHE_FILE)
@@ -108,6 +109,7 @@ creating cache file @ {CachedModel.CACHE_FILE}
         os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:128'
         image = Image.open(image_path).convert('RGB')
         # pylint: disable=E1102
+
         inputs = CachedModel.BLIP2_PROCESSOR(
             images=image,
             return_tensors="pt").to(device, torch.float16)
@@ -115,19 +117,17 @@ creating cache file @ {CachedModel.CACHE_FILE}
         generated_text = CachedModel.BLIP2_PROCESSOR.batch_decode(
             generated_ids,
             skip_special_tokens=True)[0].strip()
+        
         torch.cuda.empty_cache()
         torch.cuda.synchronize()
         gc.collect()
+        
         pixel_values = inputs['pixel_values']
         with concurrent.futures.ThreadPoolExecutor() as executor:
             unique_id_future = executor.submit(get_unique_image_id, pixel_values)
             def store_in_chroma_db(fut, collection, pixel_values, generated_text):
                 unique_id = fut.result()
-                add_image_to_chroma(
-                    collection,
-                    unique_id,
-                    pixel_values,
-                    generated_text)
+                add_image_to_chroma(collection,unique_id,pixel_values,generated_text)
             unique_id_future.add_done_callback(lambda fut: store_in_chroma_db(
                 fut,
                 collection,

@@ -19,6 +19,7 @@ from video_scene_detector import SceneDetector, SceneSaver
 from cached_model import CachedModel
 from chromadb_vector_store import initialize_chroma_client
 from chromadb_vector_store import get_chroma_collection
+from io import StringIO
 
 import signal
 
@@ -170,14 +171,15 @@ def stream_text(stream):
         stream: an iterable streaming API response
     """
     success_stream = st.empty()
-    full_text = ''
+    full_text_io = StringIO()
 
     for chunk in stream:
-        full_text += chunk['message']['content'].replace('\n', '<br>')  # Replace \n with <br> for HTML rendering
-        success_stream.markdown(full_text, unsafe_allow_html=True)
-        time.sleep(0.05)
+        message_content = chunk['message']['content'].replace('\n', '<br>')
+        full_text_io.write(message_content)
+        success_stream.markdown(full_text_io.getvalue(), unsafe_allow_html=True)
+        time.sleep(0.03)
 
-    success_stream.success(full_text)
+    success_stream.success(full_text_io.getvalue())
 
 
 def app():
@@ -230,7 +232,6 @@ def app():
                                                                         social_media)
                 caption_end_time = time.time() - caption_start_time
                 print(f'Total time taken to to generate a caption is : {caption_end_time} seconds')
-                #gif_placeholder.empty()
                 stream_text(caption)
                 st.image(compressed_image_path)
                 os.remove(file_path)
