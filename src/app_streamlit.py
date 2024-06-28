@@ -20,6 +20,7 @@ from cached_model import CachedModel
 from chromadb_vector_store import initialize_chroma_client
 from chromadb_vector_store import get_chroma_collection
 from io import StringIO
+from image_compressor.image_compressor import compresstoWebP
 
 import signal
 
@@ -187,33 +188,50 @@ def app():
     The main application that powers the streamlit.
     """
     load_model()
-
-    uploaded_file = st.file_uploader(
-        "Upload Image or Video", type=["jpg", "jpeg", "png", "mp4", "mov"])
+    
+    uploaded_file = st.file_uploader("Upload Image or Video", type=["jpg", "jpeg", "png", "mp4", "mov"])
     local_directory = 'temp'
     os.makedirs(local_directory, exist_ok=True)
+
     if uploaded_file is not None:
         file_extension = pathlib.Path(uploaded_file.name).suffix.lower()
-        file_path = os.path.join(local_directory, uploaded_file.name)
 
-        with open(file_path, "wb") as f:
-            f.write(uploaded_file.getbuffer())
-        st.success("File uploaded successfully!")
+        if file_extension in [".jpg", ".jpeg", ".png"]:
+            compressed_image = compresstoWebP(uploaded_file.getvalue())
+            compressed_file_name = os.path.splitext(uploaded_file.name)[0] + '_compressed.webp'
+            file_path = os.path.join(local_directory, compressed_file_name)
+            with open(file_path, "wb") as f:
+                f.write(compressed_image.getbuffer())
+            st.success("Image uploaded and compressed successfully!")
+            st.write(f"Compressed image saved at: {file_path} : {compressed_image.getbuffer().nbytes/1024} kB")
+        else:               
 
-    caption_size = st.select_slider(
-        'Caption Size',
-        options=['small', 'medium', 'large', 'very large', 'blog post'])
-    caption_style = st.select_slider(
-        'Caption Style',
-        options=['cool', 'professional', 'artistic', 'poetic', 'poetry'])
-    tone = st.select_slider('Caption tone',
-                            options=['casual', 'humorous', 'inspirational',
-                                     'conversational', 'educational', 'storytelling'])
-    social_media = st.select_slider('Social Media',
-                                    options=['Instagram', 'Facebook', 'Twitter', 'LinkedIn'])
+            file_path = os.path.join(local_directory, uploaded_file.name)
+
+            with open(file_path, "wb") as f:
+                f.write(uploaded_file.getbuffer())
+            st.success("File uploaded successfully!")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        caption_size = st.radio(
+            'Caption Size',
+            options=['small', 'medium', 'large', 'very large', 'blog post'])
+        caption_style = st.radio(
+            'Caption Style',
+            options=['cool', 'professional', 'artistic', 'poetic', 'poetry'])
+    
+    with col2:    
+        tone = st.radio('Caption tone',
+                                options=['casual', 'humorous', 'inspirational',
+                                        'conversational', 'educational', 'storytelling'])
+        social_media = st.radio('Social Media',
+                                        options=['Instagram', 'Facebook', 'Twitter', 'LinkedIn'])
+        
     context = st.text_area("Write your context here...")
     num_hashtags = st.number_input(
-        "How many hashes do you want to add?", step=1)
+        "How many hashtags do you want to add?", step=1)
     col1, _, _ = st.columns([1, 1, 0.80])
     if col1.button("Generate Caption"):
         if uploaded_file is None:

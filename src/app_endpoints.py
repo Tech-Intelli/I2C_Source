@@ -24,6 +24,7 @@ from login.authenticate_user import AuthenticateUser
 from login.authenticate_user import AuthenticateAsGuest
 from login.authenticate_user import ForgetPassword
 from login.database import get_user_id
+from image_compressor.image_compressor import compresstoWebP
 
 INSTAGRAM_CLIENT_ID = os.environ.get('INSTAGRAM_CLIENT_ID')
 INSTAGRAM_CLIENT_SECRET = os.environ.get('INSTAGRAM_CLIENT_SECRET')
@@ -275,14 +276,23 @@ def upload_file():
     session['address'] = 'Somewhere on Earth'
     if request.form.get('address') is not None:
         session['address'] = request.form.get('address')
+        
     if file_path and allowed_file(os.path.basename(file_path.filename)):
         file_name = os.path.basename(file_path.filename)
         file_extension = file_name.rsplit('.', 1)[1].lower()
         file_name = file_name.rsplit('.', 1)[0]
         file_name = generate_random_filename(file_name, file_extension)
         session['file_name'] = f'''{request.user_id}/{file_name}'''
+
+        if file_extension in ['jpg', 'jpeg', 'png']:
+            compressed_image_io = compresstoWebP(file_path.read())
+            file_stream = compressed_image_io
+        else:
+            file_stream = file_path.stream
+
         response = AwsS3.upload_file_object_to_s3(
-            file_path.stream, request.user_id, S3_BUCKET_NAME, file_name)
+            file_stream, request.user_id, S3_BUCKET_NAME, file_name)
+        
         if response:
             return jsonify({
                 "Uploaded Successfully": True,
