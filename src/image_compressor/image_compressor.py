@@ -8,6 +8,7 @@ Returns:
 
 import os
 from PIL import Image
+import io
 
 def compressJPG(image_path: str, compression_quality: int = 30, resize_factor: float = 0.3) -> os.path:
     """
@@ -36,30 +37,29 @@ def compressJPG(image_path: str, compression_quality: int = 30, resize_factor: f
 
 
 
-def compresstoWebP(image_path: str, compression_quality: int = 30, resize_factor: float = 0.3) -> str:
+def compresstoWebP(image_data, compression_quality: int = 30, resize_factor: float = 0.3) -> str:
     """
-    Compresses an image file to WebP format and returns the path to the compressed image.
+    Compresses an image file to WebP format and returns the in-memory compressed image.
 
     Args:
-        image_path (str): The path to the image file to compress.
-        compression_quality (int): The quality of the compressed image.
-            Higher value means better quality. Default is 80.
-        resize_factor (float): The factor by which to resize the image.
-            Default is 0.5 (50% of original size).
+        image_data (bytes): The in-memory image data to compress.
+        compression_quality (int): The quality of the compressed image. Default is 30.
+        resize_factor (float): The factor by which to resize the image. Default is 0.3.
 
     Returns:
-        str: The path to the compressed image.
+        io.BytesIO: The in-memory compressed image.
     """
-    compressed_image_path = os.path.splitext(image_path)[0] + '_compressed.webp'
-    image = Image.open(image_path)
-    old_size = os.path.getsize(image_path)
-    # Resize the image
+    image = Image.open(io.BytesIO(image_data))
+    old_size = len(image_data)
     new_size = (int(image.size[0] * resize_factor), int(image.size[1] * resize_factor))
     image = image.resize(new_size, Image.LANCZOS)
-    # Save the image in WebP format
-    image.save(compressed_image_path, 'WEBP', quality=compression_quality)
 
-    print(f"==== File has been compressed to webp from {old_size} bytes to {new_size} bytes!")
-
-    return compressed_image_path
+    compressed_image = io.BytesIO()
+    image.save(compressed_image, 'WEBP', quality=compression_quality)
+    compressed_image.seek(0)
+    
+    new_size_bytes = compressed_image.getbuffer().nbytes
+    print(f"File has been compressed from {old_size} bytes to {new_size_bytes} bytes.")
+    
+    return compressed_image
 

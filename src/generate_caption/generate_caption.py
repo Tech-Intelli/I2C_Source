@@ -15,7 +15,6 @@ import os
 import shutil
 import ollama
 from cached_model import CachedModel
-from image_compressor.image_compressor import compresstoWebP
 from video_scene_detector import VideoSceneDetector
 
 def read_prompt_template(file_path):
@@ -263,8 +262,8 @@ class ImageCaptionGenerator:
             generated caption.
         - compressed_image_path (str): The path of the compressed image used
             for generating the caption.
-        """
-        compressed_image_path = compresstoWebP(image_path)
+        """       
+        compressed_image_path = image_path
 
         text = CachedModel.get_blip2_image_caption_pipeline(
             compressed_image_path,
