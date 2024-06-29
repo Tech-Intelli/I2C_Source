@@ -1,6 +1,7 @@
 """
 Detect and saves video frames to the specified directory
 """
+
 # pylint: disable=E0401
 # pylint: disable=E1101
 # pylint: disable=W0719
@@ -27,8 +28,8 @@ class VideoSceneDetector:
     """
 
     video_path: str
-    scene_detector: 'SceneDetector'
-    scene_saver: 'SceneSaver'
+    scene_detector: "SceneDetector"
+    scene_saver: "SceneSaver"
 
     def detect_scenes(self):
         """
@@ -186,7 +187,7 @@ class SceneSaver:
         save_scene(scene): Saves the given scene as a JPEG image in the scenes directory.
     """
 
-    def __init__(self, scenes_dir='extracted_images'):
+    def __init__(self, scenes_dir="extracted_images"):
         self.scenes_dir = scenes_dir
         self.scene_list = []
 

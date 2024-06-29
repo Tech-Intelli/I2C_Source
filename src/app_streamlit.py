@@ -24,34 +24,40 @@ from image_compressor.image_compressor import compresstoWebP
 
 import signal
 
+
 def close_server():
     os.kill(os.getpid(), signal.SIGTERM)
 
-if st.button('Exit'):
+
+if st.button("Exit"):
     close_server()
-    
+
 CHATBOT = generate_caption.Chatbot()
 IMAGE_CAPTION_GENERATOR = generate_caption.ImageCaptionGenerator(CHATBOT)
-GIPHY_IMAGE = os.path.join(Path.cwd(), "resources", "giphy.gif")
+GIPHY_IMAGE = os.path.join(Path.cwd(), "../resources", "giphy.gif")
 CHROMA_COLLECTION = get_chroma_collection(
-    initialize_chroma_client(),
-    'image_caption_vector')
+    initialize_chroma_client(), "image_caption_vector"
+)
+
+
 def load_model():
     """
     Loads the model
     """
-    if 'model_loaded' not in st.session_state:
+    if "model_loaded" not in st.session_state:
         CachedModel.load_blip2()
-        st.session_state['model_loaded'] = True
+        st.session_state["model_loaded"] = True
+
 
 def generate_image_caption(
-        image_path,
-        caption_size="small",
-        context=None,
-        caption_style=None,
-        num_hashtags=30,
-        tone='casual',
-        social_media='Instagram'):
+    image_path,
+    caption_size="small",
+    context=None,
+    caption_style=None,
+    num_hashtags=30,
+    tone="casual",
+    social_media="Instagram",
+):
     """Calls the generate_caption's method to generate an image caption
 
     Args:
@@ -64,7 +70,7 @@ def generate_image_caption(
 
     Returns:
         str: caption
-        # Do not remove this commented out block. 
+        # Do not remove this commented out block.
         # If needed pass device at the end of the parameter list
         # of generate_caption, default device = 'cpu'
 
@@ -75,30 +81,31 @@ def generate_image_caption(
             device = torch.device("cpu")
             print("CPU will be used to generate the caption")
     """
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    caption, compressed_image_path = IMAGE_CAPTION_GENERATOR.\
-        generate_caption(
-            "Anywhere on earth",
-            image_path,
-            caption_size,
-            context,
-            caption_style,
-            num_hashtags,
-            tone,
-            social_media,
-            device,
-            CHROMA_COLLECTION)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    caption, compressed_image_path = IMAGE_CAPTION_GENERATOR.generate_caption(
+        "Anywhere on earth",
+        image_path,
+        caption_size,
+        context,
+        caption_style,
+        num_hashtags,
+        tone,
+        social_media,
+        device,
+        CHROMA_COLLECTION,
+    )
     return caption, compressed_image_path
 
 
 def generate_video_caption(
-        video_path,
-        caption_size="small",
-        context=None,
-        caption_style=None,
-        num_hashtags=30,
-        tone='casual',
-        social_media='Instagram'):
+    video_path,
+    caption_size="small",
+    context=None,
+    caption_style=None,
+    num_hashtags=30,
+    tone="casual",
+    social_media="Instagram",
+):
     """Calls the generated caption's methods to generate video caption
 
     Args:
@@ -110,7 +117,7 @@ def generate_video_caption(
 
     Returns:
         json: response to generate video caption
-        Do not remove this commented out block. 
+        Do not remove this commented out block.
         If needed pass device at the end of the parameter list
         of generate_caption, default device = 'cpu'
         import torch
@@ -123,11 +130,9 @@ def generate_video_caption(
     """
 
     video_caption_generator = generate_caption.VideoCaptionGenerator(
-        CHATBOT,
-        SceneDetector(),
-        SceneSaver()
+        CHATBOT, SceneDetector(), SceneSaver()
     )
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     caption = video_caption_generator.generate_caption(
         "Anywhere on earth",
         video_path,
@@ -138,8 +143,10 @@ def generate_video_caption(
         tone,
         social_media,
         device,
-        CHROMA_COLLECTION)
+        CHROMA_COLLECTION,
+    )
     return caption
+
 
 def generate_interim_gif():
     """
@@ -156,11 +163,12 @@ def generate_interim_gif():
         file_gif.close()
         gif_placeholder = st.empty()
         gif_placeholder.markdown(
-            f'''<img src="data:image/gif;base64,
-                {data_url}" alt="explaistic gif">''',
+            f"""<img src="data:image/gif;base64,
+                {data_url}" alt="explaistic gif">""",
             unsafe_allow_html=True,
         )
     return gif_placeholder
+
 
 # pylint: disable=R0915
 
@@ -175,7 +183,7 @@ def stream_text(stream):
     full_text_io = StringIO()
 
     for chunk in stream:
-        message_content = chunk['message']['content'].replace('\n', '<br>')
+        message_content = chunk["message"]["content"].replace("\n", "<br>")
         full_text_io.write(message_content)
         success_stream.markdown(full_text_io.getvalue(), unsafe_allow_html=True)
         time.sleep(0.03)
@@ -188,9 +196,11 @@ def app():
     The main application that powers the streamlit.
     """
     load_model()
-    
-    uploaded_file = st.file_uploader("Upload Image or Video", type=["jpg", "jpeg", "png", "mp4", "mov"])
-    local_directory = 'temp'
+
+    uploaded_file = st.file_uploader(
+        "Upload Image or Video", type=["jpg", "jpeg", "png", "mp4", "mov"]
+    )
+    local_directory = "temp"
     os.makedirs(local_directory, exist_ok=True)
 
     if uploaded_file is not None:
@@ -198,16 +208,18 @@ def app():
 
         if file_extension in [".jpg", ".jpeg", ".png"]:
             compressed_image = compresstoWebP(uploaded_file.getvalue())
-            compressed_file_name = os.path.splitext(uploaded_file.name)[0] + '_compressed.webp'
+            compressed_file_name = (
+                os.path.splitext(uploaded_file.name)[0] + "_compressed.webp"
+            )
             file_path = os.path.join(local_directory, compressed_file_name)
             with open(file_path, "wb") as f:
                 f.write(compressed_image.getbuffer())
             st.success("Image uploaded and compressed successfully!")
-            st.write(f"Compressed image saved at: {file_path} : {compressed_image.getbuffer().nbytes/1024} kB")
-        else:               
-
+            st.write(
+                f"Compressed image saved at: {file_path} : {compressed_image.getbuffer().nbytes/1024} kB"
+            )
+        else:
             file_path = os.path.join(local_directory, uploaded_file.name)
-
             with open(file_path, "wb") as f:
                 f.write(uploaded_file.getbuffer())
             st.success("File uploaded successfully!")
@@ -216,22 +228,32 @@ def app():
 
     with col1:
         caption_size = st.radio(
-            'Caption Size',
-            options=['small', 'medium', 'large', 'very large', 'blog post'])
+            "Caption Size",
+            options=["small", "medium", "large", "very large", "blog post"],
+        )
         caption_style = st.radio(
-            'Caption Style',
-            options=['cool', 'professional', 'artistic', 'poetic', 'poetry'])
-    
-    with col2:    
-        tone = st.radio('Caption tone',
-                                options=['casual', 'humorous', 'inspirational',
-                                        'conversational', 'educational', 'storytelling'])
-        social_media = st.radio('Social Media',
-                                        options=['Instagram', 'Facebook', 'Twitter', 'LinkedIn'])
-        
+            "Caption Style",
+            options=["cool", "professional", "artistic", "poetic", "poetry"],
+        )
+
+    with col2:
+        tone = st.radio(
+            "Caption tone",
+            options=[
+                "casual",
+                "humorous",
+                "inspirational",
+                "conversational",
+                "educational",
+                "storytelling",
+            ],
+        )
+        social_media = st.radio(
+            "Social Media", options=["Instagram", "Facebook", "Twitter", "LinkedIn"]
+        )
+
     context = st.text_area("Write your context here...")
-    num_hashtags = st.number_input(
-        "How many hashtags do you want to add?", step=1)
+    num_hashtags = st.number_input("How many hashtags do you want to add?", step=1)
     col1, _, _ = st.columns([1, 1, 0.80])
     if col1.button("Generate Caption"):
         if uploaded_file is None:
@@ -241,15 +263,19 @@ def app():
                 gif_placeholder = generate_interim_gif()
                 print(f"==== {os.path.abspath(file_path)} ====")
                 caption_start_time = time.time()
-                caption, compressed_image_path = generate_image_caption(file_path,
-                                                                        caption_size,
-                                                                        context,
-                                                                        caption_style,
-                                                                        num_hashtags,
-                                                                        tone,
-                                                                        social_media)
+                caption, compressed_image_path = generate_image_caption(
+                    file_path,
+                    caption_size,
+                    context,
+                    caption_style,
+                    num_hashtags,
+                    tone,
+                    social_media,
+                )
                 caption_end_time = time.time() - caption_start_time
-                print(f'Total time taken to to generate a caption is : {caption_end_time} seconds')
+                print(
+                    f"Total time taken to to generate a caption is : {caption_end_time} seconds"
+                )
                 stream_text(caption)
                 st.image(compressed_image_path)
                 os.remove(file_path)
@@ -257,8 +283,9 @@ def app():
                 gif_placeholder = generate_interim_gif()
                 print(f"==== {file_path} ====")
                 caption = generate_video_caption(
-                    file_path, caption_size, context, caption_style, num_hashtags, tone)
-                #gif_placeholder.empty()
+                    file_path, caption_size, context, caption_style, num_hashtags, tone
+                )
+                # gif_placeholder.empty()
                 stream_text(caption)
                 st.video(file_path)
                 os.remove(file_path)

@@ -1,6 +1,7 @@
 """
 Module for creating s3 buckets, upload and download images.
 """
+
 # pylint: disable=E0401
 import logging
 import boto3
@@ -9,10 +10,10 @@ import boto3
 
 
 class AwsS3:
-    """Create S3 bucket, Upload and Download image files.
-    """
-    s3 = boto3.client('s3')
-    region = 'eu-central-1'
+    """Create S3 bucket, Upload and Download image files."""
+
+    s3 = boto3.client("s3")
+    region = "eu-central-1"
 
     @staticmethod
     def create_bucket(s3_bucket_name):
@@ -20,11 +21,16 @@ class AwsS3:
         Creates an AWS S3 bucket
         """
         try:
-            AwsS3.s3.create_bucket(Bucket=s3_bucket_name, CreateBucketConfiguration={
-                'LocationConstraint': AwsS3.region})
+            AwsS3.s3.create_bucket(
+                Bucket=s3_bucket_name,
+                CreateBucketConfiguration={"LocationConstraint": AwsS3.region},
+            )
         except Exception as error:
             logging.error(
-                'Error creating AWS S3 Bucket: %s due to error:\n%s', s3_bucket_name, error)
+                "Error creating AWS S3 Bucket: %s due to error:\n%s",
+                s3_bucket_name,
+                error,
+            )
 
     @staticmethod
     def upload_file_to_s3(file_path, s3_bucket_name, key_name):
@@ -34,8 +40,12 @@ class AwsS3:
         try:
             AwsS3.s3.upload_file(file_path, s3_bucket_name, key_name)
         except Exception as error:
-            logging.error('Error uploading file: %s to %s due to error:\n%s',
-                          file_path, s3_bucket_name, error)
+            logging.error(
+                "Error uploading file: %s to %s due to error:\n%s",
+                file_path,
+                s3_bucket_name,
+                error,
+            )
             return False
         return True
 
@@ -45,13 +55,18 @@ class AwsS3:
         Upload an image file to Amazon S3
         """
         try:
-            directory_name = f'{user_id}/'
+            directory_name = f"{user_id}/"
             AwsS3.s3.put_object(Bucket=s3_bucket_name, Key=directory_name)
             AwsS3.s3.upload_fileobj(
-                file_stream, s3_bucket_name, f'{directory_name}{key_name}')
+                file_stream, s3_bucket_name, f"{directory_name}{key_name}"
+            )
         except Exception as error:
-            logging.error('Error uploading file: %s to %s due to error:\n%s',
-                          file_stream, s3_bucket_name, error)
+            logging.error(
+                "Error uploading file: %s to %s due to error:\n%s",
+                file_stream,
+                s3_bucket_name,
+                error,
+            )
             return False
         return True
 
@@ -68,7 +83,11 @@ class AwsS3:
             AwsS3.s3.download_file(s3_bucket_name, key_name, image_save_path)
         except Exception as error:
             logging.error(
-                'Error downloading %s from %s due to error:\n%s', key_name, s3_bucket_name, error)
+                "Error downloading %s from %s due to error:\n%s",
+                key_name,
+                s3_bucket_name,
+                error,
+            )
             return False
         return True
 
@@ -82,12 +101,12 @@ class AwsS3:
         """
         try:
             presigned_url = AwsS3.s3.generate_presigned_url(
-                'get_object',
+                "get_object",
                 Params={
-                    'Bucket': s3_bucket_name,
-                    'Key': key_name,
+                    "Bucket": s3_bucket_name,
+                    "Key": key_name,
                 },
-                ExpiresIn=3600
+                ExpiresIn=3600,
             )
         except Exception as error:
             print(f"Error creating presigned url: {error}")
@@ -107,6 +126,10 @@ class AwsS3:
             AwsS3.s3.delete_object(s3_bucket_name, key_name)
         except Exception as error:
             logging.error(
-                'Error deleting %s from %s due to error:\n%s', key_name, s3_bucket_name, error)
+                "Error deleting %s from %s due to error:\n%s",
+                key_name,
+                s3_bucket_name,
+                error,
+            )
             return False
         return True

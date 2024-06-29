@@ -17,12 +17,14 @@ import ollama
 from cached_model import CachedModel
 from video_scene_detector import VideoSceneDetector
 
+
 def read_prompt_template(file_path):
     """
     Reads a prompt template from a file.
     """
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         return file.read()
+
 
 class Chatbot:
     """
@@ -47,15 +49,9 @@ class Chatbot:
         """
 
         response = ollama.chat(
-            model='phi3',
-            messages=[{
-                'role': 'user',
-                'content': content
-            }],
-            options={
-                'temperature': 1,
-                'top_p': 0.9 
-            },
+            model="phi3",
+            messages=[{"role": "user", "content": content}],
+            options={"temperature": 1, "top_p": 0.9},
         )
         return response
 
@@ -70,18 +66,13 @@ class Chatbot:
             dict: A dictionary containing the response from the chat model.
         """
         stream_caption = ollama.chat(
-            model='phi3',
-            messages=[{
-                'role': 'user',
-                'content': content
-            }],
+            model="phi3",
+            messages=[{"role": "user", "content": content}],
             stream=True,
-            options={
-                'temperature': 1,
-                'top_p': 0.9 
-            },
+            options={"temperature": 1, "top_p": 0.9},
         )
         return stream_caption
+
 
 def _get_caption_size(caption_size):
     """
@@ -100,17 +91,18 @@ def _get_caption_size(caption_size):
     """
     # Dictionary to map caption sizes to their corresponding description
     caption_length_mapping = {
-        'small': 'Compose a concise 2 to 3 sentences',          # Mapping for 'small' caption size
-        'medium': 'Compose a concise 5 to 7 sentences',         # Mapping for 'medium' caption size
-        'large': 'Compose a concise 10 to 15 sentences',        # Mapping for 'large' caption size
-        'very large': 'Compose an extensive 30 to 50 sentences',# Mapping for 'very large' caption size
-        'blog post': 'Craft an extensive 100 sentences'         # Mapping for 'blog post' caption size
+        "small": "Compose a concise 2 to 3 sentences",  # Mapping for 'small' caption size
+        "medium": "Compose a concise 5 to 7 sentences",  # Mapping for 'medium' caption size
+        "large": "Compose a concise 10 to 15 sentences",  # Mapping for 'large' caption size
+        "very large": "Compose an extensive 30 to 50 sentences",  # Mapping for 'very large' caption size
+        "blog post": "Craft an extensive 100 sentences",  # Mapping for 'blog post' caption size
     }
-    
+
     # Retrieve the description based on the caption size provided.
     # If the caption size is not found, return "Compose a concise 2 to 3 sentence".
-    return caption_length_mapping.get(caption_size, "Compose a concise 2 to 3 sentences")
-
+    return caption_length_mapping.get(
+        caption_size, "Compose a concise 2 to 3 sentences"
+    )
 
 
 def parse_hashtags(caption):
@@ -126,10 +118,11 @@ def parse_hashtags(caption):
     # Split the caption into words
     words = caption.split()
     # Extract hashtags from the words
-    hashtags = [word for word in words if word.startswith('#')]
+    hashtags = [word for word in words if word.startswith("#")]
     # Reconstruct the caption without hashtags
-    cleaned_caption = ' '.join(word for word in words if not word.startswith('#'))
+    cleaned_caption = " ".join(word for word in words if not word.startswith("#"))
     return cleaned_caption, hashtags
+
 
 def find_synonyms(word):
     """
@@ -142,18 +135,13 @@ def find_synonyms(word):
     list: A list of synonyms for the given word.
     """
     response = ollama.chat(
-        model='phi3',
-        messages=[{
-            'role': 'user',
-            'content': f"Find synonyms for the word '{word}'."
-        }],
-        options={
-            'temperature': 0.7,
-            'top_p': 0.9 
-        },
+        model="phi3",
+        messages=[{"role": "user", "content": f"Find synonyms for the word '{word}'."}],
+        options={"temperature": 0.7, "top_p": 0.9},
     )
-    synonyms = response['choices'][0]['text'].strip().split(', ')
+    synonyms = response["choices"][0]["text"].strip().split(", ")
     return synonyms
+
 
 def generate_additional_hashtags(existing_hashtags, num_needed):
     """
@@ -178,8 +166,8 @@ def generate_additional_hashtags(existing_hashtags, num_needed):
             if len(additional_hashtags) >= num_needed:
                 break
             # Add the synonym as a hashtag if it's not already in the existing hashtags
-            if f'#{synonym}' not in existing_hashtags:
-                additional_hashtags.append(f'#{synonym}')
+            if f"#{synonym}" not in existing_hashtags:
+                additional_hashtags.append(f"#{synonym}")
 
     return additional_hashtags
 
@@ -203,7 +191,9 @@ def generate_hashtaged_caption(caption, num_tags):
 
     # Generate additional hashtags if needed
     if num_existing_tags < MAX_HASHTAGS:
-        additional_hashtags = generate_additional_hashtags(hashtags, MAX_HASHTAGS - num_existing_tags)
+        additional_hashtags = generate_additional_hashtags(
+            hashtags, MAX_HASHTAGS - num_existing_tags
+        )
         hashtags.extend(additional_hashtags)
 
     # Ensure the number of hashtags does not exceed the maximum limit
@@ -211,10 +201,9 @@ def generate_hashtaged_caption(caption, num_tags):
 
     # Construct the result with a line break between the caption and hashtags
     return f"{cleaned_caption}\n\n{' '.join(hashtags)}"
- 
+
 
 class ImageCaptionGenerator:
-
     """
     A class that generates captions for images using a chatbot.
 
@@ -234,17 +223,18 @@ class ImageCaptionGenerator:
         self.chatbot = chatbot
 
     def generate_caption(
-            self,
-            location,
-            image_path,
-            caption_size,
-            context,
-            style,
-            num_hashtags,
-            tone,
-            social_media,
-            device='cpu',
-            collection=None):
+        self,
+        location,
+        image_path,
+        caption_size,
+        context,
+        style,
+        num_hashtags,
+        tone,
+        social_media,
+        device="cpu",
+        collection=None,
+    ):
         """
         Generates a caption for an image using the chatbot object.
 
@@ -262,13 +252,12 @@ class ImageCaptionGenerator:
             generated caption.
         - compressed_image_path (str): The path of the compressed image used
             for generating the caption.
-        """       
+        """
         compressed_image_path = image_path
 
         text = CachedModel.get_blip2_image_caption_pipeline(
-            compressed_image_path,
-            device,
-            collection)
+            compressed_image_path, device, collection
+        )
         caption_length = _get_caption_size(caption_size)
         words = caption_length.split()
         only_length = f"{words[-2]} {words[-1]}"
@@ -276,7 +265,9 @@ class ImageCaptionGenerator:
         if context is not None or context != "":
             template = read_prompt_template("prompt_template/prompt_with_context.txt")
         else:
-            template = read_prompt_template("prompt_template/prompt_without_context.txt")
+            template = read_prompt_template(
+                "prompt_template/prompt_without_context.txt"
+            )
         content = template.format(
             caption_length=caption_length,
             social_media=social_media,
@@ -286,10 +277,12 @@ class ImageCaptionGenerator:
             context=context,
             tone=tone,
             num_hashtags=num_hashtags,
-            only_length=only_length
+            only_length=only_length,
         )
-        
-        stream_caption = self.chatbot.get_stream_response(generate_hashtaged_caption(content, num_hashtags))
+
+        stream_caption = self.chatbot.get_stream_response(
+            generate_hashtaged_caption(content, num_hashtags)
+        )
         return stream_caption, compressed_image_path
 
 
@@ -317,16 +310,18 @@ class VideoCaptionGenerator:
         self.scene_saver = scene_saver
 
     def generate_caption(
-            self,
-            location,
-            video_path,
-            caption_size,
-            context, style,
-            num_hashtags,
-            tone,
-            social_media,
-            device='cpu',
-            collection=None):
+        self,
+        location,
+        video_path,
+        caption_size,
+        context,
+        style,
+        num_hashtags,
+        tone,
+        social_media,
+        device="cpu",
+        collection=None,
+    ):
         """
         Generate a caption for a video using a chatbot.
 
@@ -345,9 +340,8 @@ class VideoCaptionGenerator:
         scene_dir = "extracted_images"
         os.makedirs(scene_dir, exist_ok=True)
         vid_scn_detector = VideoSceneDetector(
-            video_path,
-            self.scene_detector,
-            self.scene_saver)
+            video_path, self.scene_detector, self.scene_saver
+        )
         vid_scn_detector.detect_scenes()
         image_list = os.listdir(scene_dir)
         all_captions = ""
@@ -359,9 +353,8 @@ class VideoCaptionGenerator:
         #       and other issues.
         for each_image in image_list:
             text = CachedModel.get_blip2_image_caption_pipeline(
-                os.path.join(scene_dir, each_image),
-                device,
-                collection)
+                os.path.join(scene_dir, each_image), device, collection
+            )
             all_captions += " " + text
         content = None
         caption_length = _get_caption_size(caption_size)
@@ -370,7 +363,9 @@ class VideoCaptionGenerator:
         if context is not None or context != "":
             template = read_prompt_template("prompt_template/prompt_with_context.txt")
         else:
-            template = read_prompt_template("prompt_template/prompt_without_context.txt")
+            template = read_prompt_template(
+                "prompt_template/prompt_without_context.txt"
+            )
         content = template.format(
             caption_length=caption_length,
             social_media=social_media,
@@ -380,7 +375,7 @@ class VideoCaptionGenerator:
             context=context,
             tone=tone,
             num_hashtags=num_hashtags,
-            only_length=only_length
+            only_length=only_length,
         )
         stream_caption = self.chatbot.get_stream_response(content)
         shutil.rmtree(scene_dir, ignore_errors=True)
