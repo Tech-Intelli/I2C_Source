@@ -21,7 +21,7 @@ from chromadb_vector_store import initialize_chroma_client
 from chromadb_vector_store import get_chroma_collection
 from io import StringIO
 from image_compressor.image_compressor import compresstoWebP
-
+from utils.timer import timer_decorator
 import signal
 
 
@@ -39,7 +39,7 @@ CHROMA_COLLECTION = get_chroma_collection(
     initialize_chroma_client(), "image_caption_vector"
 )
 
-
+@timer_decorator
 def load_model():
     """
     Loads the model
@@ -48,7 +48,7 @@ def load_model():
         CachedModel.load_blip2()
         st.session_state["model_loaded"] = True
 
-
+@timer_decorator
 def generate_image_caption(
     image_path,
     caption_size="small",
@@ -147,7 +147,7 @@ def generate_video_caption(
     )
     return caption
 
-
+@timer_decorator
 def generate_interim_gif():
     """
     Generates gif placeholder
@@ -172,7 +172,7 @@ def generate_interim_gif():
 
 # pylint: disable=R0915
 
-
+@timer_decorator
 def stream_text(stream):
     """Generate and display stream text
 
@@ -262,7 +262,6 @@ def app():
             if file_extension in (".png", ".jpeg", ".jpg"):
                 gif_placeholder = generate_interim_gif()
                 print(f"==== {os.path.abspath(file_path)} ====")
-                caption_start_time = time.time()
                 caption, compressed_image_path = generate_image_caption(
                     file_path,
                     caption_size,
@@ -271,10 +270,6 @@ def app():
                     num_hashtags,
                     tone,
                     social_media,
-                )
-                caption_end_time = time.time() - caption_start_time
-                print(
-                    f"Total time taken to to generate a caption is : {caption_end_time} seconds"
                 )
                 stream_text(caption)
                 st.image(compressed_image_path)
