@@ -22,8 +22,6 @@ def timer_decorator(func):
     return wrapper
 
 
-
-
 def advanced_timer_decorator(
     threshold=None,
     log_to_console=False,
@@ -61,7 +59,9 @@ def advanced_timer_decorator(
             try:
                 result = func(*args, **kwargs)
             except Exception as e:
-                logging.error(f"\n Function '{func.__name__}' raised an error: {e}", exc_info=True)
+                logging.error(
+                    f"\n Function '{func.__name__}' raised an error: {e}", exc_info=True
+                )
                 raise
             end_time = time.time()
 

@@ -186,7 +186,7 @@ def generate_hashtaged_caption(caption, num_tags):
     MAX_HASHTAGS = 30
     if num_tags > MAX_HASHTAGS:
         num_tags = MAX_HASHTAGS
-    
+
     # Parse hashtags from the caption
     cleaned_caption, hashtags = parse_hashtags(caption)
     num_existing_tags = len(hashtags)

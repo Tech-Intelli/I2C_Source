@@ -1,5 +1,6 @@
 import os
 
+
 # Helper Function to create project structure in the readme. Copy the printed project structure directly into the readme.
 def generate_directory_structure(start_path, indent="    "):
     output = []

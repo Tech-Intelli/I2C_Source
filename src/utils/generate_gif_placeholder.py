@@ -1,6 +1,6 @@
-
 import base64
 import streamlit as st
+
 
 def generate_interim_gif(GIPHY_IMAGE):
     """

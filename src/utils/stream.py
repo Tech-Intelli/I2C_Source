@@ -1,9 +1,9 @@
-
 import time
 from io import StringIO
 import streamlit as st
 import asyncio
 from utils.timer import advanced_timer_decorator
+
 
 @advanced_timer_decorator(threshold=1.0, log_to_console=True, log_return_value=True)
 async def stream_text(stream, batch_size=5, sleep_time=0.01):
@@ -23,14 +23,14 @@ async def stream_text(stream, batch_size=5, sleep_time=0.01):
         batch.append(message_content)
 
         if len(batch) >= batch_size:
-            full_text_io.write(''.join(batch))
+            full_text_io.write("".join(batch))
             success_stream.markdown(full_text_io.getvalue(), unsafe_allow_html=True)
             batch = []
             await asyncio.sleep(sleep_time)
 
     # Write any remaining chunks
     if batch:
-        full_text_io.write(''.join(batch))
+        full_text_io.write("".join(batch))
         success_stream.markdown(full_text_io.getvalue(), unsafe_allow_html=True)
 
     success_stream.success(full_text_io.getvalue())

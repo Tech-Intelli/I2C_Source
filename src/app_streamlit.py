@@ -28,6 +28,7 @@ def load_model():
         CachedModel.load_blip2()
         st.session_state["model_loaded"] = True
 
+
 # Initialize resources
 @st.cache_resource
 def initialize_resources():
@@ -67,7 +68,9 @@ def compress_image(uploaded_file):
     return file_path, compressed_image.getbuffer().nbytes
 
 
-def process_and_generate_caption(file_path, file_extension, params, image_caption_gen , chatbot):
+def process_and_generate_caption(
+    file_path, file_extension, params, image_caption_gen, chatbot
+):
     """
     Process the uploaded file and generate a caption.
     """
@@ -89,9 +92,10 @@ def process_and_generate_caption(file_path, file_extension, params, image_captio
         asyncio.run(stream_text(caption))
         st.image(compressed_image_path)
     elif file_extension in (".mp4", ".mov"):
-        #TODO : Revisit this for lazy loading of video
-        video_caption_generator = generate_caption.VideoCaptionGenerator(chatbot, SceneDetector(), SceneSaver()
-    )
+        # TODO : Revisit this for lazy loading of video
+        video_caption_generator = generate_caption.VideoCaptionGenerator(
+            chatbot, SceneDetector(), SceneSaver()
+        )
         caption = video_caption_generator.generate_caption(
             "Anywhere on earth",
             file_path,
@@ -106,7 +110,7 @@ def process_and_generate_caption(file_path, file_extension, params, image_captio
         )
         asyncio.run(stream_text(caption))
         st.video(file_path)
-  
+
 
 @timer_decorator
 def app():
@@ -117,7 +121,9 @@ def app():
     if "resources" not in st.session_state:
         st.session_state["resources"] = initialize_resources()
 
-    image_caption_gen, chatbot, giphy_image, chroma_collection = st.session_state["resources"]
+    image_caption_gen, chatbot, giphy_image, chroma_collection = st.session_state[
+        "resources"
+    ]
 
     uploaded_file = st.file_uploader(
         "Upload Image or Video", type=["jpg", "jpeg", "png", "mp4", "mov"]
@@ -184,7 +190,7 @@ def app():
                     "social_media": social_media,
                     "chroma_collection": chroma_collection,
                 },
-                image_caption_gen, 
+                image_caption_gen,
                 chatbot,
             )
 
