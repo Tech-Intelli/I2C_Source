@@ -1,5 +1,6 @@
 """Pytest to test authenticate_user
 """
+
 # pylint: disable=E0401
 import os
 import jwt
@@ -16,12 +17,19 @@ def test_authenticate_user_correct_password(mocker):
     password = "password"
     verified = True
     hashed_password = hash_password(password)
-    mocker.patch.object(TABLE, 'query', return_value={
-                        'Items': [{
-                            'username': username,
-                            'password': hashed_password,
-                            'verified': verified}]
-                        })
+    mocker.patch.object(
+        TABLE,
+        "query",
+        return_value={
+            "Items": [
+                {
+                    "username": username,
+                    "password": hashed_password,
+                    "verified": verified,
+                }
+            ]
+        },
+    )
     auth = AuthenticateUser(username, password)
     assert auth.authenticate_user() is True
 
@@ -34,13 +42,19 @@ def test_authenticate_user_incorrect_password(mocker):
     password = "password"
     verified = True
     hashed_password = hash_password("Incorrect")
-    mocker.patch.object(TABLE, 'query', return_value={
-                        'Items': [{
-                            'username': username,
-                            'password': hashed_password,
-                            'verified': verified
-                        }]
-                        })
+    mocker.patch.object(
+        TABLE,
+        "query",
+        return_value={
+            "Items": [
+                {
+                    "username": username,
+                    "password": hashed_password,
+                    "verified": verified,
+                }
+            ]
+        },
+    )
     auth = AuthenticateUser(username, password)
     assert auth.authenticate_user() is False
 
@@ -53,12 +67,19 @@ def test_authenticate_user_not_verified(mocker):
     password = "password"
     verified = False
     hashed_password = hash_password("password")
-    mocker.patch.object(TABLE, 'query', return_value={
-                        'Items': [{
-                            'username': username,
-                            'password': hashed_password,
-                            'verified': verified}]
-                        })
+    mocker.patch.object(
+        TABLE,
+        "query",
+        return_value={
+            "Items": [
+                {
+                    "username": username,
+                    "password": hashed_password,
+                    "verified": verified,
+                }
+            ]
+        },
+    )
     auth = AuthenticateUser(username, password)
     assert auth.authenticate_user() is False
 
@@ -73,20 +94,25 @@ def test_authentication_token(mocker):
     password = "password"
     verified = True
     hashed_password = hash_password("password")
-    mocker.patch.object(TABLE, 'query', return_value={
-                        'Items': [{
-                            'username': username,
-                            'password': hashed_password,
-                            'verified': verified
-                        }]
-                        })
+    mocker.patch.object(
+        TABLE,
+        "query",
+        return_value={
+            "Items": [
+                {
+                    "username": username,
+                    "password": hashed_password,
+                    "verified": verified,
+                }
+            ]
+        },
+    )
     auth = AuthenticateUser(username, password)
     token = auth.generate_auth_token(user_id)
     email = ""
     try:
-        payload = jwt.decode(
-            token, os.environ['AUTH_SECRET_KEY'], algorithms=['HS256'])
-        email = payload['email']
+        payload = jwt.decode(token, os.environ["AUTH_SECRET_KEY"], algorithms=["HS256"])
+        email = payload["email"]
         print(username)
         print(email)
         assert username == email
@@ -102,6 +128,6 @@ def test_authenticate_user_incorrect_user(mocker):
     """
     username = "username"
     password = "password"
-    mocker.patch.object(TABLE, 'query', return_value={'Items': []})
+    mocker.patch.object(TABLE, "query", return_value={"Items": []})
     auth = AuthenticateUser(username, password)
     assert auth.authenticate_user() is False

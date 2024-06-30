@@ -1,6 +1,7 @@
 """
 Module for Creating a User Database in DynamoDB
 """
+
 # pylint:disable=E0401
 import boto3
 
@@ -8,7 +9,6 @@ import boto3
 
 
 class CreateDatabase:
-
     """
     Class for creating a User Database in DynamoDB
     """
@@ -20,32 +20,17 @@ class CreateDatabase:
         """
         Creates the database in DynamoDB
         """
-        dynamodb = boto3.resource('dynamodb', region_name='eu-central-1')
+        dynamodb = boto3.resource("dynamodb", region_name="eu-central-1")
 
         dynamodb.create_table(
             TableName=self.table_name,
             KeySchema=[
-                {
-                    'AttributeName': 'username',
-                    'KeyType': 'HASH'
-                },
-                {
-                    'AttributeName': 'user_id',
-                    'KeyType': 'RANGE'
-                }
+                {"AttributeName": "username", "KeyType": "HASH"},
+                {"AttributeName": "user_id", "KeyType": "RANGE"},
             ],
             AttributeDefinitions=[
-                {
-                    'AttributeName': 'username',
-                    'AttributeType': 'S'
-                },
-                {
-                    'AttributeName': 'user_id',
-                    'AttributeType': 'N'
-                }
+                {"AttributeName": "username", "AttributeType": "S"},
+                {"AttributeName": "user_id", "AttributeType": "N"},
             ],
-            ProvisionedThroughput={
-                'ReadCapacityUnits': 5,
-                'WriteCapacityUnits': 5
-            }
+            ProvisionedThroughput={"ReadCapacityUnits": 5, "WriteCapacityUnits": 5},
         )

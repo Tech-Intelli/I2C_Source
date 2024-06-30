@@ -7,6 +7,7 @@ import ssl
 import uuid
 import smtplib
 from email.message import EmailMessage
+
 # pylint: disable=E0401
 from boto3.dynamodb.conditions import Key
 from ..database import TABLE, get_user_id
@@ -31,20 +32,21 @@ class RegisterUser:
         """Send and email to the user to verify the email address"""
         msg = EmailMessage()
         msg.set_content(
-            f"Please click the following link to verify your email:\n\n{url}/{unique_id}")
+            f"Please click the following link to verify your email:\n\n{url}/{unique_id}"
+        )
         msg["Subject"] = "Email Verification"
         msg["From"] = os.environ["EMAIL_ADDRESS"]
         msg["To"] = self.username
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
             try:
-                server.login(os.environ["EMAIL_ADDRESS"],
-                             os.environ["EMAIL_PASSWORD"])
-                server.sendmail(os.environ["EMAIL_ADDRESS"],
-                                self.username, msg.as_string())
+                server.login(os.environ["EMAIL_ADDRESS"], os.environ["EMAIL_PASSWORD"])
+                server.sendmail(
+                    os.environ["EMAIL_ADDRESS"], self.username, msg.as_string()
+                )
                 EMAIL_VERIFICATION_UNIQUE_ID[self.username] = unique_id
             except Exception as error:
-                print(f'Unable to send email due to error: \n{error}')
+                print(f"Unable to send email due to error: \n{error}")
 
     def register_user(self):
         """
@@ -52,29 +54,30 @@ class RegisterUser:
         """
         hashed_password = hash_password(self.password)
 
-        user_id = int(uuid.uuid4().int & (1 << 31)-1)
+        user_id = int(uuid.uuid4().int & (1 << 31) - 1)
         is_existing_user = TABLE.query(
-            KeyConditionExpression=Key('username').eq(self.username)
+            KeyConditionExpression=Key("username").eq(self.username)
         )
-        if len(is_existing_user['Items']) != 0 and \
-                is_existing_user['Items'][0]['username'] == self.username:
+        if (
+            len(is_existing_user["Items"]) != 0
+            and is_existing_user["Items"][0]["username"] == self.username
+        ):
             return 400
         unique_id = str(uuid.uuid4())
         response = TABLE.put_item(
             Item={
-                'username': self.username,
-                'user_id': user_id,
-                'password': hashed_password,
-                'verified': False
+                "username": self.username,
+                "user_id": user_id,
+                "password": hashed_password,
+                "verified": False,
             }
         )
         self.send_email("https://www.explaistic.com/verify", unique_id)
-        return response['ResponseMetadata']['HTTPStatusCode']
+        return response["ResponseMetadata"]["HTTPStatusCode"]
 
 
 class VerifyEmail:
-    """Verifies the email address
-    """
+    """Verifies the email address"""
 
     @staticmethod
     def verify_email(unique_id):
@@ -83,21 +86,19 @@ class VerifyEmail:
         Args:
             unique_id (string): Unique Identifier
         """
-        email = [key for key, value in EMAIL_VERIFICATION_UNIQUE_ID.items()
-                 if value == unique_id]
+        email = [
+            key
+            for key, value in EMAIL_VERIFICATION_UNIQUE_ID.items()
+            if value == unique_id
+        ]
         if email:
             email = email[0]
             del EMAIL_VERIFICATION_UNIQUE_ID[email]
             verified_status = True
             TABLE.update_item(
-                Key={
-                    'username': email,
-                    'user_id': get_user_id(email)
-                },
-                UpdateExpression='SET verified = :val',
-                ExpressionAttributeValues={
-                    ':val': verified_status
-                }
+                Key={"username": email, "user_id": get_user_id(email)},
+                UpdateExpression="SET verified = :val",
+                ExpressionAttributeValues={":val": verified_status},
             )
             return True
         return False

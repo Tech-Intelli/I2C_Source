@@ -1,4 +1,3 @@
 """
 Image compression module
 """
-

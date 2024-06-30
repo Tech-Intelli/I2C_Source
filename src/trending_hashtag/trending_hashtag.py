@@ -4,23 +4,28 @@ Module that extracts trending hashtags
 Returns:
     _type_: _description_
 """
+
 import os
+
 # pylint: disable=E0401
 from ritetag import RiteTagApi
 
 # pylint: disable=R0903
 
 
-class TrendingHashtag():
-    """Class that extracts trending hashtags
-    """
-    access_token = os.environ['RITEKIT_API_KEY']
+class TrendingHashtag:
+    """Class that extracts trending hashtags"""
+
+    access_token = os.environ["RITEKIT_API_KEY"]
     client = RiteTagApi(access_token)
 
     def __init__(self):
         def limit_80_percentage_reached(limit):
-            message = f'Used {limit.usage}% of API credits. The limit resets on {limit.reset}'
+            message = (
+                f"Used {limit.usage}% of API credits. The limit resets on {limit.reset}"
+            )
             print(message)
+
         self.client.on_limit(80, limit_80_percentage_reached)
 
     def get_trending_hashtags(self, text):

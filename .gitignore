@@ -35,3 +35,4 @@ secrets.sh
 src/sqlite_chroma_db/
 src/test/
 src/test_chat.py
+execution_times.log
