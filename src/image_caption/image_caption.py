@@ -76,7 +76,7 @@ class ImageCaptionPipeLine:
         Returns a pipeline for generating captions from images
         using the BLIP2 model.
         """
-        quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+        quantization_config = BitsAndBytesConfig(load_in_8bit=True, llm_int8_threshold=5.0)
         model = Blip2ForConditionalGeneration.from_pretrained(
             ImageCaptionPipeLine.BLIP2_MODEL_NAME,
             torch_dtype=torch.float16,

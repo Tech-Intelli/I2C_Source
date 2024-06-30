@@ -183,21 +183,23 @@ def generate_hashtaged_caption(caption, num_tags):
     Returns:
     str: A string containing the original caption and the generated hashtags.
     """
-    MAX_HASHTAGS = 20
-
+    MAX_HASHTAGS = 30
+    if num_tags > MAX_HASHTAGS:
+        num_tags = MAX_HASHTAGS
+    
     # Parse hashtags from the caption
     cleaned_caption, hashtags = parse_hashtags(caption)
     num_existing_tags = len(hashtags)
 
     # Generate additional hashtags if needed
-    if num_existing_tags < MAX_HASHTAGS:
+    if num_existing_tags < num_tags:
         additional_hashtags = generate_additional_hashtags(
-            hashtags, MAX_HASHTAGS - num_existing_tags
+            hashtags, num_tags - num_existing_tags
         )
         hashtags.extend(additional_hashtags)
 
     # Ensure the number of hashtags does not exceed the maximum limit
-    hashtags = hashtags[:MAX_HASHTAGS]
+    hashtags = hashtags[:num_tags]
 
     # Construct the result with a line break between the caption and hashtags
     return f"{cleaned_caption}\n\n{' '.join(hashtags)}"
