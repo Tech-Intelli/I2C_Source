@@ -6,17 +6,20 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from prettytable import PrettyTable
 
-@dataclass
-class MultiModalConfig:
-    blip: str   = "Salesforce/blip2-opt-2.7b"
-    vit:  str   = "nlpconnect/vit-gpt2-image-captioning"
 
 @dataclass
-class OllamaConfig:          
+class MultiModalConfig:
+    blip: str = "Salesforce/blip2-opt-2.7b"
+    vit: str = "nlpconnect/vit-gpt2-image-captioning"
+
+
+@dataclass
+class OllamaConfig:
     Phi: str = "phi3"
     llama3: str = "llama3"
     temperature: int = 1
-    top_p:  float = 0.9
+    top_p: float = 0.9
+
 
 @dataclass
 class ImageCompressionConfig:
@@ -25,17 +28,21 @@ class ImageCompressionConfig:
     compression_quality: int = 50
     resize_factor: float = 0.5
 
+
 @dataclass
 class TransformConfig:
     resize: tuple = (256, 256)
     center_crop: int = 224
+
 
 @dataclass
 class AppConfig:
 
     multimodal: MultiModalConfig = field(default_factory=MultiModalConfig)
     ollama: OllamaConfig = field(default_factory=OllamaConfig)
-    image_compression: ImageCompressionConfig = field(default_factory=ImageCompressionConfig)
+    image_compression: ImageCompressionConfig = field(
+        default_factory=ImageCompressionConfig
+    )
     transform_config: TransformConfig = field(default_factory=TransformConfig)
 
     def validate(self):
@@ -47,34 +54,58 @@ class AppConfig:
 
         """
         # Validate MultiModalConfig
-        if not isinstance(self.multimodal.blip, str) or not self.multimodal.blip.strip():
-            raise ValueError("The 'blip' field in MultiModalConfig must be a non-empty string.")
+        if (
+            not isinstance(self.multimodal.blip, str)
+            or not self.multimodal.blip.strip()
+        ):
+            raise ValueError(
+                "The 'blip' field in MultiModalConfig must be a non-empty string."
+            )
         if not isinstance(self.multimodal.vit, str) or not self.multimodal.vit.strip():
-            raise ValueError("The 'vit' field in MultiModalConfig must be a non-empty string.")
+            raise ValueError(
+                "The 'vit' field in MultiModalConfig must be a non-empty string."
+            )
 
         # Validate OllamaConfig
         if not isinstance(self.ollama.Phi, str) or not self.ollama.Phi.strip():
-            raise ValueError("The 'Phi' field in OllamaConfig must be a non-empty string.")
+            raise ValueError(
+                "The 'Phi' field in OllamaConfig must be a non-empty string."
+            )
         if not isinstance(self.ollama.llama3, str) or not self.ollama.llama3.strip():
-            raise ValueError("The 'llama3' field in OllamaConfig must be a non-empty string.")
+            raise ValueError(
+                "The 'llama3' field in OllamaConfig must be a non-empty string."
+            )
         if not isinstance(self.ollama.temperature, int):
-            raise ValueError("The 'temperature' field in OllamaConfig must be an integer.")
+            raise ValueError(
+                "The 'temperature' field in OllamaConfig must be an integer."
+            )
         if not isinstance(self.ollama.top_p, float):
             raise ValueError("The 'top_p' field in OllamaConfig must be a float.")
 
         # Validate ImageCompressionConfig
-        if not isinstance(self.image_compression.type, str) or not self.image_compression.type.strip():
-            raise ValueError("The 'type' field in ImageCompressionConfig must be a non-empty string.")
+        if (
+            not isinstance(self.image_compression.type, str)
+            or not self.image_compression.type.strip()
+        ):
+            raise ValueError(
+                "The 'type' field in ImageCompressionConfig must be a non-empty string."
+            )
         if not isinstance(self.image_compression.compress, bool):
-            raise ValueError("The 'compress' field in ImageCompressionConfig must be a boolean.")
+            raise ValueError(
+                "The 'compress' field in ImageCompressionConfig must be a boolean."
+            )
         if not isinstance(self.image_compression.compression_quality, int):
-            raise ValueError("The 'compression_quality' field in ImageCompressionConfig must be an integer.")
+            raise ValueError(
+                "The 'compression_quality' field in ImageCompressionConfig must be an integer."
+            )
         if not isinstance(self.image_compression.resize_factor, float):
-            raise ValueError("The 'resize_factor' field in ImageCompressionConfig must be a float.")
+            raise ValueError(
+                "The 'resize_factor' field in ImageCompressionConfig must be a float."
+            )
 
 
 class ConfigManager:
-    def __init__(self, config_file='config.yaml'):
+    def __init__(self, config_file="config.yaml"):
         """
         A description of the entire function, its parameters, and its return types.
         """
@@ -83,7 +114,11 @@ class ConfigManager:
         self.load_config()
 
         self.observer = Observer()
-        self.observer.schedule(ConfigFileChangeHandler(self), path=os.path.dirname(config_file) or '.', recursive=False)
+        self.observer.schedule(
+            ConfigFileChangeHandler(self),
+            path=os.path.dirname(config_file) or ".",
+            recursive=False,
+        )
         self.observer.start()
 
     def load_config(self):
@@ -91,7 +126,7 @@ class ConfigManager:
         A description of the entire function, its parameters, and its return types.
         """
         if os.path.exists(self.config_file):
-            with open(self.config_file, 'r') as file:
+            with open(self.config_file, "r") as file:
                 config_data = yaml.safe_load(file)
             self._update_config_from_dict(self.app_config, config_data)
             self.app_config.validate()
@@ -112,7 +147,7 @@ class ConfigManager:
         Returns:
             None
         """
-        with open(self.config_file, 'w') as file:
+        with open(self.config_file, "w") as file:
             yaml.safe_dump(asdict(self.app_config), file, default_flow_style=False)
 
     def get_app_config(self) -> AppConfig:
@@ -157,7 +192,7 @@ class ConfigManager:
         print(table.get_string(sortby="Parameter"))
 
     @staticmethod
-    def _populate_table(config_dict, table, parent_key=''):
+    def _populate_table(config_dict, table, parent_key=""):
         """
         Populates a PrettyTable object with the given configuration dictionary.
 
@@ -195,7 +230,9 @@ class ConfigManager:
                     nested_config = getattr(config, field.name)
                     ConfigManager._update_config_from_dict(nested_config, value)
                 else:
-                    setattr(config, field.name, ConfigManager._cast_value(field.type, value))
+                    setattr(
+                        config, field.name, ConfigManager._cast_value(field.type, value)
+                    )
 
     @staticmethod
     def _cast_value(type_: Type, value: Any) -> Any:
@@ -230,13 +267,14 @@ class ConfigManager:
         Returns:
             Any: The value of the nested node, or `None` if the node does not exist.
         """
-        parts = node_path.split('.')
+        parts = node_path.split(".")
         current = self.app_config
         for part in parts:
             current = getattr(current, part, None)
             if current is None:
                 break
         return current
+
 
 class ConfigFileChangeHandler(FileSystemEventHandler):
     def __init__(self, config_manager):
@@ -262,5 +300,7 @@ class ConfigFileChangeHandler(FileSystemEventHandler):
             None
         """
         if event.src_path == self.config_manager.config_file:
-            print(f"Configuration file {self.config_manager.config_file} changed, reloading.")
+            print(
+                f"Configuration file {self.config_manager.config_file} changed, reloading."
+            )
             self.config_manager.load_config()
