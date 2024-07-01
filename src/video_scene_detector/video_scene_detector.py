@@ -2,11 +2,6 @@
 Detect and saves video frames to the specified directory
 """
 
-# pylint: disable=E0401
-# pylint: disable=E1101
-# pylint: disable=W0719
-# pylint: disable=R0903
-
 import os
 from dataclasses import dataclass
 import cv2

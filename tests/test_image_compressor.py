@@ -4,7 +4,6 @@ Unit Test Case Image Compression Method
 
 import os
 
-# pylint: disable=E0401
 from src.image_compressor.image_compressor import compresstoWebP, compressJPG
 
 

@@ -2,7 +2,6 @@
 Define DynamoDB and Table
 """
 
-# pylint: disable=E0401
 import boto3
 from boto3.dynamodb.conditions import Key
 

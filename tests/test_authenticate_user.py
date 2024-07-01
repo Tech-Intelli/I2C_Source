@@ -1,7 +1,6 @@
 """Pytest to test authenticate_user
 """
 
-# pylint: disable=E0401
 import os
 import jwt
 from src.login.authenticate_user import AuthenticateUser
