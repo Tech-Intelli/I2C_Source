@@ -5,10 +5,6 @@ Creates a Transformer pipeline from a pre-trained model
         Pipeline: Image caption pipeline
 """
 
-# pylint: disable=E0401
-# pylint: disable=E1101
-# pylint: disable=R0903
-
 import warnings
 import torch
 from transformers import (

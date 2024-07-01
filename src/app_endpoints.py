@@ -2,8 +2,6 @@
 Flask end point for the caption generation
 """
 
-# pylint: disable=E0401
-# pylint: disable=R0914
 import os
 import string
 import random
@@ -157,7 +155,6 @@ def login_user():
     )
 
 
-# pylint: disable=W0511
 # fixme:This should be handled directly in the front-end
 
 
@@ -342,7 +339,6 @@ def generate_image_video_caption():
         JSON: JSON representation of caption
     """
     auth_header = request.headers.get("Authorization")
-    # pylint: disable=W0612
     token = ""
     if auth_header:
         token = auth_header.split(" ")[1]
@@ -374,7 +370,6 @@ def generate_image_video_caption():
             video_file_extension = any_video_extension
             break
     response_json = None
-    # pylint: disable=W3101
     if has_image_file_extension:
         file_save_path = Image.open(requests.get(presigned_url, stream=True).raw)
         response_json, _ = IMAGE_CAPTION_GENERATOR.generate_caption(

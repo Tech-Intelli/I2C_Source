@@ -5,8 +5,6 @@ Module for Creating a User Database in DynamoDB
 # pylint:disable=E0401
 import boto3
 
-# pylint: disable=R0903
-
 
 class CreateDatabase:
     """

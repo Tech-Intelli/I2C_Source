@@ -2,12 +2,9 @@
 Module for creating s3 buckets, upload and download images.
 """
 
-# pylint: disable=E0401
 import logging
 import boto3
 from logger import log
-
-# pylint: disable=W0718
 
 
 class AwsS3:

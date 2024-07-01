@@ -7,10 +7,7 @@ Returns:
 
 import os
 
-# pylint: disable=E0401
 from ritetag import RiteTagApi
-
-# pylint: disable=R0903
 
 
 class TrendingHashtag:

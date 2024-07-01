@@ -1,9 +1,5 @@
 """Caches the pre-trained model using pickle"""
 
-# pylint: disable=C0103
-# pylint: disable=C0415
-# pylint: disable=R0903
-# pylint: disable=E0401
 import os
 import gc
 import warnings
@@ -19,6 +15,7 @@ from chromadb_vector_store import add_image_to_chroma
 from logger import log
 
 warnings.filterwarnings("ignore")
+
 
 class CachedModel(ABC):
     """
@@ -45,6 +42,7 @@ class CachedModel(ABC):
         """
         self.cache_file = os.path.join(self.CACHE_DIR, cache_file)
         self.collection = collection
+
     @staticmethod
     def get_device():
         """Returns the device to be used for PyTorch operations."""
@@ -195,8 +193,8 @@ class Blip2Model(CachedModel):
         Loads the BLIP2 model if it's not already cached.
 
         This function checks if the BLIP2_MODEL and BLIP2_PROCESSOR attributes of the Blip2Model class are None.
-        If they are, it initializes them by calling the get_blip2_image_processor() and get_blip2_image_caption_pipeline() 
-        methods from the ImageCaptionPipeLine class. It then saves the BLIP2_MODEL and BLIP2_PROCESSOR attributes to a 
+        If they are, it initializes them by calling the get_blip2_image_processor() and get_blip2_image_caption_pipeline()
+        methods from the ImageCaptionPipeLine class. It then saves the BLIP2_MODEL and BLIP2_PROCESSOR attributes to a
         cache file specified by the cache_file attribute of the current instance.
 
         If the BLIP2_MODEL and BLIP2_PROCESSOR attributes are not None, it prints a message indicating that the model has been loaded from the cache.
@@ -207,6 +205,14 @@ class Blip2Model(CachedModel):
         Returns:
             None
         """
-        Blip2Model.BLIP2_PROCESSOR = ImageCaptionPipeLine.get_blip2_image_processor() if Blip2Model.BLIP2_PROCESSOR is None else Blip2Model.BLIP2_PROCESSOR
-        Blip2Model.BLIP2_MODEL = ImageCaptionPipeLine.get_blip2_image_caption_pipeline() if Blip2Model.BLIP2_MODEL is None else Blip2Model.BLIP2_MODEL
+        Blip2Model.BLIP2_PROCESSOR = (
+            ImageCaptionPipeLine.get_blip2_image_processor()
+            if Blip2Model.BLIP2_PROCESSOR is None
+            else Blip2Model.BLIP2_PROCESSOR
+        )
+        Blip2Model.BLIP2_MODEL = (
+            ImageCaptionPipeLine.get_blip2_image_caption_pipeline()
+            if Blip2Model.BLIP2_MODEL is None
+            else Blip2Model.BLIP2_MODEL
+        )
         return Blip2Model.BLIP2_MODEL
