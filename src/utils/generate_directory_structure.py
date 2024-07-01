@@ -1,4 +1,5 @@
 import os
+from logger import log
 
 
 # Helper Function to create project structure in the readme. Copy the printed project structure directly into the readme.
@@ -22,4 +23,4 @@ if __name__ == "__main__":
     directory_structure = generate_directory_structure(start_path)
 
     # Print the result
-    print(directory_structure)
+    log.info(directory_structure)

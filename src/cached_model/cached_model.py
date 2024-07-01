@@ -15,6 +15,7 @@ from PIL import Image
 from image_caption import ImageCaptionPipeLine
 from chromadb_vector_store import get_unique_image_id
 from chromadb_vector_store import add_image_to_chroma
+from logger import log
 
 warnings.filterwarnings("ignore")
 
@@ -86,14 +87,6 @@ class CachedModel:
 
         # pylint: disable=E1101
         # pylint: disable=W0105
-        """
-        if torch.cuda.is_available():
-            device = torch.device("cuda")
-            print("Cuda will be used to generate the caption")
-        else:
-            device = torch.device("cpu")
-            print("CPU will be used to generate the caption")
-        """
 
         try:
             with open(CachedModel.CACHE_FILE, "rb") as f:
@@ -104,14 +97,14 @@ class CachedModel:
                     image_pipeline = image_pipeline.to(device)
                 return image_pipeline(image_input)
         except FileNotFoundError as e:
-            print(f"Error loading cached pipeline: {e}")
+            log.error(f"Error loading cached pipeline: {e}")
 
-        print(f"Creating cache file @ {CachedModel.CACHE_FILE}, please wait...")
+        log.info(f"Creating cache file @ {CachedModel.CACHE_FILE}, please wait...")
 
         image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
         with open(CachedModel.CACHE_FILE, "wb") as f:
             torch.save(image_pipeline, f)
-            print(
+            log.info(
                 f"""Cache has been created at {CachedModel.CACHE_FILE} successfully."""
             )
         return image_pipeline(image_path)
@@ -179,24 +172,24 @@ class CachedModel:
                     None.
                 try:
                     with open(CachedModel.CACHE_FILE_BLIP2, 'rb') as f:
-                        print("BLIP2 model loading from the cache started.")
+                        log.info("BLIP2 model loading from the cache started.")
                         CachedModel.BLIP2_PROCESSOR = ImageCaptionPipeLine.get_blip2_image_processor()
                         unpickler = pickle.Unpickler(f)
                         CachedModel.BLIP2_MODEL = unpickler.load()
-                        print("BLIP2 model loaded from the cache successfully.")
+                        log.info("BLIP2 model loaded from the cache successfully.")
                         return CachedModel.BLIP2_MODEL
                 except FileNotFoundError:
-                    print(f'''Could not open or find cache file,
+                    log.error(f'''Could not open or find cache file,
         creating cache file @ {CachedModel.CACHE_FILE_BLIP2}
         \nThis may take a while, please wait...''')
                 CachedModel.BLIP2_PROCESSOR = ImageCaptionPipeLine.get_blip2_image_processor()
                 CachedModel.BLIP2_MODEL = ImageCaptionPipeLine.get_blip2_image_caption_pipeline()
                 with open(CachedModel.CACHE_FILE_BLIP2, "wb") as f:
                     dill.dump(CachedModel.BLIP2_MODEL, f)
-                    print(
+                    log.info(
                         f'''Cache has been created at
         {CachedModel.CACHE_FILE_BLIP2} successfully.''')
-                print("BLIP2 model loaded successfully")
+                log.info("BLIP2 model loaded successfully")
                 return CachedModel.BLIP2_MODEL
         """
         if CachedModel.BLIP2_MODEL is None or CachedModel.BLIP2_PROCESSOR is None:

@@ -12,6 +12,7 @@ from email.message import EmailMessage
 from boto3.dynamodb.conditions import Key
 from ..database import TABLE, get_user_id
 from ..hash_password import hash_password
+from logger import log
 
 # pylint: disable=R0903
 # pylint: disable=W0718
@@ -46,7 +47,7 @@ class RegisterUser:
                 )
                 EMAIL_VERIFICATION_UNIQUE_ID[self.username] = unique_id
             except Exception as error:
-                print(f"Unable to send email due to error: \n{error}")
+                log.error(f"Unable to send email due to error: \n{error}")
 
     def register_user(self):
         """

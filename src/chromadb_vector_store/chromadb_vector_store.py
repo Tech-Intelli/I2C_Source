@@ -13,6 +13,7 @@ import hashlib
 import torch
 import chromadb
 from chromadb.config import Settings
+from logger import log
 
 
 def initialize_chroma_client():
@@ -64,7 +65,7 @@ def add_image_to_chroma(collection, unique_id, input_tensor, caption):
     """
     existing_ids = collection.get(ids=[unique_id])
     if existing_ids["ids"] == [unique_id]:
-        print(f"Entry with unique_id {unique_id} already exists. Skipping addition.")
+        log.warn(f"Entry with unique_id {unique_id} already exists. Skipping addition.")
         return
 
     input_tensor_flatten = input_tensor.flatten().tolist()
@@ -74,7 +75,7 @@ def add_image_to_chroma(collection, unique_id, input_tensor, caption):
         ids=[unique_id],
         metadatas=[{"caption": caption, "image_tensor_shape": input_tesnor_shape}],
     )
-    print(f"Added entry with unique_id {unique_id}.")
+    log.info(f"Added entry with unique_id {unique_id}.")
 
 
 def get_unique_image_id(input_tensor):
