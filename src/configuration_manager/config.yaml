@@ -1,0 +1,18 @@
+image_compression:
+  compress: true
+  compression_quality: 30
+  resize_factor: 0.3
+  type: webp
+multimodal:
+  blip: Salesforce/blip2-opt-2.7b
+  vit: nlpconnect/vit-gpt2-image-captioning
+ollama:
+  Phi: phi3
+  llama3: llama3
+  temperature: 1
+  top_p: 0.9
+transform_config:
+  center_crop: 224
+  resize:
+  - 256
+  - 256
