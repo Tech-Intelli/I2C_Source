@@ -15,6 +15,7 @@ import os
 import shutil
 import ollama
 from cached_model import CachedModel
+from cached_model import Blip2Model
 from video_scene_detector import VideoSceneDetector
 
 
@@ -256,10 +257,8 @@ class ImageCaptionGenerator:
             for generating the caption.
         """
         compressed_image_path = image_path
-
-        text = CachedModel.get_blip2_image_caption_pipeline(
-            compressed_image_path, device, collection
-        )
+        cachedModel: CachedModel = Blip2Model(collection)
+        text = cachedModel.get_image_caption_pipeline(image_path)
         caption_length = _get_caption_size(caption_size)
         words = caption_length.split()
         only_length = f"{words[-2]} {words[-1]}"
@@ -353,10 +352,9 @@ class VideoCaptionGenerator:
         #       but typical parallelism implementation
         #       does not work, due to model loading
         #       and other issues.
+        cachedModel: CachedModel = Blip2Model(collection)
         for each_image in image_list:
-            text = CachedModel.get_blip2_image_caption_pipeline(
-                os.path.join(scene_dir, each_image), device, collection
-            )
+            text = cachedModel.get_image_caption_pipeline(os.path.join(scene_dir, each_image))
             all_captions += " " + text
         content = None
         caption_length = _get_caption_size(caption_size)
