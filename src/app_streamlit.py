@@ -10,6 +10,7 @@ import streamlit as st
 import torch
 import generate_caption
 from cached_model import CachedModel
+from cached_model import Blip2Model
 from chromadb_vector_store import initialize_chroma_client
 from chromadb_vector_store import get_chroma_collection
 from image_compressor.image_compressor import compresstoWebP
@@ -20,12 +21,13 @@ from video_scene_detector import SceneDetector, SceneSaver
 
 
 @timer_decorator
-def load_model():
+def load_model(chroma_collection):
     """
     Loads the model
     """
+    cached_model: CachedModel = Blip2Model(chroma_collection)
     if "model_loaded" not in st.session_state:
-        CachedModel.load_blip2()
+        cached_model.load_model()
         st.session_state["model_loaded"] = True
 
 
@@ -39,7 +41,7 @@ def initialize_resources():
     chroma_collection = get_chroma_collection(
         initialize_chroma_client(), "image_caption_vector"
     )
-    load_model()
+    load_model(chroma_collection)
     return image_caption_gen, chatbot, giphy_image, chroma_collection
 
 

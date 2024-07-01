@@ -8,6 +8,7 @@ import os
 import gc
 import warnings
 import concurrent.futures
+from abc import ABC, abstractmethod
 from pathlib import Path
 import torch
 from torchvision import transforms
@@ -19,32 +20,31 @@ from logger import log
 
 warnings.filterwarnings("ignore")
 
-
-class CachedModel:
+class CachedModel(ABC):
     """
-    A class that provides a way to cache and retrieve an image caption
-    pipeline using PyTorch's native serialization methods.
-
-    Attributes:
-        CACHE_DIR (str): The path to the cache directory.
-        CACHE_FILE (str): The path to the file where the image caption
-        pipeline is stored.
+    Abstract base class for caching and retrieving models.
 
     Methods:
         get_image_caption_pipeline(image_path: str) -> ImageCaptionPipeLine:
-            Returns the image caption pipeline for the specified image path.
-            If the pipeline is not cached, it
-            will be created and cached using the
-            `ImageCaptionPipeLine.get_image_caption_pipeline()` method.
+            Abstract method to be implemented for retrieving the image caption pipeline.
     """
 
     CACHE_DIR = os.path.join(Path.cwd(), ".cache")
     Path(CACHE_DIR).mkdir(parents=True, exist_ok=True)
-    CACHE_FILE = os.path.join(CACHE_DIR, "image_caption_pipeline.pt")
-    CACHE_FILE_BLIP2 = os.path.join(CACHE_DIR, "blip2_8bit.pkl")
-    BLIP2_MODEL = None
-    BLIP2_PROCESSOR = None
 
+    def __init__(self, cache_file, collection):
+        """
+        Initializes a new instance of the CachedModel class.
+
+        Args:
+            cache_file (str): The name of the cache file.
+            collection (str): The name of the chromadb collection.
+
+        Returns:
+            None
+        """
+        self.cache_file = os.path.join(self.CACHE_DIR, cache_file)
+        self.collection = collection
     @staticmethod
     def get_device():
         """Returns the device to be used for PyTorch operations."""
@@ -66,8 +66,24 @@ class CachedModel:
         """Loads an image from the specified path and returns it."""
         return Image.open(image_path).convert("RGB")
 
-    @staticmethod
-    def get_image_caption_pipeline(image_path):
+    @abstractmethod
+    def get_image_caption_pipeline(self, image_path):
+        pass
+
+    @abstractmethod
+    def load_model(self):
+        pass
+
+
+class ImageCaptionModel(CachedModel):
+    """
+    Concrete class for caching and retrieving an image caption pipeline.
+    """
+
+    def __init__(self):
+        super().__init__("image_caption_pipeline.pt", None)
+
+    def get_image_caption_pipeline(self, image_path):
         """
         Returns the image caption pipeline for the specified image path.
         If the pipeline is not cached, it
@@ -81,17 +97,13 @@ class CachedModel:
         Returns:
             The image caption pipeline for the specified image path.
         """
-
-        device = CachedModel.get_device()
-        transform = CachedModel.get_transform()
-
-        # pylint: disable=E1101
-        # pylint: disable=W0105
+        device = self.get_device()
+        transform = self.get_transform()
 
         try:
-            with open(CachedModel.CACHE_FILE, "rb") as f:
+            with open(self.cache_file, "rb") as f:
                 image_pipeline = torch.load(f, map_location=device)
-                image = CachedModel.load_image(image_path)
+                image = self.load_image(image_path)
                 image_input = transform(image).unsqueeze(0).to(device)
                 if hasattr(image_pipeline, "to"):
                     image_pipeline = image_pipeline.to(device)
@@ -102,15 +114,37 @@ class CachedModel:
         log.info(f"Creating cache file @ {CachedModel.CACHE_FILE}, please wait...")
 
         image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
-        with open(CachedModel.CACHE_FILE, "wb") as f:
+        with open(self.cache_file, "wb") as f:
             torch.save(image_pipeline, f)
             log.info(
                 f"""Cache has been created at {CachedModel.CACHE_FILE} successfully."""
             )
         return image_pipeline(image_path)
 
-    @staticmethod
-    def get_blip2_image_caption_pipeline(image_path, device="cpu", collection=None):
+    def load_model(self):
+        """Loads the model if it's not already cached."""
+        if not os.path.exists(self.cache_file):
+            print(f"Creating cache file @ {self.cache_file}, please wait...")
+            image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
+            with open(self.cache_file, "wb") as f:
+                torch.save(image_pipeline, f)
+                print(f"Cache has been created at {self.cache_file} successfully.")
+        else:
+            print(f"Model loaded from cache @ {self.cache_file}")
+
+
+class Blip2Model(CachedModel):
+    """
+    Concrete class for caching and retrieving the BLIP2 image caption pipeline.
+    """
+
+    BLIP2_MODEL = None
+    BLIP2_PROCESSOR = None
+
+    def __init__(self, collection):
+        super().__init__("blip2_8bit.pth", collection)
+
+    def get_image_caption_pipeline(self, image_path):
         """
         Returns the image caption pipeline for the specified image path.
         If the pipeline is not cached, it
@@ -124,15 +158,14 @@ class CachedModel:
         Returns:
             The image caption pipeline for the specified image path.
         """
+        device = self.get_device()
         os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
         image = CachedModel.load_image(image_path)
-        # pylint: disable=E1102
-
-        inputs = CachedModel.BLIP2_PROCESSOR(images=image, return_tensors="pt").to(
+        inputs = Blip2Model.BLIP2_PROCESSOR(images=image, return_tensors="pt").to(
             device, torch.float16
         )
-        generated_ids = CachedModel.BLIP2_MODEL.generate(**inputs)
-        generated_text = CachedModel.BLIP2_PROCESSOR.batch_decode(
+        generated_ids = Blip2Model.BLIP2_MODEL.generate(**inputs)
+        generated_text = Blip2Model.BLIP2_PROCESSOR.batch_decode(
             generated_ids, skip_special_tokens=True
         )[0].strip()
 
@@ -150,53 +183,30 @@ class CachedModel:
 
             unique_id_future.add_done_callback(
                 lambda fut: store_in_chroma_db(
-                    fut, collection, pixel_values, generated_text
+                    fut, self.collection, pixel_values, generated_text
                 )
             )
             del inputs
         del generated_ids
         return generated_text
 
-    @staticmethod
-    def load_blip2():
+    def load_model(self):
         """
-                Load the blip2 image caption model.
-                If the pipeline is not cached, it
-                will be created and cached using the
-                `ImageCaptionPipeLine.get_blip2_image_caption_pipeline()` method.
+        Loads the BLIP2 model if it's not already cached.
 
-                Args:
-                    None.
+        This function checks if the BLIP2_MODEL and BLIP2_PROCESSOR attributes of the Blip2Model class are None.
+        If they are, it initializes them by calling the get_blip2_image_processor() and get_blip2_image_caption_pipeline() 
+        methods from the ImageCaptionPipeLine class. It then saves the BLIP2_MODEL and BLIP2_PROCESSOR attributes to a 
+        cache file specified by the cache_file attribute of the current instance.
 
-                Returns:
-                    None.
-                try:
-                    with open(CachedModel.CACHE_FILE_BLIP2, 'rb') as f:
-                        log.info("BLIP2 model loading from the cache started.")
-                        CachedModel.BLIP2_PROCESSOR = ImageCaptionPipeLine.get_blip2_image_processor()
-                        unpickler = pickle.Unpickler(f)
-                        CachedModel.BLIP2_MODEL = unpickler.load()
-                        log.info("BLIP2 model loaded from the cache successfully.")
-                        return CachedModel.BLIP2_MODEL
-                except FileNotFoundError:
-                    log.error(f'''Could not open or find cache file,
-        creating cache file @ {CachedModel.CACHE_FILE_BLIP2}
-        \nThis may take a while, please wait...''')
-                CachedModel.BLIP2_PROCESSOR = ImageCaptionPipeLine.get_blip2_image_processor()
-                CachedModel.BLIP2_MODEL = ImageCaptionPipeLine.get_blip2_image_caption_pipeline()
-                with open(CachedModel.CACHE_FILE_BLIP2, "wb") as f:
-                    dill.dump(CachedModel.BLIP2_MODEL, f)
-                    log.info(
-                        f'''Cache has been created at
-        {CachedModel.CACHE_FILE_BLIP2} successfully.''')
-                log.info("BLIP2 model loaded successfully")
-                return CachedModel.BLIP2_MODEL
+        If the BLIP2_MODEL and BLIP2_PROCESSOR attributes are not None, it prints a message indicating that the model has been loaded from the cache.
+
+        Parameters:
+            self (Blip2Model): The current instance of the Blip2Model class.
+
+        Returns:
+            None
         """
-        if CachedModel.BLIP2_MODEL is None or CachedModel.BLIP2_PROCESSOR is None:
-            CachedModel.BLIP2_PROCESSOR = (
-                ImageCaptionPipeLine.get_blip2_image_processor()
-            )
-            CachedModel.BLIP2_MODEL = (
-                ImageCaptionPipeLine.get_blip2_image_caption_pipeline()
-            )
-        return CachedModel.BLIP2_MODEL
+        Blip2Model.BLIP2_PROCESSOR = ImageCaptionPipeLine.get_blip2_image_processor() if Blip2Model.BLIP2_PROCESSOR is None else Blip2Model.BLIP2_PROCESSOR
+        Blip2Model.BLIP2_MODEL = ImageCaptionPipeLine.get_blip2_image_caption_pipeline() if Blip2Model.BLIP2_MODEL is None else Blip2Model.BLIP2_MODEL
+        return Blip2Model.BLIP2_MODEL
