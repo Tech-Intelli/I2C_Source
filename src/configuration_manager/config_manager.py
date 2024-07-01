@@ -8,6 +8,7 @@ from prettytable import PrettyTable
 from logger import log
 
 
+
 @dataclass
 class MultiModalConfig:
     blip: str = "Salesforce/blip2-opt-2.7b"
@@ -192,6 +193,7 @@ class ConfigManager:
         self._populate_table(config_dict, table)
         log.info(table.get_string(sortby="Parameter"))
 
+
     @staticmethod
     def _populate_table(config_dict, table, parent_key=""):
         """
@@ -301,7 +303,9 @@ class ConfigFileChangeHandler(FileSystemEventHandler):
             None
         """
         if event.src_path == self.config_manager.config_file:
+
             log.info(
+
                 f"Configuration file {self.config_manager.config_file} changed, reloading."
             )
             self.config_manager.load_config()
