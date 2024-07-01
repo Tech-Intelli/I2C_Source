@@ -10,7 +10,7 @@ import streamlit as st
 import torch
 import generate_caption
 from cached_model import CachedModel
-from cached_model import Blip2Model
+from cached_model.blip2_model import Blip2Model
 from chromadb_vector_store import initialize_chroma_client
 from chromadb_vector_store import get_chroma_collection
 from image_compressor.image_compressor import compresstoWebP
