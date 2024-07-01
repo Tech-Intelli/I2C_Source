@@ -7,6 +7,7 @@ import jwt
 from src.login.authenticate_user import AuthenticateUser
 from src.login.database import TABLE
 from src.login.hash_password import hash_password
+from logger import log
 
 
 def test_authenticate_user_correct_password(mocker):
@@ -113,8 +114,8 @@ def test_authentication_token(mocker):
     try:
         payload = jwt.decode(token, os.environ["AUTH_SECRET_KEY"], algorithms=["HS256"])
         email = payload["email"]
-        print(username)
-        print(email)
+        log.info(username)
+        log.info(email)
         assert username == email
     except jwt.ExpiredSignatureError:
         assert False

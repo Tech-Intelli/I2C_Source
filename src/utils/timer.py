@@ -3,6 +3,7 @@ from functools import wraps
 import logging
 import tracemalloc
 from threading import Lock
+from logger import log
 
 
 def timer_decorator(func):
@@ -16,7 +17,9 @@ def timer_decorator(func):
         result = func(*args, **kwargs)
         end_time = time.time()
         elapsed_time = end_time - start_time
-        print(f"Function '{func.__name__}' took {elapsed_time:.4f} seconds to execute.")
+        log.info(
+            f"Function '{func.__name__}' took {elapsed_time:.4f} seconds to execute."
+        )
         return result
 
     return wrapper
@@ -97,7 +100,7 @@ def advanced_timer_decorator(
                 logging.info(log_message)
 
                 if log_to_console:
-                    print(log_message)
+                    log.info(log_message)
 
             return result
 

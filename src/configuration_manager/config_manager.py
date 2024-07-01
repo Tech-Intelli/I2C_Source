@@ -5,6 +5,7 @@ from typing import Type, Any
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from prettytable import PrettyTable
+from logger import log
 
 
 @dataclass
@@ -189,7 +190,7 @@ class ConfigManager:
         config_dict = asdict(self.app_config)
         table = PrettyTable(field_names=["Parameter", "Value"], align="l")
         self._populate_table(config_dict, table)
-        print(table.get_string(sortby="Parameter"))
+        log.info(table.get_string(sortby="Parameter"))
 
     @staticmethod
     def _populate_table(config_dict, table, parent_key=""):
@@ -300,7 +301,8 @@ class ConfigFileChangeHandler(FileSystemEventHandler):
             None
         """
         if event.src_path == self.config_manager.config_file:
-            print(
+
+            log.info(
                 f"Configuration file {self.config_manager.config_file} changed, reloading."
             )
             self.config_manager.load_config()

@@ -5,6 +5,7 @@ Module for creating s3 buckets, upload and download images.
 # pylint: disable=E0401
 import logging
 import boto3
+from logger import log
 
 # pylint: disable=W0718
 
@@ -109,7 +110,7 @@ class AwsS3:
                 ExpiresIn=3600,
             )
         except Exception as error:
-            print(f"Error creating presigned url: {error}")
+            log.error(f"Error creating presigned url: {error}")
             return None
         return presigned_url
 

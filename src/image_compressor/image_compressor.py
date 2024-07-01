@@ -10,6 +10,7 @@ Returns:
 import os
 import io
 from PIL import Image
+from logger import log
 
 
 def compress_jpg(
@@ -69,6 +70,8 @@ def compresstoWebP(
     compressed_image.seek(0)
 
     new_size_bytes = compressed_image.getbuffer().nbytes
-    print(f"File has been compressed from {old_size} bytes to {new_size_bytes} bytes.")
+    log.info(
+        f"File has been compressed from {old_size} bytes to {new_size_bytes} bytes."
+    )
 
     return compressed_image

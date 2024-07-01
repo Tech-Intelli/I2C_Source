@@ -9,6 +9,7 @@ import jwt
 from boto3.dynamodb.conditions import Key
 from ..database import TABLE, get_user_id
 from ..hash_password import hash_password
+from logger import log
 
 # pylint: disable=R0903
 
@@ -30,7 +31,7 @@ class AuthenticateUser:
         if not response["Items"]:
             return False
         if not response["Items"][0]["verified"]:
-            print("Please verify your email address.")
+            log.info("Please verify your email address.")
             return False
         hashed_password = response["Items"][0]["password"]
         return (len(response["Items"]) != 0) and (
