@@ -8,7 +8,7 @@ import os
 import shutil
 import ollama
 from cached_model import CachedModel
-from cached_model import Blip2Model
+from cached_model.blip2_model import Blip2Model
 from video_scene_detector import VideoSceneDetector
 
 
