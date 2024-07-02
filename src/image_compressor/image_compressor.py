@@ -4,9 +4,6 @@ Returns:
     str: Compressed Image Path
 """
 
-# pylint: disable=E0401
-# pylint: disable=R0903
-
 import os
 import io
 from PIL import Image

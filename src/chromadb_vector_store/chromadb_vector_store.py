@@ -6,8 +6,6 @@
     Returns:
 """
 
-# pylint: disable=E0401
-# pylint: disable=W0702
 import uuid
 import hashlib
 import torch

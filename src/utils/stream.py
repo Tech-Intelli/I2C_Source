@@ -19,7 +19,7 @@ async def stream_text(stream, batch_size=5, sleep_time=0.01):
     batch = []
 
     for chunk in stream:
-        message_content = chunk["message"]["content"].replace("\n", "<br>")
+        message_content = chunk["message"]["content"]
         batch.append(message_content)
 
         if len(batch) >= batch_size:

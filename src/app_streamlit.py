@@ -10,7 +10,7 @@ import streamlit as st
 import torch
 import generate_caption
 from cached_model import CachedModel
-from cached_model import Blip2Model
+from cached_model.blip2_model import Blip2Model
 from chromadb_vector_store import initialize_chroma_client
 from chromadb_vector_store import get_chroma_collection
 from image_compressor.image_compressor import compresstoWebP
@@ -34,8 +34,20 @@ def load_model(chroma_collection):
 # Initialize resources
 @st.cache_resource
 def initialize_resources():
+    """
+    Initializes and loads resources for the application.
 
-    chatbot = generate_caption.Chatbot()
+    This function is decorated with `@st.cache_resource`, which means it will only be executed once per session and its result will be cached for future use.
+
+    Returns:
+        Tuple: A tuple containing the following resources:
+            - `image_caption_gen` (generate_caption.ImageCaptionGenerator): An instance of the ImageCaptionGenerator class initialized with a chatbot.
+            - `chatbot` (generate_caption.Chatbot): An instance of the Chatbot class.
+            - `giphy_image` (str): The path to the giphy.gif image file.
+            - `chroma_collection` (chromadb_vector_store.ChromaCollection): A ChromaCollection instance representing the image_caption_vector collection.
+
+    """
+    chatbot = generate_caption.LLMChatbot()
     image_caption_gen = generate_caption.ImageCaptionGenerator(chatbot)
     giphy_image = os.path.join(Path.cwd(), "../resources", "giphy.gif")
     chroma_collection = get_chroma_collection(

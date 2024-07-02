@@ -8,14 +8,11 @@ import uuid
 import smtplib
 from email.message import EmailMessage
 
-# pylint: disable=E0401
 from boto3.dynamodb.conditions import Key
 from ..database import TABLE, get_user_id
 from ..hash_password import hash_password
 from logger import log
 
-# pylint: disable=R0903
-# pylint: disable=W0718
 
 EMAIL_VERIFICATION_UNIQUE_ID = {}
 
