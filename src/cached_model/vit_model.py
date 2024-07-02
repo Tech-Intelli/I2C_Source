@@ -1,5 +1,6 @@
 from cached_model import CachedModel
-from image_caption import ImageCaptionPipeLine
+from image_caption import ImageCaptioningPipeline
+from image_caption import ViTGPT2ImageCaptioningPipeline
 from logger import log
 import torch
 
@@ -11,7 +12,7 @@ class VITModel(CachedModel):
 
     def __init__(self):
         super().__init__("image_caption_pipeline.pt", None)
-
+        self.image_captioning_pipeline: ImageCaptioningPipeline = ViTGPT2ImageCaptioningPipeline()
     def get_image_caption_pipeline(self, image_path):
         """
         Returns the image caption pipeline for the specified image path.
@@ -41,8 +42,7 @@ class VITModel(CachedModel):
             log.error(f"Error loading cached pipeline: {e}")
 
         log.info(f"Creating cache file @ {CachedModel.CACHE_FILE}, please wait...")
-
-        image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
+        image_pipeline = self.image_captioning_pipeline.get_image_caption_pipeline()
         with open(self.cache_file, "wb") as f:
             torch.save(image_pipeline, f)
             log.info(
@@ -54,7 +54,7 @@ class VITModel(CachedModel):
         """Loads the model if it's not already cached."""
         if not os.path.exists(self.cache_file):
             print(f"Creating cache file @ {self.cache_file}, please wait...")
-            image_pipeline = ImageCaptionPipeLine.get_image_caption_pipeline()
+            image_pipeline = self.image_captioning_pipeline.get_image_caption_pipeline()
             with open(self.cache_file, "wb") as f:
                 torch.save(image_pipeline, f)
                 print(f"Cache has been created at {self.cache_file} successfully.")
