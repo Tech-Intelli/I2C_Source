@@ -2,6 +2,7 @@ from generate_caption import CaptionGenerator
 from cached_model import CachedModel
 from cached_model.blip2_model import Blip2Model
 
+
 class ImageCaptionGenerator(CaptionGenerator):
     """
     A class that generates captions for images using a chatbot.
@@ -38,8 +39,14 @@ class ImageCaptionGenerator(CaptionGenerator):
         cachedModel: CachedModel = Blip2Model(collection)
         text = cachedModel.get_image_caption_pipeline(image_path)
         content = self._generate_content(
-            text, caption_size, context, style, tone, num_hashtags, location, social_media
+            text,
+            caption_size,
+            context,
+            style,
+            tone,
+            num_hashtags,
+            location,
+            social_media,
         )
         stream_caption = self._generate_caption_with_hashtags(content, num_hashtags)
         return stream_caption, compressed_image_path
-
