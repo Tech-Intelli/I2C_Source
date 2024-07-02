@@ -16,3 +16,4 @@ gunicorn
 Flask-Session
 gevent
 dill
+colorama
