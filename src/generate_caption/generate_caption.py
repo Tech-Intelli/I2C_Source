@@ -159,19 +159,20 @@ class VideoCaptionGenerator:
         #       does not work, due to model loading
         #       and other issues.
         cachedModel: CachedModel = Blip2Model(collection)
+        prompt: Prompt = Prompt()
         for each_image in image_list:
             text = cachedModel.get_image_caption_pipeline(
                 os.path.join(scene_dir, each_image)
             )
             all_captions += " " + text
         content = None
-        caption_length = _get_caption_size(caption_size)
+        caption_length = prompt._get_caption_size(caption_size)
         words = caption_length.split()
         only_length = f"{words[-2]} {words[-1]}"
         if context is not None or context != "":
-            template = read_prompt_template("prompt_template/prompt_with_context.txt")
+            template = prompt._read_prompt_template("prompt_template/prompt_with_context.txt")
         else:
-            template = read_prompt_template(
+            template = prompt._read_prompt_template(
                 "prompt_template/prompt_without_context.txt"
             )
         content = template.format(
@@ -185,6 +186,9 @@ class VideoCaptionGenerator:
             num_hashtags=num_hashtags,
             only_length=only_length,
         )
-        stream_caption = self.chatbot.get_stream_response(content)
+        hashtag: Hashtag = Hashtag(content, self.chatbot)
+        stream_caption = self.chatbot.get_stream_response(
+            hashtag.generate_hashtagged_caption(num_hashtags)
+        )
         shutil.rmtree(scene_dir, ignore_errors=True)
         return stream_caption
