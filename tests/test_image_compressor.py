@@ -2,9 +2,11 @@ import os
 from unittest.mock import patch, mock_open
 from src.image_compressor import image_compressor
 
+
 def save_bytesio_to_file(bytesio_obj, output_path):
-    with open(output_path, 'wb') as file:
+    with open(output_path, "wb") as file:
         file.write(bytesio_obj.getvalue())
+
 
 def test_compresstoWebP():
     """
@@ -17,10 +19,12 @@ def test_compresstoWebP():
     )
     with open(image_path, "rb") as image_file:
         image_data = image_file.read()
-    
+
     # Compress and save to a temporary file
     compressed_image_stream = image_compressor.compresstoWebP(image_data)
-    compressed_path = os.path.join(current_directory, "test_resources", "images", "compressed_image.webp")
+    compressed_path = os.path.join(
+        current_directory, "test_resources", "images", "compressed_image.webp"
+    )
     save_bytesio_to_file(compressed_image_stream, compressed_path)
 
     assert os.path.isfile(compressed_path)
@@ -32,10 +36,14 @@ def test_compresstoWebP():
     with open(image_path, "rb") as image_file:
         image_data = image_file.read()
     compression_quality = 70
-    
+
     # Compress and save to a temporary file
-    compressed_image_stream = image_compressor.compresstoWebP(image_data, compression_quality)
-    compressed_path = os.path.join(current_directory, "test_resources", "images", "compressed_image_quality70.webp")
+    compressed_image_stream = image_compressor.compresstoWebP(
+        image_data, compression_quality
+    )
+    compressed_path = os.path.join(
+        current_directory, "test_resources", "images", "compressed_image_quality70.webp"
+    )
     save_bytesio_to_file(compressed_image_stream, compressed_path)
 
     assert os.path.isfile(compressed_path)
