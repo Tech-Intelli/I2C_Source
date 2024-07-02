@@ -20,7 +20,7 @@ class OllamaConfig:
     use: str = "Phi"
     temperature: int = 1
     top_p: float = 0.9
-    stream: bool = False 
+    stream: bool = False
 
 
 @dataclass
@@ -28,8 +28,8 @@ class ImageCompressionConfig:
     type: str = "webp"
     compress: bool = True
     compression_quality: int = 50
-    resize_factor: float = 0.5   
-  
+    resize_factor: float = 0.5
+
 
 @dataclass
 class TransformConfig:

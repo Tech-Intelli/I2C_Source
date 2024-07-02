@@ -354,7 +354,9 @@ class VideoCaptionGenerator:
         #       and other issues.
         cachedModel: CachedModel = Blip2Model(collection)
         for each_image in image_list:
-            text = cachedModel.get_image_caption_pipeline(os.path.join(scene_dir, each_image))
+            text = cachedModel.get_image_caption_pipeline(
+                os.path.join(scene_dir, each_image)
+            )
             all_captions += " " + text
         content = None
         caption_length = _get_caption_size(caption_size)
