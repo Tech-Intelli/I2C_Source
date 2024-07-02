@@ -34,7 +34,7 @@ jobs:
     - name: Generate documentation
       run: |
         # Generate docs for all modules under src
-        pdoc --html --output-dir docs src
+        pdoc --html --skip-errors --output-dir docs src
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
