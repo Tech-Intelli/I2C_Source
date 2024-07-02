@@ -1,6 +1,6 @@
 from cached_model import CachedModel
 from image_caption import ImageCaptioningPipeline
-from image_caption import ViTGPT2ImageCaptioningPipeline
+from image_caption.vit_image_captioning_pipeline import ViTGPT2ImageCaptioningPipeline
 from logger import log
 import torch
 
