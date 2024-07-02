@@ -48,13 +48,16 @@ def initialize_resources():
 
     """
     chatbot = generate_caption.LLMChatbot()
-    image_caption_gen = generate_caption.ImageCaptionGenerator(chatbot)
+    image_caption_gen: generate_caption.CaptionGenerator = generate_caption.ImageCaptionGenerator(chatbot)
+    video_caption_generator: generate_caption.CaptionGenerator = generate_caption.VideoCaptionGenerator(
+            chatbot, SceneDetector(), SceneSaver()
+    )
     giphy_image = os.path.join(Path.cwd(), "../resources", "giphy.gif")
     chroma_collection = get_chroma_collection(
         initialize_chroma_client(), "image_caption_vector"
     )
     load_model(chroma_collection)
-    return image_caption_gen, chatbot, giphy_image, chroma_collection
+    return image_caption_gen, video_caption_generator, giphy_image, chroma_collection
 
 
 @st.cache_data
@@ -83,7 +86,7 @@ def compress_image(uploaded_file):
 
 
 def process_and_generate_caption(
-    file_path, file_extension, params, image_caption_gen, chatbot
+    file_path, file_extension, params, image_caption_gen, video_caption_generator,
 ):
     """
     Process the uploaded file and generate a caption.
@@ -107,9 +110,6 @@ def process_and_generate_caption(
         st.image(compressed_image_path)
     elif file_extension in (".mp4", ".mov"):
         # TODO : Revisit this for lazy loading of video
-        video_caption_generator = generate_caption.VideoCaptionGenerator(
-            chatbot, SceneDetector(), SceneSaver()
-        )
         caption = video_caption_generator.generate_caption(
             "Anywhere on earth",
             file_path,
@@ -135,7 +135,7 @@ def app():
     if "resources" not in st.session_state:
         st.session_state["resources"] = initialize_resources()
 
-    image_caption_gen, chatbot, giphy_image, chroma_collection = st.session_state[
+    image_caption_gen, video_caption_generator, giphy_image, chroma_collection = st.session_state[
         "resources"
     ]
 
@@ -205,7 +205,7 @@ def app():
                     "chroma_collection": chroma_collection,
                 },
                 image_caption_gen,
-                chatbot,
+                video_caption_generator,
             )
 
 
