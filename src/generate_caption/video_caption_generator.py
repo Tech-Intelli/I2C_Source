@@ -5,6 +5,7 @@ from cached_model import CachedModel
 from cached_model.blip2_model import Blip2Model
 from video_scene_detector import VideoSceneDetector
 
+
 class VideoCaptionGenerator(CaptionGenerator):
     """
     A class that generates captions for videos using a chatbot.
@@ -59,7 +60,14 @@ class VideoCaptionGenerator(CaptionGenerator):
             all_captions += " " + text
 
         content = self._generate_content(
-            all_captions, caption_size, context, style, tone, num_hashtags, location, social_media
+            all_captions,
+            caption_size,
+            context,
+            style,
+            tone,
+            num_hashtags,
+            location,
+            social_media,
         )
         stream_caption = self._generate_caption_with_hashtags(content, num_hashtags)
         shutil.rmtree(scene_dir, ignore_errors=True)

@@ -5,10 +5,10 @@ from transformers import (
     Blip2ForConditionalGeneration,
     BitsAndBytesConfig,
 )
-from image_caption import ImageCaptioningPipeline
+from image_captioning_pipeline import ImageCaptioningPipeline
 
 
-class Blip2ImageCaptioningPipeline(ImageCaptioningPipeline):
+class Blip2Pipeline(ImageCaptioningPipeline):
     """
     A class for generating captions from images using the BLIP2 model.
     """
@@ -21,20 +21,18 @@ class Blip2ImageCaptioningPipeline(ImageCaptioningPipeline):
     @staticmethod
     def _initialize_blip2():
         """Initializes the BLIP2 model and processor if not already initialized."""
-        if Blip2ImageCaptioningPipeline._model is None:
+        if Blip2Pipeline._model is None:
             quantization_config = BitsAndBytesConfig(
                 load_in_8bit=True, llm_int8_threshold=5.0
             )
-            Blip2ImageCaptioningPipeline._model = (
-                Blip2ForConditionalGeneration.from_pretrained(
-                    Blip2ImageCaptioningPipeline.MODEL_NAME,
-                    torch_dtype=torch.float16,
-                    device_map="auto",
-                    quantization_config=quantization_config,
-                )
+            Blip2Pipeline._model = Blip2ForConditionalGeneration.from_pretrained(
+                Blip2Pipeline.MODEL_NAME,
+                torch_dtype=torch.float16,
+                device_map="auto",
+                quantization_config=quantization_config,
             )
-            Blip2ImageCaptioningPipeline._processor = AutoProcessor.from_pretrained(
-                Blip2ImageCaptioningPipeline.MODEL_NAME
+            Blip2Pipeline._processor = AutoProcessor.from_pretrained(
+                Blip2Pipeline.MODEL_NAME
             )
 
     def get_image_caption_pipeline(self) -> Pipeline:
@@ -42,12 +40,12 @@ class Blip2ImageCaptioningPipeline(ImageCaptioningPipeline):
         Returns a pipeline for generating captions from images
         using the BLIP2 model.
         """
-        Blip2ImageCaptioningPipeline._initialize_blip2()
-        return Blip2ImageCaptioningPipeline._model
+        Blip2Pipeline._initialize_blip2()
+        return Blip2Pipeline._model
 
     def get_image_processor(self) -> AutoProcessor:
         """
         Returns the image processor for the BLIP2 model.
         """
-        Blip2ImageCaptioningPipeline._initialize_blip2()
-        return Blip2ImageCaptioningPipeline._processor
+        Blip2Pipeline._initialize_blip2()
+        return Blip2Pipeline._processor

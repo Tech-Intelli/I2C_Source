@@ -3,6 +3,7 @@
     Returns:
         str: Caption
 """
+
 from abc import ABC, abstractmethod
 from generate_caption.hashtag import Hashtag
 from generate_caption.prompt import Prompt
@@ -81,6 +82,3 @@ class CaptionGenerator(ABC):
             hashtag.generate_hashtagged_caption(num_hashtags)
         )
         return stream_caption
-
-
-

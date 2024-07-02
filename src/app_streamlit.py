@@ -48,9 +48,11 @@ def initialize_resources():
 
     """
     chatbot = generate_caption.LLMChatbot()
-    image_caption_gen: generate_caption.CaptionGenerator = generate_caption.ImageCaptionGenerator(chatbot)
-    video_caption_generator: generate_caption.CaptionGenerator = generate_caption.VideoCaptionGenerator(
-            chatbot, SceneDetector(), SceneSaver()
+    image_caption_gen: generate_caption.CaptionGenerator = (
+        generate_caption.ImageCaptionGenerator(chatbot)
+    )
+    video_caption_generator: generate_caption.CaptionGenerator = (
+        generate_caption.VideoCaptionGenerator(chatbot, SceneDetector(), SceneSaver())
     )
     giphy_image = os.path.join(Path.cwd(), "../resources", "giphy.gif")
     chroma_collection = get_chroma_collection(
@@ -86,7 +88,11 @@ def compress_image(uploaded_file):
 
 
 def process_and_generate_caption(
-    file_path, file_extension, params, image_caption_gen, video_caption_generator,
+    file_path,
+    file_extension,
+    params,
+    image_caption_gen,
+    video_caption_generator,
 ):
     """
     Process the uploaded file and generate a caption.
@@ -135,9 +141,9 @@ def app():
     if "resources" not in st.session_state:
         st.session_state["resources"] = initialize_resources()
 
-    image_caption_gen, video_caption_generator, giphy_image, chroma_collection = st.session_state[
-        "resources"
-    ]
+    image_caption_gen, video_caption_generator, giphy_image, chroma_collection = (
+        st.session_state["resources"]
+    )
 
     uploaded_file = st.file_uploader(
         "Upload Image or Video", type=["jpg", "jpeg", "png", "mp4", "mov"]

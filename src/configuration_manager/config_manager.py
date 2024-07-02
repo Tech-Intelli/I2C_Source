@@ -16,6 +16,7 @@ from configuration_manager.config_models import (
 from datetime import datetime
 from logger import log
 
+
 @dataclass
 class AppConfig:
 
@@ -173,7 +174,7 @@ class ConfigManager:
 
     def save_config(self):
         """
-        Saves the current configuration to a versioned file by generating the versioned file name, 
+        Saves the current configuration to a versioned file by generating the versioned file name,
         dumping the configuration using yaml.safe_dump, and updating the main config file with a new version number.
         """
         # Generate versioned file name

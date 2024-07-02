@@ -3,8 +3,8 @@ import gc
 import concurrent.futures
 import torch
 from cached_model import CachedModel
-from image_caption import ImageCaptioningPipeline
-from image_caption.blip2_image_captioning_pipeline import Blip2ImageCaptioningPipeline
+from image_captioning_pipeline import ImageCaptioningPipeline
+from image_captioning_pipeline.blip2_pipeline import Blip2Pipeline
 from chromadb_vector_store import get_unique_image_id
 from chromadb_vector_store import add_image_to_chroma
 
@@ -19,9 +19,7 @@ class Blip2Model(CachedModel):
 
     def __init__(self, collection):
         super().__init__("blip2_8bit.pkl", collection)
-        self.image_captioning_pipeline: ImageCaptioningPipeline = (
-            Blip2ImageCaptioningPipeline()
-        )
+        self.image_captioning_pipeline: ImageCaptioningPipeline = Blip2Pipeline()
 
     def get_image_caption_pipeline(self, image_path):
         """
