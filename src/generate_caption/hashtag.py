@@ -1,5 +1,5 @@
 class Hashtag:
-    
+
     def __init__(self, caption, chatbot):
         """
         Initializes a new Hashtag instance.
@@ -25,7 +25,6 @@ class Hashtag:
         cleaned_caption = " ".join(word for word in words if not word.startswith("#"))
         return cleaned_caption, hashtags
 
-
     def _find_synonyms(self, word):
         """
         Find synonyms for a given word using Ollama.
@@ -39,7 +38,6 @@ class Hashtag:
         response = self.chatbot.get_response(f"Find synonyms for the word '{word}'.")
         synonyms = response["choices"][0]["text"].strip().split(", ")
         return synonyms
-
 
     def generate_additional_hashtags(self, existing_hashtags, num_needed):
         """
@@ -68,7 +66,6 @@ class Hashtag:
                     additional_hashtags.append(f"#{synonym}")
 
         return additional_hashtags
-
 
     def generate_hashtagged_caption(self, num_tags):
         """

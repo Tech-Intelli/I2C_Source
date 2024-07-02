@@ -11,6 +11,8 @@ from cached_model.blip2_model import Blip2Model
 from video_scene_detector import VideoSceneDetector
 from generate_caption.hashtag import Hashtag
 from generate_caption.prompt import Prompt
+
+
 class ImageCaptionGenerator:
     """
     A class that generates captions for images using a chatbot.
@@ -70,7 +72,9 @@ class ImageCaptionGenerator:
         only_length = f"{words[-2]} {words[-1]}"
         content = None
         if context is not None or context != "":
-            template = prompt._read_prompt_template("prompt_template/prompt_with_context.txt")
+            template = prompt._read_prompt_template(
+                "prompt_template/prompt_with_context.txt"
+            )
         else:
             template = prompt._read_prompt_template(
                 "prompt_template/prompt_without_context.txt"
@@ -170,7 +174,9 @@ class VideoCaptionGenerator:
         words = caption_length.split()
         only_length = f"{words[-2]} {words[-1]}"
         if context is not None or context != "":
-            template = prompt._read_prompt_template("prompt_template/prompt_with_context.txt")
+            template = prompt._read_prompt_template(
+                "prompt_template/prompt_with_context.txt"
+            )
         else:
             template = prompt._read_prompt_template(
                 "prompt_template/prompt_without_context.txt"

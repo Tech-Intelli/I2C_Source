@@ -3,9 +3,10 @@ from transformers import (
     Pipeline,
     AutoProcessor,
     Blip2ForConditionalGeneration,
-    BitsAndBytesConfig
+    BitsAndBytesConfig,
 )
 from image_caption import ImageCaptioningPipeline
+
 
 class Blip2ImageCaptioningPipeline(ImageCaptioningPipeline):
     """
@@ -24,11 +25,13 @@ class Blip2ImageCaptioningPipeline(ImageCaptioningPipeline):
             quantization_config = BitsAndBytesConfig(
                 load_in_8bit=True, llm_int8_threshold=5.0
             )
-            Blip2ImageCaptioningPipeline._model = Blip2ForConditionalGeneration.from_pretrained(
-                Blip2ImageCaptioningPipeline.MODEL_NAME,
-                torch_dtype=torch.float16,
-                device_map="auto",
-                quantization_config=quantization_config,
+            Blip2ImageCaptioningPipeline._model = (
+                Blip2ForConditionalGeneration.from_pretrained(
+                    Blip2ImageCaptioningPipeline.MODEL_NAME,
+                    torch_dtype=torch.float16,
+                    device_map="auto",
+                    quantization_config=quantization_config,
+                )
             )
             Blip2ImageCaptioningPipeline._processor = AutoProcessor.from_pretrained(
                 Blip2ImageCaptioningPipeline.MODEL_NAME

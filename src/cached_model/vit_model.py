@@ -12,7 +12,10 @@ class VITModel(CachedModel):
 
     def __init__(self):
         super().__init__("image_caption_pipeline.pt", None)
-        self.image_captioning_pipeline: ImageCaptioningPipeline = ViTGPT2ImageCaptioningPipeline()
+        self.image_captioning_pipeline: ImageCaptioningPipeline = (
+            ViTGPT2ImageCaptioningPipeline()
+        )
+
     def get_image_caption_pipeline(self, image_path):
         """
         Returns the image caption pipeline for the specified image path.
