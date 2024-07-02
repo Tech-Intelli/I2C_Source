@@ -10,11 +10,12 @@ from datetime import datetime
 from functools import wraps
 import jwt
 import requests
+import torch
 from PIL import Image
 from flask import Flask, request, session, jsonify
 from flask_cors import CORS
 from flask_session import Session
-from generate_caption import Chatbot, ImageCaptionGenerator, VideoCaptionGenerator
+import generate_caption
 from video_scene_detector import SceneDetector, SceneSaver
 from aws_s3 import AwsS3
 from login.register_user import RegisterUser
@@ -24,6 +25,8 @@ from login.authenticate_user import AuthenticateAsGuest
 from login.authenticate_user import ForgetPassword
 from login.database import get_user_id
 from image_compressor.image_compressor import compresstoWebP
+from chromadb_vector_store import initialize_chroma_client
+from chromadb_vector_store import get_chroma_collection
 
 INSTAGRAM_CLIENT_ID = os.environ.get("INSTAGRAM_CLIENT_ID")
 INSTAGRAM_CLIENT_SECRET = os.environ.get("INSTAGRAM_CLIENT_SECRET")
@@ -34,9 +37,13 @@ ALLOWED_FILE_EXTENSIONS = {"png", "jpg", "jpeg", "mov", "avi", "mp4"}
 ALLOWED_IMAGE_FILE_EXTENSIONS = {"png", "jpg", "jpeg"}
 ALLOWED_VIDEO_FILE_EXTENSIONS = {"mov", "avi", "mp4"}
 S3_BUCKET_NAME = "explaisticbucket"
-CHATBOT = Chatbot(os.environ["OPENAI_API_KEY"])
-IMAGE_CAPTION_GENERATOR = ImageCaptionGenerator(CHATBOT)
-VIDEO_CAPTION_GENERATOR = VideoCaptionGenerator(CHATBOT, SceneDetector(), SceneSaver())
+CHATBOT = generate_caption.LLMChatbot()
+IMAGE_CAPTION_GENERATOR: generate_caption.CaptionGenerator = generate_caption.ImageCaptionGenerator(CHATBOT)
+VIDEO_CAPTION_GENERATOR: generate_caption.CaptionGenerator  = generate_caption.VideoCaptionGenerator(CHATBOT, SceneDetector(), SceneSaver())
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+CHROMA_COLLECTION = get_chroma_collection(
+    initialize_chroma_client(), "image_caption_vector"
+)
 app = Flask(__name__)
 app.secret_key = os.environ["FLASK_SESSION_SECRET_KEY"]
 app.config["SESSION_TYPE"] = "filesystem"
@@ -381,6 +388,8 @@ def generate_image_video_caption():
             num_hashtags,
             tone,
             social_media,
+            DEVICE,
+            CHROMA_COLLECTION
         )
     elif has_video_file_extension:
         file_name_only = file_name.split("/")[1]
@@ -398,6 +407,8 @@ def generate_image_video_caption():
             num_hashtags,
             tone,
             social_media,
+            DEVICE,
+            CHROMA_COLLECTION
         )
         os.remove(video_file_path)
     if response_json is not None:
