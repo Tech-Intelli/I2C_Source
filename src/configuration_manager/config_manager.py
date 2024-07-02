@@ -5,35 +5,14 @@ from typing import Type, Any
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from prettytable import PrettyTable
-from logger import log
+from config_models import (
+    MultiModalConfig,
+    Variants,
+    OllamaConfig,
+    ImageCompressionConfig,
+    TransformConfig,
+)
 
-
-@dataclass
-class MultiModalConfig:
-    blip: str = "Salesforce/blip2-opt-2.7b"
-    vit: str = "nlpconnect/vit-gpt2-image-captioning"
-
-
-@dataclass
-class OllamaConfig:
-    Phi: str = "phi3"
-    llama3: str = "llama3"
-    temperature: int = 1
-    top_p: float = 0.9
-
-
-@dataclass
-class ImageCompressionConfig:
-    type: str = "webp"
-    compress: bool = True
-    compression_quality: int = 50
-    resize_factor: float = 0.5
-
-
-@dataclass
-class TransformConfig:
-    resize: tuple = (256, 256)
-    center_crop: int = 224
 
 
 @dataclass
@@ -68,13 +47,29 @@ class AppConfig:
             )
 
         # Validate OllamaConfig
-        if not isinstance(self.ollama.Phi, str) or not self.ollama.Phi.strip():
+        if (not isinstance(self.ollama.variants.phi3, str)
+            or not self.ollama.variants.phi3.strip()
+        ):
             raise ValueError(
-                "The 'Phi' field in OllamaConfig must be a non-empty string."
+                "The 'phi' field in OllamaConfig must be a non-empty string."
             )
-        if not isinstance(self.ollama.llama3, str) or not self.ollama.llama3.strip():
+        if (
+            not isinstance(self.ollama.variants.llama3, str)
+            or not self.ollama.variants.llama3.strip()
+        ):
             raise ValueError(
                 "The 'llama3' field in OllamaConfig must be a non-empty string."
+            )
+        if (
+            not isinstance(self.ollama.variants.gemma2, str)
+            or not self.ollama.variants.gemma2.strip()
+        ):
+            raise ValueError(
+                "The 'gemma2' field in OllamaConfig must be a non-empty string."
+            )
+        if not isinstance(self.ollama.use, str) or not self.ollama.use.strip():
+            raise ValueError(
+                "The 'use' field in OllamaConfig must be a non-empty string."
             )
         if not isinstance(self.ollama.temperature, int):
             raise ValueError(
@@ -82,6 +77,9 @@ class AppConfig:
             )
         if not isinstance(self.ollama.top_p, float):
             raise ValueError("The 'top_p' field in OllamaConfig must be a float.")
+        
+        if not isinstance(self.ollama.stream, bool):
+            raise ValueError("The 'stream' field in ollama must be a boolean.")
 
         # Validate ImageCompressionConfig
         if (
@@ -124,12 +122,23 @@ class ConfigManager:
 
     def load_config(self):
         """
-        A description of the entire function, its parameters, and its return types.
+        Loads the configuration from the specified file.
+
+        This function reads the YAML configuration file, updates the AppConfig object,
+        validates the configuration, and then prints the configuration using pretty print.
+
+        Parameters:
+            self (ConfigManager): The ConfigManager instance.
+
+        Returns:
+            None
         """
         if os.path.exists(self.config_file):
             with open(self.config_file, "r") as file:
                 config_data = yaml.safe_load(file)
-            self._update_config_from_dict(self.app_config, config_data)
+            ConfigManager._update_config_from_dict(
+                self.app_config, config_data
+            )  # Corrected to use the class method
             self.app_config.validate()
             self.pretty_print_config()
 
@@ -149,7 +158,9 @@ class ConfigManager:
             None
         """
         with open(self.config_file, "w") as file:
-            yaml.safe_dump(asdict(self.app_config), file, default_flow_style=False)
+            yaml.safe_dump(
+                self.to_unordered_dict(self.app_config), file, default_flow_style=False
+            )
 
     def get_app_config(self) -> AppConfig:
         """
@@ -190,7 +201,9 @@ class ConfigManager:
         config_dict = asdict(self.app_config)
         table = PrettyTable(field_names=["Parameter", "Value"], align="l")
         self._populate_table(config_dict, table)
-        log.info(table.get_string(sortby="Parameter"))
+        print(
+            table.get_string()
+        )  
 
     @staticmethod
     def _populate_table(config_dict, table, parent_key=""):
@@ -224,6 +237,9 @@ class ConfigManager:
         Returns:
             None
         """
+        if config_dict is None:
+            return
+
         for field in fields(config):
             value = config_dict.get(field.name)
             if value is not None:
@@ -256,9 +272,10 @@ class ConfigManager:
             return bool(value)
         elif type_ is str:
             return str(value)
-        return value
+        else:
+            return value
 
-    def get_node(self, node_path: str) -> Any:
+    def get_node(self, node_path):
         """
         Retrieves a nested node from the `app_config` object based on the given `node_path`.
 
@@ -275,6 +292,29 @@ class ConfigManager:
             if current is None:
                 break
         return current
+
+    def to_unordered_dict(self, obj):
+        """
+        Converts a dataclass object to a standard dictionary without preserving field order.
+
+        Args:
+            obj: The dataclass object to convert.
+
+        Returns:
+            A standard dictionary representing the dataclass object.
+        """
+        if is_dataclass(obj):
+            result = dict()
+            for field in fields(obj):
+                value = getattr(obj, field.name)
+                result[field.name] = self.to_unordered_dict(value)
+            return result
+        elif isinstance(obj, list):
+            return [self.to_unordered_dict(item) for item in obj]
+        elif isinstance(obj, dict):
+            return {k: self.to_unordered_dict(v) for k, v in obj.items()}
+        else:
+            return obj
 
 
 class ConfigFileChangeHandler(FileSystemEventHandler):
@@ -301,8 +341,7 @@ class ConfigFileChangeHandler(FileSystemEventHandler):
             None
         """
         if event.src_path == self.config_manager.config_file:
-
-            log.info(
+            print(
                 f"Configuration file {self.config_manager.config_file} changed, reloading."
             )
             self.config_manager.load_config()
