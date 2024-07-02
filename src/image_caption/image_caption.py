@@ -7,12 +7,10 @@ Creates a Transformer pipeline from a pre-trained model
 
 import warnings
 from abc import ABC, abstractmethod
-from transformers import (
-    Pipeline,
-    AutoProcessor
-)
+from transformers import Pipeline, AutoProcessor
 
 warnings.filterwarnings("ignore")
+
 
 class ImageCaptioningPipeline(ABC):
     """

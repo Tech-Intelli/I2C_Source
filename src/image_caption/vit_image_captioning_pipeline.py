@@ -4,8 +4,10 @@ from transformers import (
     AutoTokenizer,
     Pipeline,
     pipeline,
-    AutoProcessor)
+    AutoProcessor,
+)
 from image_caption import ImageCaptioningPipeline
+
 
 class ViTGPT2ImageCaptioningPipeline(ImageCaptioningPipeline):
     """
@@ -22,11 +24,15 @@ class ViTGPT2ImageCaptioningPipeline(ImageCaptioningPipeline):
     def _initialize_vit_gpt2():
         """Initializes the ViT-GPT2 model, feature extractor, and tokenizer if not already initialized."""
         if ViTGPT2ImageCaptioningPipeline._model is None:
-            ViTGPT2ImageCaptioningPipeline._model = VisionEncoderDecoderModel.from_pretrained(
-                ViTGPT2ImageCaptioningPipeline.MODEL_NAME
+            ViTGPT2ImageCaptioningPipeline._model = (
+                VisionEncoderDecoderModel.from_pretrained(
+                    ViTGPT2ImageCaptioningPipeline.MODEL_NAME
+                )
             )
-            ViTGPT2ImageCaptioningPipeline._feature_extractor = ViTImageProcessor.from_pretrained(
-                ViTGPT2ImageCaptioningPipeline.MODEL_NAME
+            ViTGPT2ImageCaptioningPipeline._feature_extractor = (
+                ViTImageProcessor.from_pretrained(
+                    ViTGPT2ImageCaptioningPipeline.MODEL_NAME
+                )
             )
             ViTGPT2ImageCaptioningPipeline._tokenizer = AutoTokenizer.from_pretrained(
                 ViTGPT2ImageCaptioningPipeline.MODEL_NAME

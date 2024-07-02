@@ -19,7 +19,10 @@ class Blip2Model(CachedModel):
 
     def __init__(self, collection):
         super().__init__("blip2_8bit.pkl", collection)
-        self.image_captioning_pipeline: ImageCaptioningPipeline = Blip2ImageCaptioningPipeline()
+        self.image_captioning_pipeline: ImageCaptioningPipeline = (
+            Blip2ImageCaptioningPipeline()
+        )
+
     def get_image_caption_pipeline(self, image_path):
         """
         Returns the image caption pipeline for the specified image path.

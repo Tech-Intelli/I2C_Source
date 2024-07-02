@@ -1,4 +1,6 @@
 import ollama
+
+
 class LLMChatbot:
     """
     A class representing a chatbot that interacts with the OpenAI Chat API.

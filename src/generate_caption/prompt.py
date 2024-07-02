@@ -3,13 +3,13 @@ class Prompt:
         """
         Initializes a new Chatbot instance.
         """
+
     def _read_prompt_template(self, file_path):
         """
         Reads a prompt template from a file.
         """
         with open(file_path, "r") as file:
             return file.read()
-
 
     def _get_caption_size(self, caption_size="small"):
         """
