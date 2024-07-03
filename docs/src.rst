@@ -1,6 +1,12 @@
 src package
 ===========
 
+.. automodule:: src
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :private-members:
+
 Subpackages
 -----------
 
@@ -22,26 +28,16 @@ Subpackages
 Submodules
 ----------
 
-src.app\_endpoints module
--------------------------
 
 .. automodule:: src.app_endpoints
    :members:
    :undoc-members:
    :show-inheritance:
+   :private-members:
 
-src.app\_streamlit module
--------------------------
 
 .. automodule:: src.app_streamlit
    :members:
    :undoc-members:
    :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: src
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   :private-members:

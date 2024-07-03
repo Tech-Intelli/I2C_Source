@@ -1,6 +1,12 @@
 src.login package
 =================
 
+.. automodule:: src.login
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :private-members:
+
 Subpackages
 -----------
 
@@ -12,11 +18,3 @@ Subpackages
    src.login.hash_password
    src.login.register_user
    src.login.user_db
-
-Module contents
----------------
-
-.. automodule:: src.login
-   :members:
-   :undoc-members:
-   :show-inheritance:
