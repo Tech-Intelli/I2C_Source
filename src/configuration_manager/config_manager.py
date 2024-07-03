@@ -1,3 +1,5 @@
+"""Configuration manager module."""
+
 import os
 import yaml
 from dataclasses import asdict, fields, is_dataclass, dataclass, field

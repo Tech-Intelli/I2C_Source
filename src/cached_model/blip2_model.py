@@ -1,3 +1,5 @@
+"""Concrete class for caching and retrieving the BLIP2 image caption pipeline."""
+
 import os
 import gc
 import concurrent.futures
