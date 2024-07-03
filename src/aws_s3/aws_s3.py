@@ -1,6 +1,4 @@
-"""
-Module for creating s3 buckets, upload and download images.
-"""
+"""Module for creating s3 buckets, upload and download images."""
 
 import logging
 import boto3
