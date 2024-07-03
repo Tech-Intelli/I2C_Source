@@ -1,3 +1,5 @@
+""" VIT Pipeline """
+
 from transformers import (
     VisionEncoderDecoderModel,
     ViTImageProcessor,

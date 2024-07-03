@@ -1,3 +1,5 @@
+""" BLIP Pipeline """
+
 import torch
 from transformers import (
     Pipeline,
