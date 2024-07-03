@@ -27,7 +27,6 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
-    'rinoh.frontend.sphinx',
     'sphinx.ext.ifconfig'
 ]
 add_module_names = False
