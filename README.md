@@ -1,8 +1,8 @@
-[![Unit Tests](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml) [![Pylint](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pylint.yml) [![Docs](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml)
+[![Unit Tests](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml)[![Black](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/black.yml/badge.svg)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/black.yml) [![Documentation](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pdoc.yml/badge.svg)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pdoc.yml)
 
-## ExplAIstic
+## I2C
 
-ExplAIstic is an image captioning and image hashtagging application that generates nicely written captions and adds related hashtags to your images and reels. It utilizes pre-trained Imagenet models and ChatGPT for the image analysis and caption generation, and the Telegram API for the messaging feature.
+TBD
 
 ## Installation 🚀
 
@@ -95,25 +95,6 @@ docker buildx build --platform linux/amd64,linux/arm64 -t explaistic_docker .
 docker run -v explaistic_volume:/app/data -p 8501:8501 explaistic_docker
 ```
 
-## Contributing 🤝
-
-If you find any bugs or issues, feel free to open an issue on GitHub. Pull requests are also welcome!
-
-## Credits 🙏
-
-ExplAIstic was created by [Dipanjan Das](https://github.com/dasdipanjan04). It utilizes pre-trained Imagenet models from PyTorch, ChatGPT from OpenAI, and the transformers package from Hugging Face. The Telegram API was used for messaging.
-
-## License 📝
-
-ExplAIstic is licensed under the Proprietary Software License. See [LICENSE](LICENSE) for more informatio
-
-## Acknowledgments 👏
-
-Thank you to the PyTorch, OpenAI, and Hugging Face communities for providing pre-trained models that were instrumental in the creation of this project. Special thanks to the Telegram team for providing an easy-to-use API for messaging.
-
-## Join the Discord Community
-
-`<a href="https://discord.gg/UvMWN7k7"><img class="icon-3AqZ2e"  src="https://cdn.discordapp.com/icons/1097599444800770060/5bc54720d99c6bc7b86322a3b8683fd6.webp?size=240" alt=" " width="100" height="100" aria-hidden="true">``</a>`
 
 ## ==================================================================
 
@@ -283,5 +264,5 @@ python -m streamlit run app_streamlit.py
 or if you are not using conda then the following
 
 ```
-C:\Users\dasdi\AppData\Local\Programs\Python\Python310\python.exe -m streamlit run .\app_streamlit.py
+C:\Users\user\AppData\Local\Programs\Python\Python310\python.exe -m streamlit run .\app_streamlit.py
 ```
