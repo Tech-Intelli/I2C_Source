@@ -12,7 +12,7 @@ Subpackages
    src.chromadb_vector_store
    src.configuration_manager
    src.generate_caption
-   src.image_caption
+   src.image_captioning_pipeline
    src.image_compressor
    src.logger
    src.login
