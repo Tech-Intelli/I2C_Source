@@ -1,21 +1,18 @@
 src.login.user\_db package
 ==========================
 
+.. automodule:: src.login.user_db
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :private-members:
+
 Submodules
 ----------
 
-src.login.user\_db.create\_db module
-------------------------------------
 
 .. automodule:: src.login.user_db.create_db
    :members:
    :undoc-members:
    :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: src.login.user_db
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   :private-members:
