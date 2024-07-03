@@ -17,16 +17,10 @@ The documentation is organized into several sections, each serving a specific pu
    :maxdepth: 2
    :caption: Contents:
 
-   introduction
-   installation
-   usage
-   api_reference
-   contributing
-   faq
-   modules
+   Modules <modules>
 
 Introduction
-------------
+-----------
 
 Get an overview of the i2c project, including its purpose, features, and key concepts.
 

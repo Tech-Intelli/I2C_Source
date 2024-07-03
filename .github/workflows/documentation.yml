@@ -28,6 +28,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install sphinx sphinx_rtd_theme
+        pip install piccolo_theme
 
     - name: Generate Sphinx Documentation
       run: |
