@@ -1,4 +1,4 @@
-[![Unit Tests](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml)[![Black](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/black.yml/badge.svg)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/black.yml) [![Documentation](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pdoc.yml/badge.svg)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/pdoc.yml)
+[![Unit Tests](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml) [![Black](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/black.yml/badge.svg)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/black.yml) [![Documentation](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml/badge.svg)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml)
 
 ## I2C
 
