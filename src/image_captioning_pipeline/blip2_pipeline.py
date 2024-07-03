@@ -50,7 +50,7 @@ class Blip2Pipeline(ImageCaptioningPipeline):
             ```
         """
 
-        if Blip2ImageCaptioningPipeline._model is None:
+        if Blip2Pipeline._model is None:
             quantization_config = BitsAndBytesConfig(
                 load_in_8bit=True, llm_int8_threshold=5.0
             )
