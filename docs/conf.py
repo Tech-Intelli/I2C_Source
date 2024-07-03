@@ -20,7 +20,9 @@ sys.path.append(projectPath)
 
 year = datetime.datetime.now().year
 project = "PulseMan"
-copyright = f"{year}, Sayantan Roy, Dipanjan Das"
+
+copyright = f"{year}, Dipanjan Das, Sayantan Roy, "
+
 author = "Sayantan Roy, Dipanjan Das"
 autoapi_dirs = ["../src"]
 
@@ -39,7 +41,9 @@ extensions = [
 pygments_style = "stata-dark"
 
 html_theme_options = {
-    "banner_text": ("Made with love and passion by Sayantan and Dipanjan. "),
+
+    "banner_text": ("Made with love and passion by Dipanjan and Sayantan. "),
+
     "banner_hiding": "permanent",
     "show_theme_credit": False,
     "dark_mode_code_blocks": True,
