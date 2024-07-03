@@ -1,21 +1,18 @@
 src.trending\_hashtag package
 =============================
 
+.. automodule:: src.trending_hashtag
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :private-members:
+
 Submodules
 ----------
 
-src.trending\_hashtag.trending\_hashtag module
-----------------------------------------------
 
 .. automodule:: src.trending_hashtag.trending_hashtag
    :members:
    :undoc-members:
    :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: src.trending_hashtag
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   :private-members:

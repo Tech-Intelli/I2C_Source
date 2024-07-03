@@ -30,7 +30,7 @@ extensions = [
     'rinoh.frontend.sphinx',
     'sphinx.ext.ifconfig'
 ]
-
+add_module_names = False
 #autodock_mock_imports = ['boto3']
 autodock_mock_imports = ['flask', 'ritetag ']
 # The master toctree document.
@@ -61,6 +61,8 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
+#html_theme = 'piccolo_theme'
+
 html_static_path = ['_static']
 
 
