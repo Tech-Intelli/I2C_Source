@@ -38,8 +38,12 @@ ALLOWED_IMAGE_FILE_EXTENSIONS = {"png", "jpg", "jpeg"}
 ALLOWED_VIDEO_FILE_EXTENSIONS = {"mov", "avi", "mp4"}
 S3_BUCKET_NAME = "explaisticbucket"
 CHATBOT = generate_caption.LLMChatbot()
-IMAGE_CAPTION_GENERATOR: generate_caption.CaptionGenerator = generate_caption.ImageCaptionGenerator(CHATBOT)
-VIDEO_CAPTION_GENERATOR: generate_caption.CaptionGenerator  = generate_caption.VideoCaptionGenerator(CHATBOT, SceneDetector(), SceneSaver())
+IMAGE_CAPTION_GENERATOR: generate_caption.CaptionGenerator = (
+    generate_caption.ImageCaptionGenerator(CHATBOT)
+)
+VIDEO_CAPTION_GENERATOR: generate_caption.CaptionGenerator = (
+    generate_caption.VideoCaptionGenerator(CHATBOT, SceneDetector(), SceneSaver())
+)
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 CHROMA_COLLECTION = get_chroma_collection(
     initialize_chroma_client(), "image_caption_vector"
@@ -389,7 +393,7 @@ def generate_image_video_caption():
             tone,
             social_media,
             DEVICE,
-            CHROMA_COLLECTION
+            CHROMA_COLLECTION,
         )
     elif has_video_file_extension:
         file_name_only = file_name.split("/")[1]
@@ -408,7 +412,7 @@ def generate_image_video_caption():
             tone,
             social_media,
             DEVICE,
-            CHROMA_COLLECTION
+            CHROMA_COLLECTION,
         )
         os.remove(video_file_path)
     if response_json is not None:

@@ -1,1 +1,8 @@
-from .configuration_manager import config_manager
+from .config_manager import ConfigManager
+from .config_models import (
+    ImageCompressionConfig,
+    OllamaConfig,
+    TransformConfig,
+    MultiModalConfig,
+    Variants,
+)

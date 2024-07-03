@@ -5,7 +5,7 @@ from typing import Type, Any
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from prettytable import PrettyTable
-from config_models import (
+from configuration_manager.config_models import (
     MultiModalConfig,
     Variants,
     OllamaConfig,
@@ -14,6 +14,7 @@ from config_models import (
 )
 
 from datetime import datetime
+from logger import log
 
 
 @dataclass
@@ -173,7 +174,8 @@ class ConfigManager:
 
     def save_config(self):
         """
-        Saves the current configuration to a versioned file by generating the versioned file name, dumping the configuration using yaml.safe_dump, and updating the main config file with a new version number.
+        Saves the current configuration to a versioned file by generating the versioned file name,
+        dumping the configuration using yaml.safe_dump, and updating the main config file with a new version number.
         """
         # Generate versioned file name
         versioned_file = self.generate_versioned_filename()
@@ -265,7 +267,7 @@ class ConfigManager:
         try:
             return self.config_versions[version_number]
         except IndexError:
-            print(f"Version {version_number} does not exist.")
+            log.error(f"Version {version_number} does not exist.")
 
     def get_config_history(self):
         """
@@ -290,9 +292,9 @@ class ConfigManager:
             version_to_restore = self.config_versions[version_number]
             self.app_config = version_to_restore
             self.save_config()  # Save the restored version to the config file
-            print(f"Rolled back to version {version_number}.")
+            log.info(f"Rolled back to version {version_number}.")
         except IndexError:
-            print(f"Version {version_number} does not exist.")
+            log.error(f"Version {version_number} does not exist.")
 
     def get_app_config(self) -> AppConfig:
         """
@@ -333,7 +335,7 @@ class ConfigManager:
         config_dict = asdict(self.app_config)
         table = PrettyTable(field_names=["Parameter", "Value"], align="l")
         self._populate_table(config_dict, table)
-        print(table.get_string())
+        log.info(table.get_string())
 
     @staticmethod
     def _populate_table(config_dict, table, parent_key=""):
@@ -473,7 +475,7 @@ class ConfigFileChangeHandler(FileSystemEventHandler):
         This function checks if the modified file is the configuration file. If it is, it prints a message indicating that the configuration file has changed and reloads the configuration.
         """
         if event.src_path == self.config_manager.config_file:
-            print(
+            log.warn(
                 f"Configuration file {self.config_manager.config_file} changed, reloading."
             )
             self.config_manager.load_config()
