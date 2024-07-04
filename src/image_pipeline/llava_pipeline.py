@@ -9,6 +9,7 @@ from transformers import (
 )
 from image_pipeline import ImageCaptioningPipeline
 
+
 class LlavaPipeline(ImageCaptioningPipeline):
     """
     A class for generating captions from images using the LLAVA model.

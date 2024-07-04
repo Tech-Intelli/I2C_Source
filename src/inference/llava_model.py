@@ -40,10 +40,14 @@ class LlavaModel(InferenceAbstract):
         device = self.get_device()
         os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
         image = InferenceAbstract.load_image(image_path)
-        inputs = LlavaModel.LLAVA_PROCESSOR("USER: <image>\nWhat are these?\nASSISTANT:", images=image, return_tensors="pt").to(
-            device, torch.float16
+        inputs = LlavaModel.LLAVA_PROCESSOR(
+            "USER: <image>\nWhat are these?\nASSISTANT:",
+            images=image,
+            return_tensors="pt",
+        ).to(device, torch.float16)
+        generated_ids = LlavaModel.LLAVA_MODEL.generate(
+            **inputs, max_new_tokens=200, do_sample=False
         )
-        generated_ids = LlavaModel.LLAVA_MODEL.generate(**inputs, max_new_tokens=200, do_sample=False)
         generated_text = LlavaModel.LLAVA_PROCESSOR.batch_decode(
             generated_ids, skip_special_tokens=True
         )[0].strip()

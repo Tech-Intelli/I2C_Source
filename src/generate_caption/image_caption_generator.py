@@ -3,6 +3,7 @@ from inference import InferenceAbstract
 from inference.blip2_model import Blip2Model
 from inference.llava_model import LlavaModel
 
+
 class ImageCaptionGenerator(CaptionGenerator):
     """
     A class that generates captions for images using a chatbot.
