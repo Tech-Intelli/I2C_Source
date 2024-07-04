@@ -40,15 +40,32 @@ extensions = [
 
 pygments_style = "stata-dark"
 
+"""
 html_theme_options = {
-    "banner_text": ("Made with love and passion by Dipanjan and Sayantan. "),
-    "banner_hiding": "permanent",
+
     "show_theme_credit": False,
     "dark_mode_code_blocks": True,
     "source_url": "https://github.com/Tech-Intelli/I2C_Source",
     "source_icon": "github",
 }
+"""
 
+html_theme_options = {
+    "html_title": "PulseMan",
+    "back_to_top_button": True,
+    "repository_url": "https://github.com/Tech-Intelli/I2C_Source",
+    "use_repository_button": True,
+    "max_navbar_depth": 2,
+    "collapse_navbar": True,
+    "icon_links": [
+        {
+            "name": "GitHub",        
+            "url": "https://github.com/Tech-Intelli/I2C_Source",  # required
+            "icon": "fa-brands fa-square-github",
+            "type": "fontawesome",
+        }]
+    
+}
 add_module_names = False
 # autodock_mock_imports = ['boto3']
 # autodock_mock_imports = ['flask', 'ritetag ']
@@ -78,7 +95,9 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-# html_theme = 'sphinx_rtd_theme'
-html_theme = "piccolo_theme"
+html_theme = 'sphinx_book_theme'
+#html_theme = "piccolo_theme"
 
 html_static_path = ["_static"]
+html_css_files = ["custom.css"]
+
