@@ -20,7 +20,7 @@ class Blip2Model(InferenceAbstract):
     BLIP2_PROCESSOR = None
 
     def __init__(self, collection):
-        super().__init__("blip2_8bit.pkl", collection)
+        super().__init__(collection)
         self.image_pipeline: ImageCaptioningPipeline = Blip2Pipeline()
 
     def get_image_caption_pipeline(self, image_path):

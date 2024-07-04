@@ -11,7 +11,7 @@ class VITModel(InferenceAbstract):
     """
 
     def __init__(self):
-        super().__init__("image_caption_pipeline.pt", None)
+        super().__init__(None)
         self.image_pipeline: ImageCaptioningPipeline = ViTGPT2Pipeline()
 
     def get_image_caption_pipeline(self, image_path):
