@@ -7,7 +7,7 @@ from transformers import (
     Blip2ForConditionalGeneration,
     BitsAndBytesConfig,
 )
-from image_captioning_pipeline import ImageCaptioningPipeline
+from image_pipeline import ImageCaptioningPipeline
 
 
 class Blip2Pipeline(ImageCaptioningPipeline):

@@ -8,7 +8,7 @@ from transformers import (
     pipeline,
     AutoProcessor,
 )
-from image_captioning_pipeline import ImageCaptioningPipeline
+from image_pipeline import ImageCaptioningPipeline
 
 
 class ViTGPT2Pipeline(ImageCaptioningPipeline):
