@@ -19,11 +19,13 @@ projectPath = os.path.abspath(os.path.join(current_dir, "../src"))
 sys.path.append(projectPath)
 
 year = datetime.datetime.now().year
+
 project = "PulseMan"
-
 copyright = f"{year}, Dipanjan Das, Sayantan Roy, "
-
 author = "Sayantan Roy, Dipanjan Das"
+
+
+
 autoapi_dirs = ["../src"]
 
 # -- General configuration ---------------------------------------------------
@@ -35,7 +37,13 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
     "sphinx.ext.ifconfig",
+    "sphinx.ext.inheritance_diagram",
 ]
+
+autoapi_options = ['members', 'undoc-members', 'inherited-members', 'private-members', 'show-inheritance', 'show-module-summary', 'special-members', 'imported-members', 'show-module-summary']
+autodoc_typehints = 'description'
+autodoc_class_signature = "separated"
+
 # html_logo = '../resources/logo.png'
 
 pygments_style = "stata-dark"
@@ -49,9 +57,9 @@ html_theme_options = {
     "source_icon": "github",
 }
 """
-
+html_title : "PulseMan"
 html_theme_options = {
-    "html_title": "PulseMan",
+   
     "back_to_top_button": True,
     "repository_url": "https://github.com/Tech-Intelli/I2C_Source",
     "use_repository_button": True,
@@ -70,7 +78,7 @@ add_module_names = False
 # autodock_mock_imports = ['boto3']
 # autodock_mock_imports = ['flask', 'ritetag ']
 # The master toctree document.
-master_doc = "index"
+#master_doc = "index"
 
 # Napoleon settings
 napoleon_google_docstring = True
@@ -100,3 +108,4 @@ html_theme = "sphinx_book_theme"
 
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
+
