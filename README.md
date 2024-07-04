@@ -22,6 +22,7 @@ To use the application, you need to install the following dependencies:
 - chromadb
 - bitsandbytes
 - gevent
+- torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 --index-url https://download.pytorch.org/whl/cpu
 
 You can install all of these dependencies by running `pip install -r requirements.txt` from the project directory.
 
