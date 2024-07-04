@@ -41,9 +41,7 @@ extensions = [
 pygments_style = "stata-dark"
 
 html_theme_options = {
-
     "banner_text": ("Made with love and passion by Dipanjan and Sayantan. "),
-
     "banner_hiding": "permanent",
     "show_theme_credit": False,
     "dark_mode_code_blocks": True,
