@@ -38,3 +38,4 @@ src/test_chat.py
 execution_times.log
 temp/
 sqlite_chroma_db/
+test.ipynb
