@@ -1,3 +1,5 @@
+"""A class that generates captions for videos using a chatbot."""
+
 import os
 import shutil
 from generate_caption import CaptionGenerator
@@ -32,15 +34,17 @@ class VideoCaptionGenerator(CaptionGenerator):
         """
         Generate a caption for a video using a chatbot.
 
-        Parameters:
-        video_path (str): The path to the video file.
-        caption_size (str): The desired size of the caption. Valid values are 'small', 'medium', 'large', 'very large', and 'blog post'.
-        context (str): The context in which the caption will be used. Optional.
-        style (str): The style in which the caption should be written.
-        num_hashtags (int): The number of hashtags to include in the caption.
-        tone (string): Caption tone.
+        Args:
+            video_path (str): The path to the video file.
+            caption_size (str): The desired size of the caption. Valid values are
+                'small', 'medium', 'large', 'very large', and 'blog post'.
+            context (str): The context in which the caption will be used. Optional.
+            style (str): The style in which the caption should be written.
+            num_hashtags (int): The number of hashtags to include in the caption.
+            tone (string): Caption tone.
+
         Returns:
-        dict: A JSON object containing the response from the chatbot.
+            dict: A JSON object containing the response from the chatbot.
         """
 
         scene_dir = "extracted_images"

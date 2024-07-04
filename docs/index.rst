@@ -14,7 +14,7 @@ Contents
 The documentation is organized into several sections, each serving a specific purpose. Use the table of contents below to navigate to the section that interests you:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
    Modules <modules>

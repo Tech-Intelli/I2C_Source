@@ -37,12 +37,12 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
     "sphinx.ext.ifconfig",
-    "sphinx.ext.inheritance_diagram",
 ]
-
-autoapi_options = ['members', 'undoc-members', 'inherited-members', 'private-members', 'show-inheritance', 'show-module-summary', 'special-members', 'imported-members', 'show-module-summary']
 autodoc_typehints = 'description'
 autodoc_class_signature = "separated"
+autoapi_options = ['members', 'undoc-members', 'inherited-members', 'private-members', 'show-inheritance', 'show-module-summary', 'special-members', 'imported-members']
+autoapi_add_toctree_entry = True
+
 
 # html_logo = '../resources/logo.png'
 
@@ -57,9 +57,10 @@ html_theme_options = {
     "source_icon": "github",
 }
 """
-html_title : "PulseMan"
+html_title = "PulseMan Docs"
 html_theme_options = {
    
+    "use_edit_page_button": True,
     "back_to_top_button": True,
     "repository_url": "https://github.com/Tech-Intelli/I2C_Source",
     "use_repository_button": True,
@@ -82,19 +83,7 @@ add_module_names = False
 
 # Napoleon settings
 napoleon_google_docstring = True
-napoleon_numpy_docstring = True
-napoleon_include_init_with_doc = True
-napoleon_include_private_with_doc = True
-napoleon_include_special_with_doc = True
-napoleon_use_admonition_for_examples = True
-napoleon_use_admonition_for_notes = True
-napoleon_use_admonition_for_references = True
-napoleon_use_ivar = True
-napoleon_use_param = True
-napoleon_use_rtype = True
-napoleon_preprocess_types = True
-napoleon_type_aliases = None
-napoleon_attr_annotations = True
+
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
@@ -108,4 +97,5 @@ html_theme = "sphinx_book_theme"
 
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
+
 
