@@ -9,16 +9,10 @@ TBD
 To use the application, you need to install the following dependencies:
 
 - Python 3.10 (All the dependencies don't support Python 3.11)
-- Flask==2.2.3
-- openai==0.27.2
 - opencv_python==4.7.0.72
-- Pillow==9.5.0
-- python-telegram-bot==20.2
-- streamlit==1.21.0
-- torch==2.0.0
+- Pillow
+- streamlit
 - transformers==4.27.4
-- boto3
-- ritetag
 - pytest
 - pytest-mock
 - dnspython
@@ -26,6 +20,12 @@ To use the application, you need to install the following dependencies:
 - PyJWT
 
 You can install all of these dependencies by running `pip install -r requirements.txt` from the project directory.
+
+For torch use the following command:
+
+```
+pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 --index-url https://download.pytorch.org/whl/cpu
+```
 
 ## IMPORTANT NOTE:
 
