@@ -5,8 +5,8 @@
 """
 
 from abc import ABC, abstractmethod
-from generate_caption.hashtag import Hashtag
-from generate_caption.prompt import Prompt
+from utils.hashtag import Hashtag
+from utils.prompt import Prompt
 
 
 class CaptionGenerator(ABC):

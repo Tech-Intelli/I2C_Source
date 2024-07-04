@@ -9,6 +9,7 @@ from pathlib import Path
 import streamlit as st
 import torch
 import generate_caption
+from utils.llm_chatbot import LLMChatbot
 from inference import InferenceAbstract
 from inference.blip2_model import Blip2Model
 from vector_store import initialize_chroma_client
@@ -47,7 +48,7 @@ def initialize_resources():
             - `chroma_collection` (vector_store.ChromaCollection): A ChromaCollection instance representing the image_caption_vector collection.
 
     """
-    chatbot = generate_caption.LLMChatbot()
+    chatbot = LLMChatbot()
     image_caption_gen: generate_caption.CaptionGenerator = (
         generate_caption.ImageCaptionGenerator(chatbot)
     )

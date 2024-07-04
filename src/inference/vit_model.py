@@ -1,4 +1,4 @@
-from src.inference.inference_abstract import InferenceAbstract
+from inference.inference_abstract import InferenceAbstract
 from image_pipeline import ImageCaptioningPipeline
 from image_pipeline.vit_pipeline import ViTGPT2Pipeline
 from logger import log
