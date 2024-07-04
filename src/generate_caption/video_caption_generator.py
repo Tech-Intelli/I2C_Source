@@ -1,8 +1,8 @@
 import os
 import shutil
 from generate_caption import CaptionGenerator
-from cached_model import CachedModel
-from cached_model.blip2_model import Blip2Model
+from inference import InferenceAbstract
+from inference.blip2_model import Blip2Model
 from video_scene_detector import VideoSceneDetector
 
 
@@ -52,7 +52,7 @@ class VideoCaptionGenerator(CaptionGenerator):
         image_list = os.listdir(scene_dir)
         all_captions = ""
 
-        cachedModel: CachedModel = Blip2Model(collection)
+        cachedModel: InferenceAbstract = Blip2Model(collection)
         for each_image in image_list:
             text = cachedModel.get_image_caption_pipeline(
                 os.path.join(scene_dir, each_image)

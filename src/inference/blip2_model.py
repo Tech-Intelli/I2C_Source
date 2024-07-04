@@ -4,14 +4,14 @@ import os
 import gc
 import concurrent.futures
 import torch
-from cached_model import CachedModel
+from src.inference.inference_abstract import InferenceAbstract
 from image_pipeline import ImageCaptioningPipeline
 from image_pipeline.blip2_pipeline import Blip2Pipeline
 from vector_store import get_unique_image_id
 from vector_store import add_image_to_chroma
 
 
-class Blip2Model(CachedModel):
+class Blip2Model(InferenceAbstract):
     """
     Concrete class for caching and retrieving the BLIP2 image caption pipeline.
     """
@@ -39,7 +39,7 @@ class Blip2Model(CachedModel):
         """
         device = self.get_device()
         os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
-        image = CachedModel.load_image(image_path)
+        image = InferenceAbstract.load_image(image_path)
         inputs = Blip2Model.BLIP2_PROCESSOR(images=image, return_tensors="pt").to(
             device, torch.float16
         )

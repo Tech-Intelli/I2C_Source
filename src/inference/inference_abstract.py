@@ -11,7 +11,7 @@ from PIL import Image
 warnings.filterwarnings("ignore")
 
 
-class CachedModel(ABC):
+class InferenceAbstract(ABC):
     """
     Abstract base class for caching and retrieving models.
 
@@ -25,7 +25,7 @@ class CachedModel(ABC):
 
     def __init__(self, cache_file, collection):
         """
-        Initializes a new instance of the CachedModel class.
+        Initializes a new instance of the InferenceAbstract class.
 
         Args:
             cache_file (str): The name of the cache file.

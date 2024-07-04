@@ -1,11 +1,11 @@
-from cached_model import CachedModel
+from src.inference.inference_abstract import InferenceAbstract
 from image_pipeline import ImageCaptioningPipeline
 from image_pipeline.vit_pipeline import ViTGPT2Pipeline
 from logger import log
 import torch
 
 
-class VITModel(CachedModel):
+class VITModel(InferenceAbstract):
     """
     Concrete class for caching and retrieving an image caption pipeline.
     """
@@ -42,14 +42,14 @@ class VITModel(CachedModel):
         except FileNotFoundError as e:
             log.error(f"Error loading cached pipeline: {e}")
 
-        log.info(f"Creating cache file @ {CachedModel.CACHE_FILE}, please wait...")
+        log.info(f"Creating cache file @ {InferenceAbstract.CACHE_FILE}, please wait...")
         image_pipeline = (
             self.image_pipeline.get_image_caption_pipeline()
         )
         with open(self.cache_file, "wb") as f:
             torch.save(image_pipeline, f)
             log.info(
-                f"""Cache has been created at {CachedModel.CACHE_FILE} successfully."""
+                f"""Cache has been created at {InferenceAbstract.CACHE_FILE} successfully."""
             )
         return image_pipeline(image_path)
 
