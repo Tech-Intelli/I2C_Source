@@ -30,6 +30,7 @@ jobs:
         pip install sphinx sphinx_rtd_theme
         pip install piccolo_theme
         pip install sphinx-autoapi
+        pip install sphinx_book_theme
 
     - name: Generate Sphinx Documentation
       run: |
