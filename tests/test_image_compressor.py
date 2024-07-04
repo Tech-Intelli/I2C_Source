@@ -8,7 +8,7 @@ def save_bytesio_to_file(bytesio_obj, output_path):
         file.write(bytesio_obj.getvalue())
 
 
-def test_compresstoWebP():
+def test_compress_to_webP():
     """
     Test Image Compression
     """
@@ -21,7 +21,7 @@ def test_compresstoWebP():
         image_data = image_file.read()
 
     # Compress and save to a temporary file
-    compressed_image_stream = image_compressor.compresstoWebP(image_data)
+    compressed_image_stream = image_compressor.compress_to_webP(image_data)
     compressed_path = os.path.join(
         current_directory, "test_resources", "images", "compressed_image.webp"
     )
@@ -38,7 +38,7 @@ def test_compresstoWebP():
     compression_quality = 70
 
     # Compress and save to a temporary file
-    compressed_image_stream = image_compressor.compresstoWebP(
+    compressed_image_stream = image_compressor.compress_to_webP(
         image_data, compression_quality
     )
     compressed_path = os.path.join(
@@ -63,7 +63,7 @@ def test_compresstoWebP():
     try:
         with open(nonexistent_image_path, "rb") as image_file:
             image_data = image_file.read()
-        image_compressor.compresstoWebP(image_data)
+        image_compressor.compress_to_webP(image_data)
     except FileNotFoundError:
         assert True
     else:

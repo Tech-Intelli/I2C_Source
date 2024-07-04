@@ -13,7 +13,7 @@ from cached_model import CachedModel
 from cached_model.blip2_model import Blip2Model
 from vector_store import initialize_chroma_client
 from vector_store import get_chroma_collection
-from image_compressor.image_compressor import compresstoWebP
+from image_compressor.image_compressor import compress_to_webP
 from utils.timer import timer_decorator
 from utils.stream import stream_text
 from utils.generate_gif_placeholder import generate_interim_gif
@@ -79,7 +79,7 @@ def compress_image(uploaded_file):
     """
     Compress the uploaded image to WebP format.
     """
-    compressed_image = compresstoWebP(uploaded_file.getvalue())
+    compressed_image = compress_to_webP(uploaded_file.getvalue())
     compressed_file_name = os.path.splitext(uploaded_file.name)[0] + "_compressed.webp"
     file_path = os.path.join("temp", compressed_file_name)
     with open(file_path, "wb") as f:
