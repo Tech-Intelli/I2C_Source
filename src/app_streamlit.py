@@ -11,8 +11,8 @@ import torch
 import generate_caption
 from cached_model import CachedModel
 from cached_model.blip2_model import Blip2Model
-from chromadb_vector_store import initialize_chroma_client
-from chromadb_vector_store import get_chroma_collection
+from vector_store import initialize_chroma_client
+from vector_store import get_chroma_collection
 from image_compressor.image_compressor import compresstoWebP
 from utils.timer import timer_decorator
 from utils.stream import stream_text
@@ -44,7 +44,7 @@ def initialize_resources():
             - `image_caption_gen` (generate_caption.ImageCaptionGenerator): An instance of the ImageCaptionGenerator class initialized with a chatbot.
             - `chatbot` (generate_caption.Chatbot): An instance of the Chatbot class.
             - `giphy_image` (str): The path to the giphy.gif image file.
-            - `chroma_collection` (chromadb_vector_store.ChromaCollection): A ChromaCollection instance representing the image_caption_vector collection.
+            - `chroma_collection` (vector_store.ChromaCollection): A ChromaCollection instance representing the image_caption_vector collection.
 
     """
     chatbot = generate_caption.LLMChatbot()
