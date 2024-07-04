@@ -20,21 +20,16 @@ class InferenceAbstract(ABC):
             Abstract method to be implemented for retrieving the image caption pipeline.
     """
 
-    CACHE_DIR = os.path.join(Path.cwd(), ".cache")
-    Path(CACHE_DIR).mkdir(parents=True, exist_ok=True)
-
-    def __init__(self, cache_file, collection):
+    def __init__(self, collection):
         """
         Initializes a new instance of the InferenceAbstract class.
 
         Args:
-            cache_file (str): The name of the cache file.
             collection (str): The name of the chromadb collection.
 
         Returns:
             None
         """
-        self.cache_file = os.path.join(self.CACHE_DIR, cache_file)
         self.collection = collection
 
     @staticmethod
