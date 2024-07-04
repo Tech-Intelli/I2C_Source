@@ -43,7 +43,7 @@ def compress_jpg(
     return compressed_image_path
 
 
-def compresstoWebP(
+def compress_to_webP(
     image_data, compression_quality: int = 50, resize_factor: float = 0.5
 ) -> str:
     """
