@@ -12,6 +12,7 @@ import generate_caption
 from utils.llm_chatbot import LLMChatbot
 from inference import InferenceAbstract
 from inference.blip2_model import Blip2Model
+from inference.llava_model import LlavaModel
 from vector_store import initialize_chroma_client
 from vector_store import get_chroma_collection
 from image_compressor.image_compressor import compress_to_webP
@@ -26,7 +27,7 @@ def load_model(chroma_collection):
     """
     Loads the model
     """
-    inference: InferenceAbstract = Blip2Model(chroma_collection)
+    inference: InferenceAbstract = LlavaModel(chroma_collection)
     if "model_loaded" not in st.session_state:
         inference.load_model()
         st.session_state["model_loaded"] = True

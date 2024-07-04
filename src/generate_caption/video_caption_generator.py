@@ -2,7 +2,7 @@ import os
 import shutil
 from generate_caption import CaptionGenerator
 from inference import InferenceAbstract
-from inference.blip2_model import Blip2Model
+from inference.llava_model import LlavaModel
 from video_scene_detector import VideoSceneDetector
 
 
@@ -52,7 +52,7 @@ class VideoCaptionGenerator(CaptionGenerator):
         image_list = os.listdir(scene_dir)
         all_captions = ""
 
-        cachedModel: InferenceAbstract = Blip2Model(collection)
+        cachedModel: InferenceAbstract = LlavaModel(collection)
         for each_image in image_list:
             text = cachedModel.get_image_caption_pipeline(
                 os.path.join(scene_dir, each_image)
