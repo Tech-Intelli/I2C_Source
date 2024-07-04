@@ -12,12 +12,16 @@ To use the application, you need to install the following dependencies:
 - opencv_python==4.7.0.72
 - Pillow
 - streamlit
-- transformers==4.27.4
 - pytest
 - pytest-mock
 - dnspython
-- email-validator
 - PyJWT
+- colorama
+- accelerate
+- ollama
+- chromadb
+- bitsandbytes
+- gevent
 
 You can install all of these dependencies by running `pip install -r requirements.txt` from the project directory.
 
