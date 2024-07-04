@@ -34,14 +34,6 @@ pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 --index-url https
 
 ## IMPORTANT NOTE:
 
-This application can have OOM (Out of Memory) problem if you are using conda which will eventually lead to the following problem
-
-```
-_pickle.PicklingError: Can't pickle <class 'builtins.safe_open'>: it's not found as builtins.safe_open
-```
-
-_***Therefore, it is strongly advised to install python 3.10 and install packages globally on your python environment.***_
-
 After the installation of python 3.10 check your python version using
 
 ```
