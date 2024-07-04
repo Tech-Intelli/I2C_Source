@@ -59,12 +59,12 @@ html_theme_options = {
     "collapse_navbar": True,
     "icon_links": [
         {
-            "name": "GitHub",        
+            "name": "GitHub",
             "url": "https://github.com/Tech-Intelli/I2C_Source",  # required
             "icon": "fa-brands fa-square-github",
             "type": "fontawesome",
-        }]
-    
+        }
+    ],
 }
 add_module_names = False
 # autodock_mock_imports = ['boto3']
@@ -95,9 +95,8 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'sphinx_book_theme'
-#html_theme = "piccolo_theme"
+html_theme = "sphinx_book_theme"
+# html_theme = "piccolo_theme"
 
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
-
