@@ -1,6 +1,6 @@
 from generate_caption import CaptionGenerator
-from cached_model import CachedModel
-from cached_model.blip2_model import Blip2Model
+from inference import InferenceAbstract
+from inference.blip2_model import Blip2Model
 
 
 class ImageCaptionGenerator(CaptionGenerator):
@@ -36,7 +36,7 @@ class ImageCaptionGenerator(CaptionGenerator):
         - compressed_image_path (str): The path of the compressed image used for generating the caption.
         """
         compressed_image_path = image_path
-        cachedModel: CachedModel = Blip2Model(collection)
+        cachedModel: InferenceAbstract = Blip2Model(collection)
         text = cachedModel.get_image_caption_pipeline(image_path)
         content = self._generate_content(
             text,

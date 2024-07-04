@@ -9,8 +9,8 @@ from pathlib import Path
 import streamlit as st
 import torch
 import generate_caption
-from cached_model import CachedModel
-from cached_model.blip2_model import Blip2Model
+from inference import InferenceAbstract
+from inference.blip2_model import Blip2Model
 from vector_store import initialize_chroma_client
 from vector_store import get_chroma_collection
 from image_compressor.image_compressor import compress_to_webP
@@ -25,9 +25,9 @@ def load_model(chroma_collection):
     """
     Loads the model
     """
-    cached_model: CachedModel = Blip2Model(chroma_collection)
+    inference: InferenceAbstract = Blip2Model(chroma_collection)
     if "model_loaded" not in st.session_state:
-        cached_model.load_model()
+        inference.load_model()
         st.session_state["model_loaded"] = True
 
 
