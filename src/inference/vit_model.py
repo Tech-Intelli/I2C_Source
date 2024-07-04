@@ -42,10 +42,10 @@ class VITModel(InferenceAbstract):
         except FileNotFoundError as e:
             log.error(f"Error loading cached pipeline: {e}")
 
-        log.info(f"Creating cache file @ {InferenceAbstract.CACHE_FILE}, please wait...")
-        image_pipeline = (
-            self.image_pipeline.get_image_caption_pipeline()
+        log.info(
+            f"Creating cache file @ {InferenceAbstract.CACHE_FILE}, please wait..."
         )
+        image_pipeline = self.image_pipeline.get_image_caption_pipeline()
         with open(self.cache_file, "wb") as f:
             torch.save(image_pipeline, f)
             log.info(
@@ -57,9 +57,7 @@ class VITModel(InferenceAbstract):
         """Loads the model if it's not already cached."""
         if not os.path.exists(self.cache_file):
             print(f"Creating cache file @ {self.cache_file}, please wait...")
-            image_pipeline = (
-                self.image_pipeline.get_image_caption_pipeline()
-            )
+            image_pipeline = self.image_pipeline.get_image_caption_pipeline()
             with open(self.cache_file, "wb") as f:
                 torch.save(image_pipeline, f)
                 print(f"Cache has been created at {self.cache_file} successfully.")
