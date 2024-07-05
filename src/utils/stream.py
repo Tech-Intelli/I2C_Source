@@ -6,7 +6,7 @@ from utils.timer import advanced_timer_decorator
 
 
 @advanced_timer_decorator(threshold=1.0, log_to_console=True, log_return_value=True)
-async def stream_text(stream, batch_size=5, sleep_time=0.01):
+async def stream_text(stream, batch_size=1, sleep_time=0.001):
     """Generate and display stream text
 
     Args:
