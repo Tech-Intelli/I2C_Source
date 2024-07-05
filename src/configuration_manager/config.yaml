@@ -1,3 +1,5 @@
+model_selection:
+  model_name: llava
 image_compression:
   compress: true
   compression_quality: 50

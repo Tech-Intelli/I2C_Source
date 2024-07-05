@@ -28,8 +28,7 @@ class VideoCaptionGenerator(CaptionGenerator):
         num_hashtags,
         tone,
         social_media,
-        device="cpu",
-        collection=None,
+        inference: InferenceAbstract = None,
     ):
         """
         Generate a caption for a video using a chatbot.
@@ -56,9 +55,8 @@ class VideoCaptionGenerator(CaptionGenerator):
         image_list = os.listdir(scene_dir)
         all_captions = ""
 
-        cachedModel: InferenceAbstract = LlavaModel(collection)
         for each_image in image_list:
-            text = cachedModel.get_image_caption_pipeline(
+            text = inference.get_image_caption_pipeline(
                 os.path.join(scene_dir, each_image)
             )
             all_captions += " " + text

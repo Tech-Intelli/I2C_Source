@@ -20,17 +20,29 @@ from utils.timer import timer_decorator
 from utils.stream import stream_text
 from utils.generate_gif_placeholder import generate_interim_gif
 from video_scene_detector import SceneDetector, SceneSaver
-
+from configuration_manager import ConfigManager
 
 @timer_decorator
 def load_model(chroma_collection):
     """
     Loads the model
     """
-    inference: InferenceAbstract = LlavaModel(chroma_collection)
+    config_manager = ConfigManager()
+    config = config_manager.get_app_config()
+    model_name = config.model_selection.model_name
+    inference: InferenceAbstract = None
+    if model_name == "llava":
+        inference: InferenceAbstract = LlavaModel(chroma_collection)
+    elif model_name == "blip2":
+        inference: InferenceAbstract = Blip2Model(chroma_collection)
+    else:
+        raise ValueError(f"Model {model_name} not supported")
+
     if "model_loaded" not in st.session_state:
         inference.load_model()
         st.session_state["model_loaded"] = True
+
+    return inference
 
 
 # Initialize resources
@@ -60,8 +72,8 @@ def initialize_resources():
     chroma_collection = get_chroma_collection(
         initialize_chroma_client(), "image_caption_vector"
     )
-    load_model(chroma_collection)
-    return image_caption_gen, video_caption_generator, giphy_image, chroma_collection
+    inference = load_model(chroma_collection)
+    return image_caption_gen, video_caption_generator, giphy_image, inference
 
 
 @st.cache_data
@@ -95,6 +107,7 @@ def process_and_generate_caption(
     params,
     image_caption_gen,
     video_caption_generator,
+    inference,
 ):
     """
     Process the uploaded file and generate a caption.
@@ -111,8 +124,7 @@ def process_and_generate_caption(
             params["num_hashtags"],
             params["tone"],
             params["social_media"],
-            device,
-            params["chroma_collection"],
+            inference,
         )
         asyncio.run(stream_text(caption))
         st.image(compressed_image_path)
@@ -127,8 +139,7 @@ def process_and_generate_caption(
             params["num_hashtags"],
             params["tone"],
             params["social_media"],
-            device,
-            params["chroma_collection"],
+            inference,
         )
         asyncio.run(stream_text(caption))
         st.video(file_path)
@@ -143,7 +154,7 @@ def app():
     if "resources" not in st.session_state:
         st.session_state["resources"] = initialize_resources()
 
-    image_caption_gen, video_caption_generator, giphy_image, chroma_collection = (
+    image_caption_gen, video_caption_generator, giphy_image, inference = (
         st.session_state["resources"]
     )
 
@@ -210,10 +221,10 @@ def app():
                     "num_hashtags": num_hashtags,
                     "tone": tone,
                     "social_media": social_media,
-                    "chroma_collection": chroma_collection,
                 },
                 image_caption_gen,
                 video_caption_generator,
+                inference,
             )
 
 
