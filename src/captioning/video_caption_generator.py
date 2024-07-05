@@ -2,9 +2,9 @@
 
 import os
 import shutil
-from generate_caption import CaptionGenerator
+from captioning import CaptionGenerator
 from inference import InferenceAbstract
-from video_scene_detector import VideoSceneDetector
+from video_processor import VideoSceneDetector
 
 
 class VideoCaptionGenerator(CaptionGenerator):

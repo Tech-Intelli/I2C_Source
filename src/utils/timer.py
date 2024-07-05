@@ -3,7 +3,7 @@ from functools import wraps
 import logging
 import tracemalloc
 from threading import Lock
-from logger import log
+from utils.logger import log
 
 
 def timer_decorator(func):

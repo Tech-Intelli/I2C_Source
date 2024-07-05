@@ -41,7 +41,7 @@ def setup_logger(name="log", level=logging.DEBUG):
         handler = logging.StreamHandler(sys.stdout)
         handler.setLevel(level)
         formatter = ColoredFormatter(
-            "%(asctime)s - %(levelname)s - %(funcName)s - %(message)s"
+            "%(asctime)s - %(levelname)s - %(funcName)s -%(lineno)s - %(message)s"
         )
         handler.setFormatter(formatter)
         logger.addHandler(handler)

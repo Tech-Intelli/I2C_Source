@@ -11,7 +11,7 @@ import hashlib
 import torch
 import chromadb
 from chromadb.config import Settings
-from logger import log
+from utils.logger import log
 
 
 def initialize_chroma_client():
