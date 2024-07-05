@@ -1,4 +1,4 @@
-from generate_caption import CaptionGenerator
+from captioning import CaptionGenerator
 from inference import InferenceAbstract
 
 

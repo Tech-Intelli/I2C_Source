@@ -7,7 +7,7 @@ Returns:
 import os
 import io
 from PIL import Image
-from logger import log
+from utils.logger import log
 
 
 def compress_jpg(

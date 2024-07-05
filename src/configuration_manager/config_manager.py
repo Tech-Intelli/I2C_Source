@@ -17,7 +17,7 @@ from configuration_manager.config_models import (
 )
 
 from datetime import datetime
-from logger import log
+from utils.logger import log
 
 
 @dataclass

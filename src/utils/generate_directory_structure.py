@@ -1,5 +1,5 @@
 import os
-from logger import log
+from utils.logger import log
 
 
 # Helper Function to create project structure in the readme. Copy the printed project structure directly into the readme.

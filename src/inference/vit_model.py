@@ -1,7 +1,7 @@
 from inference.inference_abstract import InferenceAbstract
 from image_pipeline import ImageCaptioningPipeline
 from image_pipeline.vit_pipeline import ViTGPT2Pipeline
-from logger import log
+from utils.logger import log
 import torch
 
 
