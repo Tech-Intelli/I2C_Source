@@ -17,7 +17,8 @@ The documentation is organized into several sections, each serving a specific pu
    :maxdepth: 4
    :caption: Contents:
 
-
+   Installation <installation>
+   
 Introduction
 ===============================
 
