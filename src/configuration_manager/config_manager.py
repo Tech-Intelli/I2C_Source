@@ -13,6 +13,7 @@ from configuration_manager.config_models import (
     OllamaConfig,
     ImageCompressionConfig,
     TransformConfig,
+    ModelSelectionConfig,
 )
 
 from datetime import datetime
@@ -28,6 +29,7 @@ class AppConfig:
         default_factory=ImageCompressionConfig
     )
     transform_config: TransformConfig = field(default_factory=TransformConfig)
+    model_selection: ModelSelectionConfig = field(default_factory=ModelSelectionConfig)
 
     def validate(self):
         """
@@ -105,6 +107,14 @@ class AppConfig:
         if not isinstance(self.image_compression.resize_factor, float):
             raise ValueError(
                 "The 'resize_factor' field in ImageCompressionConfig must be a float."
+            )
+        # Validate ModelSelectionConfig
+        if (
+            not isinstance(self.model_selection.model_name, str)
+            or not self.model_selection.model_name.strip()
+        ):
+            raise ValueError(
+                "The 'model_type' field in ModelSelectionConfig must be a non-empty string."
             )
 
 
@@ -297,6 +307,19 @@ class ConfigManager:
             log.info(f"Rolled back to version {version_number}.")
         except IndexError:
             log.error(f"Version {version_number} does not exist.")
+
+    @staticmethod
+    def get_config_manager():
+        """
+        Returns an instance of the ConfigManager class.
+
+        This static method returns a singleton instance of the ConfigManager class.
+        It ensures that only one instance of the class is created and returned. This is useful when you need to access the same instance of the ConfigManager class throughout your application.
+
+        :return: An instance of the ConfigManager class.
+        :rtype: ConfigManager
+        """
+        return ConfigManager()
 
     def get_app_config(self) -> AppConfig:
         """

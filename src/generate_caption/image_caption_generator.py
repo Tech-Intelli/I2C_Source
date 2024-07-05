@@ -1,7 +1,5 @@
 from generate_caption import CaptionGenerator
 from inference import InferenceAbstract
-from inference.blip2_model import Blip2Model
-from inference.llava_model import LlavaModel
 
 
 class ImageCaptionGenerator(CaptionGenerator):
@@ -19,8 +17,7 @@ class ImageCaptionGenerator(CaptionGenerator):
         num_hashtags,
         tone,
         social_media,
-        device="cpu",
-        collection=None,
+        inference: InferenceAbstract = None,
     ):
         """
         Generates a caption for an image using the chatbot object.
@@ -37,8 +34,7 @@ class ImageCaptionGenerator(CaptionGenerator):
         - compressed_image_path (str): The path of the compressed image used for generating the caption.
         """
         compressed_image_path = image_path
-        cachedModel: InferenceAbstract = LlavaModel(collection)
-        text = cachedModel.get_image_caption_pipeline(image_path)
+        text = inference.get_image_caption_pipeline(image_path)
         content = self._generate_content(
             text,
             caption_size,

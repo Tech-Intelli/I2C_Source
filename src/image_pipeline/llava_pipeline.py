@@ -8,6 +8,7 @@ from transformers import (
     BitsAndBytesConfig,
 )
 from image_pipeline import ImageCaptioningPipeline
+from configuration_manager import ConfigManager
 
 
 class LlavaPipeline(ImageCaptioningPipeline):
@@ -15,7 +16,7 @@ class LlavaPipeline(ImageCaptioningPipeline):
     A class for generating captions from images using the LLAVA model.
     """
 
-    MODEL_NAME = "llava-hf/llava-1.5-7b-hf"
+    MODEL_NAME = ConfigManager.get_config_manager().get_app_config().multimodal.llava
 
     _model = None
     _processor = None

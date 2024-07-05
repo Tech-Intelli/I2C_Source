@@ -4,9 +4,15 @@ from dataclasses import dataclass, field
 
 
 @dataclass
+class ModelSelectionConfig:
+    model_name: str = "llava"
+
+
+@dataclass
 class MultiModalConfig:
     blip: str = "Salesforce/blip2-opt-2.7b"
     vit: str = "nlpconnect/vit-gpt2-image-captioning"
+    llava: str = "llava-hf/llava-1.5-7b-hf"
 
 
 @dataclass

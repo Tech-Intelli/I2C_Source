@@ -9,6 +9,7 @@ from transformers import (
     AutoProcessor,
 )
 from image_pipeline import ImageCaptioningPipeline
+from configuration_manager import ConfigManager
 
 
 class ViTGPT2Pipeline(ImageCaptioningPipeline):
@@ -16,8 +17,7 @@ class ViTGPT2Pipeline(ImageCaptioningPipeline):
     A class for generating captions from images using the ViT-GPT2 image captioning model.
     """
 
-    MODEL_NAME = "nlpconnect/vit-gpt2-image-captioning"
-
+    MODEL_NAME = ConfigManager.get_config_manager().get_app_config().multimodal.vit
     _model = None
     _feature_extractor = None
     _tokenizer = None

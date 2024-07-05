@@ -74,6 +74,7 @@ class VideoSceneDetector:
             frame_index += 1
 
         cap.release()
+        self.scene_detector.reset_state()
 
 
 class SceneDetector:
@@ -101,10 +102,21 @@ class SceneDetector:
     """
 
     def __init__(self, num_diffs=30):
+        """
+        Initializes a new instance of the SceneDetector class.
+
+        Args:
+            num_diffs (int, optional): The maximum number of mean differences to be stored in the mean_diffs list. Defaults to 30.
+
+        Attributes:
+            prev_frame (numpy.ndarray or None): The previous frame of the video.
+            curr_frame (numpy.ndarray or None): The current frame of the video.
+            mean_diffs (list): A list of mean differences between current and previous frames.
+            num_diffs (int): The maximum number of mean differences to be stored in the mean_diffs list.
+            diff_index (int): The index of the oldest mean difference in the mean_diffs list.
+        """
         self.prev_frame = None
-        self.prev_gray = None
         self.curr_frame = None
-        self.curr_gray = None
         self.mean_diffs = []
         self.num_diffs = num_diffs
         self.diff_index = 0
@@ -124,23 +136,26 @@ class SceneDetector:
         frame : ndarray
             A single frame of a video.
         """
-        if self.curr_gray is not None:
-            self.prev_frame = self.curr_frame
-            self.prev_gray = self.curr_gray
-
-        self.curr_frame = frame.copy()
         self.curr_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        self.curr_frame = frame.copy()
+        if self.prev_frame is not None:
+            if self.curr_frame.shape != self.prev_frame.shape:
+                print(
+                    f"Frame size mismatch: prev_frame {self.prev_frame.shape}, curr_frame {self.curr_frame.shape}"
+                )
+                self.curr_frame = cv2.resize(
+                    self.curr_frame,
+                    (self.prev_frame.shape[1], self.prev_frame.shape[0]),
+                )
 
-        if self.prev_gray is not None:
-            diff = cv2.absdiff(self.curr_gray, self.prev_gray)
+            diff = cv2.absdiff(self.curr_frame, self.prev_frame)
             mean_diff = diff.mean()
             self.mean_diffs.append(mean_diff)
 
             if len(self.mean_diffs) > self.num_diffs:
-                oldest_diff_index = self.diff_index - self.num_diffs
-                self.mean_diffs.pop(oldest_diff_index)
-            else:
-                self.diff_index += 1
+                self.mean_diffs.pop(0)
+
+        self.prev_frame = self.curr_frame
 
     def scene_changed(self):
         """
@@ -164,6 +179,21 @@ class SceneDetector:
             numpy.ndarray: The current frame.
         """
         return self.curr_frame
+
+    def reset_state(self):
+        """
+        Resets the state of the object.
+
+        This method resets the `prev_frame` attribute to `None` and clears the `mean_diffs` list.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """
+        self.prev_frame = None
+        self.mean_diffs = []
 
 
 class SceneSaver:
