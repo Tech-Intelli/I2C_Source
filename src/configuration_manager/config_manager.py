@@ -308,6 +308,19 @@ class ConfigManager:
         except IndexError:
             log.error(f"Version {version_number} does not exist.")
 
+    @staticmethod
+    def get_config_manager():
+        """
+        Returns an instance of the ConfigManager class.
+
+        This static method returns a singleton instance of the ConfigManager class.
+        It ensures that only one instance of the class is created and returned. This is useful when you need to access the same instance of the ConfigManager class throughout your application.
+
+        :return: An instance of the ConfigManager class.
+        :rtype: ConfigManager
+        """
+        return ConfigManager()
+
     def get_app_config(self) -> AppConfig:
         """
         Returns the application configuration object.

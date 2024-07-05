@@ -8,6 +8,7 @@ image_compression:
 multimodal:
   blip: Salesforce/blip2-opt-2.7b
   vit: nlpconnect/vit-gpt2-image-captioning
+  llava: llava-hf/llava-1.5-7b-hf
 ollama:
   stream: false
   temperature: 1
