@@ -13,7 +13,7 @@ from configuration_manager.config_models import (
     OllamaConfig,
     ImageCompressionConfig,
     TransformConfig,
-    ModelSelectionConfig
+    ModelSelectionConfig,
 )
 
 from datetime import datetime
@@ -30,6 +30,7 @@ class AppConfig:
     )
     transform_config: TransformConfig = field(default_factory=TransformConfig)
     model_selection: ModelSelectionConfig = field(default_factory=ModelSelectionConfig)
+
     def validate(self):
         """
         Validates the configuration fields of the AppConfig object.
@@ -108,7 +109,10 @@ class AppConfig:
                 "The 'resize_factor' field in ImageCompressionConfig must be a float."
             )
         # Validate ModelSelectionConfig
-        if not isinstance(self.model_selection.model_name, str) or not self.model_selection.model_name.strip():
+        if (
+            not isinstance(self.model_selection.model_name, str)
+            or not self.model_selection.model_name.strip()
+        ):
             raise ValueError(
                 "The 'model_type' field in ModelSelectionConfig must be a non-empty string."
             )

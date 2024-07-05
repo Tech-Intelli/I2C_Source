@@ -76,6 +76,7 @@ class VideoSceneDetector:
         cap.release()
         self.scene_detector.reset_state()
 
+
 class SceneDetector:
     """
     A class for detecting scene changes in a video.
@@ -139,8 +140,13 @@ class SceneDetector:
         self.curr_frame = frame.copy()
         if self.prev_frame is not None:
             if self.curr_frame.shape != self.prev_frame.shape:
-                print(f"Frame size mismatch: prev_frame {self.prev_frame.shape}, curr_frame {self.curr_frame.shape}")
-                self.curr_frame = cv2.resize(self.curr_frame, (self.prev_frame.shape[1], self.prev_frame.shape[0]))
+                print(
+                    f"Frame size mismatch: prev_frame {self.prev_frame.shape}, curr_frame {self.curr_frame.shape}"
+                )
+                self.curr_frame = cv2.resize(
+                    self.curr_frame,
+                    (self.prev_frame.shape[1], self.prev_frame.shape[0]),
+                )
 
             diff = cv2.absdiff(self.curr_frame, self.prev_frame)
             mean_diff = diff.mean()
@@ -173,6 +179,7 @@ class SceneDetector:
             numpy.ndarray: The current frame.
         """
         return self.curr_frame
+
     def reset_state(self):
         """
         Resets the state of the object.
@@ -187,6 +194,7 @@ class SceneDetector:
         """
         self.prev_frame = None
         self.mean_diffs = []
+
 
 class SceneSaver:
     """

@@ -22,6 +22,7 @@ from utils.generate_gif_placeholder import generate_interim_gif
 from video_scene_detector import SceneDetector, SceneSaver
 from configuration_manager import ConfigManager
 
+
 @timer_decorator
 def load_model(chroma_collection):
     """

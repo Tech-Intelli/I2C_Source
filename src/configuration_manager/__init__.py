@@ -5,5 +5,5 @@ from .config_models import (
     TransformConfig,
     MultiModalConfig,
     Variants,
-    ModelSelectionConfig
+    ModelSelectionConfig,
 )

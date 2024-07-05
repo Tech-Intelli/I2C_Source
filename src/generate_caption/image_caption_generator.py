@@ -17,7 +17,7 @@ class ImageCaptionGenerator(CaptionGenerator):
         num_hashtags,
         tone,
         social_media,
-        inference: InferenceAbstract=None,
+        inference: InferenceAbstract = None,
     ):
         """
         Generates a caption for an image using the chatbot object.

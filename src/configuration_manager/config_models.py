@@ -2,9 +2,12 @@
 
 from dataclasses import dataclass, field
 
+
 @dataclass
 class ModelSelectionConfig:
     model_name: str = "llava"
+
+
 @dataclass
 class MultiModalConfig:
     blip: str = "Salesforce/blip2-opt-2.7b"
