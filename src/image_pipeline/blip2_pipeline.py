@@ -8,6 +8,7 @@ from transformers import (
     BitsAndBytesConfig,
 )
 from image_pipeline import ImageCaptioningPipeline
+from configuration_manager import ConfigManager
 
 
 class Blip2Pipeline(ImageCaptioningPipeline):
@@ -15,7 +16,7 @@ class Blip2Pipeline(ImageCaptioningPipeline):
     A class for generating captions from images using the BLIP2 model.
     """
 
-    MODEL_NAME = "Salesforce/blip2-opt-2.7b"
+    MODEL_NAME = ConfigManager.get_config_manager().get_app_config().multimodal.blip
 
     _model = None
     _processor = None

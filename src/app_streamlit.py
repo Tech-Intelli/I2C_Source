@@ -28,9 +28,8 @@ def load_model(chroma_collection):
     """
     Loads the model
     """
-    config_manager = ConfigManager()
-    config = config_manager.get_app_config()
-    model_name = config.model_selection.model_name
+    app_config = ConfigManager.get_config_manager().get_app_config()
+    model_name = app_config.model_selection.model_name
     inference: InferenceAbstract = None
     if model_name == "llava":
         inference: InferenceAbstract = LlavaModel(chroma_collection)

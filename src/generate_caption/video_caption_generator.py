@@ -4,7 +4,6 @@ import os
 import shutil
 from generate_caption import CaptionGenerator
 from inference import InferenceAbstract
-from inference.llava_model import LlavaModel
 from video_scene_detector import VideoSceneDetector
 
 
