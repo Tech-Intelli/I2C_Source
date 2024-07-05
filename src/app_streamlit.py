@@ -62,8 +62,8 @@ def initialize_resources():
 
     """
     chatbot = LLMChatbot()
-    image_caption_gen: captioning.CaptionGenerator = (
-        captioning.ImageCaptionGenerator(chatbot)
+    image_caption_gen: captioning.CaptionGenerator = captioning.ImageCaptionGenerator(
+        chatbot
     )
     video_caption_generator: captioning.CaptionGenerator = (
         captioning.VideoCaptionGenerator(chatbot, SceneDetector(), SceneSaver())
