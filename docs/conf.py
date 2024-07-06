@@ -37,11 +37,11 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.ifconfig",
     "sphinx_copybutton",
+    "sphinx.ext.autodoc.typehints",
     # "sphinx.ext.autosummary",
 ]
 
-autodoc_typehints = "description"
-autodoc_class_signature = "separated"
+
 autoapi_options = [
     "members",
     "undoc-members",
@@ -52,13 +52,15 @@ autoapi_options = [
     "special-members",
     "imported-members",
 ]
-
+add_module_names = False
+autodoc_typehints = "description"
+autodoc_class_signature = "separated"
 # html_logo = '../resources/logo.png'
 
 # pygments_style = "stata-dark"
 
 # html_logo = "https://pydata.org/wp-content/uploads/2019/06/pydata-logo-final.png"
-html_title = "PulseMan Docs"
+html_title = "{ PulseMan Docs }"
 
 # Using https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html
 
@@ -69,8 +71,8 @@ html_theme_options = {
     # "use_repository_button": True, #for book theme
     # "max_navbar_depth": 2,         #for book theme
     # "collapse_navbar": True,       #for book theme
-    "pygments_light_style": "tango",
-    "pygments_dark_style": "monokai",
+    "pygments_light_style": "murphy",
+    "pygments_dark_style": "dracula",
     "primary_sidebar_end": ["indices.html"],
     "secondary_sidebar_items": ["page-toc", "sourcelink"],
     "show_toc_level": 1,
@@ -101,7 +103,6 @@ html_context = {
     "doc_path": "<path-from-root-to-your-docs>",
 }
 
-add_module_names = False
 # autodock_mock_imports = ['boto3']
 # autodock_mock_imports = ['flask', 'ritetag ']
 # The master toctree document.
@@ -124,4 +125,4 @@ html_theme = "pydata_sphinx_theme"
 # html_theme = "piccolo_theme"
 
 html_static_path = ["_static"]
-html_css_files = ["custom.css"]
+html_css_files = ["custom.css", "functions.css", "classes.css", "modules.css"]
