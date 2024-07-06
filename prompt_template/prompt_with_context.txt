@@ -9,7 +9,7 @@ tone: {tone}
 num_hashtags: {num_hashtags}
 only_length: {only_length}
 prompt_template: "Create a {caption_length} {social_media} caption 
-for the given video.
+for the given image/video.
 The caption should be set in {location}, with a focus on highlighting {text} 
 in a {style} style, while also tying into the context: '{context}'. 
 Use a {tone} language style to hook and enthrall the intended audience. 
