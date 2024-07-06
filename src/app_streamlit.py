@@ -15,11 +15,11 @@ from inference.blip2_model import Blip2Model
 from inference.llava_model import LlavaModel
 from vector_store import initialize_chroma_client
 from vector_store import get_chroma_collection
-from image_processor.img_compressor import compress_to_webP
+from processor.image_processor.img_compressor import compress_to_webP
 from utils.timer import timer_decorator
 from utils.stream import stream_text
 from utils.generate_gif_placeholder import generate_interim_gif
-from video_processor import SceneDetector, SceneSaver
+from processor.video_processor import SceneDetector, SceneSaver
 from configuration_manager import ConfigManager
 
 

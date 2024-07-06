@@ -4,7 +4,7 @@ import os
 import shutil
 from captioning import CaptionGenerator
 from inference import InferenceAbstract
-from video_processor import VideoSceneDetector
+from processor.video_processor import VideoSceneDetector
 
 
 class VideoCaptionGenerator(CaptionGenerator):
