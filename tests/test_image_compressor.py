@@ -1,6 +1,6 @@
 import os
 from unittest.mock import patch, mock_open
-from src.image_processor import image_compressor
+from image_processor import img_compressor
 
 
 def save_bytesio_to_file(bytesio_obj, output_path):
@@ -21,7 +21,7 @@ def test_compress_to_webP():
         image_data = image_file.read()
 
     # Compress and save to a temporary file
-    compressed_image_stream = image_compressor.compress_to_webP(image_data)
+    compressed_image_stream = img_compressor.compress_to_webP(image_data)
     compressed_path = os.path.join(
         current_directory, "test_resources", "images", "compressed_image.webp"
     )
@@ -38,7 +38,7 @@ def test_compress_to_webP():
     compression_quality = 70
 
     # Compress and save to a temporary file
-    compressed_image_stream = image_compressor.compress_to_webP(
+    compressed_image_stream = img_compressor.compress_to_webP(
         image_data, compression_quality
     )
     compressed_path = os.path.join(
@@ -55,7 +55,7 @@ def test_compress_to_webP():
     small_image_path = os.path.join(
         current_directory, "test_resources", "images", "small_image.jpg"
     )
-    compressed_path = image_compressor.compress_jpg(small_image_path)
+    compressed_path = img_compressor.compress_jpg(small_image_path)
     assert compressed_path == small_image_path
 
     # Test case 4: Compress non-existent image, should raise FileNotFoundError
@@ -63,7 +63,7 @@ def test_compress_to_webP():
     try:
         with open(nonexistent_image_path, "rb") as image_file:
             image_data = image_file.read()
-        image_compressor.compress_to_webP(image_data)
+        img_compressor.compress_to_webP(image_data)
     except FileNotFoundError:
         assert True
     else:
