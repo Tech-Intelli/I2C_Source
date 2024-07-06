@@ -8,8 +8,10 @@ import asyncio
 from pathlib import Path
 import streamlit as st
 import torch
-import captioning
-from utils.llm_chatbot import LLMChatbot
+from abstracts.generate_caption_abstract import CaptionGenerator
+from captioning.image_caption_generator import ImageCaptionGenerator
+from captioning.video_caption_generator import VideoCaptionGenerator
+from llm_chatbot import LLMChatbot
 from abstracts.inference_abstract import InferenceAbstract
 from inference.blip2_model import Blip2Model
 from inference.llava_model import LlavaModel
@@ -21,7 +23,7 @@ from utils.stream import stream_text
 from utils.generate_gif_placeholder import generate_interim_gif
 from processor.video_processor.scene_detctor import SceneDetector
 from processor.video_processor.scene_saver import SceneSaver
-from configuration_manager import ConfigManager
+from configuration_manager.config_manager import ConfigManager
 
 
 @timer_decorator
@@ -63,12 +65,11 @@ def initialize_resources():
 
     """
     chatbot = LLMChatbot()
-    image_caption_gen: captioning.CaptionGenerator = captioning.ImageCaptionGenerator(
-        chatbot
+    image_caption_gen: CaptionGenerator = ImageCaptionGenerator(chatbot)
+    video_caption_generator: CaptionGenerator = VideoCaptionGenerator(
+        chatbot, SceneDetector(), SceneSaver()
     )
-    video_caption_generator: captioning.CaptionGenerator = (
-        captioning.VideoCaptionGenerator(chatbot, SceneDetector(), SceneSaver())
-    )
+
     giphy_image = os.path.join(Path.cwd(), "../resources", "giphy.gif")
     chroma_collection = get_chroma_collection(
         initialize_chroma_client(), "image_caption_vector"

@@ -9,7 +9,7 @@ from transformers import (
     AutoProcessor,
 )
 from abstracts.image_pipeline_abstract import ImageCaptioningPipeline
-from configuration_manager import ConfigManager
+from configuration_manager.config_manager import ConfigManager
 
 
 class ViTGPT2Pipeline(ImageCaptioningPipeline):

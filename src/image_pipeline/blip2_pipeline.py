@@ -8,7 +8,7 @@ from transformers import (
     BitsAndBytesConfig,
 )
 from abstracts.image_pipeline_abstract import ImageCaptioningPipeline
-from configuration_manager import ConfigManager
+from configuration_manager.config_manager import ConfigManager
 
 
 class Blip2Pipeline(ImageCaptioningPipeline):
