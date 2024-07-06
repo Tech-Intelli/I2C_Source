@@ -54,11 +54,11 @@ class CaptionGenerator(ABC):
 
         if context is not None or context != "":
             template = prompt._read_prompt_template(
-                "prompt_template/prompt_with_context.txt"
+                "../prompt_template/prompt_with_context.txt"
             )
         else:
             template = prompt._read_prompt_template(
-                "prompt_template/prompt_without_context.txt"
+                "../prompt_template/prompt_without_context.txt"
             )
         content = template.format(
             caption_length=caption_length,
