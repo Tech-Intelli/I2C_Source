@@ -9,7 +9,6 @@ from watchdog.events import FileSystemEventHandler
 from prettytable import PrettyTable
 from configuration_manager.config_models import (
     MultiModalConfig,
-    Variants,
     OllamaConfig,
     ImageCompressionConfig,
     TransformConfig,
