@@ -57,6 +57,18 @@ class Blip2Model(InferenceAbstract):
             unique_id_future = executor.submit(get_unique_image_id, pixel_values)
 
             def store_in_chroma_db(fut, collection, pixel_values, generated_text):
+                """
+                Stores the generated image text in the chroma database.
+
+                Args:
+                    fut: The future object containing the unique id.
+                    collection: The collection in the chroma database.
+                    pixel_values: The pixel values of the generated image.
+                    generated_text: The text generated from the image.
+
+                Returns:
+                    None
+                """
                 unique_id = fut.result()
                 add_image_to_chroma(collection, unique_id, pixel_values, generated_text)
 
