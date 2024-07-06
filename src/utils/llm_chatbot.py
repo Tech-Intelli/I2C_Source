@@ -1,5 +1,5 @@
 import ollama
-
+from configuration_manager import ConfigManager
 
 class LLMChatbot:
     """
@@ -10,40 +10,25 @@ class LLMChatbot:
         """
         Initializes a new Chatbot instance.
         """
-
-    def get_response(self, content):
-        """
-        Sends a message to the Ollama llama-3 or phi-3 chat model and returns its
-        response.
-
-        Args:
-            content (str): The content of the message to be sent.
-
-        Returns:
-            dict: A dictionary containing the response from the chat model.
-        """
-
-        response = ollama.chat(
-            model="phi3",
-            messages=[{"role": "user", "content": content}],
-            options={"temperature": 1, "top_p": 0.9},
-        )
-        return response
-
-    def get_stream_response(self, content):
+        self.app_config = ConfigManager.get_config_manager().get_app_config()
+        self.model = self.app_config.ollama.variants.phi3
+        self.temperature = self.app_config.ollama.temperature
+        self.top_p = self.app_config.ollama.top_p
+ 
+    def get_response(self, content, stream=False):
         """Sends a message to the Ollama llama-3 or phi-3 chat model and returns its
         response as a stream.
 
         Args:
             content (str): The content of the message to be sent.
-
+            stream (bool): Whether to stream the response.
         Returns:
             dict: A dictionary containing the response from the chat model.
         """
         stream_caption = ollama.chat(
-            model="phi3",
+            model=self.model,
             messages=[{"role": "user", "content": content}],
-            stream=True,
-            options={"temperature": 1, "top_p": 0.9},
+            stream=stream,
+            options={"temperature": self.temperature, "top_p": self.top_p},
         )
         return stream_caption
