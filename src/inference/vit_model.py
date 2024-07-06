@@ -1,5 +1,5 @@
-from inference.inference_abstract import InferenceAbstract
-from image_pipeline import ImageCaptioningPipeline
+from abstracts.inference_abstract import InferenceAbstract
+from abstracts.image_pipeline_abstract import ImageCaptioningPipeline
 from image_pipeline.vit_pipeline import ViTGPT2Pipeline
 from utils.logger import log
 import torch

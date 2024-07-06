@@ -1,5 +1,5 @@
-from captioning import CaptionGenerator
-from inference import InferenceAbstract
+from abstracts.generate_caption_abstract import CaptionGenerator
+from abstracts.inference_abstract import InferenceAbstract
 
 
 class ImageCaptionGenerator(CaptionGenerator):

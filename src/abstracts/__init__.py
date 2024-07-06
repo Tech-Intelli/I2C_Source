@@ -1,0 +1,2 @@
+from .inference_abstract import InferenceAbstract
+from .image_pipeline_abstract import ImageCaptioningPipeline

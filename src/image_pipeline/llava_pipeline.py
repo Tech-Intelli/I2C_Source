@@ -7,7 +7,7 @@ from transformers import (
     LlavaForConditionalGeneration,
     BitsAndBytesConfig,
 )
-from image_pipeline import ImageCaptioningPipeline
+from abstracts.image_pipeline_abstract import ImageCaptioningPipeline
 from configuration_manager import ConfigManager
 
 

@@ -10,7 +10,7 @@ import streamlit as st
 import torch
 import captioning
 from utils.llm_chatbot import LLMChatbot
-from inference import InferenceAbstract
+from abstracts.inference_abstract import InferenceAbstract
 from inference.blip2_model import Blip2Model
 from inference.llava_model import LlavaModel
 from vector_store import initialize_chroma_client
