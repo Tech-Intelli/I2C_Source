@@ -3,5 +3,5 @@ Video Scene Detector Module
 """
 
 from .video_processor import VideoProcessor
-from .video_processor import SceneDetector
-from .video_processor import SceneSaver
+from .scene_saver import SceneSaver
+from .scene_detctor import SceneDetector

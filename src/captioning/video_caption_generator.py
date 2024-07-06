@@ -47,10 +47,10 @@ class VideoCaptionGenerator(CaptionGenerator):
 
         scene_dir = "extracted_images"
         os.makedirs(scene_dir, exist_ok=True)
-        vid_scn_detector = VideoProcessor(
+        vid_processor = VideoProcessor(
             video_path, self.scene_detector, self.scene_saver
         )
-        vid_scn_detector.detect_scenes()
+        vid_processor.detect_scenes()
         image_list = os.listdir(scene_dir)
         all_captions = ""
 
