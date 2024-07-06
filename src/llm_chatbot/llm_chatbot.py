@@ -1,5 +1,5 @@
 import ollama
-from configuration_manager import ConfigManager
+from configuration_manager.config_manager import ConfigManager
 
 
 class LLMChatbot:
