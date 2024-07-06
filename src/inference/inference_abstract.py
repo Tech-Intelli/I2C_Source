@@ -7,6 +7,7 @@ from pathlib import Path
 import torch
 from torchvision import transforms
 from PIL import Image
+from configuration_manager import ConfigManager
 
 warnings.filterwarnings("ignore")
 
@@ -40,10 +41,13 @@ class InferenceAbstract(ABC):
     @staticmethod
     def get_transform():
         """Returns the composed transform for image preprocessing."""
+        app_config = ConfigManager.get_config_manager().get_app_config()
+        resize = app_config.transform_config.resize
+        center_crop = app_config.transform_config.center_crop
         return transforms.Compose(
             [
-                transforms.Resize((256, 256)),
-                transforms.CenterCrop(224),
+                transforms.Resize(resize),
+                transforms.CenterCrop(center_crop),
                 transforms.ToTensor(),
             ]
         )
