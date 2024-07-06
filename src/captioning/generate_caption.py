@@ -79,7 +79,6 @@ class CaptionGenerator(ABC):
         """
         hashtag = Hashtag(content, self.chatbot)
         stream_caption = self.chatbot.get_response(
-            hashtag.generate_hashtagged_caption(num_hashtags),
-            True
+            hashtag.generate_hashtagged_caption(num_hashtags), True
         )
         return stream_caption

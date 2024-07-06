@@ -1,6 +1,7 @@
 import ollama
 from configuration_manager import ConfigManager
 
+
 class LLMChatbot:
     """
     A class representing a chatbot that interacts with the OpenAI Chat API.
@@ -14,7 +15,7 @@ class LLMChatbot:
         self.model = self.app_config.ollama.variants.phi3
         self.temperature = self.app_config.ollama.temperature
         self.top_p = self.app_config.ollama.top_p
- 
+
     def get_response(self, content, stream=False):
         """Sends a message to the Ollama llama-3 or phi-3 chat model and returns its
         response as a stream.

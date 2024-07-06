@@ -32,7 +32,7 @@ class InferenceAbstract(ABC):
             None
         """
         self.collection = collection
-        
+
     @staticmethod
     def get_device():
         """Returns the device to be used for PyTorch operations."""
