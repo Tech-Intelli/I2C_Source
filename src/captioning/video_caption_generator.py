@@ -4,7 +4,7 @@ import os
 import shutil
 from captioning import CaptionGenerator
 from inference import InferenceAbstract
-from processor.video_processor import VideoSceneDetector
+from processor.video_processor import VideoProcessor
 
 
 class VideoCaptionGenerator(CaptionGenerator):
@@ -47,7 +47,7 @@ class VideoCaptionGenerator(CaptionGenerator):
 
         scene_dir = "extracted_images"
         os.makedirs(scene_dir, exist_ok=True)
-        vid_scn_detector = VideoSceneDetector(
+        vid_scn_detector = VideoProcessor(
             video_path, self.scene_detector, self.scene_saver
         )
         vid_scn_detector.detect_scenes()

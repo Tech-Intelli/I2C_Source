@@ -8,7 +8,7 @@ import cv2
 
 
 @dataclass
-class VideoSceneDetector:
+class VideoProcessor:
     """
     Class that detects and saves different scenes in a given video file.
 
