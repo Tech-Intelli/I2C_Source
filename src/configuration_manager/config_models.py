@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class ModelSelectionConfig:
-    model_name: str = "llava"
+    model_name: str = "blip2"
 
 
 @dataclass

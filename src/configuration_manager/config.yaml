@@ -1,5 +1,5 @@
 model_selection:
-  model_name: llava
+  model_name: blip2
 image_compression:
   compress: true
   compression_quality: 50
