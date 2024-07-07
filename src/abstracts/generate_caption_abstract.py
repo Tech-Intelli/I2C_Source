@@ -28,7 +28,6 @@ class CaptionGenerator(ABC):
         num_hashtags,
         tone,
         social_media,
-        device="cpu",
         collection=None,
     ):
         pass
