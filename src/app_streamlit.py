@@ -12,9 +12,9 @@ from captioning.abstract.generate_caption_abstract import CaptionGenerator
 from captioning.impl.image_caption_generator import ImageCaptionGenerator
 from captioning.impl.video_caption_generator import VideoCaptionGenerator
 from llm_chatbot import LLMChatbot
-from abstracts.inference_abstract import InferenceAbstract
-from inference.blip2_model import Blip2Model
-from inference.llava_model import LlavaModel
+from inference.abstract.inference_abstract import InferenceAbstract
+from inference.impl.blip2_model import Blip2Model
+from inference.impl.llava_model import LlavaModel
 from vector_store import initialize_chroma_client
 from vector_store import get_chroma_collection
 from processor.image_processor.img_compressor import compress_to_webP
