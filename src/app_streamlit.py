@@ -27,12 +27,10 @@ from configuration_manager.config_manager import ConfigManager
 
 
 @timer_decorator
-def load_model(chroma_collection):
+def load_model(chroma_collection, model_name):
     """
     Loads the model
     """
-    app_config = ConfigManager.get_config_manager().get_app_config()
-    model_name = app_config.model_selection.model_name
     inference: InferenceAbstract = None
     if model_name == "llava":
         inference: InferenceAbstract = LlavaModel(chroma_collection)
@@ -71,10 +69,21 @@ def initialize_resources():
     )
 
     giphy_image = os.path.join(Path.cwd(), "../resources", "giphy.gif")
+
+    app_config = ConfigManager.get_config_manager().get_app_config()
+    model_name = app_config.model_selection.model_name
+    chroma_db_config = None
+    if model_name == "llava":
+        chroma_db_config = app_config.chroma_db.llava
+    elif model_name == "blip2":
+        chroma_db_config = app_config.chroma_db.blip
+    else:
+        raise ValueError(f"Model {model_name} not supported")
+
     chroma_collection = get_chroma_collection(
-        initialize_chroma_client(), "image_caption_vector"
+        initialize_chroma_client(), chroma_db_config
     )
-    inference = load_model(chroma_collection)
+    inference = load_model(chroma_collection, model_name)
     return image_caption_gen, video_caption_generator, giphy_image, inference
 
 
