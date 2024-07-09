@@ -1,10 +1,10 @@
 """
 Image Captioning Module
 """
-
-from .vit_pipeline import ViTGPT2Pipeline
-from .blip2_pipeline import Blip2Pipeline
-from .llava_pipeline import LlavaPipeline
+from .abstract.image_pipeline_abstract import ImageCaptioningPipeline
+from .impl.vit_pipeline import ViTGPT2Pipeline
+from .impl.blip2_pipeline import Blip2Pipeline
+from .impl.llava_pipeline import LlavaPipeline
 
 
 __all__ = (
