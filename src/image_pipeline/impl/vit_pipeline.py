@@ -8,7 +8,7 @@ from transformers import (
     pipeline,
     AutoProcessor,
 )
-from abstracts.image_pipeline_abstract import ImageCaptioningPipeline
+from image_pipeline.abstract.image_pipeline_abstract import ImageCaptioningPipeline
 from configuration_manager.config_manager import ConfigManager
 
 

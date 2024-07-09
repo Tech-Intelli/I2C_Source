@@ -4,9 +4,9 @@ import os
 import gc
 import concurrent.futures
 import torch
-from abstracts.inference_abstract import InferenceAbstract
-from abstracts.image_pipeline_abstract import ImageCaptioningPipeline
-from image_pipeline.blip2_pipeline import Blip2Pipeline
+from inference.abstract.inference_abstract import InferenceAbstract
+from image_pipeline.abstract.image_pipeline_abstract import ImageCaptioningPipeline
+from image_pipeline.impl.blip2_pipeline import Blip2Pipeline
 from vector_store import get_unique_image_id
 from vector_store import add_image_to_chroma
 

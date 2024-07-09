@@ -2,8 +2,8 @@
 
 import os
 import shutil
-from abstracts.generate_caption_abstract import CaptionGenerator
-from abstracts.inference_abstract import InferenceAbstract
+from captioning.abstract.generate_caption_abstract import CaptionGenerator
+from inference.abstract.inference_abstract import InferenceAbstract
 from processor.video_processor import VideoProcessor
 
 
