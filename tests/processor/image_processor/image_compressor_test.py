@@ -24,7 +24,9 @@ def parent_directory():
     """
     Fixture that returns the current directory path of the file where this fixture is defined.
     """
-    parent_directory = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    parent_directory = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    )
     return parent_directory
 
 
