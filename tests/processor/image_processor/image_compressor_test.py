@@ -24,7 +24,7 @@ def parent_directory():
     """
     Fixture that returns the current directory path of the file where this fixture is defined.
     """
-    parent_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    parent_directory = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     return parent_directory
 
 
@@ -74,7 +74,9 @@ def image_data(image_path):
 @patch("builtins.open", new_callable=mock_open)
 @patch("os.path.getsize")
 @patch("os.path.isfile")
-def test_compress_to_webP_default(mock_isfile, mock_getsize, mock_file, image_data, image_path, parent_directory):
+def test_compress_to_webP_default(
+    mock_isfile, mock_getsize, mock_file, image_data, image_path, parent_directory
+):
     """
     Test the `compress_to_webP_default` function in the `img_compressor` module.
 
@@ -93,6 +95,7 @@ def test_compress_to_webP_default(mock_isfile, mock_getsize, mock_file, image_da
     Returns:
         None
     """
+
     # Mock the getsize to return specific values based on the path
     def getsize_side_effect(path):
         """
@@ -114,7 +117,9 @@ def test_compress_to_webP_default(mock_isfile, mock_getsize, mock_file, image_da
 
     # Compress and save to a temporary file
     compressed_image_stream = img_compressor.compress_to_webP(image_data)
-    compressed_path = os.path.join(parent_directory, "test_resources", "images", "compressed_image.webp")
+    compressed_path = os.path.join(
+        parent_directory, "test_resources", "images", "compressed_image.webp"
+    )
     save_bytesio_to_file(compressed_image_stream, compressed_path)
 
     assert os.path.isfile(compressed_path)
@@ -125,7 +130,9 @@ def test_compress_to_webP_default(mock_isfile, mock_getsize, mock_file, image_da
 @patch("builtins.open", new_callable=mock_open)
 @patch("os.path.getsize")
 @patch("os.path.isfile")
-def test_compress_to_webP_custom_quality(mock_isfile, mock_getsize, mock_file, image_data, image_path, parent_directory):
+def test_compress_to_webP_custom_quality(
+    mock_isfile, mock_getsize, mock_file, image_data, image_path, parent_directory
+):
     """
     Returns the size of a file based on its path.
 
@@ -135,6 +142,7 @@ def test_compress_to_webP_custom_quality(mock_isfile, mock_getsize, mock_file, i
     Returns:
         int: The size of the file.
     """
+
     # Mock the getsize to return specific values based on the path
     def getsize_side_effect(path):
         """
@@ -156,8 +164,12 @@ def test_compress_to_webP_custom_quality(mock_isfile, mock_getsize, mock_file, i
 
     compression_quality = 70
     # Compress and save to a temporary file
-    compressed_image_stream = img_compressor.compress_to_webP(image_data, compression_quality)
-    compressed_path = os.path.join(parent_directory, "test_resources", "images", "compressed_image_quality70.webp")
+    compressed_image_stream = img_compressor.compress_to_webP(
+        image_data, compression_quality
+    )
+    compressed_path = os.path.join(
+        parent_directory, "test_resources", "images", "compressed_image_quality70.webp"
+    )
     save_bytesio_to_file(compressed_image_stream, compressed_path)
 
     assert os.path.isfile(compressed_path)
