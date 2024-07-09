@@ -6,4 +6,5 @@ from .config_models import (
     MultiModalConfig,
     Variants,
     ModelSelectionConfig,
+    ChromaDBConfig,
 )

@@ -7,7 +7,7 @@ from pathlib import Path
 import torch
 from torchvision import transforms
 from PIL import Image
-from configuration_manager import ConfigManager
+from configuration_manager.config_manager import ConfigManager
 
 warnings.filterwarnings("ignore")
 

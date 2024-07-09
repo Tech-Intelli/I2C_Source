@@ -2,6 +2,6 @@
 Caption Generation Module
 """
 
-from .generate_caption import CaptionGenerator
-from .image_caption_generator import ImageCaptionGenerator
-from .video_caption_generator import VideoCaptionGenerator
+from .abstract.generate_caption_abstract import CaptionGenerator
+from .impl.image_caption_generator import ImageCaptionGenerator
+from .impl.video_caption_generator import VideoCaptionGenerator

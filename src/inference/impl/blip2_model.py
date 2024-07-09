@@ -4,9 +4,9 @@ import os
 import gc
 import concurrent.futures
 import torch
-from inference.inference_abstract import InferenceAbstract
-from image_pipeline import ImageCaptioningPipeline
-from image_pipeline.blip2_pipeline import Blip2Pipeline
+from inference.abstract.inference_abstract import InferenceAbstract
+from image_pipeline.abstract.image_pipeline_abstract import ImageCaptioningPipeline
+from image_pipeline.impl.blip2_pipeline import Blip2Pipeline
 from vector_store import get_unique_image_id
 from vector_store import add_image_to_chroma
 
@@ -57,6 +57,18 @@ class Blip2Model(InferenceAbstract):
             unique_id_future = executor.submit(get_unique_image_id, pixel_values)
 
             def store_in_chroma_db(fut, collection, pixel_values, generated_text):
+                """
+                Stores the generated image text in the chroma database.
+
+                Args:
+                    fut: The future object containing the unique id.
+                    collection: The collection in the chroma database.
+                    pixel_values: The pixel values of the generated image.
+                    generated_text: The text generated from the image.
+
+                Returns:
+                    None
+                """
                 unique_id = fut.result()
                 add_image_to_chroma(collection, unique_id, pixel_values, generated_text)
 

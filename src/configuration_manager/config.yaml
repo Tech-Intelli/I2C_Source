@@ -1,5 +1,8 @@
 model_selection:
-  model_name: llava
+  model_name: blip2
+chroma_db:
+  blip: image_vectors_blip2
+  llava: image_vectors_llava
 image_compression:
   compress: true
   compression_quality: 50

@@ -9,11 +9,11 @@ from watchdog.events import FileSystemEventHandler
 from prettytable import PrettyTable
 from configuration_manager.config_models import (
     MultiModalConfig,
-    Variants,
     OllamaConfig,
     ImageCompressionConfig,
     TransformConfig,
     ModelSelectionConfig,
+    ChromaDBConfig,
 )
 
 from datetime import datetime
@@ -30,6 +30,7 @@ class AppConfig:
     )
     transform_config: TransformConfig = field(default_factory=TransformConfig)
     model_selection: ModelSelectionConfig = field(default_factory=ModelSelectionConfig)
+    chroma_db: ChromaDBConfig = field(default_factory=ChromaDBConfig)
 
     def validate(self):
         """
@@ -115,6 +116,18 @@ class AppConfig:
         ):
             raise ValueError(
                 "The 'model_type' field in ModelSelectionConfig must be a non-empty string."
+            )
+        # Validate chroma_db config
+        if not isinstance(self.chroma_db.blip, str) or not self.chroma_db.blip.strip():
+            raise ValueError(
+                "The 'blip' field in ChromaDBConfig must be a non-empty string."
+            )
+        if (
+            not isinstance(self.chroma_db.llava, str)
+            or not self.chroma_db.llava.strip()
+        ):
+            raise ValueError(
+                "The 'llava' field in ChromaDBConfig must be a non-empty string."
             )
 
 
