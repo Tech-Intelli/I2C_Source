@@ -7,10 +7,12 @@ from dataclasses import dataclass, field
 class ModelSelectionConfig:
     model_name: str = "blip2"
 
+
 @dataclass
 class ChromaDBConfig:
     blip: str = "image_vectors_blip2"
     llava: str = "image_vectors_llava"
+
 
 @dataclass
 class MultiModalConfig:
