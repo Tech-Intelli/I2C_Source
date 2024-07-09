@@ -8,9 +8,9 @@ import asyncio
 from pathlib import Path
 import streamlit as st
 import torch
-from abstracts.generate_caption_abstract import CaptionGenerator
-from captioning.image_caption_generator import ImageCaptionGenerator
-from captioning.video_caption_generator import VideoCaptionGenerator
+from captioning.abstract.generate_caption_abstract import CaptionGenerator
+from captioning.impl.image_caption_generator import ImageCaptionGenerator
+from captioning.impl.video_caption_generator import VideoCaptionGenerator
 from llm_chatbot import LLMChatbot
 from abstracts.inference_abstract import InferenceAbstract
 from inference.blip2_model import Blip2Model
