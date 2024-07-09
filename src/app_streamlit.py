@@ -21,7 +21,7 @@ from processor.image_processor.compression.img_compressor import compress_to_web
 from utils.timer import timer_decorator
 from utils.stream import stream_text
 from utils.generate_gif_placeholder import generate_interim_gif
-from processor.video_processor.scene_detctor import SceneDetector
+from processor.video_processor.scene_detector import SceneDetector
 from processor.video_processor.scene_saver import SceneSaver
 from configuration_manager.config_manager import ConfigManager
 

@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 import cv2
 from processor.video_processor import VideoProcessor
-from processor.video_processor.scene_detctor import SceneDetector
+from processor.video_processor.scene_detector import SceneDetector
 from processor.video_processor.scene_saver import SceneSaver
 
 
