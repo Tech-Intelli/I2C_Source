@@ -23,7 +23,7 @@ from processor.image_processor.enhance.img_enhancer import (
     adjust_sharpness,
     adjust_temperature,
     flip_image,
-    rotate_image,   
+    rotate_image,
     apply_vignette,
     apply_color_splash,
 )
@@ -46,8 +46,9 @@ from processor.image_processor.effects.special_effects import (
     lomography,
     neon_glow,
     watercolor,
-    gotham_filter
+    gotham_filter,
 )
+
 
 def time_it(method):
     def timed(*args, **kwargs):
@@ -57,10 +58,12 @@ def time_it(method):
         duration = end_time - start_time
         if duration > 1:
             log.error(f"{method.__name__} Duration:  {duration:.4f} seconds")
-        else:   
-            log.info(f"{method.__name__} Duration:  {duration:.4f} seconds")    
+        else:
+            log.info(f"{method.__name__} Duration:  {duration:.4f} seconds")
         return result
+
     return timed
+
 
 class TestImageProcessing(unittest.TestCase):
 
@@ -285,36 +288,30 @@ class TestImageProcessing(unittest.TestCase):
         output_path = os.path.join(self.temp_dir, "output_retro_vintage.jpg")
         self.check_image_saved(img, output_path)
 
-     
     @time_it
     def test_sketch(self):
         img = sketch(self.image)
         output_path = os.path.join(self.temp_dir, "output_sketch.jpg")
-        self.check_image_saved(img, output_path)   
+        self.check_image_saved(img, output_path)
 
     @time_it
     def test_vignette(self):
         img = apply_vignette(self.image)
         output_path = os.path.join(self.temp_dir, "output_vignette.jpg")
-        self.check_image_saved(img, output_path)   
+        self.check_image_saved(img, output_path)
 
-        
     @time_it
     def test_gotham_filter(self):
         img = gotham_filter(self.image)
         output_path = os.path.join(self.temp_dir, "output_gotham.jpg")
-        self.check_image_saved(img, output_path)   
+        self.check_image_saved(img, output_path)
 
-            
     @time_it
-    def test_color_splash(self):  
+    def test_color_splash(self):
         tc = (255, 0, 0)
-        img = apply_color_splash(self.image, tc)  
+        img = apply_color_splash(self.image, tc)
         output_path = os.path.join(self.temp_dir, "output_color_splash.jpg")
-        self.check_image_saved(img, output_path)   
-
-    
-
+        self.check_image_saved(img, output_path)
 
 
 if __name__ == "__main__":

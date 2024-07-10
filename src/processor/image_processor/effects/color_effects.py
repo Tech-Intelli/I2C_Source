@@ -35,9 +35,9 @@ def sepia(image, intensity=100):
     img_array = np.array(image)
 
     # Apply the sepia filter matrix
-    sepia_filter = np.array([[0.393, 0.769, 0.189],
-                             [0.349, 0.686, 0.168],
-                             [0.272, 0.534, 0.131]])
+    sepia_filter = np.array(
+        [[0.393, 0.769, 0.189], [0.349, 0.686, 0.168], [0.272, 0.534, 0.131]]
+    )
 
     # Perform dot product and clip values to be in the 0-255 range
     sepia_array = img_array @ sepia_filter.T

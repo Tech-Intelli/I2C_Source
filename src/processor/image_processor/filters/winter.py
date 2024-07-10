@@ -1,8 +1,9 @@
 from processor.image_processor.enhance.img_enhancer import (
-    adjust_brightness,  
+    adjust_brightness,
     adjust_saturation,
     adjust_temperature,
 )
+
 
 def winter_filter(image):
     image = adjust_brightness(image, 0.8)
