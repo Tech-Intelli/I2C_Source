@@ -1,5 +1,6 @@
 import cv2
 
+
 class SceneDetector:
     """
     A class for detecting scene changes in a video.
@@ -68,7 +69,9 @@ class SceneDetector:
                     (self.prev_frame.shape[1], self.prev_frame.shape[0]),
                 )
 
-            diff = cv2.absdiff(self.curr_gray, cv2.cvtColor(self.prev_frame, cv2.COLOR_BGR2GRAY))
+            diff = cv2.absdiff(
+                self.curr_gray, cv2.cvtColor(self.prev_frame, cv2.COLOR_BGR2GRAY)
+            )
             mean_diff = diff.mean()
             self.mean_diffs.append(mean_diff)
 
