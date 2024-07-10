@@ -31,6 +31,16 @@ def selective_color(image, target_color, enhance_factor=1.5):
 
 
 def sepia(image, intensity=100):
+    """
+    Apply a sepia filter to the given image.
+
+    Args:
+        image (PIL.Image.Image): The input image.
+        intensity (int, optional): The intensity of the sepia filter. Defaults to 100.
+
+    Returns:
+        PIL.Image.Image: The image with the sepia filter applied.
+    """
     # Convert image to numpy array
     img_array = np.array(image)
 

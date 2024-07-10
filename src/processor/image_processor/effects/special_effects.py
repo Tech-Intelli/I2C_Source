@@ -413,6 +413,15 @@ def retro_vintage(image):
 
 
 def gotham_filter(image):
+    """
+    Apply a Gotham filter effect to the input image.
+
+    Args:
+        image (PIL.Image.Image): The input image to which the Gotham filter will be applied.
+
+    Returns:
+        PIL.Image.Image: The image with the Gotham filter effect applied.
+    """
     r, g, b = image.split()
     r = r.point(lambda i: min(255, i * 1.2 + 10))
     g = g.point(lambda i: min(255, i * 1.1))

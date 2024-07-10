@@ -50,19 +50,59 @@ from processor.image_processor.effects.special_effects import (
     gotham_filter,
 )
 
-from processor.image_processor.filters.in1977 import (
-    apply_1977_filter, 
-    apply_1990_filter,
-)
+from processor.image_processor.filters.in1977 import apply_1977_filter
+from processor.image_processor.filters.in1990 import apply_1990_filter
 from processor.image_processor.filters.juno import juno
-    
+
 from processor.image_processor.filters.summer import summer_filter
 from processor.image_processor.filters.winter import winter_filter
 
 
-
 def time_it(method):
+    """
+    Decorator that times the execution of a method.
+
+    Args:
+        method (function): The method to be timed.
+
+    Returns:
+        function: A wrapper function that times the execution of the input method.
+
+    Raises:
+        None
+
+    Example:
+        >>> @time_it
+        ... def my_method():
+        ...     pass
+        >>> my_method()
+        INFO: my_method Duration: 0.0000 seconds
+
+        >>> @time_it
+        ... def slow_method():
+        ...     time.sleep(2)
+        >>> slow_method()
+        ERROR: slow_method Duration: 2.0000 seconds
+    """
     def timed(*args, **kwargs):
+        """
+        A function that measures the execution time of a given method and logs the duration.
+
+        Parameters:
+            *args: Variable length argument list to be passed to the method.
+            **kwargs: Arbitrary keyword arguments to be passed to the method.
+
+        Returns:
+            The result of the method execution.
+
+        Raises:
+            None.
+
+        Logs:
+            If the duration of the method execution is greater than 1 second, an error message is logged.
+            Otherwise, an info message is logged.
+            The message includes the name of the method and its duration in seconds.
+        """
         start_time = time.time()
         result = method(*args, **kwargs)
         end_time = time.time()
@@ -77,7 +117,6 @@ def time_it(method):
 
 
 class TestImageProcessing(unittest.TestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.image_path = "../tests/test_resources/images/test.png"
@@ -324,36 +363,30 @@ class TestImageProcessing(unittest.TestCase):
         output_path = os.path.join(self.temp_dir, "output_color_splash.jpg")
         self.check_image_saved(img, output_path)
 
-        
     @time_it
     def test_in1977(self):
         img = apply_1977_filter(self.image)
         output_path = os.path.join(self.temp_dir, "output_in1977.jpg")
         self.check_image_saved(img, output_path)
 
-        
     @time_it
     def test_in1990(self):
         img = apply_1990_filter(self.image)
         output_path = os.path.join(self.temp_dir, "output_in1990.jpg")
         self.check_image_saved(img, output_path)
 
-        
     @time_it
     def test_juno(self):
-        
         img = juno(self.image)
         output_path = os.path.join(self.temp_dir, "output_color_juno.jpg")
         self.check_image_saved(img, output_path)
 
-        
     @time_it
     def test_summer(self):
         img = summer_filter(self.image)
         output_path = os.path.join(self.temp_dir, "output_color_summer.jpg")
         self.check_image_saved(img, output_path)
 
-        
     @time_it
     def test_winter(self):
         img = winter_filter(self.image)

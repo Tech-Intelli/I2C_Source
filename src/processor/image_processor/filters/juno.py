@@ -3,6 +3,15 @@ from processor.image_processor.effects.color_effects import sepia
 
 
 def juno(image):
+    """
+    Processes the input image by applying various filters and adjustments including converting to RGBA, creating an overlay, blending the image, applying the sepia filter, and enhancing contrast, brightness, and saturation.
+
+    Args:
+        image: PIL Image object representing the input image.
+
+    Returns:
+        PIL Image object representing the processed image after applying the filters and adjustments.
+    """
     # Convert to RGBA if not already
     if image.mode != "RGBA":
         image = image.convert("RGBA")

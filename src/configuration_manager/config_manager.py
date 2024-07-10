@@ -22,7 +22,6 @@ from utils.logger import log
 
 @dataclass
 class AppConfig:
-
     multimodal: MultiModalConfig = field(default_factory=MultiModalConfig)
     ollama: OllamaConfig = field(default_factory=OllamaConfig)
     image_compression: ImageCompressionConfig = field(

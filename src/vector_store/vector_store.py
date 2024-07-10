@@ -1,9 +1,9 @@
-""" Initialise the chroma db
-    store image tensor pixel values as embedding
-    unique_id generated from image tensor and
-    generated basic caption.
+"""Initialise the chroma db
+store image tensor pixel values as embedding
+unique_id generated from image tensor and
+generated basic caption.
 
-    Returns:
+Returns:
 """
 
 import uuid

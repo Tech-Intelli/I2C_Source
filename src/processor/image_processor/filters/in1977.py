@@ -1,8 +1,16 @@
 from PIL import Image, ImageEnhance
-import pilgram2
 
 
 def apply_1977_filter(image):
+    """
+    Applies the 1977 filter effect to the input image.
+
+    Args:
+        image: The input image to which the filter will be applied.
+
+    Returns:
+        Image: The filtered image after applying the 1977 filter effect.
+    """
     # Convert to RGB if not already
     if image.mode != "RGB":
         image = image.convert("RGB")
@@ -25,15 +33,3 @@ def apply_1977_filter(image):
     image = Image.merge("RGB", (r, g, b))
 
     return image
-
-
-def apply_1990_filter(image):
-    image = apply_1977_filter(image)
-
-    # Add a slight blue tint
-    r, g, b = image.split()
-    b = b.point(lambda i: i * 1.1)
-    image = Image.merge("RGB", (r, g, b))
-
-    return image
-
