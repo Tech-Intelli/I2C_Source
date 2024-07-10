@@ -3,6 +3,7 @@ from image_pipeline.abstract.image_pipeline_abstract import ImageCaptioningPipel
 from image_pipeline.impl.vit_pipeline import ViTGPT2Pipeline
 from utils.logger import log
 import torch
+import os
 
 
 class VITModel(InferenceAbstract):

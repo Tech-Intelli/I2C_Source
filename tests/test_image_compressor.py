@@ -1,6 +1,8 @@
 import os
-from unittest.mock import patch, mock_open
-from image_processor import img_compressor
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
+from image_processor.compression import img_compressor
 
 
 def save_bytesio_to_file(bytesio_obj, output_path):
