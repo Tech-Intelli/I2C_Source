@@ -12,12 +12,12 @@ import sys
 
 sys.path.insert(0, os.path.abspath(".."))
 sys.setrecursionlimit(1500)
-
+""" 
 current_dir = os.path.dirname(__file__)
 
 projectPath = os.path.abspath(os.path.join(current_dir, "../src"))
 sys.path.append(projectPath)
-
+"""
 year = datetime.datetime.now().year
 
 project = "PulseMan"
