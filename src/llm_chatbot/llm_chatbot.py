@@ -4,7 +4,7 @@ from configuration_manager.config_manager import ConfigManager
 
 class LLMChatbot:
     """
-    A class representing a chatbot that interacts with the OpenAI Chat API.
+    A class representing a chatbot that interacts with the PHI3/LLAMA Chat API.
     """
 
     def __init__(self):
