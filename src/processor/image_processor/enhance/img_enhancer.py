@@ -33,6 +33,7 @@ def adjust_temperature(image, temp_factor=1.0):
     temp_image = Image.merge("RGB", (r, g, b))
     return temp_image
 
+
 def adjust_hue(image, hue_shift=30):
     """
     Adjusts the hue of an image by a specified shift value.
@@ -57,7 +58,6 @@ def adjust_hue(image, hue_shift=30):
     hue_adjusted = (np_image * 255).astype(np.uint8)
     hue_image = Image.fromarray(hue_adjusted, "RGB")
     return hue_image
-
 
 
 def adjust_contrast(image, factor):
@@ -204,21 +204,22 @@ def adjust_saturation(image, saturation_factor=1.5):
     saturated = enhancer.enhance(saturation_factor)
     return saturated
 
+
 def apply_vignette(image, intensity=0.8):
     image_np = np.array(image)
-    
+
     # Convert RGB to BGR (OpenCV uses BGR by default)
     image_bgr = cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR)
-    
+
     # Create a mask of ones with the same dimensions as the image
     mask = np.ones_like(image_bgr, dtype=np.float32)
-    
+
     # Calculate the center coordinates
     center_x, center_y = mask.shape[1] // 2, mask.shape[0] // 2
-    
+
     # Calculate the maximum distance from the center to any edge
-    max_distance = np.sqrt((center_x ** 2) + (center_y ** 2))
-    
+    max_distance = np.sqrt((center_x**2) + (center_y**2))
+
     # Calculate the distance of each pixel from the center
     for y in range(mask.shape[0]):
         for x in range(mask.shape[1]):
@@ -227,15 +228,17 @@ def apply_vignette(image, intensity=0.8):
             distance /= max_distance
             # Apply vignette effect inversely based on the distance from the center
             mask[y, x] *= 1 - intensity * distance
-    
+
     # Apply the mask to each channel of the image
     vignette_image = image_bgr * mask
-    
+
     # Convert back to RGB and then to PIL image
     vignette_image_rgb = cv2.cvtColor(np.uint8(vignette_image), cv2.COLOR_BGR2RGB)
     vignette_image_pil = Image.fromarray(vignette_image_rgb)
-    
+
     return vignette_image_pil
+
+
 def apply_color_splash(image, target_color, threshold=60):
     """
     Apply a color splash effect to an image.
