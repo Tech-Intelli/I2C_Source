@@ -30,49 +30,26 @@ def selective_color(image, target_color, enhance_factor=1.5):
     return enhanced_image
 
 
-def sepia(image, intensity):
-    """
-    Apply a sepia effect to an image.
+def sepia(image, intensity=100):
+    # Convert image to numpy array
+    img_array = np.array(image)
 
-    Args:
-        image_path (str): The path to the input image.
-        intensity (int): The intensity of the sepia effect. Must be between 0 and 100.
+    # Apply the sepia filter matrix
+    sepia_filter = np.array([[0.393, 0.769, 0.189],
+                             [0.349, 0.686, 0.168],
+                             [0.272, 0.534, 0.131]])
 
-    Returns:
-        PIL.Image.Image: The image with the sepia effect applied.
+    # Perform dot product and clip values to be in the 0-255 range
+    sepia_array = img_array @ sepia_filter.T
+    sepia_array = np.clip(sepia_array, 0, 255)
 
-    Raises:
-        ValueError: If the intensity is not between 0 and 100.
-    """
+    # Convert back to uint8 to ensure correct image format
+    sepia_array = sepia_array.astype(np.uint8)
 
-    if not (0 <= intensity <= 100):
-        raise ValueError("Intensity must be between 0 and 100.")
+    # Convert numpy array back to PIL Image
+    sepia_image = Image.fromarray(sepia_array)
 
-    # Load the original image
-    image = image.convert("RGB")
-    width, height = image.size
-    pixels = image.load()
-
-    # Create a sepia-toned image
-    sepia_image = Image.new("RGB", (width, height))
-    sepia_pixels = sepia_image.load()
-
-    for py in range(height):
-        for px in range(width):
-            r, g, b = image.getpixel((px, py))
-
-            tr = int(0.393 * r + 0.769 * g + 0.189 * b)
-            tg = int(0.349 * r + 0.686 * g + 0.168 * b)
-            tb = int(0.272 * r + 0.534 * g + 0.131 * b)
-
-            sepia_pixels[px, py] = (min(tr, 255), min(tg, 255), min(tb, 255))
-
-    # Blend the original and sepia images
-    intensity_ratio = intensity / 100.0
-    blended_image = Image.blend(image, sepia_image, intensity_ratio)
-
-    # Save the output image
-    return blended_image
+    return sepia_image
 
 
 def black_and_white(image, threshold=128):

@@ -15,6 +15,8 @@ from .enhance.img_enhancer import (
     adjust_temperature,
     flip_image,
     rotate_image,
+    apply_vignette,
+    apply_color_splash
 )
 from .effects.special_effects import (
     hdr,
@@ -35,6 +37,7 @@ from .effects.special_effects import (
     sketch,
     pixelate,
     pop_art,
+    gotham_filter
 )
 
 from .effects.color_effects import (

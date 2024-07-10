@@ -261,8 +261,7 @@ def watercolor(image):
 
     return watercolor_image_pil
 
-
-def sketch(image: Image.Image) -> Image.Image:
+def sketch(image):
     """
     Apply a pencil sketch effect to an image.
 
@@ -274,12 +273,13 @@ def sketch(image: Image.Image) -> Image.Image:
     """
     # Convert PIL Image to NumPy array
     imagenp = np.array(image)
-    # Convert RGB image to grayscale
-    gray = cv2.cvtColor(imagenp, cv2.COLOR_RGB2GRAY)
+    
     # Apply pencil sketch effect using cv2.pencilSketch
-    sketch, _ = cv2.pencilSketch(gray, sigma_s=60, sigma_r=0.07, shade_factor=0.05)
-    # Convert sketch back to RGB (OpenCV returns grayscale)
-    sketch_rgb = cv2.cvtColor(sketch, cv2.COLOR_GRAY2RGB)
+    sketch_gray, sketch_color = cv2.pencilSketch(imagenp, sigma_s=60, sigma_r=0.07, shade_factor=0.05)
+    
+    # Convert the grayscale sketch back to RGB (OpenCV returns grayscale)
+    sketch_rgb = cv2.cvtColor(sketch_gray, cv2.COLOR_GRAY2RGB)
+    
     # Convert NumPy array back to PIL Image
     sketch_pil = Image.fromarray(sketch_rgb)
 
@@ -407,3 +407,10 @@ def retro_vintage(image):
 
     vintage_image = Image.fromarray(np_image)
     return vintage_image
+
+def gotham_filter(image):
+    r, g, b = image.split()
+    r = r.point(lambda i: min(255, i * 1.2 + 10))
+    g = g.point(lambda i: min(255, i * 1.1))
+    b = b.point(lambda i: i * 0.9)
+    return Image.merge('RGB', (r, g, b))
