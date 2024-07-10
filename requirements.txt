@@ -12,3 +12,4 @@ chromadb
 bitsandbytes
 gevent
 prettytable
+transformers
