@@ -15,4 +15,4 @@ jobs:
       - uses: chartboost/ruff-action@v1 
         with:  
           src: './src'   
-          args: 'format --fix'
+          args: '--fix'
