@@ -1,5 +1,5 @@
+import sys, os
 
-import sys,os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
 
 from PIL import Image
@@ -53,8 +53,6 @@ def main():
     # create temp directory if it doesn't exist
     if not os.path.exists("../temp"):
         os.makedirs("../temp")
-
-    
 
     output_bw_path = "../temp/output_bw.jpg"
     output_sepia_path = "../temp/output_sepia.jpg"
@@ -114,7 +112,7 @@ def main():
     output_cartoon = "../temp/output_cartoon.jpg"
     output_pop_art = "../temp/output_pop_art.jpg"
     output_pixelate = "../temp/output_pixelate.jpg"
- 
+
     img = invert_colors(image)
     img.save(output_invert_path)
 
@@ -208,8 +206,8 @@ def main():
     img = watercolor(image)
     img.save(output_watercolor)
 
-   # sketch(image)
-   # image.save(output_sketch)
+    # sketch(image)
+    # image.save(output_sketch)
 
     img = cartoon(image)
     img.save(output_cartoon)
@@ -226,4 +224,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
