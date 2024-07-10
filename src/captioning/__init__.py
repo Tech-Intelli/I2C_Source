@@ -7,4 +7,4 @@ from .impl.image_caption_generator import ImageCaptionGenerator
 from .impl.video_caption_generator import VideoCaptionGenerator
 
 
-__all__   = ["CaptionGenerator", "ImageCaptionGenerator", "VideoCaptionGenerator"]
+__all__ = ["CaptionGenerator", "ImageCaptionGenerator", "VideoCaptionGenerator"]

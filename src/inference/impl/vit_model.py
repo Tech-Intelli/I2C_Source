@@ -5,6 +5,7 @@ from utils.logger import log
 import torch
 import os
 
+
 class VITModel(InferenceAbstract):
     """
     Concrete class for caching and retrieving an image caption pipeline.
