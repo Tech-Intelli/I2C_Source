@@ -309,7 +309,7 @@ class TestImageProcessing(unittest.TestCase):
     @time_it
     def test_color_splash(self):
         tc = (255, 0, 0)
-        img = apply_color_splash(self.image, tc)
+        img = apply_color_splash(self.image, tc)  
         output_path = os.path.join(self.temp_dir, "output_color_splash.jpg")
         self.check_image_saved(img, output_path)   
 
