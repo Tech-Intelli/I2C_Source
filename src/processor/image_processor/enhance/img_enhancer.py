@@ -216,11 +216,11 @@ def apply_vignette(image, intensity=0.8):
     Returns:
         PIL.Image.Image: The image with the vignette effect applied.
 
-    This function applies a vignette effect to an image by creating a mask of ones with the same dimensions as the image. 
-    The center of the mask is calculated, and the maximum distance from the center to any edge is calculated. 
-    The distance of each pixel from the center is calculated and normalized to be between 0 and 1. 
-    The vignette effect is applied by multiplying the mask with the inverse of the intensity multiplied by the distance from the center. 
-    The mask is then applied to each channel of the image to create the vignette effect. 
+    This function applies a vignette effect to an image by creating a mask of ones with the same dimensions as the image.
+    The center of the mask is calculated, and the maximum distance from the center to any edge is calculated.
+    The distance of each pixel from the center is calculated and normalized to be between 0 and 1.
+    The vignette effect is applied by multiplying the mask with the inverse of the intensity multiplied by the distance from the center.
+    The mask is then applied to each channel of the image to create the vignette effect.
     Finally, the image is converted back to RGB and then to a PIL image.
     """
     image_np = np.array(image)

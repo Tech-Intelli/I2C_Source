@@ -15,7 +15,7 @@ def apply_1990_filter(image):
     image = apply_1977_filter(image)
 
     # Add a slight blue tint
-    r, g, b = image.split()  
+    r, g, b = image.split()
     b = b.point(lambda i: i * 1.1)
     image = Image.merge("RGB", (r, g, b))
 

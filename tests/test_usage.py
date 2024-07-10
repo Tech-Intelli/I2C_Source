@@ -58,6 +58,13 @@ from processor.image_processor.filters.summer import summer_filter
 from processor.image_processor.filters.winter import winter_filter
 
 
+def parent_directory():
+    """
+    Return the parent directory path of the current file.
+    """
+    return os.path.dirname(os.path.abspath(__file__))
+
+
 def time_it(method):
     """
     Decorator that times the execution of a method.
@@ -84,6 +91,7 @@ def time_it(method):
         >>> slow_method()
         ERROR: slow_method Duration: 2.0000 seconds
     """
+
     def timed(*args, **kwargs):
         """
         A function that measures the execution time of a given method and logs the duration.
@@ -119,7 +127,9 @@ def time_it(method):
 class TestImageProcessing(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.image_path = "../tests/test_resources/images/test.png"
+        cls.image_path = os.path.join(
+            parent_directory(), "test_resources/images/test.png"
+        )
         cls.image = Image.open(cls.image_path)
 
         cls.temp_dir = "../temp"
