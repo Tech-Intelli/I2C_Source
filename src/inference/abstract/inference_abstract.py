@@ -1,9 +1,7 @@
 """Caches the pre-trained model using pickle"""
 
-import os
 import warnings
 from abc import ABC, abstractmethod
-from pathlib import Path
 import torch
 from torchvision import transforms
 from PIL import Image

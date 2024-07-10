@@ -50,7 +50,7 @@ def adjust_hue(image, hue_shift=30):
     np_image = np.array(image, dtype=np.float32) / 255.0
 
     r, g, b = np_image[..., 0], np_image[..., 1], np_image[..., 2]
-    h, l, s = np.vectorize(colorsys.rgb_to_hls)(r, g, b)
+    h, l, s = np.vectorize(colorsys.rgb_to_hls)(r, g, b)  # noqa: E741
     h = (h + hue_shift / 360.0) % 1.0
     r, g, b = np.vectorize(colorsys.hls_to_rgb)(h, l, s)
 

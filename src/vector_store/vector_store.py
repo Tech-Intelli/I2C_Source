@@ -42,7 +42,7 @@ def get_chroma_collection(chroma_client, collection_name):
     """
     try:
         collection = chroma_client.create_collection(collection_name)
-    except:
+    except:  # noqa: E722
         collection = chroma_client.get_collection(collection_name)
     return collection
 

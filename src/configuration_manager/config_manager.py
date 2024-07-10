@@ -410,7 +410,7 @@ class ConfigManager:
         if config_dict is None:
             return
 
-        for field in fields(config):
+        for field in fields(config):  # noqa: F402
             value = config_dict.get(field.name)
             if value is not None:
                 if is_dataclass(field.type):

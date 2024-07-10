@@ -2,8 +2,6 @@
 Detect and saves video frames to the specified directory
 """
 
-import os
-from dataclasses import dataclass
 import cv2
 
 

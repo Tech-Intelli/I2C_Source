@@ -1,7 +1,4 @@
-from PIL import Image, ImageEnhance, ImageChops, ImageFilter
-import pilgram2
-from PIL import Image, ImageEnhance, ImageChops, ImageDraw
-import cv2
+from PIL import Image, ImageEnhance
 
 
 def apply_sepia(image, intensity=0.35):

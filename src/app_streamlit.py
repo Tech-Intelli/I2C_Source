@@ -124,7 +124,7 @@ def process_and_generate_caption(
     Process the uploaded file and generate a caption.
     """
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    "cuda" if torch.cuda.is_available() else "cpu"
     if file_extension in (".png", ".jpeg", ".jpg"):
         caption, compressed_image_path = image_caption_gen.generate_caption(
             "Anywhere on earth",
@@ -216,7 +216,7 @@ def app():
 
     context = st.text_area("Write your context here...")
     num_hashtags = st.number_input("How many hashtags do you want to add?", step=1)
-    gif_placeholder = generate_interim_gif(giphy_image)
+    generate_interim_gif(giphy_image)
     if st.button("Generate Caption"):
         if uploaded_file is None:
             st.error("Please upload an image or a video.")
