@@ -4,14 +4,14 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../s
 
 from PIL import Image
 
-from image_processor.effects.color_effects import (
+from processor.image_processor.effects.color_effects import (
     black_and_white,
     grayscale,
     selective_color,
     invert_colors,
     sepia,
 )
-from image_processor.enhance.img_enhancer import (
+from processor.image_processor.enhance.img_enhancer import (
     adjust_brightness,
     adjust_clarity,
     adjust_contrast,
@@ -23,7 +23,7 @@ from image_processor.enhance.img_enhancer import (
     flip_image,
     rotate_image,
 )
-from image_processor.effects.special_effects import (
+from processor.mage_processor.effects.special_effects import (
     cartoon,
     comic_book,
     duotone,
