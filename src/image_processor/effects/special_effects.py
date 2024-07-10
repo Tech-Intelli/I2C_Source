@@ -236,7 +236,7 @@ def glitch(image, max_shift=10):
     return Image.fromarray(glitch.astype(np.uint8))
 
 
-def watercolor(image):   
+def watercolor(image):
     """
     Apply a watercolor effect to an image.
 
@@ -248,13 +248,13 @@ def watercolor(image):
     """
     # Convert PIL Image to NumPy array
     image_np = np.array(image)
-    
+
     # Convert RGB to BGR (OpenCV uses BGR by default)
     image_bgr = cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR)
-    
+
     # Apply watercolor effect using OpenCV's stylization function
     watercolor_image_bgr = cv2.stylization(image_bgr, sigma_s=60, sigma_r=0.6)
-    
+
     # Convert image back to RGB and then to PIL Image
     watercolor_image_rgb = cv2.cvtColor(watercolor_image_bgr, cv2.COLOR_BGR2RGB)
     watercolor_image_pil = Image.fromarray(watercolor_image_rgb)
@@ -301,19 +301,21 @@ def cartoon(image):
     imagenp = np.array(image)
 
     gray = cv2.cvtColor(imagenp, cv2.COLOR_BGR2GRAY)
-    
+
     # Apply median blur to the grayscale image
     blurred = cv2.medianBlur(gray, 7)
-    
+
     # Apply adaptive thresholding to get the edges
-    edges = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 2)
-    
+    edges = cv2.adaptiveThreshold(
+        blurred, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 2
+    )
+
     # Apply bilateral filtering to the original color image
     color = cv2.bilateralFilter(imagenp, 9, 300, 300)
-    
+
     # Combine color image with edges using bitwise AND
     cartoon = cv2.bitwise_and(color, color, mask=edges)
-    
+
     # Convert NumPy array back to PIL Image
     cartoon_pil = Image.fromarray(cv2.cvtColor(cartoon, cv2.COLOR_BGR2RGB))
 
