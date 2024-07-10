@@ -2,9 +2,9 @@
 
 import os
 import shutil
-from captioning import CaptionGenerator
-from inference import InferenceAbstract
-from video_processor import VideoSceneDetector
+from captioning.abstract.generate_caption_abstract import CaptionGenerator
+from inference.abstract.inference_abstract import InferenceAbstract
+from processor.video_processor import VideoProcessor
 
 
 class VideoCaptionGenerator(CaptionGenerator):
@@ -47,10 +47,10 @@ class VideoCaptionGenerator(CaptionGenerator):
 
         scene_dir = "extracted_images"
         os.makedirs(scene_dir, exist_ok=True)
-        vid_scn_detector = VideoSceneDetector(
+        vid_processor = VideoProcessor(
             video_path, self.scene_detector, self.scene_saver
         )
-        vid_scn_detector.detect_scenes()
+        vid_processor.detect_scenes()
         image_list = os.listdir(scene_dir)
         all_captions = ""
 

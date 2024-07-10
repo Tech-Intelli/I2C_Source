@@ -8,8 +8,8 @@ from transformers import (
     pipeline,
     AutoProcessor,
 )
-from image_pipeline import ImageCaptioningPipeline
-from configuration_manager import ConfigManager
+from image_pipeline.abstract.image_pipeline_abstract import ImageCaptioningPipeline
+from configuration_manager.config_manager import ConfigManager
 
 
 class ViTGPT2Pipeline(ImageCaptioningPipeline):

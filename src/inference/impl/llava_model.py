@@ -4,9 +4,9 @@ import os
 import gc
 import concurrent.futures
 import torch
-from inference.inference_abstract import InferenceAbstract
-from image_pipeline import ImageCaptioningPipeline
-from image_pipeline.llava_pipeline import LlavaPipeline
+from inference.abstract.inference_abstract import InferenceAbstract
+from image_pipeline.abstract.image_pipeline_abstract import ImageCaptioningPipeline
+from image_pipeline.impl.llava_pipeline import LlavaPipeline
 from vector_store import get_unique_image_id
 from vector_store import add_image_to_chroma
 
