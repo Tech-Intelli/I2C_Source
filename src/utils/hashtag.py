@@ -1,5 +1,4 @@
 class Hashtag:
-
     def __init__(self, caption, chatbot):
         """
         Initializes a new Hashtag instance.

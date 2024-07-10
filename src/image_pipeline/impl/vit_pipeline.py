@@ -1,4 +1,4 @@
-""" VIT Pipeline """
+"""VIT Pipeline"""
 
 from transformers import (
     VisionEncoderDecoderModel,

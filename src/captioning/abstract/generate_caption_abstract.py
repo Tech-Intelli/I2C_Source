@@ -1,7 +1,7 @@
-""" Generates caption for image or reels
+"""Generates caption for image or reels
 
-    Returns:
-        str: Caption
+Returns:
+    str: Caption
 """
 
 from abc import ABC, abstractmethod

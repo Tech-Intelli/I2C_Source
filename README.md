@@ -1,4 +1,5 @@
 [![Unit Tests](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/run_tests.yml) [![Black](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/black.yml/badge.svg)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/black.yml) [![Documentation](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml/badge.svg)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/documentation.yml) [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/Tech-Intelli/I2C_Source/actions/workflows/black.yml)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 
 ## I2C

@@ -17,7 +17,7 @@ from inference.impl.blip2_model import Blip2Model
 from inference.impl.llava_model import LlavaModel
 from vector_store import initialize_chroma_client
 from vector_store import get_chroma_collection
-from processor.image_processor.img_compressor import compress_to_webP
+from processor.image_processor.compression.img_compressor import compress_to_webP
 from utils.timer import timer_decorator
 from utils.stream import stream_text
 from utils.generate_gif_placeholder import generate_interim_gif
@@ -124,7 +124,7 @@ def process_and_generate_caption(
     Process the uploaded file and generate a caption.
     """
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    "cuda" if torch.cuda.is_available() else "cpu"
     if file_extension in (".png", ".jpeg", ".jpg"):
         caption, compressed_image_path = image_caption_gen.generate_caption(
             "Anywhere on earth",
@@ -216,7 +216,7 @@ def app():
 
     context = st.text_area("Write your context here...")
     num_hashtags = st.number_input("How many hashtags do you want to add?", step=1)
-    gif_placeholder = generate_interim_gif(giphy_image)
+    generate_interim_gif(giphy_image)
     if st.button("Generate Caption"):
         if uploaded_file is None:
             st.error("Please upload an image or a video.")
