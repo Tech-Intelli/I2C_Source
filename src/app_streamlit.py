@@ -124,7 +124,6 @@ def process_and_generate_caption(
     Process the uploaded file and generate a caption.
     """
 
-    "cuda" if torch.cuda.is_available() else "cpu"
     if file_extension in (".png", ".jpeg", ".jpg"):
         caption, compressed_image_path = image_caption_gen.generate_caption(
             "Anywhere on earth",
