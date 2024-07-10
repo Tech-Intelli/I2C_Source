@@ -16,6 +16,17 @@ def scene_detector():
 
 
 def create_color_frame(width=640, height=480, color=(0, 0, 255)):
+    """
+    Creates a frame filled with a single color.
+
+    Args:
+        width (int, optional): The width of the frame. Defaults to 640.
+        height (int, optional): The height of the frame. Defaults to 480.
+        color (tuple, optional): The color of the frame. Defaults to (0, 0, 255).
+
+    Returns:
+        numpy.ndarray: The created frame.
+    """
     frame = np.zeros((height, width, 3), dtype=np.uint8)
     frame[:] = color
     return frame
