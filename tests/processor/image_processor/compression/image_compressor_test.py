@@ -1,7 +1,7 @@
 import os
 import pytest
 from unittest.mock import patch, mock_open
-from processor.image_processor import img_compressor
+from processor.image_processor.compression.img_compressor import compress_jpg, compress_to_webP
 
 
 def save_bytesio_to_file(bytesio_obj, output_path):
@@ -25,7 +25,7 @@ def parent_directory():
     Fixture that returns the current directory path of the file where this fixture is defined.
     """
     parent_directory = os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
     return parent_directory
 
@@ -118,7 +118,7 @@ def test_compress_to_webP_default(
     mock_isfile.return_value = True
 
     # Compress and save to a temporary file
-    compressed_image_stream = img_compressor.compress_to_webP(image_data)
+    compressed_image_stream = compress_to_webP(image_data)
     compressed_path = os.path.join(
         parent_directory, "test_resources", "images", "compressed_image.webp"
     )
@@ -166,7 +166,7 @@ def test_compress_to_webP_custom_quality(
 
     compression_quality = 70
     # Compress and save to a temporary file
-    compressed_image_stream = img_compressor.compress_to_webP(
+    compressed_image_stream = compress_to_webP(
         image_data, compression_quality
     )
     compressed_path = os.path.join(
@@ -179,7 +179,7 @@ def test_compress_to_webP_custom_quality(
     assert os.path.getsize(compressed_path) < os.path.getsize(image_path)
 
 
-@patch("processor.image_processor.img_compressor.compress_jpg")
+@patch("processor.image_processor.compression.img_compressor.compress_jpg")
 def test_compress_small_image(mock_compress_jpg, small_image_path):
     """
     Test the `compress_small_image` function by mocking the `compress_jpg` function.
@@ -197,7 +197,7 @@ def test_compress_small_image(mock_compress_jpg, small_image_path):
         None
     """
     mock_compress_jpg.return_value = small_image_path
-    compressed_path = img_compressor.compress_jpg(small_image_path)
+    compressed_path = compress_jpg(small_image_path)
     assert compressed_path == small_image_path
 
 
@@ -224,4 +224,4 @@ def test_compress_nonexistent_image():
     with pytest.raises(FileNotFoundError):
         with open(nonexistent_image_path, "rb") as image_file:
             image_data = image_file.read()
-        img_compressor.compress_to_webP(image_data)
+        compress_to_webP(image_data)
