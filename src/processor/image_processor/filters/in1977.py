@@ -37,19 +37,3 @@ def apply_1990_filter(image):
 
     return image
 
-
-# Load an image
-image_path = "../../temp/test.png"
-image = Image.open(image_path)
-
-# Apply filters
-image_1977 = apply_1977_filter(image)
-image_1990 = apply_1990_filter(image)
-
-# Save the images
-image_1977.save("image_1977.jpg")
-image_1990.save("image_1990.jpg")
-pilgram2._1977(image).save("1977.jpg")
-# Show the images
-image_1977.show()
-image_1990.show()

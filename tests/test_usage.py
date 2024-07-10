@@ -50,6 +50,16 @@ from processor.image_processor.effects.special_effects import (
     gotham_filter,
 )
 
+from processor.image_processor.filters.in1977 import (
+    apply_1977_filter, 
+    apply_1990_filter,
+)
+from processor.image_processor.filters.juno import juno
+    
+from processor.image_processor.filters.summer import summer_filter
+from processor.image_processor.filters.winter import winter_filter
+
+
 
 def time_it(method):
     def timed(*args, **kwargs):
@@ -312,6 +322,42 @@ class TestImageProcessing(unittest.TestCase):
         tc = (255, 0, 0)
         img = apply_color_splash(self.image, tc)
         output_path = os.path.join(self.temp_dir, "output_color_splash.jpg")
+        self.check_image_saved(img, output_path)
+
+        
+    @time_it
+    def test_in1977(self):
+        img = apply_1977_filter(self.image)
+        output_path = os.path.join(self.temp_dir, "output_in1977.jpg")
+        self.check_image_saved(img, output_path)
+
+        
+    @time_it
+    def test_in1990(self):
+        img = apply_1990_filter(self.image)
+        output_path = os.path.join(self.temp_dir, "output_in1990.jpg")
+        self.check_image_saved(img, output_path)
+
+        
+    @time_it
+    def test_juno(self):
+        
+        img = juno(self.image)
+        output_path = os.path.join(self.temp_dir, "output_color_juno.jpg")
+        self.check_image_saved(img, output_path)
+
+        
+    @time_it
+    def test_summer(self):
+        img = summer_filter(self.image)
+        output_path = os.path.join(self.temp_dir, "output_color_summer.jpg")
+        self.check_image_saved(img, output_path)
+
+        
+    @time_it
+    def test_winter(self):
+        img = winter_filter(self.image)
+        output_path = os.path.join(self.temp_dir, "output_winter.jpg")
         self.check_image_saved(img, output_path)
 
 
