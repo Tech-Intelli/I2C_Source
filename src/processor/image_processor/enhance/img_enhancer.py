@@ -33,9 +33,6 @@ def adjust_temperature(image, temp_factor=1.0):
     temp_image = Image.merge("RGB", (r, g, b))
     return temp_image
 
-import numpy as np
-from PIL import Image
-import colorsys
 def adjust_hue(image, hue_shift=30):
     """
     Adjusts the hue of an image by a specified shift value.
