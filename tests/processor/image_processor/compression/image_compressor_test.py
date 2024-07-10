@@ -1,7 +1,10 @@
 import os
 import pytest
 from unittest.mock import patch, mock_open
-from processor.image_processor.compression.img_compressor import compress_jpg, compress_to_webP
+from processor.image_processor.compression.img_compressor import (
+    compress_jpg,
+    compress_to_webP,
+)
 
 
 def save_bytesio_to_file(bytesio_obj, output_path):
@@ -166,9 +169,7 @@ def test_compress_to_webP_custom_quality(
 
     compression_quality = 70
     # Compress and save to a temporary file
-    compressed_image_stream = compress_to_webP(
-        image_data, compression_quality
-    )
+    compressed_image_stream = compress_to_webP(image_data, compression_quality)
     compressed_path = os.path.join(
         parent_directory, "test_resources", "images", "compressed_image_quality70.webp"
     )
