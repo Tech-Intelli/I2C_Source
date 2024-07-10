@@ -1,6 +1,5 @@
 import cv2
 
-
 class SceneDetector:
     """
     A class for detecting scene changes in a video.
@@ -64,15 +63,12 @@ class SceneDetector:
         self.curr_frame = frame.copy()
         if self.prev_frame is not None:
             if self.curr_frame.shape != self.prev_frame.shape:
-                print(
-                    f"Frame size mismatch: prev_frame {self.prev_frame.shape}, curr_frame {self.curr_frame.shape}"
-                )
                 self.curr_frame = cv2.resize(
                     self.curr_frame,
                     (self.prev_frame.shape[1], self.prev_frame.shape[0]),
                 )
 
-            diff = cv2.absdiff(self.curr_frame, self.prev_frame)
+            diff = cv2.absdiff(self.curr_gray, cv2.cvtColor(self.prev_frame, cv2.COLOR_BGR2GRAY))
             mean_diff = diff.mean()
             self.mean_diffs.append(mean_diff)
 
