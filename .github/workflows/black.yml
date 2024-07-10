@@ -1,4 +1,4 @@
-name: RuffBlackLint
+name: RuffBlack
 
 on:
   push:
