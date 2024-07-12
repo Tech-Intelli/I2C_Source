@@ -60,9 +60,12 @@ from processor.image_processor.filters.winter import winter_filter
 
 def parent_directory():
     """
-    Return the parent directory path of the current file.
+    Fixture that returns the current directory path of the file where this fixture is defined.
     """
-    return os.path.dirname(os.path.abspath(__file__))
+    parent_directory = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    )
+    return parent_directory
 
 
 def time_it(method):
