@@ -1,5 +1,14 @@
 #include "ConfigManager.h"
 
+/**
+ * Constructor for ConfigManager class.
+ *
+ * @param config_path The path to the configuration file.
+ *
+ * @return None
+ *
+ * @throws None
+ */
 ConfigManager::ConfigManager(const std::string& config_path) {
     loadConfig(config_path);
 }
@@ -45,11 +54,22 @@ void ConfigManager::loadConfig(const std::string& config_path) {
     appConfig.validate();
 }
 
+/**
+ * Returns the singleton instance of ConfigManager initialized with the provided config_path.
+ * 
+ * @param config_path The path to the configuration file.
+ * @return A reference to the singleton instance of ConfigManager.
+ */
 ConfigManager& ConfigManager::getInstance(const std::string& config_path) {
     static ConfigManager instance(config_path);
     return instance;
 }
 
+/**
+ * Returns the AppConfig object containing the application configuration settings.
+ *
+ * @return The AppConfig object representing the application configuration.
+ */
 AppConfig ConfigManager::getAppConfig() const {
     return appConfig;
 }
