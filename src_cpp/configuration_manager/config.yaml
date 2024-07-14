@@ -1,0 +1,28 @@
+model_selection:
+  model_name: blip2
+chroma_db:
+  blip: image_vectors_blip2
+  llava: image_vectors_llava
+image_compression:
+  compress: true
+  compression_quality: 50
+  resize_factor: 0.5
+  type: webp
+multimodal:
+  blip: Salesforce/blip2-opt-2.7b
+  vit: nlpconnect/vit-gpt2-image-captioning
+  llava: llava-hf/llava-1.5-7b-hf
+ollama:
+  stream: false
+  temperature: 1
+  top_p: 0.9
+  use: Phi
+  variants:
+    gemma2: gemma2
+    llama3: llama3
+    phi3: phi3
+transform_config:
+  center_crop: 224
+  resize:
+  - 256
+  - 256
