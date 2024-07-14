@@ -1,5 +1,6 @@
 #include "ConfigManager.h"
 
+std::shared_ptr<ConfigManager> ConfigManager::m_instance = nullptr;
 /**
  * Constructor for ConfigManager class.
  *
@@ -60,9 +61,11 @@ void ConfigManager::loadConfig(const std::string& config_path) {
  * @param config_path The path to the configuration file.
  * @return A reference to the singleton instance of ConfigManager.
  */
-ConfigManager& ConfigManager::getInstance(const std::string& config_path) {
-    static ConfigManager instance(config_path);
-    return instance;
+std::shared_ptr<ConfigManager>& ConfigManager::getInstance(const std::string& config_path) {
+    if(!m_instance){
+        m_instance = std::shared_ptr<ConfigManager>(new ConfigManager(config_path));
+    }
+    return m_instance;
 }
 
 /**

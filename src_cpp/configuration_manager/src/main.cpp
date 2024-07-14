@@ -10,8 +10,8 @@
  * @throws None
  */
 int main() {
-    ConfigManager& configManager = ConfigManager::getInstance("config.yaml");
-    AppConfig appConfig = configManager.getAppConfig();
+    std::shared_ptr<ConfigManager>& configManager = ConfigManager::getInstance("config.yaml");
+    AppConfig appConfig = configManager->getAppConfig();
 
     std::cout << "BLIP model name: " << appConfig.multimodal.blip << std::endl;
 

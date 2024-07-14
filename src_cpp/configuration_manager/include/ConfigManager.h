@@ -21,13 +21,13 @@
  */
 class ConfigManager {
 public:
-    static ConfigManager& getInstance(const std::string& config_path = "config.yaml");
+    static std::shared_ptr<ConfigManager>& getInstance(const std::string& config_path = "config.yaml");
 
     AppConfig getAppConfig() const;
 
 private:
     AppConfig appConfig;
-
+    static std::shared_ptr<ConfigManager> m_instance;
     ConfigManager(const std::string& config_path);
     void loadConfig(const std::string& config_path);
 
