@@ -9,11 +9,12 @@ class ImageCaptionGenerator(CaptionGenerator):
 
     def generate_caption(
         self,
-        location,
         image_path,
         caption_size,
         context,
         style,
+        content_type,
+        influencer,
         num_hashtags,
         tone,
         social_media,
@@ -34,15 +35,16 @@ class ImageCaptionGenerator(CaptionGenerator):
         - compressed_image_path (str): The path of the compressed image used for generating the caption.
         """
         compressed_image_path = image_path
-        text = inference.get_image_caption_pipeline(image_path)
-        content = self._generate_content(
-            text,
+        imagetotext = inference.get_image_caption_pipeline(image_path)
+        content = self.generate_content_new(
+            imagetotext,
             caption_size,
             context,
             style,
             tone,
+            content_type,
+            influencer,
             num_hashtags,
-            location,
             social_media,
         )
         stream_caption = self._generate_caption_with_hashtags(content, num_hashtags)

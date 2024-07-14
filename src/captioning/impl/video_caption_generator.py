@@ -19,11 +19,12 @@ class VideoCaptionGenerator(CaptionGenerator):
 
     def generate_caption(
         self,
-        location,
         video_path,
         caption_size,
         context,
         style,
+        content_type,
+        influencer,
         num_hashtags,
         tone,
         social_media,
@@ -60,14 +61,15 @@ class VideoCaptionGenerator(CaptionGenerator):
             )
             all_captions += " " + text
 
-        content = self._generate_content(
+        content = self.generate_content_new(
             all_captions,
             caption_size,
             context,
             style,
             tone,
+            content_type,
+            influencer,
             num_hashtags,
-            location,
             social_media,
         )
         stream_caption = self._generate_caption_with_hashtags(content, num_hashtags)
