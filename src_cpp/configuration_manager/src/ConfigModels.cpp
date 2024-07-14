@@ -1,6 +1,11 @@
 #include "ConfigModels.h"
 #include <stdexcept>
 
+/**
+ * Validates various configurations within the AppConfig.
+ *
+ * @throws std::invalid_argument if any required fields are empty in MultiModalConfig, Variants, OllamaConfig, ImageCompressionConfig, ModelSelectionConfig, or ChromaDBConfig.
+ */
 void AppConfig::validate() {
     // Validate MultiModalConfig
     if (multimodal.blip.empty()) {

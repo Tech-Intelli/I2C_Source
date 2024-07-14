@@ -4,6 +4,13 @@ ConfigManager::ConfigManager(const std::string& config_path) {
     loadConfig(config_path);
 }
 
+/**
+ * Loads the configuration settings from the specified file path.
+ *
+ * @param config_path The path to the configuration file
+ *
+ * @throws YAML::ParserException if there is an error parsing the YAML file
+ */
 void ConfigManager::loadConfig(const std::string& config_path) {
     YAML::Node config = YAML::LoadFile(config_path);
 
