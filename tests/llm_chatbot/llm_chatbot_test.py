@@ -1,8 +1,6 @@
 import unittest
-import ollama
 from unittest.mock import patch, MagicMock
 from llm_chatbot import LLMChatbot
-from configuration_manager.config_manager import ConfigManager
 
 
 class TestLLMChatbot(unittest.TestCase):

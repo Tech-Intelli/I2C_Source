@@ -99,7 +99,7 @@ class TikTokSocialMediaStrategy(SocialMediaStrategy):
         visual_description = self.generate_visual_description(params)
         hashtag_limits = self.get_hashtaglimit(params)
         influencer_persona = self.select_influencer_persona(params)
-        context = self.get_context(params)    
+        context = self.get_context(params)
         prompt = self.template.format(
             caption_length=caption_size,
             context=context,
