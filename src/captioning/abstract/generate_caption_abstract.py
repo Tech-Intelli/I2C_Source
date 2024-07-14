@@ -6,7 +6,7 @@ Returns:
 
 from abc import ABC, abstractmethod
 from utils.hashtag import Hashtag
-from utils.prompt import Prompt
+from prompt_processor.prompt_factory import PromptFactory
 
 
 class CaptionGenerator(ABC):
@@ -32,45 +32,36 @@ class CaptionGenerator(ABC):
     ):
         pass
 
-    def _generate_content(
+    def generate_content_new(
         self,
-        text,
+        imagetotext,
         caption_size,
         context,
         style,
         tone,
+        content_type,
+        influencer,
         num_hashtags,
-        location,
         social_media,
     ):
         """
         Generates content using the provided parameters.
         """
-        prompt = Prompt()
-        caption_length = prompt._get_caption_size(caption_size)
-        words = caption_length.split()
-        only_length = f"{words[-2]} {words[-1]}"
+        factory = PromptFactory()
+        params = {
+            "social_media": social_media,
+            "tone": tone,
+            "style": style,
+            "caption_length": caption_size,
+            "context": context,
+            "visual_description": imagetotext,
+            "profile_group": influencer,
+            "content_type": content_type,
+            "hashtag_limit": num_hashtags,
+        }
+        prompt = factory.get_prompt(params)
 
-        if context is not None or context != "":
-            template = prompt._read_prompt_template(
-                "../prompt_template/prompt_with_context.txt"
-            )
-        else:
-            template = prompt._read_prompt_template(
-                "../prompt_template/prompt_without_context.txt"
-            )
-        content = template.format(
-            caption_length=caption_length,
-            social_media=social_media,
-            location=location,
-            text=text,
-            style=style,
-            context=context,
-            tone=tone,
-            num_hashtags=num_hashtags,
-            only_length=only_length,
-        )
-        return content
+        return prompt
 
     def _generate_caption_with_hashtags(self, content, num_hashtags):
         """

@@ -1,5 +1,4 @@
-from PIL import Image, ImageEnhance, ImageOps, ImageChops
-import numpy as np
+from PIL import Image, ImageEnhance
 import pilgram2
 
 

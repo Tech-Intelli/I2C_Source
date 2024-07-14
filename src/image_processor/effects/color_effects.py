@@ -51,7 +51,7 @@ def sepia(image, intensity):
     # Load the original image
     image = image.convert("RGB")
     width, height = image.size
-    pixels = image.load()
+    image.load()
 
     # Create a sepia-toned image
     sepia_image = Image.new("RGB", (width, height))

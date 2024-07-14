@@ -7,7 +7,6 @@ import pathlib
 import asyncio
 from pathlib import Path
 import streamlit as st
-import torch
 from captioning.abstract.generate_caption_abstract import CaptionGenerator
 from captioning.impl.image_caption_generator import ImageCaptionGenerator
 from captioning.impl.video_caption_generator import VideoCaptionGenerator
@@ -126,11 +125,12 @@ def process_and_generate_caption(
 
     if file_extension in (".png", ".jpeg", ".jpg"):
         caption, compressed_image_path = image_caption_gen.generate_caption(
-            "Anywhere on earth",
             file_path,
             params["caption_size"],
             params["context"],
             params["caption_style"],
+            params["influencer_persona"],
+            params["content_type"],
             params["num_hashtags"],
             params["tone"],
             params["social_media"],
@@ -141,11 +141,12 @@ def process_and_generate_caption(
     elif file_extension in (".mp4", ".mov"):
         # TODO : Revisit this for lazy loading of video
         caption = video_caption_generator.generate_caption(
-            "Anywhere on earth",
             file_path,
             params["caption_size"],
             params["context"],
             params["caption_style"],
+            params["influencer_persona"],
+            params["content_type"],
             params["num_hashtags"],
             params["tone"],
             params["social_media"],
@@ -187,30 +188,132 @@ def app():
 
     col1, col2 = st.columns(2)
 
+    influencer_persona = {
+        "Instagram": [
+            "lifestyle",
+            "fashion",
+            "food",
+            "travel",
+            "fitness",
+            "beauty",
+            "tech",
+            "parenting",
+            "business",
+            "art",
+            "sustainability",
+            "petcare",
+            "gaming",
+            "books",
+            "music",
+            "general",
+        ],
+        "Facebook": [
+            "community_leader",
+            "family_lifestyle",
+            "educational_instructor",
+            "business_owner",
+            "health_and_wellness",
+            "political_analyst",
+            "tech_enthusiast",
+            "event_planner",
+            "personal_development",
+            "nonprofit",
+            "general",
+        ],
+        "Twitter": [
+            "industry_expert",
+            "thought_leader",
+            "career_mentor",
+            "tech_innovator",
+            "marketing_specialist",
+            "financial_analyst",
+            "brand_ambassador",
+            "entrepreneurial_mind",
+            "pop_culture_enthusiast",
+            "general",
+        ],
+        "LinkedIn": [
+            "industry_expert",
+            "career_coach",
+            "executive_leader",
+            "entrepreneur",
+            "recruitment_specialist",
+            "technology_analyst",
+            "marketing_professional",
+            "product_manager",
+            "business_analyst",
+            "legal_consultant",
+            "general",
+        ],
+        "TikTok": [
+            "viral_creator",
+            "lifestyle_influencer",
+            "dance_enthusiast",
+            "beauty_guru",
+            "foodie",
+            "fitness_trainer",
+            "tech_reviewer",
+            "travel_vlogger",
+            "creative_artist",
+            "general",
+        ],
+    }
+
+    # Social media selection at the top
+
+    social_media = st.radio(
+        "Social Media",
+        options=["Instagram", "Facebook", "Twitter", "LinkedIn", "TikTok"],
+    )
+
+    influencer_per = influencer_persona[social_media]
+    # Layout
+    col1, col2, col3 = st.columns(3)
     with col1:
-        caption_size = st.radio(
-            "Caption Size",
-            options=["small", "medium", "large", "very large", "blog post"],
-        )
         caption_style = st.radio(
             "Caption Style",
-            options=["cool", "professional", "artistic", "poetic", "poetry"],
+            options=[
+                "informative",
+                "storytelling",
+                "persuasive",
+                "descriptive",
+                "minimalist",
+                "comparative",
+                "how-to",
+                "listicle",
+                "behind-the-scenes",
+                "trending",
+            ],
         )
-
     with col2:
         tone = st.radio(
             "Caption Tone",
             options=[
                 "casual",
+                "professional",
                 "humorous",
                 "inspirational",
-                "conversational",
                 "educational",
-                "storytelling",
+                "empathetic",
+                "enthusiastic",
+                "formal",
+                "sarcastic",
+                "nostalgic",
             ],
         )
-        social_media = st.radio(
-            "Social Media", options=["Instagram", "Facebook", "Twitter", "LinkedIn"]
+
+    with col3:
+        caption_size = st.radio(
+            "Caption Size",
+            options=["small", "medium", "large"],
+        )
+        content_type = st.radio(
+            "Content Type",
+            options=["image", "video"],
+        )
+        influencer = st.radio(
+            "Influencer Persona",
+            options=influencer_per,
         )
 
     context = st.text_area("Write your context here...")
@@ -227,6 +330,8 @@ def app():
                     "image_caption_generator": image_caption_gen,
                     "caption_size": caption_size,
                     "caption_style": caption_style,
+                    "content_type": content_type,
+                    "influencer_persona": influencer,
                     "context": context,
                     "num_hashtags": num_hashtags,
                     "tone": tone,
