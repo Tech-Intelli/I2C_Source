@@ -19,15 +19,17 @@ jobs:
 
     - name: Install dependencies
       run: |
+        sudo apt update
         sudo apt-get install build-essential
         sudo apt-get install cmake
         sudo apt-get install libyaml-cpp-dev
         sudo apt-get install libspdlog-dev
+        sudo add-apt-repository ppa:deadsnakes/ppa
+        sudo apt install python3.10 python3.10-dev python3.10-distutils python3-pip
+        sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+        python3.10 -m pip install pybind11
 
     - name: Build C++
       run: |
-        cd src_cpp/configuration_manager
-        mkdir build
-        cd build
-        cmake ..
-        make
+        cd src_cpp
+        source setup_env.sh

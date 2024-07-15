@@ -28,3 +28,4 @@ test.ipynb
 src/image_processor/usage.py
 src_cpp/configuration_manager/build
 src_cpp/prompt_processor/build
+src_cpp/build
