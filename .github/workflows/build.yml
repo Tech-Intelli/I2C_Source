@@ -1,0 +1,32 @@
+name: Build C++
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+    contents: write
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get install build-essential
+        sudo apt-get install cmake
+        sudo apt-get install libyaml-cpp-dev
+
+    - name: Build C++
+      run: |
+        cd src_cpp/configuration_manager
+        mkdir build
+        cd build
+        cmake ..
+        make

@@ -26,3 +26,4 @@ temp/
 sqlite_chroma_db/
 test.ipynb
 src/image_processor/usage.py
+src_cpp/configuration_manager/build
