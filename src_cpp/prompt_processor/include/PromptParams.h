@@ -8,7 +8,6 @@ struct PromptParams
   std::string_view visual_description;
   std::string_view context;
   int hashtag_limit;
-  // Add other parameters if necessary
 
   PromptParams(SocialMedia social_media,
                std::string_view visual_description,

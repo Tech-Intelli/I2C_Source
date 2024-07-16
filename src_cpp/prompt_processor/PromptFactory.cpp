@@ -4,7 +4,6 @@ std::string_view PromptFactory::getPrompt(const std::unordered_map<std::string, 
 {
     try
     {
-        // Convert string to SocialMedia enum
         SocialMedia socialMedia = FromString(params.at("social_media"));
         auto strategy = SocialMediaStrategyFactory::createStrategy(socialMedia);
         std::string_view prompt = strategy->generatePrompt(params);

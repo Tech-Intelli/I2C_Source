@@ -1,6 +1,5 @@
 #include "PromptStrategy.h"
 
-// Static member definitions
 const std::unordered_map<std::string_view, std::string_view> PromptStrategy::toneGuides = {
     {"casual", "Use conversational language and a friendly approach."},
     {"professional", "Maintain a polished and authoritative voice."},

@@ -5,7 +5,6 @@
 #include <memory>
 #include "PromptParams.h"
 
-// Abstract base class for BasePlatformStrategy
 class PlatformStrategy
 {
 public:

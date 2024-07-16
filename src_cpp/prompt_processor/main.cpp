@@ -6,12 +6,10 @@
 int main()
 {
     Log::init();
-    // Example usage of ToString
     SocialMedia platform = SocialMedia::INSTAGRAM;
     std::string_view platformName = ToString(platform);
     log.info("Enum to string: ", platformName);
 
-    // Example usage of FromString
     try
     {
         std::string_view platformName = "twitter";
@@ -23,7 +21,6 @@ int main()
         log.error("Error: ", e.what());
     }
 
-    // Example of invalid string conversion
     try
     {
         std::string_view invalidPlatformName = "myspace";
