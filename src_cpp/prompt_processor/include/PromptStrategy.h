@@ -13,8 +13,8 @@
 #include "TiktokStrategy.h"
 #include "PlatformStrategy.h"
 #include "PromptParams.h"
+#include "PromptConsts.h"
 
-// Abstract base class for social media strategy
 class PromptStrategy
 {
 public:
@@ -26,7 +26,7 @@ public:
     virtual std::string_view generateVisualDescription(const PromptParams &params) const;
     virtual std::string_view getContext(const PromptParams &params) const;
     virtual int getHashtagLimit(const PromptParams &params) const;
-    virtual std::string_view getCaptionSize(const std::string &captionSize = "small") const;
+    virtual std::string_view getCaptionSize(const CaptionSize size) const;
     virtual const std::shared_ptr<PlatformStrategy> createStrategy(SocialMedia platform);
     virtual std::string_view getPrompt(const PromptParams &params);
 
@@ -34,3 +34,6 @@ private:
     static const std::unordered_map<std::string_view, std::string_view> toneGuides;
     static const std::unordered_map<std::string_view, std::string_view> styleGuides;
 };
+constexpr std::string_view SMALL_DESC = "1 to 2 sentences";
+constexpr std::string_view MEDIUM_DESC = "2 to 3 sentences";
+constexpr std::string_view LARGE_DESC = "4 to 5 sentences";
