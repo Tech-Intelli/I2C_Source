@@ -12,17 +12,17 @@ std::string_view PromptFactory::getPrompt(const std::unordered_map<std::string, 
     }
     catch (const std::invalid_argument &e)
     {
-        std::cerr << "Invalid social media platform or parameter: " << e.what() << std::endl;
+        log.error("Invalid social media platform or parameter: ", e.what());
         return "Error: Invalid social media platform or parameter specified.";
     }
     catch (const std::out_of_range &e)
     {
-        std::cerr << "Missing required parameter: " << e.what() << std::endl;
+        log.error("Missing required parameter: " << e.what(), std::endl);
         return "Error: Missing required parameter.";
     }
     catch (const std::exception &e)
     {
-        std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
+        log.error("An unexpected error occurred: " << e.what(), std::endl);
         return "Error: An unexpected error occurred. Please try again later.";
     }
 }

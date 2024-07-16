@@ -14,7 +14,7 @@
 #include "PlatformStrategy.h"
 #include "PromptParams.h"
 #include "PromptConsts.h"
-
+#include "logging.h"
 class PromptStrategy
 {
 public:
