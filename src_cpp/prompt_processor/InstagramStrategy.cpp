@@ -4,8 +4,8 @@ InstagramStrategy::InstagramStrategy()
 {
 }
 
-std::string
-InstagramStrategy::generatePrompt(const std::unordered_map<std::string, std::string> &params) const
+std::string_view
+InstagramStrategy::generatePrompt(const PromptParams &params) const
 {
     return std::string();
 }

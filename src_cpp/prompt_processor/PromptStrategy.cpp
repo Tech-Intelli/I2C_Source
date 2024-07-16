@@ -42,32 +42,31 @@ PromptStrategy::getToneStyleGuide(std::string_view tone, std::string_view style)
 }
 
 std::unordered_map<std::string, std::string>
-PromptStrategy::selectInfluencerPersona(const std::unordered_map<std::string, std::string> &params) const
+PromptStrategy::selectInfluencerPersona(const PromptParams &params) const
 {
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> personas;
 
     return personas.at("general");
 }
 
-std::string
-PromptStrategy::generateVisualDescription(const std::unordered_map<std::string, std::string> &params) const
+std::string_view
+PromptStrategy::generateVisualDescription(const PromptParams &params) const
 {
-    return params.at("visual_description");
+    return params.visual_description;
 }
 
-std::string
-PromptStrategy::getContext(const std::unordered_map<std::string, std::string> &params) const
+std::string_view
+PromptStrategy::getContext(const PromptParams &params) const
 {
-    return params.at("context");
+    return params.context;
 }
 
-std::string
-PromptStrategy::getHashtagLimit(const std::unordered_map<std::string, std::string> &params) const
+int PromptStrategy::getHashtagLimit(const PromptParams &params) const
 {
-    return params.at("hashtag_limit");
+    return params.hashtag_limit;
 }
 
-std::string
+std::string_view
 PromptStrategy::getCaptionSize(const std::string &captionSize) const
 {
     static const std::unordered_map<std::string, std::string> captionLengthMapping = {
@@ -98,15 +97,14 @@ const std::shared_ptr<PlatformStrategy> PromptStrategy::createStrategy(SocialMed
     }
 }
 
-std::string
-PromptStrategy::getPrompt(const std::unordered_map<std::string, std::string> &params)
+std::string_view
+PromptStrategy::getPrompt(const PromptParams &params)
 {
     try
     {
-        // Convert string to SocialMedia enum
-        SocialMedia socialMedia = FromString(params.at("social_media"));
+        SocialMedia socialMedia = params.social_media;
         auto strategy = createStrategy(socialMedia);
-        std::string prompt = strategy->generatePrompt(params);
+        std::string_view prompt = strategy->generatePrompt(params);
         return prompt;
     }
     catch (const std::invalid_argument &e)

@@ -1,6 +1,6 @@
 #include "TiktokStrategy.h"
 
-std::string TiktokStrategy::generatePrompt(const std::unordered_map<std::string, std::string> &params) const
+std::string_view TiktokStrategy::generatePrompt(const PromptParams &params) const
 {
     return std::string();
 }

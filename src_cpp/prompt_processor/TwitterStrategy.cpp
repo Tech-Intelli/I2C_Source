@@ -1,6 +1,6 @@
 #include "TwitterStrategy.h"
 
-std::string TwitterStrategy::generatePrompt(const std::unordered_map<std::string, std::string> &params) const
+std::string_view TwitterStrategy::generatePrompt(const PromptParams &params) const
 {
     return std::string();
 }
