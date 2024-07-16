@@ -3,7 +3,7 @@ project(PromptProcessor)
 
 set(CMAKE_CXX_STANDARD 17)
 
-#find_package(yaml-cpp REQUIRED)
+find_package(spdlog REQUIRED)
 
 include_directories(include)
 
@@ -20,4 +20,4 @@ set(SOURCES
 
 add_executable(PromptProcessor ${SOURCES})
 
-target_link_libraries(PromptProcessor )
+target_link_libraries(PromptProcessor spdlog::spdlog )

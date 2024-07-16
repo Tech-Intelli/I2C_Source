@@ -1,26 +1,26 @@
 #include <iostream>
 #include <string_view>
-
-// Include the optimized header
+#include "logging.h"
 #include "SocialMediaConsts.h"
 
 int main()
 {
+    Log::init();
     // Example usage of ToString
     SocialMedia platform = SocialMedia::INSTAGRAM;
     std::string_view platformName = ToString(platform);
-    std::cout << "Enum to string: " << platformName << '\n';
+    log.info("Enum to string: ", platformName);
 
     // Example usage of FromString
     try
     {
         std::string_view platformName = "twitter";
         SocialMedia platformEnum = FromString(platformName);
-        std::cout << "String to enum: " << static_cast<int>(platformEnum) << '\n';
+        log.info("String to enum: ", static_cast<int>(platformEnum));
     }
     catch (const std::invalid_argument &e)
     {
-        std::cerr << "Error: " << e.what() << '\n';
+        log.error("Error: ", e.what());
     }
 
     // Example of invalid string conversion
@@ -28,11 +28,11 @@ int main()
     {
         std::string_view invalidPlatformName = "myspace";
         SocialMedia invalidPlatformEnum = FromString(invalidPlatformName);
-        std::cout << "String to enum: " << static_cast<int>(invalidPlatformEnum) << '\n';
+        log.debug("String to enum: ", static_cast<int>(invalidPlatformEnum));
     }
     catch (const std::invalid_argument &e)
     {
-        std::cerr << "Error: " << e.what() << '\n';
+        log.error("Error: ", e.what());
     }
 
     return 0;

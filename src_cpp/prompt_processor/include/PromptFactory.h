@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <stdexcept>
 #include <iostream>
+#include "logging.h"
 
 class PromptFactory
 {
