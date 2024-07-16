@@ -78,7 +78,7 @@ PromptStrategy::getCaptionSize(const CaptionSize size) const
     case CaptionSize::LARGE:
         return LARGE_DESC;
     default:
-        std::cerr << "Unsupported caption size: " << static_cast<int>(size) << std::endl;
+        log.error("Unsupported caption size: ", static_cast<int>(size));
         throw std::invalid_argument("Unsupported caption size");
     }
 }
@@ -97,7 +97,7 @@ const std::shared_ptr<PlatformStrategy> PromptStrategy::createStrategy(SocialMed
     case SocialMedia::TIKTOK:
         return std::make_shared<TiktokStrategy>();
     default:
-        std::cerr << "Unsupported platform: " << static_cast<int>(platform) << std::endl;
+        log.error("Unsupported platform: ", static_cast<int>(platform));
         throw std::invalid_argument("Unsupported social media platform");
     }
 }

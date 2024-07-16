@@ -17,12 +17,12 @@ std::string_view PromptFactory::getPrompt(const std::unordered_map<std::string, 
     }
     catch (const std::out_of_range &e)
     {
-        log.error("Missing required parameter: " << e.what(), std::endl);
+        log.error("Missing required parameter: " << e.what());
         return "Error: Missing required parameter.";
     }
     catch (const std::exception &e)
     {
-        log.error("An unexpected error occurred: " << e.what(), std::endl);
+        log.error("An unexpected error occurred: " << e.what());
         return "Error: An unexpected error occurred. Please try again later.";
     }
 }
