@@ -1,13 +1,13 @@
 #include "PromptFactory.h"
 
-std::string PromptFactory::getPrompt(const std::unordered_map<std::string, std::string> &params)
+std::string_view PromptFactory::getPrompt(const std::unordered_map<std::string, std::string> &params)
 {
     try
     {
         // Convert string to SocialMedia enum
         SocialMedia socialMedia = FromString(params.at("social_media"));
         auto strategy = SocialMediaStrategyFactory::createStrategy(socialMedia);
-        std::string prompt = strategy->generatePrompt(params);
+        std::string_view prompt = strategy->generatePrompt(params);
         return prompt;
     }
     catch (const std::invalid_argument &e)

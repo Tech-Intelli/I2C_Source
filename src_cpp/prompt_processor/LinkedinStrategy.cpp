@@ -1,8 +1,8 @@
 #include "LinkedinStrategy.h"
 
-std::string LinkedInStrategy::generatePrompt(const std::unordered_map<std::string, std::string> &params) const
+std::string_view LinkedInStrategy::generatePrompt(const PromptParams &params) const
 {
-    return std::string();
+    return std::string_view();
 }
 
 std::unordered_map<std::string, std::string> LinkedInStrategy::loadPlatformData() const

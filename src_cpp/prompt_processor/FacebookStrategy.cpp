@@ -1,6 +1,6 @@
 #include "FacebookStrategy.h"
 
-std::string FacebookStrategy::generatePrompt(const std::unordered_map<std::string, std::string> &params) const
+std::string_view FacebookStrategy::generatePrompt(const PromptParams &params) const
 {
     return std::string();
 }
