@@ -31,9 +31,9 @@ public:
     virtual std::string_view getPrompt(const PromptParams &params);
 
 private:
+    static constexpr std::string_view SMALL_DESC = "1 to 2 sentences";
+    static constexpr std::string_view MEDIUM_DESC = "2 to 3 sentences";
+    static constexpr std::string_view LARGE_DESC = "4 to 5 sentences";
     static const std::unordered_map<std::string_view, std::string_view> toneGuides;
     static const std::unordered_map<std::string_view, std::string_view> styleGuides;
 };
-constexpr std::string_view SMALL_DESC = "1 to 2 sentences";
-constexpr std::string_view MEDIUM_DESC = "2 to 3 sentences";
-constexpr std::string_view LARGE_DESC = "4 to 5 sentences";
