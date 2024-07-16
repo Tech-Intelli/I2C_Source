@@ -4,6 +4,30 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <memory>
 
+/**
+ * @file Log.h
+ * @brief A singleton logger class for logging messages at various severity levels.
+ *
+ * This class provides a thread-safe singleton logger implementation using the spdlog library.
+ * It allows logging messages with different severity levels, including trace, debug, info, warn, error, and critical.
+ *
+ * Usage:
+ * 1. Initialize the logger by calling `Log::init()` with an optional logger name.
+ * 2. Use the logging methods (e.g., `log.trace()`, `log.info()`, etc.) to log messages.
+ *
+ * Example:
+ * @code
+ * Log::init("MyLogger");
+ * log.info("This is an info message: {}", some_variable);
+ * log.error("An error occurred: {}", error_message);
+ * @endcode
+ *
+ * @note The logger is initialized only once and will be reused throughout the application lifecycle.
+ *
+ * @throw None
+ * @see spdlog documentation for more details on configuration and usage.
+ */
+
 class Log
 {
 public:
@@ -13,7 +37,15 @@ public:
         return instance;
     }
 
-    static void init(const std::string &logger_name = "fast_logger")
+    /**
+     * Initializes the logger with the specified logger name and sets up the console sink.
+     *
+     * @param logger_name The name of the logger. Defaults to "logger".
+     * @returns None
+     *
+     * @throws None
+     */
+    static void init(const std::string &logger_name = "logger")
     {
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
         console_sink->set_level(spdlog::level::trace);
@@ -24,36 +56,91 @@ public:
         spdlog::set_default_logger(logger);
     }
 
+    /**
+     * Logs a trace message with the specified format and arguments.
+     *
+     * @tparam Args the types of the arguments
+     * @param fmt the format string
+     * @param args the arguments to be formatted
+     *
+     * @throws None
+     */
     template <typename... Args>
     void trace(const char *fmt, const Args &...args)
     {
         spdlog::trace(fmt, args...);
     }
 
+    /**
+     * Logs a debug message with the specified format and arguments.
+     *
+     * @tparam Args the types of the arguments
+     * @param fmt the format string
+     * @param args the arguments to be formatted
+     *
+     * @throws None
+     */
     template <typename... Args>
     void debug(const char *fmt, const Args &...args)
     {
         spdlog::debug(fmt, args...);
     }
 
+    /**
+     * Logs an informational message with the specified format and arguments.
+     *
+     * @tparam Args the types of the arguments
+     * @param fmt the format string
+     * @param args the arguments to be formatted
+     *
+     * @throws None
+     */
     template <typename... Args>
     void info(const char *fmt, const Args &...args)
     {
         spdlog::info(fmt, args...);
     }
 
+    /**
+     * Logs a warning message with the specified format and arguments.
+     *
+     * @param fmt the format string
+     * @param args the arguments to be formatted
+     *
+     * @throws None
+     */
     template <typename... Args>
     void warn(const char *fmt, const Args &...args)
     {
         spdlog::warn(fmt, args...);
     }
 
+    /**
+     * Logs an error message with the specified format and arguments.
+     *
+     * @param fmt the format string
+     * @param args the arguments to be formatted
+     *
+     * @return None
+     *
+     * @throws None
+     */
     template <typename... Args>
     void error(const char *fmt, const Args &...args)
     {
         spdlog::error(fmt, args...);
     }
 
+    /**
+     * A description of the entire C++ function.
+     *
+     * @param fmt the format string
+     * @param args the arguments to be formatted
+     *
+     * @return None
+     *
+     * @throws None
+     */
     template <typename... Args>
     void critical(const char *fmt, const Args &...args)
     {
