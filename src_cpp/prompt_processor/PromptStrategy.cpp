@@ -67,16 +67,21 @@ int PromptStrategy::getHashtagLimit(const PromptParams &params) const
 }
 
 std::string_view
-PromptStrategy::getCaptionSize(const std::string &captionSize) const
+PromptStrategy::getCaptionSize(const CaptionSize size) const
 {
-    static const std::unordered_map<std::string, std::string> captionLengthMapping = {
-        {"small", "1 to 2 sentences"},
-        {"medium", "2 to 3 sentences"},
-        {"large", "4 to 5 sentences"}};
-
-    return captionLengthMapping.at(captionSize);
+    switch (size)
+    {
+    case CaptionSize::SMALL:
+        return SMALL_DESC;
+    case CaptionSize::MEDIUM:
+        return MEDIUM_DESC;
+    case CaptionSize::LARGE:
+        return LARGE_DESC;
+    default:
+        std::cerr << "Unsupported caption size: " << static_cast<int>(size) << std::endl;
+        throw std::invalid_argument("Unsupported caption size");
+    }
 }
-
 const std::shared_ptr<PlatformStrategy> PromptStrategy::createStrategy(SocialMedia platform)
 {
     switch (platform)
