@@ -221,9 +221,13 @@ Then execute the following command: `source ~/.bashrc`
 ## install open-cv
 
 ```
+sudo apt-get update
 sudo apt install python3.10 python3.10-dev
 sudo apt install build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
 sudo apt install libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev libopencv-dev
+sudo apt install libjpeg-dev libpng-dev libtiff-dev libjasper-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+sudo apt install libxvidcore-dev libx264-dev libgtk-3-dev libatlas-base-dev gfortran
+sudo apt install libopenjp2-7-dev
 sudo apt install python3-numpy
 mkdir ~/opencv_build && cd ~/opencv_build
 git clone https://github.com/opencv/opencv.git
@@ -234,15 +238,32 @@ mkdir build && cd build
 
 Once this step is done, execute the following command:
 ```
+# cd /home/dasdipanjan04/opencv_build/opencv/build
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
       -D INSTALL_C_EXAMPLES=ON \
       -D OPENCV_PYTHON3_INSTALL_PATH=$(python3.10 -c "import site; print(site.getsitepackages()[0])") \
       -D PYTHON_EXECUTABLE=$(which python3.10) \
-      -D OPENCV_GENERATE_PKGCONFIG=ON \
       -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules \
-      -D BUILD_EXAMPLES=ON ..
+      -D BUILD_EXAMPLES=ON \
+      -D WITH_OPENJPEG=ON \
+      -D OpenJPEG_INCLUDE_DIRS=/usr/include/openjpeg-2.4 \
+      -D JPEG_LIBRARY=/usr/lib/x86_64-linux-gnu/libopenjp2.so \
+      -D HDF5_NO_FIND_PACKAGE_CONFIG_FILE=ON \  # Avoid using Anaconda's HDF5
+      ..
 
+```
+
+if your `openjpeg` is located at a different path then you need to change the path accordingly.
+You can find the path by executing the following command:
+```
+dpkg-query -L libopenjp2-7-dev
+
+```
+and update the path in the following section:
+```
+      -D OpenJPEG_INCLUDE_DIRS=/usr/include/openjpeg-2.4 \
+      -D JPEG_LIBRARY=/usr/lib/x86_64-linux-gnu/libopenjp2.so ..
 ```
 Now finally install the open-cv
 
