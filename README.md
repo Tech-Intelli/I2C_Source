@@ -194,3 +194,60 @@ or if you are not using conda then the following
 ```
 C:\Users\user\AppData\Local\Programs\Python\Python310\python.exe -m streamlit run .\app_streamlit.py
 ```
+
+# For C++
+
+## Install torch
+Download torch from the following link and extract the zip file
+`https://download.pytorch.org/libtorch/cu121/libtorch-cxx11-abi-shared-with-deps-2.3.1%2Bcu121.zip`
+
+in your WSL Terminal:
+```
+cd /mnt/c/Users/<user>/Downloads/
+unzip libtorch-cxx11-abi-shared-with-deps-2.3.1+cu121.zip -d path/to/preffered/location/libtorch
+nano ~/.bashrc
+```
+
+Paste the following lines at the end of the file:
+```
+export TORCH_HOME=/path/to/libtorch
+export CMAKE_PREFIX_PATH=$TORCH_HOME/share/cmake/Torch:$CMAKE_PREFIX_PATH
+```
+
+My `/path/to/libtorch` looks like the following `mnt/d/Codes_All/Development/library/libtorch`
+Once done save the .bashrc by pressing `Ctrl+s` and `Enter` and exit by pressing `Ctrl+x`
+Then execute the following command: `source ~/.bashrc`
+
+## install open-cv
+
+```
+sudo apt install python3.10 python3.10-dev
+sudo apt install build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+sudo apt install libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev libopencv-dev
+sudo apt install python3-numpy
+mkdir ~/opencv_build && cd ~/opencv_build
+git clone https://github.com/opencv/opencv.git
+git clone https://github.com/opencv/opencv_contrib.git
+cd ~/opencv_build/opencv
+mkdir build && cd build
+```
+
+Once this step is done, execute the following command:
+```
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+      -D CMAKE_INSTALL_PREFIX=/usr/local \
+      -D INSTALL_C_EXAMPLES=ON \
+      -D OPENCV_PYTHON3_INSTALL_PATH=$(python3.10 -c "import site; print(site.getsitepackages()[0])") \
+      -D PYTHON_EXECUTABLE=$(which python3.10) \
+      -D OPENCV_GENERATE_PKGCONFIG=ON \
+      -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules \
+      -D BUILD_EXAMPLES=ON ..
+
+```
+Now finally install the open-cv
+
+```
+make -j$(nproc)
+sudo make install
+sudo ldconfig
+```
