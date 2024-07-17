@@ -27,8 +27,14 @@ void Blip2Pipeline::initializeBlip2() {
     py::object Blip2ForConditionalGeneration = transformers.attr("Blip2ForConditionalGeneration");
     py::object AutoProcessor = transformers.attr("AutoProcessor");
 
-    py::object quantization_config = BitsAndBytesConfig(py::dict("load_in_8bit"_a=true, "llm_int8_threshold"_a=5.0));
-    model = Blip2ForConditionalGeneration.attr("from_pretrained")(config, py::arg("torch_dtype") = torch.attr("float16"), py::arg("device_map") = "auto", py::arg("quantization_config") = quantization_config);
+    py::object quantization_config = BitsAndBytesConfig(py::dict(
+        "load_in_8bit"_a=true,
+        "llm_int8_threshold"_a=5.0));
+    model = Blip2ForConditionalGeneration.attr("from_pretrained")(
+        config,
+        py::arg("torch_dtype") = torch.attr("float16"),
+        py::arg("device_map") = "auto",
+        py::arg("quantization_config") = quantization_config);
     processor = AutoProcessor.attr("from_pretrained")(config);
 }
 
