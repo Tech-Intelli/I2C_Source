@@ -215,7 +215,7 @@ export CMAKE_PREFIX_PATH=$TORCH_HOME/share/cmake/Torch:$CMAKE_PREFIX_PATH
 ```
 
 My `/path/to/libtorch` looks like the following `mnt/d/Codes_All/Development/library/libtorch`
-Once done save the .bashrc by pressing `Ctrl+s` and `Enter` and exit by pressing `Ctrl+x`
+Once done save the .bashrc by pressing `Ctrl+s` and exit by pressing `Ctrl+x`
 Then execute the following command: `source ~/.bashrc`
 
 ## install open-cv
@@ -238,7 +238,6 @@ mkdir build && cd build
 
 Once this step is done, execute the following command:
 ```
-# cd /home/dasdipanjan04/opencv_build/opencv/build
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
       -D INSTALL_C_EXAMPLES=ON \
@@ -248,8 +247,9 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D BUILD_EXAMPLES=ON \
       -D WITH_OPENJPEG=ON \
       -D OpenJPEG_INCLUDE_DIRS=/usr/include/openjpeg-2.4 \
-      -D JPEG_LIBRARY=/usr/lib/x86_64-linux-gnu/libopenjp2.so \
-      -D HDF5_NO_FIND_PACKAGE_CONFIG_FILE=ON \  # Avoid using Anaconda's HDF5
+      -D JPEG_INCLUDE_DIR=/usr/include/ \
+      -D JPEG_LIBRARY=/usr/lib/x86_64-linux-gnu/libjpeg.so \
+      -D HDF5_NO_FIND_PACKAGE_CONFIG_FILE=ON \
       ..
 
 ```
