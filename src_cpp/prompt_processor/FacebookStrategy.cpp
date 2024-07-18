@@ -18,6 +18,14 @@ void FacebookStrategy::loadInfluencerPersonas() const
 {
 }
 
-void FacebookStrategy::loadPromptEngineeringTechniques(const std::string &prompt) const
+void FacebookStrategy::loadPromptEngineeringTechniques() const
 {
+}
+
+void FacebookStrategy::initialize() const
+{
+    loadInfluencerPersonas();
+    loadTemplate();
+    loadPlatformData();
+    loadPromptEngineeringTechniques();
 }

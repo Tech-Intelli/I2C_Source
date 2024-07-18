@@ -22,6 +22,14 @@ void InstagramStrategy::loadInfluencerPersonas() const
 {
 }
 
-void InstagramStrategy::loadPromptEngineeringTechniques(const std::string &prompt) const
+void InstagramStrategy::loadPromptEngineeringTechniques() const
 {
+}
+
+void InstagramStrategy::initialize() const
+{
+    loadInfluencerPersonas();
+    loadTemplate();
+    loadPlatformData();
+    loadPromptEngineeringTechniques();
 }

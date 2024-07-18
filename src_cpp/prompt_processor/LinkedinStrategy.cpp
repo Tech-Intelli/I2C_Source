@@ -18,6 +18,14 @@ void LinkedInStrategy::loadInfluencerPersonas() const
 {
 }
 
-void LinkedInStrategy::loadPromptEngineeringTechniques(const std::string &prompt) const
+void LinkedInStrategy::loadPromptEngineeringTechniques() const
 {
+}
+
+void LinkedInStrategy::initialize() const
+{
+    loadInfluencerPersonas();
+    loadTemplate();
+    loadPlatformData();
+    loadPromptEngineeringTechniques();
 }

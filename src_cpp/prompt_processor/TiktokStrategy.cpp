@@ -17,6 +17,14 @@ void TiktokStrategy::loadInfluencerPersonas() const
 {
 }
 
-void TiktokStrategy::loadPromptEngineeringTechniques(const std::string &prompt) const
+void TiktokStrategy::loadPromptEngineeringTechniques() const
 {
+}
+
+void TiktokStrategy::initialize() const
+{
+    loadInfluencerPersonas();
+    loadTemplate();
+    loadPlatformData();
+    loadPromptEngineeringTechniques();
 }

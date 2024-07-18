@@ -14,5 +14,6 @@ public:
     virtual void loadPlatformData() const = 0;
     virtual void loadTemplate() const = 0;
     virtual void loadInfluencerPersonas() const = 0;
-    virtual void loadPromptEngineeringTechniques(const std::string &prompt) const = 0;
+    virtual void loadPromptEngineeringTechniques() const = 0;
+    virtual void initialize() const = 0;
 };
