@@ -3,6 +3,7 @@
 #include "Logging.h"
 #include "SocialMediaConsts.h"
 #include "PromptStrategy.h"
+#include "PlatformPersonas.h"
 
 int main()
 {

@@ -5,6 +5,26 @@
 #include <stdexcept>
 #include <iostream>
 
+/**
+ * @class PromptTemplateParser
+ * @brief A class to parse and render template strings with placeholders.
+ *
+ * The `PromptTemplateParser` class allows for the creation of a template string with placeholders,
+ * which can be replaced with actual values provided in a map. The placeholders are denoted with curly
+ * braces (e.g., {placeholder}) and are replaced with corresponding values during the rendering process.
+ *
+ * Example usage:
+ * @code
+ * std::string template_str = "Hello, {name}! Welcome to {place}.";
+ * PromptTemplateParser parser(template_str);
+ * std::unordered_map<std::string, std::string> replacements = {
+ *     {"name", "Alice"},
+ *     {"place", "Wonderland"}
+ * };
+ * std::string result = parser.render(replacements);
+ * // result: "Hello, Alice! Welcome to Wonderland."
+ * @endcode
+ */
 class PromptTemplateParser
 {
 private:
@@ -12,30 +32,6 @@ private:
     const std::regex placeholder_regex;
 
 public:
-    explicit PromptTemplateParser(std::string template_str) : template_str(template_str), placeholder_regex(R"(\{([^}]+)\})") {}
-
-    std::string render(const std::unordered_map<std::string, std::string> replacements) const
-    {
-        std::string result = template_str;
-        std::smatch match;
-        std::string::const_iterator search_start(result.cbegin());
-
-        while (std::regex_search(search_start, result.cend(), match, placeholder_regex))
-        {
-            std::string placeholder = match[1];
-
-            // Find the replacement in the map
-            auto it = replacements.find(placeholder);
-            if (it == replacements.end())
-            {
-                throw std::runtime_error("Unknown placeholder: " + placeholder);
-            }
-
-            std::string replacement = it->second;
-            result.replace(match.position() + (search_start - result.cbegin()), match.length(), replacement);
-            search_start = result.cbegin() + (match.position() + replacement.length());
-        }
-
-        return result;
-    }
+    explicit PromptTemplateParser(std::string template_str);
+    std::string render(const std::unordered_map<std::string, std::string> replacements) const;
 };
