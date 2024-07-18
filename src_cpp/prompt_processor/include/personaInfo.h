@@ -1,8 +1,10 @@
 #pragma once
 
+#include <string_view>
+
 struct PersonaInfo
 {
-    const char *niche;
-    const char *style_description;
-    const char *content_focus;
+    const std::string_view niche;
+    const std::string_view style_description;
+    const std::string_view content_focus;
 };

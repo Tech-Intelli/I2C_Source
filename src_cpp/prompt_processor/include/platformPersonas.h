@@ -5,24 +5,22 @@
 #include <algorithm>
 #include <memory>
 #include <stdexcept>
-#include "personaInfo.h"
-#include <cstring>
+#include "PersonaInfo.h"
 
-// Base class for platform personas
 template <size_t N>
 class PlatformPersonas
 {
 protected:
-    std::array<std::pair<const char *, PersonaInfo>, N> personas;
+    std::array<std::pair<const std::string_view, PersonaInfo>, N> personas;
 
 public:
-    PlatformPersonas(const std::array<std::pair<const char *, PersonaInfo>, N> &init) : personas(init) {}
+    PlatformPersonas(const std::array<std::pair<const std::string_view, PersonaInfo>, N> &init) : personas(init) {}
 
-    std::optional<PersonaInfo> find(const char *key) const
+    std::optional<PersonaInfo> find(std::string_view key) const
     {
         for (const auto &persona : personas)
         {
-            if (std::strcmp(persona.first, key) == 0)
+            if (persona.first == key)
             {
                 return persona.second;
             }
@@ -30,7 +28,7 @@ public:
         return std::nullopt;
     }
 
-    std::optional<PersonaInfo> getPersonaInfo(const char *key) const
+    std::optional<PersonaInfo> getPersonaInfo(std::string_view key) const
     {
         return find(key);
     }
