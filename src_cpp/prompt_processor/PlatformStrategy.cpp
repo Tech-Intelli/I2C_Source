@@ -1,5 +1,13 @@
 #include "PlatformStrategy.h"
 
+/**
+ * Loads a template file into a string.
+ *
+ * @param file_path The path to the file to load.
+ * @param templateData The string where the file contents will be stored.
+ *
+ * @throws std::runtime_error If the file cannot be opened, is empty, or there is an error reading it.
+ */
 void PlatformStrategy::loadTemplate(const std::string &file_path, std::string &templateData)
 {
 
