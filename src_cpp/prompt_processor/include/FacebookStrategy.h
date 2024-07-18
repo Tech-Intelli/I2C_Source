@@ -10,5 +10,6 @@ public:
     void loadPlatformData() const override;
     void loadTemplate() const override;
     void loadInfluencerPersonas() const override;
-    void loadPromptEngineeringTechniques(const std::string &prompt) const override;
+    void loadPromptEngineeringTechniques() const override;
+    void initialize() const override;
 };

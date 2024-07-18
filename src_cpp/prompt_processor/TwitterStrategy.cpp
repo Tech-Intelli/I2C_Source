@@ -17,6 +17,14 @@ void TwitterStrategy::loadInfluencerPersonas() const
 {
 }
 
-void TwitterStrategy::loadPromptEngineeringTechniques(const std::string &prompt) const
+void TwitterStrategy::loadPromptEngineeringTechniques() const
 {
+}
+
+void TwitterStrategy::initialize() const
+{
+    loadInfluencerPersonas();
+    loadTemplate();
+    loadPlatformData();
+    loadPromptEngineeringTechniques();
 }
