@@ -1,12 +1,8 @@
 #include "TwitterStrategy.h"
 
-std::string TwitterStrategy::generatePrompt(const PromptParams &params) const
+std::string TwitterStrategy::generatePrompt(const std::unordered_map<std::string, std::string> &replacementsMap) const
 {
     return std::string();
-}
-
-void TwitterStrategy::loadPlatformData() const
-{
 }
 
 void TwitterStrategy::loadTemplate() const
@@ -17,14 +13,12 @@ void TwitterStrategy::loadInfluencerPersonas() const
 {
 }
 
-void TwitterStrategy::loadPromptEngineeringTechniques() const
-{
-}
-
 void TwitterStrategy::initialize() const
 {
     loadInfluencerPersonas();
     loadTemplate();
-    loadPlatformData();
-    loadPromptEngineeringTechniques();
+}
+
+void TwitterStrategy::createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements)
+{
 }
