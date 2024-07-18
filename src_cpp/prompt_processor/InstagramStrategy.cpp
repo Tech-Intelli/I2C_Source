@@ -27,10 +27,3 @@ void InstagramStrategy::initialize() const
     loadInfluencerPersonas();
     loadTemplate();
 }
-
-void InstagramStrategy::createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements)
-{
-    replacements["visual_description"] = params.visual_description;
-    replacements["context"] = params.context;
-    replacements["hashtag_limit"] = std::to_string(params.hashtag_limit);
-}

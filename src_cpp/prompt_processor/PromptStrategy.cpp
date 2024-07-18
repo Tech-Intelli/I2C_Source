@@ -24,7 +24,7 @@ const std::unordered_map<std::string_view, std::string_view> PromptStrategy::sty
     {"behind-the-scenes", "Offer exclusive looks into processes, people, or places."},
     {"trending", "Capitalize on current events, popular topics, and viral content in your niche."}};
 
-std::tuple<std::string_view, std::string_view>
+std::string
 PromptStrategy::getToneStyleGuide(std::string_view tone, std::string_view style) const
 {
     auto toneIt = toneGuides.find(tone);
@@ -33,7 +33,7 @@ PromptStrategy::getToneStyleGuide(std::string_view tone, std::string_view style)
     std::string_view toneGuide = (toneIt != toneGuides.end()) ? toneIt->second : "Tone not found.";
     std::string_view styleGuide = (styleIt != styleGuides.end()) ? styleIt->second : "Style not found.";
 
-    return std::make_tuple(toneGuide, styleGuide);
+    return std::string(toneGuide) + " " + std::string(styleGuide);
 }
 
 std::unordered_map<std::string, std::string>
@@ -42,23 +42,6 @@ PromptStrategy::selectInfluencerPersona(const PromptParams &params) const
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> personas;
 
     return personas.at("general");
-}
-
-std::string_view
-PromptStrategy::getVisualDescription(const PromptParams &params) const
-{
-    return params.visual_description;
-}
-
-std::string_view
-PromptStrategy::getContext(const PromptParams &params) const
-{
-    return params.context;
-}
-
-int PromptStrategy::getHashtagLimit(const PromptParams &params) const
-{
-    return params.hashtag_limit;
 }
 
 /**
@@ -86,6 +69,18 @@ PromptStrategy::getCaptionSize(const CaptionSize size) const
         throw std::invalid_argument("Unsupported caption size");
     }
 }
+void PromptStrategy::createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements)
+{
+    replacements["visual_description"] = params.visual_description;
+    replacements["context"] = params.context;
+    replacements["hashtag_limit"] = std::to_string(params.hashtag_limit);
+    replacements["caption_size"] = getCaptionSize(params.caption_size);
+    replacements["tone_style_guide"] = getToneStyleGuide(params.tone, params.style);
+    replacements["influencer_persona"] = selectInfluencerPersona(params).at("description");
+    // replacements["content_type"] = params).at("name");
+    // replacements[content_focus] = params.content_focus;
+}
+
 /**
  * Creates a shared pointer to a PlatformStrategy object based on the given SocialMedia platform.
  *
@@ -123,7 +118,7 @@ PromptStrategy::getPrompt(const PromptParams &params)
         SocialMedia socialMedia = params.social_media;
         auto strategy = createStrategy(socialMedia);
         std::unordered_map<std::string, std::string> replacementMap;
-        strategy->createPromptMap(params, replacementMap);
+        createPromptMap(params, replacementMap);
         std::string_view prompt = strategy->generatePrompt(replacementMap);
         return prompt;
     }

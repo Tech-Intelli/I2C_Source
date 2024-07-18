@@ -19,7 +19,3 @@ void LinkedInStrategy::initialize() const
     loadInfluencerPersonas();
     loadTemplate();
 }
-
-void LinkedInStrategy::createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements)
-{
-}

@@ -18,7 +18,3 @@ void TwitterStrategy::initialize() const
     loadInfluencerPersonas();
     loadTemplate();
 }
-
-void TwitterStrategy::createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements)
-{
-}

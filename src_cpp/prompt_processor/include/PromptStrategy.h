@@ -31,10 +31,8 @@ private:
     static const std::unordered_map<std::string_view, std::string_view> toneGuides;
     static const std::unordered_map<std::string_view, std::string_view> styleGuides;
 
-    std::tuple<std::string_view, std::string_view> getToneStyleGuide(std::string_view tone, std::string_view style) const;
+    std::string getToneStyleGuide(std::string_view tone, std::string_view style) const;
     std::unordered_map<std::string, std::string> selectInfluencerPersona(const PromptParams &params) const;
-    std::string_view getVisualDescription(const PromptParams &params) const;
-    std::string_view getContext(const PromptParams &params) const;
-    int getHashtagLimit(const PromptParams &params) const;
     std::string_view getCaptionSize(const CaptionSize size) const;
+    void createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements);
 };
