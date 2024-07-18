@@ -1,8 +1,55 @@
+
 #pragma once
 
 #include <string_view>
 #include <array>
 #include <stdexcept>
+
+/**
+ * @file SocialMedia.h
+ * @brief Defines enumeration for social media platforms and provides conversion functions.
+ *
+ * This file defines an enumeration `SocialMedia` for various social media platforms and provides
+ * utility functions to convert between `SocialMedia` enum values and their corresponding string
+ * representations.
+ *
+ * The `SocialMedia` enum class includes the following platforms:
+ * - INSTAGRAM
+ * - TWITTER
+ * - LINKEDIN
+ * - FACEBOOK
+ * - TIKTOK
+ *
+ * Additionally, functions are provided for:
+ * - Converting from `SocialMedia` enum to `std::string_view` using the `ToString` function.
+ * - Converting from `std::string_view` to `SocialMedia` enum using the `FromString` function.
+ *
+ * @enum SocialMedia
+ * @brief Enum class for representing various social media platforms.
+ *
+ * Enumerators:
+ * - INSTAGRAM: Represents Instagram.
+ * - TWITTER: Represents Twitter.
+ * - LINKEDIN: Represents LinkedIn.
+ * - FACEBOOK: Represents Facebook.
+ * - TIKTOK: Represents TikTok.
+ * - COUNT: Represents the number of social media platforms. This is used for sizing arrays.
+ *
+ * @function constexpr std::string_view ToString(SocialMedia platform)
+ * @brief Converts a `SocialMedia` enum value to its string representation.
+ *
+ * @param platform The `SocialMedia` enum value to convert.
+ * @return Corresponding string representation of the `SocialMedia` enum value.
+ * @throw std::out_of_range if the enum value is not within the valid range.
+ *
+ * @function constexpr SocialMedia FromString(std::string_view str)
+ * @brief Converts a string representation of a social media platform to the corresponding `SocialMedia` enum value.
+ *
+ * @param str The string representation of a social media platform.
+ * @return Corresponding `SocialMedia` enum value.
+ * @throw std::invalid_argument if the string does not match any known social media platform.
+ *
+ */
 
 enum class SocialMedia
 {

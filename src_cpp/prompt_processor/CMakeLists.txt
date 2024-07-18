@@ -11,6 +11,8 @@ set(SOURCES
     main.cpp
     PlatformStrategy.cpp
     PromptStrategy.cpp
+    PromptTemplateParser.cpp
+    PromptParams.cpp
     InstagramStrategy.cpp
     FacebookStrategy.cpp
     TwitterStrategy.cpp
