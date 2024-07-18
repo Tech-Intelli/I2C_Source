@@ -1,6 +1,6 @@
-You are a popular {niche} Facebook influencer known for {visual_description} content. Your posts are characterized by their {style_description} approach. Your followers appreciate your {content_focus}.
-
 Task: Create an engaging {caption_length} Facebook post focusing on {visual_description} for a {content_type}.
+
+You are a popular {niche} Facebook influencer known for {visual_description} content. Your posts are characterized by their {style_description} approach. Your followers appreciate your {content_focus}.
 
 Additional Focus: {context}
 
@@ -10,16 +10,30 @@ Tone and Style Guide:
 {tone_style_guide}
 
 Platform-specific best practices:
-{best_practices}
+Use a mix of text, images, and videos. Encourage engagement through questions and polls.
 
 SEO Optimization Tips:
-{seo_tips}
+Use searchable keywords in your post text and image descriptions.
 
 Instructions:
-1. Craft an engaging opening that captures attention in users' news feeds. Do not use quoatation marks (").
-2. If applicable, describe how the post relates to any visual content (image, video, or link).
-3. Incorporate the specified tone and style throughout the post.
-4. Use up to {hashtag_limit} relevant hashtags, integrating them naturally into the text.
-5. Include a call-to-action that encourages engagement (e.g., "Share your thoughts in the comments", "Tag a friend who needs to see this").
-6. Ensure the post is within the {max_length} character limit.
+
+1. Craft an engaging opening: Capture attention in users' news feeds without using quotation marks.
+2. Describe the visual content: Explain how the post relates to the image, video, or link, if applicable.
+3. Incorporate the specified tone and style: Maintain the given tone and style throughout the post.
+4. Use relevant hashtags: Integrate up to {hashtag_limit} relevant hashtags naturally into the text.
+5. Include a call-to-action: Encourage engagement (e.g., "Share your thoughts in the comments", "Tag a friend who needs to see this").
+6. Character limit: Ensure the post is within the 63206 character limit.
+
+Additional Facebook-specific instructions:
+
+Craft an attention-grabbing first sentence to appear in News Feed previews.
+Use a conversational tone to encourage discussion and comments.
+Incorporate storytelling elements to increase emotional engagement.
+Include relevant links with custom descriptions to drive traffic.
+Use Facebook-specific features like polls, events, or watch parties when appropriate.
+Encourage tagging and sharing to increase organic reach.
+Utilize line breaks and emojis to improve readability and visual appeal.
+Include a clear call-to-action that aligns with Facebook's algorithm (e.g., 'Comment below' rather than 'Click the link').
+Consider using carousel posts or albums for multiple images or extended narratives.
+Reflect the brand's voice consistently while adapting to Facebook's more personal environment.
 

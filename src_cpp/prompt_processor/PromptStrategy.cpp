@@ -108,7 +108,9 @@ PromptStrategy::getPrompt(const PromptParams &params)
     {
         SocialMedia socialMedia = params.social_media;
         auto strategy = createStrategy(socialMedia);
-        std::string_view prompt = strategy->generatePrompt(params);
+        std::unordered_map<std::string, std::string> replacementMap;
+        strategy->createPromptMap(params, replacementMap);
+        std::string_view prompt = strategy->generatePrompt(replacementMap);
         return prompt;
     }
     catch (const std::invalid_argument &e)

@@ -1,13 +1,9 @@
 #include "FacebookStrategy.h"
 
 std::string
-FacebookStrategy::generatePrompt(const PromptParams &params) const
+FacebookStrategy::generatePrompt(const std::unordered_map<std::string, std::string> &replacementsMap) const
 {
     return std::string();
-}
-
-void FacebookStrategy::loadPlatformData() const
-{
 }
 
 void FacebookStrategy::loadTemplate() const
@@ -18,14 +14,12 @@ void FacebookStrategy::loadInfluencerPersonas() const
 {
 }
 
-void FacebookStrategy::loadPromptEngineeringTechniques() const
-{
-}
-
 void FacebookStrategy::initialize() const
 {
     loadInfluencerPersonas();
     loadTemplate();
-    loadPlatformData();
-    loadPromptEngineeringTechniques();
+}
+
+void FacebookStrategy::createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements)
+{
 }

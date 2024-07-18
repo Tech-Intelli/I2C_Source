@@ -1,12 +1,8 @@
 #include "TiktokStrategy.h"
 
-std::string TiktokStrategy::generatePrompt(const PromptParams &params) const
+std::string TiktokStrategy::generatePrompt(const std::unordered_map<std::string, std::string> &replacementsMap) const
 {
     return std::string();
-}
-
-void TiktokStrategy::loadPlatformData() const
-{
 }
 
 void TiktokStrategy::loadTemplate() const
@@ -17,14 +13,12 @@ void TiktokStrategy::loadInfluencerPersonas() const
 {
 }
 
-void TiktokStrategy::loadPromptEngineeringTechniques() const
-{
-}
-
 void TiktokStrategy::initialize() const
 {
     loadInfluencerPersonas();
     loadTemplate();
-    loadPlatformData();
-    loadPromptEngineeringTechniques();
+}
+
+void TiktokStrategy::createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements)
+{
 }
