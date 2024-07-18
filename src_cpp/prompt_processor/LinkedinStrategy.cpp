@@ -6,16 +6,12 @@ LinkedInStrategy::generatePrompt(const std::unordered_map<std::string, std::stri
     return std::string();
 }
 
-void LinkedInStrategy::loadTemplate() const
-{
-}
-
 void LinkedInStrategy::loadInfluencerPersonas() const
 {
 }
 
-void LinkedInStrategy::initialize() const
+void LinkedInStrategy::initialize()
 {
     loadInfluencerPersonas();
-    loadTemplate();
+    loadTemplate(filepath, templateData);
 }

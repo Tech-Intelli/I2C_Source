@@ -65,7 +65,7 @@ PromptStrategy::getCaptionSize(const CaptionSize size) const
     case CaptionSize::LARGE:
         return LARGE_DESC;
     default:
-        log.error("Unsupported caption size: ", static_cast<int>(size));
+        log.error("Unsupported caption size: {} ", static_cast<int>(size));
         throw std::invalid_argument("Unsupported caption size");
     }
 }
@@ -76,9 +76,14 @@ void PromptStrategy::createPromptMap(const PromptParams &params, std::unordered_
     replacements["hashtag_limit"] = std::to_string(params.hashtag_limit);
     replacements["caption_size"] = getCaptionSize(params.caption_size);
     replacements["tone_style_guide"] = getToneStyleGuide(params.tone, params.style);
-    replacements["influencer_persona"] = selectInfluencerPersona(params).at("description");
-    // replacements["content_type"] = params).at("name");
-    // replacements[content_focus] = params.content_focus;
+    replacements["caption_length"] = getCaptionSize(params.caption_size);
+    replacements["content_type"] = "type";
+    replacements["content_focus"] = "focus";
+    replacements["niche"] = "niche";
+    replacements["style_description"] = "style_description";
+    // replacements["influencer_persona"] = selectInfluencerPersona(params).at("description");
+    //  replacements["content_type"] = params).at("name");
+    //  replacements[content_focus] = params.content_focus;
 }
 
 /**
@@ -105,7 +110,7 @@ const std::shared_ptr<PlatformStrategy> PromptStrategy::createStrategy(SocialMed
     case SocialMedia::TIKTOK:
         return std::make_shared<TiktokStrategy>();
     default:
-        log.error("Unsupported platform: ", static_cast<int>(platform));
+        log.error("Unsupported platform: {} ", static_cast<int>(platform));
         throw std::invalid_argument("Unsupported social media platform");
     }
 }
@@ -119,22 +124,23 @@ PromptStrategy::getPrompt(const PromptParams &params)
         auto strategy = createStrategy(socialMedia);
         std::unordered_map<std::string, std::string> replacementMap;
         createPromptMap(params, replacementMap);
-        std::string_view prompt = strategy->generatePrompt(replacementMap);
+        auto prompt = strategy->generatePrompt(replacementMap);
+        log.info("prompt {} ", prompt);
         return prompt;
     }
     catch (const std::invalid_argument &e)
     {
-        log.error("Invalid social media platform or parameter: ", e.what());
+        log.error("Invalid social media platform or parameter: {} ", e.what());
         return "Error: Invalid social media platform or parameter specified.";
     }
     catch (const std::out_of_range &e)
     {
-        log.error("Missing required parameter: ", e.what());
+        log.error("Missing required parameter: {} ", e.what());
         return "Error: Missing required parameter.";
     }
     catch (const std::exception &e)
     {
-        log.error("An unexpected error occurred: ", e.what());
+        log.error("An unexpected error occurred: {} ", e.what());
         return "Error: An unexpected error occurred. Please try again later.";
     }
 }
