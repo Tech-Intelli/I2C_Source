@@ -35,20 +35,6 @@
  * - TIKTOK: Represents TikTok.
  * - COUNT: Represents the number of social media platforms. This is used for sizing arrays.
  *
- * @function constexpr std::string_view ToString(SocialMedia platform)
- * @brief Converts a `SocialMedia` enum value to its string representation.
- *
- * @param platform The `SocialMedia` enum value to convert.
- * @return Corresponding string representation of the `SocialMedia` enum value.
- * @throw std::out_of_range if the enum value is not within the valid range.
- *
- * @function constexpr SocialMedia FromString(std::string_view str)
- * @brief Converts a string representation of a social media platform to the corresponding `SocialMedia` enum value.
- *
- * @param str The string representation of a social media platform.
- * @return Corresponding `SocialMedia` enum value.
- * @throw std::invalid_argument if the string does not match any known social media platform.
- *
  */
 
 enum class SocialMedia
@@ -68,6 +54,16 @@ constexpr std::array<std::string_view, static_cast<size_t>(SocialMedia::COUNT)> 
     "facebook",
     "tiktok"};
 
+/**
+ * @function constexpr std::string_view ToString(SocialMedia platform)
+ * @brief Converts a `SocialMedia` enum value to its string representation.
+ *
+ * @param platform The `SocialMedia` enum value to convert.
+ *
+ * @return Corresponding string representation of the `SocialMedia` enum value.
+ *
+ * @throws std::out_of_range if the enum value is not within the valid range.
+ */
 constexpr std::string_view ToString(SocialMedia platform)
 {
     size_t index = static_cast<size_t>(platform);
@@ -78,6 +74,17 @@ constexpr std::string_view ToString(SocialMedia platform)
     throw std::out_of_range("Invalid SocialMedia enum value");
 }
 
+/**
+ * @function constexpr SocialMedia FromString(std::string_view str)
+ * @brief Converts a string representation of a social media platform to the corresponding `SocialMedia` enum value.
+ *
+ * @param str The string representation of the social media platform.
+ *
+ * @return The corresponding `SocialMedia` enum value.
+ *
+ * @throws std::invalid_argument If the input string is not a valid social media platform.
+ *
+ */
 constexpr SocialMedia FromString(std::string_view str)
 {
     for (size_t i = 0; i < socialMediaNames.size(); ++i)
