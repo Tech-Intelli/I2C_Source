@@ -10,7 +10,6 @@ include_directories(include)
 set(SOURCES
     main.cpp
     PromptStrategy.cpp
-    PlatformStrategy.cpp  
     InstagramStrategy.cpp
     FacebookStrategy.cpp
     TwitterStrategy.cpp
@@ -20,4 +19,4 @@ set(SOURCES
 
 add_executable(PromptProcessor ${SOURCES})
 
-target_link_libraries(PromptProcessor spdlog::spdlog )
+target_link_libraries(PromptProcessor spdlog::spdlog)

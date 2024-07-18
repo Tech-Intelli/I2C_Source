@@ -4,32 +4,24 @@ InstagramStrategy::InstagramStrategy()
 {
 }
 
-std::string_view
+std::string
 InstagramStrategy::generatePrompt(const PromptParams &params) const
 {
     return std::string();
 }
 
-std::unordered_map<std::string, std::string>
-InstagramStrategy::loadPlatformData() const
+void InstagramStrategy::loadPlatformData() const
 {
-    return std::unordered_map<std::string, std::string>();
 }
 
-std::string_view
-InstagramStrategy::loadTemplate() const
+void InstagramStrategy::loadTemplate() const
 {
-    return std::string_view();
 }
 
-std::unordered_map<std::string, std::unordered_map<std::string, std::string>>
-InstagramStrategy::loadInfluencerPersonas() const
+void InstagramStrategy::loadInfluencerPersonas() const
 {
-    return std::unordered_map<std::string, std::unordered_map<std::string, std::string>>();
 }
 
-std::string
-InstagramStrategy::addPromptEngineeringTechniques(const std::string &prompt) const
+void InstagramStrategy::loadPromptEngineeringTechniques(const std::string &prompt) const
 {
-    return std::string();
 }
