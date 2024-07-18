@@ -23,7 +23,7 @@ public:
 
     virtual std::tuple<std::string_view, std::string_view> getToneStyleGuide(std::string_view tone, std::string_view style) const;
     virtual std::unordered_map<std::string, std::string> selectInfluencerPersona(const PromptParams &params) const;
-    virtual std::string_view generateVisualDescription(const PromptParams &params) const;
+    virtual std::string_view getVisualDescription(const PromptParams &params) const;
     virtual std::string_view getContext(const PromptParams &params) const;
     virtual int getHashtagLimit(const PromptParams &params) const;
     virtual std::string_view getCaptionSize(const CaptionSize size) const;

@@ -49,7 +49,7 @@ PromptStrategy::selectInfluencerPersona(const PromptParams &params) const
 }
 
 std::string_view
-PromptStrategy::generateVisualDescription(const PromptParams &params) const
+PromptStrategy::getVisualDescription(const PromptParams &params) const
 {
     return params.visual_description;
 }

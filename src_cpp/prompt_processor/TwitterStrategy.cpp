@@ -1,26 +1,22 @@
 #include "TwitterStrategy.h"
 
-std::string_view TwitterStrategy::generatePrompt(const PromptParams &params) const
+std::string TwitterStrategy::generatePrompt(const PromptParams &params) const
 {
     return std::string();
 }
 
-std::unordered_map<std::string, std::string> TwitterStrategy::loadPlatformData() const
+void TwitterStrategy::loadPlatformData() const
 {
-    return std::unordered_map<std::string, std::string>();
 }
 
-std::string_view TwitterStrategy::loadTemplate() const
+void TwitterStrategy::loadTemplate() const
 {
-    return std::string_view();
 }
 
-std::unordered_map<std::string, std::unordered_map<std::string, std::string>> TwitterStrategy::loadInfluencerPersonas() const
+void TwitterStrategy::loadInfluencerPersonas() const
 {
-    return std::unordered_map<std::string, std::unordered_map<std::string, std::string>>();
 }
 
-std::string TwitterStrategy::addPromptEngineeringTechniques(const std::string &prompt) const
+void TwitterStrategy::loadPromptEngineeringTechniques(const std::string &prompt) const
 {
-    return std::string();
 }

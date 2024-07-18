@@ -7,9 +7,9 @@ class TiktokStrategy : public PlatformStrategy
 {
 public:
     TiktokStrategy() {}
-    std::string_view generatePrompt(const PromptParams &params) const override;
-    std::unordered_map<std::string, std::string> loadPlatformData() const override;
-    std::string_view loadTemplate() const override;
-    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> loadInfluencerPersonas() const override;
-    std::string addPromptEngineeringTechniques(const std::string &prompt) const override;
+    std::string generatePrompt(const PromptParams &params) const override;
+    void loadPlatformData() const override;
+    void loadTemplate() const override;
+    void loadInfluencerPersonas() const override;
+    void loadPromptEngineeringTechniques(const std::string &prompt) const override;
 };
