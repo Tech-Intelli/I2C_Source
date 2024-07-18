@@ -3,7 +3,7 @@
 InstagramStrategy::InstagramStrategy()
 {
     initialize();
-    template_str = std::make_unique<StringTemplate>(templateData);
+    template_str = std::make_unique<PromptTemplateParser>(templateData);
 }
 
 std::string
@@ -14,16 +14,12 @@ InstagramStrategy::generatePrompt(const std::unordered_map<std::string, std::str
     return result;
 }
 
-void InstagramStrategy::loadTemplate() const
-{
-}
-
 void InstagramStrategy::loadInfluencerPersonas() const
 {
 }
 
-void InstagramStrategy::initialize() const
+void InstagramStrategy::initialize()
 {
     loadInfluencerPersonas();
-    loadTemplate();
+    loadTemplate(filepath, templateData);
 }

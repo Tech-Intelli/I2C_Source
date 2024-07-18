@@ -5,16 +5,12 @@ std::string TwitterStrategy::generatePrompt(const std::unordered_map<std::string
     return std::string();
 }
 
-void TwitterStrategy::loadTemplate() const
-{
-}
-
 void TwitterStrategy::loadInfluencerPersonas() const
 {
 }
 
-void TwitterStrategy::initialize() const
+void TwitterStrategy::initialize()
 {
     loadInfluencerPersonas();
-    loadTemplate();
+    loadTemplate(filepath, templateData);
 }

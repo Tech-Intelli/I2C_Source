@@ -9,6 +9,7 @@ include_directories(include)
 
 set(SOURCES
     main.cpp
+    PlatformStrategy.cpp
     PromptStrategy.cpp
     InstagramStrategy.cpp
     FacebookStrategy.cpp
