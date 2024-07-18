@@ -33,7 +33,7 @@ int main()
         log.error("Error: {} ", e.what());
     }
     FacebookStrategy strategy;
-    auto persona = strategy.getPersonaInfo(FacebookStrategy::SOCIAL_CONNECTOR);
+    auto persona = strategy.getPersonaInfo(Personas::COMMUNITY_LEADER);
     if (persona)
     {
         log.info("content focus: {} ", persona->content_focus);
