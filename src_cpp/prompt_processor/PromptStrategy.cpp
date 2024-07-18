@@ -24,10 +24,6 @@ const std::unordered_map<std::string_view, std::string_view> PromptStrategy::sty
     {"behind-the-scenes", "Offer exclusive looks into processes, people, or places."},
     {"trending", "Capitalize on current events, popular topics, and viral content in your niche."}};
 
-PromptStrategy::PromptStrategy()
-{
-}
-
 std::tuple<std::string_view, std::string_view>
 PromptStrategy::getToneStyleGuide(std::string_view tone, std::string_view style) const
 {
@@ -65,6 +61,15 @@ int PromptStrategy::getHashtagLimit(const PromptParams &params) const
     return params.hashtag_limit;
 }
 
+/**
+ * Returns the description of a caption size based on the given size.
+ *
+ * @param size The size of the caption.
+ *
+ * @return The description of the caption size.
+ *
+ * @throws std::invalid_argument If the caption size is unsupported.
+ */
 std::string_view
 PromptStrategy::getCaptionSize(const CaptionSize size) const
 {
@@ -81,6 +86,15 @@ PromptStrategy::getCaptionSize(const CaptionSize size) const
         throw std::invalid_argument("Unsupported caption size");
     }
 }
+/**
+ * Creates a shared pointer to a PlatformStrategy object based on the given SocialMedia platform.
+ *
+ * @param platform The SocialMedia platform for which to create a PlatformStrategy object.
+ *
+ * @return A shared pointer to a PlatformStrategy object.
+ *
+ * @throws std::invalid_argument If the given platform is unsupported.
+ */
 const std::shared_ptr<PlatformStrategy> PromptStrategy::createStrategy(SocialMedia platform)
 {
     switch (platform)
