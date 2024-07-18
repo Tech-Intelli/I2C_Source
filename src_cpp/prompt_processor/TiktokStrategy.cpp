@@ -18,7 +18,3 @@ void TiktokStrategy::initialize() const
     loadInfluencerPersonas();
     loadTemplate();
 }
-
-void TiktokStrategy::createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements)
-{
-}

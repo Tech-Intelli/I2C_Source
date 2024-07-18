@@ -13,6 +13,5 @@ public:
     virtual std::string generatePrompt(const std::unordered_map<std::string, std::string> &replacementsMap) const = 0;
     virtual void loadTemplate() const = 0;
     virtual void loadInfluencerPersonas() const = 0;
-    virtual void createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements) = 0;
     virtual void initialize() const = 0;
 };

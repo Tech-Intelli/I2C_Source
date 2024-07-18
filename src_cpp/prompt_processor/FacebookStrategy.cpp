@@ -19,7 +19,3 @@ void FacebookStrategy::initialize() const
     loadInfluencerPersonas();
     loadTemplate();
 }
-
-void FacebookStrategy::createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements)
-{
-}
