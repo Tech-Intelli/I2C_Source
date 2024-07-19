@@ -1,10 +1,3 @@
-
-#pragma once
-
-#include <string_view>
-#include <array>
-#include <stdexcept>
-
 /**
  * @file SocialMedia.h
  * @brief Defines enumeration for social media platforms and provides conversion functions.
@@ -24,6 +17,18 @@
  * - Converting from `SocialMedia` enum to `std::string_view` using the `ToString` function.
  * - Converting from `std::string_view` to `SocialMedia` enum using the `FromString` function.
  *
+ * @see SocialMedia
+ * @see ToString
+ * @see FromString
+ *
+ */
+#pragma once
+
+#include <string_view>
+#include <array>
+#include <stdexcept>
+
+/**
  * @enum SocialMedia
  * @brief Enum class for representing various social media platforms.
  *

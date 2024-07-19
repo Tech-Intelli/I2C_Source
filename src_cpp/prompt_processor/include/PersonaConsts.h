@@ -1,11 +1,3 @@
-
-#pragma once
-
-#include <string_view>
-#include <array>
-#include <stdexcept>
-#include "PersonaInfo.h"
-
 /**
  * @file PersonaConsts.h
  * @brief Defines the Personas struct and associated constants for representing various personas.
@@ -14,6 +6,12 @@
  * and their associated information. Each persona is characterized by a unique identifier
  * and a set of descriptive attributes encapsulated in the `PersonaInfo` struct.
  */
+#pragma once
+
+#include <string_view>
+#include <array>
+#include <stdexcept>
+#include "PersonaInfo.h"
 
 /**
  * @struct Personas
