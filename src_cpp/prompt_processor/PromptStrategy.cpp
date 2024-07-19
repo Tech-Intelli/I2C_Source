@@ -89,22 +89,8 @@ void PromptStrategy::createPromptMap(const PromptParams &params, std::unordered_
  */
 const std::shared_ptr<PlatformStrategy> PromptStrategy::createStrategy(SocialMedia platform)
 {
-    switch (platform)
-    {
-    case SocialMedia::INSTAGRAM:
-        return std::make_shared<InstagramStrategy>();
-    case SocialMedia::TWITTER:
-        return std::make_shared<TwitterStrategy>();
-    case SocialMedia::LINKEDIN:
-        return std::make_shared<LinkedInStrategy>();
-    case SocialMedia::FACEBOOK:
-        return std::make_shared<FacebookStrategy>();
-    case SocialMedia::TIKTOK:
-        return std::make_shared<TiktokStrategy>();
-    default:
-        log.error("Unsupported platform: {} ", static_cast<int>(platform));
-        throw std::invalid_argument("Unsupported social media platform");
-    }
+    std::string_view platformName = ToString(platform);
+    return std::make_shared<PlatformStrategy>(platformName);
 }
 
 std::string_view
@@ -112,10 +98,10 @@ PromptStrategy::getPrompt(const PromptParams &params)
 {
     try
     {
-        SocialMedia socialMedia = params.social_media;
+
         std::unordered_map<std::string, std::string> replacementMap;
 
-        auto strategy = createStrategy(socialMedia);
+        auto strategy = createStrategy(params.social_media);
 
         createPromptMap(params, replacementMap);
 

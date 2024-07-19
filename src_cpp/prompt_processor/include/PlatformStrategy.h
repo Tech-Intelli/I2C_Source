@@ -10,14 +10,15 @@
 class PlatformStrategy
 {
 public:
-    virtual ~PlatformStrategy() = default;
-    PlatformStrategy() = default;
-    virtual std::string generatePrompt(const std::unordered_map<std::string, std::string> &replacementsMap) const = 0;
+    ~PlatformStrategy() = default;
+    PlatformStrategy(std::string_view platform);
+    std::string generatePrompt(const std::unordered_map<std::string, std::string> &replacementsMap);
     void loadTemplate(const std::string &file_path, std::string &templateData);
     std::unique_ptr<PromptTemplateParser> template_str;
-
+    std::string filepath;
     std::string templateData;
+    std::string getFilePath(const std::string_view &platform);
 
 private:
-    virtual void initialize() = 0;
+    void initialize(const std::string_view &platform);
 };
