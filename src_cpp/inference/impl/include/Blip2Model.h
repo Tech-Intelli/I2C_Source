@@ -18,7 +18,7 @@ public:
     std::string getImageCaption(const std::string& imagePath) override;
     py::object loadModel() override;
     std::string getDevice() const override;
-    void loadImage(const std::string& image_path) override;
+    cv::Mat loadImage(const std::string& image_path) override;
     void getImageCaptionPipeline(const std::string& image_path) override;
 
 private:

@@ -11,6 +11,7 @@
 
 #include <string>
 #include <pybind11/pybind11.h>
+#include <opencv2/opencv.hpp>
 
 namespace py = pybind11;
 class InferenceInterface {
@@ -21,7 +22,7 @@ public:
     virtual std::string getImageCaption(const std::string& imagePath) = 0;
     virtual py::object loadModel() = 0;
     virtual std::string getDevice() const = 0;
-    virtual void loadImage(const std::string& image_path) = 0;
+    virtual cv::Mat loadImage(const std::string& image_path) = 0;
     virtual void getImageCaptionPipeline(const std::string& image_path) = 0;
 protected:
     std::string m_collection;
