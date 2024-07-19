@@ -4,6 +4,7 @@
 #include "SocialMediaConsts.h"
 #include "PromptStrategy.h"
 #include "PlatformPersonas.h"
+#include "PersonaConsts.h"
 
 int main()
 {
@@ -33,8 +34,8 @@ int main()
     {
         log.error("Error: {} ", e.what());
     }
-    FacebookStrategy strategy;
-    auto persona = strategy.getPersonaInfo(Personas::COMMUNITY_LEADER);
+    PlatformPersonas<35> persona_info(Personas::PERSONAS_ARRAY);
+    auto persona = persona_info.getPersonaInfo(Personas::COMMUNITY_LEADER);
     if (persona)
     {
         log.info("content focus: {} ", persona->content_focus);
@@ -49,7 +50,8 @@ int main()
                                        3,                      // limit on the number of hashtags to include in the prompt
                                        CaptionSize::SMALL,     // caption size
                                        "tone",                 // tone of the content
-                                       "style"                 // style of the content
+                                       "style",
+                                       Personas::BEAUTY_GURU // style of the content
     );
     prompt.getPrompt(params);
 

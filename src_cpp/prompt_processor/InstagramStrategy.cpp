@@ -14,12 +14,7 @@ InstagramStrategy::generatePrompt(const std::unordered_map<std::string, std::str
     return result;
 }
 
-void InstagramStrategy::loadInfluencerPersonas() const
-{
-}
-
 void InstagramStrategy::initialize()
 {
-    loadInfluencerPersonas();
     loadTemplate(filepath, templateData);
 }

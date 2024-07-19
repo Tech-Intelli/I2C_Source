@@ -24,6 +24,7 @@ const std::unordered_map<std::string_view, std::string_view> PromptStrategy::sty
     {"behind-the-scenes", "Offer exclusive looks into processes, people, or places."},
     {"trending", "Capitalize on current events, popular topics, and viral content in your niche."}};
 
+const PlatformPersonas<35> persona_info(Personas::PERSONAS_ARRAY);
 std::string
 PromptStrategy::getToneStyleGuide(std::string_view tone, std::string_view style) const
 {
@@ -34,14 +35,6 @@ PromptStrategy::getToneStyleGuide(std::string_view tone, std::string_view style)
     std::string_view styleGuide = (styleIt != styleGuides.end()) ? styleIt->second : "Style not found.";
 
     return std::string(toneGuide) + " " + std::string(styleGuide);
-}
-
-std::unordered_map<std::string, std::string>
-PromptStrategy::selectInfluencerPersona(const PromptParams &params) const
-{
-    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> personas;
-
-    return personas.at("general");
 }
 
 /**
@@ -71,6 +64,8 @@ PromptStrategy::getCaptionSize(const CaptionSize size) const
 }
 void PromptStrategy::createPromptMap(const PromptParams &params, std::unordered_map<std::string, std::string> &replacements)
 {
+    auto persona = platformPersonas.getPersonaInfo(params.persona);
+
     replacements["visual_description"] = params.visual_description;
     replacements["context"] = params.context;
     replacements["hashtag_limit"] = std::to_string(params.hashtag_limit);
@@ -78,12 +73,9 @@ void PromptStrategy::createPromptMap(const PromptParams &params, std::unordered_
     replacements["tone_style_guide"] = getToneStyleGuide(params.tone, params.style);
     replacements["caption_length"] = getCaptionSize(params.caption_size);
     replacements["content_type"] = "type";
-    replacements["content_focus"] = "focus";
-    replacements["niche"] = "niche";
-    replacements["style_description"] = "style_description";
-    // replacements["influencer_persona"] = selectInfluencerPersona(params).at("description");
-    //  replacements["content_type"] = params).at("name");
-    //  replacements[content_focus] = params.content_focus;
+    replacements["content_focus"] = persona ? persona->content_focus : "general";
+    replacements["niche"] = persona ? persona->niche : "general";
+    replacements["style_description"] = persona ? persona->style_description : "general";
 }
 
 /**
@@ -121,9 +113,12 @@ PromptStrategy::getPrompt(const PromptParams &params)
     try
     {
         SocialMedia socialMedia = params.social_media;
-        auto strategy = createStrategy(socialMedia);
         std::unordered_map<std::string, std::string> replacementMap;
+
+        auto strategy = createStrategy(socialMedia);
+
         createPromptMap(params, replacementMap);
+
         auto prompt = strategy->generatePrompt(replacementMap);
         log.info("prompt {} ", prompt);
         return prompt;

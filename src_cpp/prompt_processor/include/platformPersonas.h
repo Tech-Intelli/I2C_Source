@@ -24,22 +24,13 @@ protected:
     std::array<std::pair<const std::string_view, PersonaInfo>, N> personas;
 
 public:
+    PlatformPersonas() = default;
     /**
      * @brief Constructs a PlatformPersonas object with the provided initialization data.
      *
      * @param init An array of key-value pairs to initialize the personas array.
      */
     PlatformPersonas(const std::array<std::pair<const std::string_view, PersonaInfo>, N> &init);
-
-    /**
-     * @brief Finds the PersonaInfo associated with the specified key.
-     *
-     * Searches the array for a pair with the given key and returns the corresponding PersonaInfo if found.
-     *
-     * @param key The key for which the PersonaInfo is to be found.
-     * @return std::optional<PersonaInfo> The PersonaInfo associated with the key, or std::nullopt if not found.
-     */
-    std::optional<PersonaInfo> find(std::string_view key) const;
 
     /**
      * @brief Retrieves the PersonaInfo associated with the specified key.
@@ -50,6 +41,17 @@ public:
      * @return std::optional<PersonaInfo> The PersonaInfo associated with the key, or std::nullopt if not found.
      */
     std::optional<PersonaInfo> getPersonaInfo(std::string_view key) const;
+
+private:
+    /**
+     * @brief Finds the PersonaInfo associated with the specified key.
+     *
+     * Searches the array for a pair with the given key and returns the corresponding PersonaInfo if found.
+     *
+     * @param key The key for which the PersonaInfo is to be found.
+     * @return std::optional<PersonaInfo> The PersonaInfo associated with the key, or std::nullopt if not found.
+     */
+    std::optional<PersonaInfo> find(std::string_view key) const;
 };
 
 // Definitions for the template class member functions
