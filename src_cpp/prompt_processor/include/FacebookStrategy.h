@@ -6,14 +6,14 @@
 #include "platformPersonas.h"
 #include "personaConsts.h"
 
-class FacebookStrategy : public PlatformStrategy, public PlatformPersonas<35>
+class FacebookStrategy : public PlatformStrategy
 {
 public:
     FacebookStrategy();
     std::string generatePrompt(const std::unordered_map<std::string, std::string> &replacementsMap) const override;
-    void loadInfluencerPersonas() const override;
-    void initialize() override;
 
 private:
+    void initialize() override;
+    std::string templateData;
     static constexpr auto filepath = "../templates/facebook_template.txt";
 };

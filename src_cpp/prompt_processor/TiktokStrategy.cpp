@@ -5,12 +5,8 @@ std::string TiktokStrategy::generatePrompt(const std::unordered_map<std::string,
     return std::string();
 }
 
-void TiktokStrategy::loadInfluencerPersonas() const
-{
-}
-
 void TiktokStrategy::initialize()
 {
-    loadInfluencerPersonas();
+
     loadTemplate(filepath, templateData);
 }

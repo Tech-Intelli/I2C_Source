@@ -2,6 +2,7 @@
 #include <string_view>
 #include "SocialMediaConsts.h"
 #include "PromptConsts.h"
+#include "PersonaConsts.h"
 /**
  * @struct PromptParams
  * @brief A structure to hold parameters for generating social media prompts.
@@ -61,11 +62,17 @@ struct PromptParams
    */
   std::string style;
 
+  /**
+   * @brief Persona of the influencer.
+   */
+  std::string_view persona;
+
   PromptParams(SocialMedia social_media,
                std::string_view visual_description,
                std::string_view context,
                int hashtag_limit,
                CaptionSize caption_size,
                std::string tone,
-               std::string style);
+               std::string style,
+               std::string_view persona);
 };
