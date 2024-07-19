@@ -25,12 +25,15 @@ include_directories(
     configuration_manager/include
     image_pipeline/interface/include
     image_pipeline/impl/include
+    inference/interface/include
+    inference/impl/include
 )
 
 # Add the shared library for the image pipeline interface
 add_library(image_pipeline_interface SHARED
     image_pipeline/interface/src/ImagePipelineInterfacePyBind.cpp
     image_pipeline/impl/src/Blip2Pipeline.cpp
+    inference/impl/src/Blip2Model.cpp
 )
 
 # Add the executable for the main program
