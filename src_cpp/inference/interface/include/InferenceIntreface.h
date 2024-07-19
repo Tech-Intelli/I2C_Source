@@ -1,24 +1,24 @@
-#include <string>
-#include <memory>
-
 /**
- * @brief Class representing an interface for inference operations.
+ * @brief Defines an abstract class for inference operations.
  * 
- * This class provides methods for getting image captions and loading models for inference.
- * 
- * Public Methods:
- *  - std::string getImageCaption(const std::string& image_path): Retrieves a caption for the specified image.
- *  - void loadModel(): Loads the model for inference.
- * 
- * Protected Attributes:
- *  - std::string m_collection: A string representing the collection used by the interface.
+ * This class serves as an interface for performing inference tasks such as
+ * generating image captions and loading models. Subclasses must implement
+ * the getImageCaption and loadModel methods. The 'collection' attribute is
+ * protected and can be accessed by subclasses.
  */
-class InferenceInterface
-{
+#ifndef INFERENCE_ABSTRACT_H
+#define INFERENCE_ABSTRACT_H
+
+#include <string>
+
+class InferenceAbstract {
 public:
-    virtual ~InferenceInterface() = default;
-    virtual std::string getImageCaption(const std::string& image_path) = 0;
+    virtual ~InferenceAbstract() {}
+    virtual std::string getImageCaption(const std::string& imagePath) = 0;
     virtual void loadModel() = 0;
+
 protected:
-    std::string m_collection;
+    std::string collection;
 };
+
+#endif
