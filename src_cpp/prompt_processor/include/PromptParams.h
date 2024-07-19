@@ -67,6 +67,22 @@ struct PromptParams
    */
   std::string_view persona;
 
+  /**
+   * Constructs a PromptParams object with the specified parameters.
+   *
+   * @param social_media The social media platform for which the prompt is generated.
+   * @param visual_description A brief description of the visual content or image.
+   * @param context The contextual background or information relevant to the prompt.
+   * @param hashtag_limit The maximum number of hashtags allowed or desired in the prompt.
+   * @param caption_size The size of the caption.
+   * @param tone The tone of the prompt.
+   * @param style The style of the prompt.
+   * @param persona The persona of the influencer.
+   *
+   * @return None
+   *
+   * @throws None
+   */
   PromptParams(SocialMedia social_media,
                std::string_view visual_description,
                std::string_view context,
