@@ -13,11 +13,7 @@ set(SOURCES
     PromptStrategy.cpp
     PromptTemplateParser.cpp
     PromptParams.cpp
-    InstagramStrategy.cpp
-    FacebookStrategy.cpp
-    TwitterStrategy.cpp
-    LinkedinStrategy.cpp  
-    TiktokStrategy.cpp
+
 )
 
 add_executable(PromptProcessor ${SOURCES})

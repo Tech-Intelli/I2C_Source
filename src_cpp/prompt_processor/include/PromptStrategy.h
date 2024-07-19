@@ -6,11 +6,6 @@
 #include <stdexcept>
 #include <iostream>
 #include "SocialMediaConsts.h"
-#include "InstagramStrategy.h"
-#include "TwitterStrategy.h"
-#include "LinkedinStrategy.h"
-#include "FacebookStrategy.h"
-#include "TiktokStrategy.h"
 #include "PlatformStrategy.h"
 #include "PromptParams.h"
 #include "PromptConsts.h"
