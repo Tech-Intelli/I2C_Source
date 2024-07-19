@@ -12,11 +12,20 @@
  * @param style The style of the prompt.
  * @param persona The persona of the influencer.
  */
-PromptParams::PromptParams(SocialMedia social_media, std::string_view visual_description, std::string_view context, int hashtag_limit, CaptionSize caption_size, std::string tone, std::string style, std::string_view persona) : social_media(social_media),
-                                                                                                                                                                                                                                  visual_description(visual_description),
-                                                                                                                                                                                                                                  context(context),
-                                                                                                                                                                                                                                  hashtag_limit(hashtag_limit),
-                                                                                                                                                                                                                                  caption_size(caption_size),
-                                                                                                                                                                                                                                  tone(tone),
-                                                                                                                                                                                                                                  style(style),
-                                                                                                                                                                                                                                  persona(persona) {}
+PromptParams::PromptParams(
+    SocialMedia social_media,
+    std::string_view visual_description,
+    std::string_view context,
+    int hashtag_limit,
+    CaptionSize caption_size,
+    std::string tone,
+    std::string style,
+    std::string_view persona)
+    : social_media(social_media),
+        visual_description(visual_description),
+        context(context),
+        hashtag_limit(hashtag_limit),
+        caption_size(caption_size),
+        tone(tone),
+        style(style),
+        persona(persona){}
